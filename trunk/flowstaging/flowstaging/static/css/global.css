@@ -1,0 +1,166 @@
+* {
+	
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	width: 940px;
+}
+
+td {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+th {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+ul.horizontal-menu {
+	list-style: none;
+	padding-left: 0px;
+}
+
+ul.horizontal-menu li {
+	display: inline;
+	line-height: 20px;
+	vertical-align:top;
+}
+
+ul.top-horizontal-menu {
+	list-style: none;
+	padding-left: 0px;
+}
+
+ul.top-horizontal-menu li {
+	float: left;
+	line-height: 20px;
+	margin-right:0.73em;
+	vertical-align:top;
+}
+
+.header {
+	height: 80px;
+}
+
+.header-bar {
+	height: 25px;
+	font-size: 13px;
+	border-bottom: 1px solid #C9D7F1;
+}
+
+#header-links {
+	float: left;
+	width: 400px;
+	padding-top: 2px;
+	padding-left: 10px;
+}
+#login-box {
+	float: right;
+	text-align: right;
+	padding-top: 2px;
+	width: auto;
+}
+
+#site-logo {
+	float: left;
+	padding: 5px;
+	padding-left: 10px;
+	padding-bottom: 0px;
+}
+
+#site-title {
+	padding-top: 30px;
+	font-size: 12px;
+	font-weight: normal;
+}
+.main-content {
+}
+
+#page-title {
+	font-weight: bold;
+	color: #F60;
+	font-size: 16px;
+	border-bottom: 1px solid #000;
+	padding-bottom: 3px;
+	margin-bottom: 10px;
+}
+
+.main-content p {
+	padding-bottom: 5px;
+}
+
+.main-content ul {
+	list-style: disc;
+	padding-left: 15px;
+}
+
+.main-content ul li {
+	padding-bottom: 5px;
+}
+
+.subitems {
+	padding: 5px;
+}
+
+.form-table th {
+	text-align: right;
+}
+
+.footer {
+	clear: both;
+	border-top: 1px solid #C9D7F1;
+	padding-top: 2px;
+	position: relative;
+	margin-top: 50px;
+	width: 100%;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+#footer-menu {
+	text-align: center;
+	height: 20px;
+}
+
+#copyright {
+	text-align: center;
+}
+
+#nonfooter {
+	margin: 0;
+	min-height: 100%;
+	padding: 0;
+	position: relative;
+}
+
+.left-column-container {
+	width: 760px;
+	padding-right: 180px;
+	overflow: visible !important;
+	margin: 0;
+	height: 0;
+}
+
+.left-column {
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 200px;
+	display: block;
+	position: relative;
+	text-align: center;
+}
+
+.right-column-container {
+	width: 940px;
+	padding: 0;
+	margin: 0;
+}
+
+.right-column {
+	width: 740px;
+	float: right;
+}
