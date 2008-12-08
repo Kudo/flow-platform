@@ -4,6 +4,7 @@
 	overflow: visible !important;
 	margin: 0;
 	height: 0;
+	clear: both;
 }
 
 .left-column {
