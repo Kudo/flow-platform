@@ -34,8 +34,10 @@
 	            </div>
 	        </div> <!-- #login-box -->
 	        <div id="splash-box">
-				
-				{% include "splashbox.html" %}
+				{% block splashPage %}
+					{### this block contains the splashPage to include, ex: include "splashbox.html" ###}
+				{% endblock splashPage %}
+
 				
 	        </div>
 	    </div><!-- .header -->

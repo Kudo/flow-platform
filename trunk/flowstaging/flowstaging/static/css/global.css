@@ -41,9 +41,28 @@ ul.top-horizontal-menu li {
 	vertical-align:top;
 }
 
+ul.search-choice-menu {
+	list-style: none;
+	padding-left: 0px;
+}
+
+ul.search-choice-menu li {
+	display: inline;
+	padding-right: 8px;
+	padding-left: 0px;
+}
+
+ul.search-choice-menu input {
+	vertical-align: middle;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
 /* header */
 .header {
-	height: 80px;
+	height: 100px;
 }
 
 .header-bar {
@@ -77,6 +96,52 @@ ul.top-horizontal-menu li {
 	font-size: 12px;
 	font-weight: normal;
 }
+
+/* splashbox_search */
+
+#search-container {
+	text-align: center;
+	width: 430px;
+	height: 70px;
+	padding-top: 5px;
+	padding-left: 3px;
+	position: relative;
+	left: 30%;
+}
+
+#search-site-mark {
+	float: left;
+	width: 100px;
+	text-align: right;
+}
+
+#search {
+	float: right;
+	width: 320px;
+	text-align: left;
+	vertical-align: bottom;
+	position: relative;
+	height: 40px;
+	top: 17px;
+}
+
+#search-site-mark
+{
+}
+
+#search-site-title
+{
+}
+
+#search-bar
+{
+	height: 2em;
+}
+
+#search-choices
+{
+}
+
 
 /* non-footer */
 
