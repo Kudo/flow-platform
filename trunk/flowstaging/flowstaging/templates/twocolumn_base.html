@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{### header ###}
+
+{% block extraHeader %}
+
+	<link href="/static/css/twocolumn.css" rel="stylesheet" type="text/css" />
+
+	{% block twocolumnExtraHeader %}
+		{### this block can be replaced by children template with css / script definition ###}
+	{% endblock twocolumnExtraHeader %}
+
+{% endblock extraHeader %}
+
+{### content ###}
+
+{% block mainContent %}
+	    	<div class="left-column-container">
+	        	<div class="left-column">
+		        	<div id="picture">
+	    	        <img src="/static/images/3226562-big.jpg" width="170" />
+	                </div>
+
+	{% block twocolumnSidebar %}
+		{### this block can be replaced by children template with actual sidebar content ###}
+		block twocolumnSidebar here
+	{% endblock twocolumnSidebar %}
+
+	            </div> <!-- .left-column -->
+	        </div> <!-- left-column-container -->
+	        <div class="right-column-container">
+	        	<div class="right-column">
+
+	{% block twocolumnContent %}
+		{### this block can be replaced by children template with actual content ###}
+		block twocolumnContent here
+	{% endblock twocolumnContent %}
+
+		        </div> <!-- .right-column -->
+	        </div> <!-- .right-column-container -->
+{% endblock mainContent %}
