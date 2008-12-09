@@ -27,3 +27,90 @@
 	width: 740px;
 	float: right;
 }
+
+.box-column {
+	border-bottom: 1px solid #94A3C4;
+	border-right: 1p solid #D8DFEA;
+}
+
+.left-box {
+	border-top: 1px solid #94A3C4;
+	padding-bottom: 10px;
+}
+
+h3.left-box-header {
+	font-size: 11px;
+	margin: 0;
+	padding: 5px 8px;
+	position: relative;
+	background: #ECEFF5 none repeat scroll 0 0;
+	border-top: 0 none;
+}
+
+.left-box-body {
+
+}
+
+h4.left-box-header {
+	border-bottom: 1px solid #ECEFF5;
+	color: #444444;
+	font-weight: normal;
+	margin: 0;
+	padding: 2px 8px;
+	display: block;
+}
+
+h4.left-box-header span {
+	display: block;
+	float: left;
+}
+
+h4.left-box-header small {
+	display: block;
+	float: right;
+	font-size: 11px;
+}
+
+.people {
+	padding-left: 13px;
+	padding-right: 0;
+	width: 180px;
+	clear: both;
+}
+
+.people .row {
+	overflow: hidden;
+	padding-bottom: 10px;
+}
+
+.people .person {
+	float: left;
+	overflow: hidden;
+	width: 60px;
+}
+
+.people .person a {
+	display: block;
+	padding-right: 5px;
+}
+
+.clearfix:after {
+	content:".";
+	display:block;
+	clear:both;
+	visibility:hidden;
+	line-height:0;
+	height:0;
+}
+
+.clearfix {
+	display:inline-block;
+}
+
+html[xmlns] .clearfix {
+	display:block;
+}
+
+* html .clearfix {
+	height:1%;
+}
