@@ -41,7 +41,7 @@ showArtPages = [
                  'name'        : 'Profile: Sidebar', 
                  'description' : 'sidebar content, included by Profile Base Page',
                  'owner'       : 'tom_chen', 
-                 'status'      : 'TODO'},
+                 'status'      : 'PARTIAL'},
                 {'filename'    : 'profile_content.html', 
                  'name'        : 'Profile: Sample Content',
                  'description' : 'sample content, extends Profile Base Page', 
