@@ -5,3 +5,25 @@
 .form-table th {
 	text-align: right;
 }
+
+.number-sign {
+	width: 60px;
+	height: 60px;
+	float: left;
+	font-size: 50px;
+	font-weight: bold;
+	text-align: center;
+	background-color: #DDD;
+	border: 1px solid #999;
+	vertical-align: middle;
+	margin: 6px;
+}
+
+.step-main {
+	margin-top: 12px;
+	font-size: 15px;
+}
+
+.step-main p {
+	margin-bottom: auto;
+}
