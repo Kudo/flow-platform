@@ -60,6 +60,25 @@ ul.search-choice-menu input {
 	margin-right: 0px;
 }
 
+dl {
+	clear: left;
+}
+
+dt {
+	color: #999;
+	margin-right: 5px;
+	float: left;
+	clear: left;
+}
+
+dd {
+	margin-bottom: 3px;
+}
+
+h6 {
+	font-weight: bold;
+	padding: 5px 0;
+}
 /* header */
 .header {
 #	height: 100px;
@@ -210,8 +229,55 @@ ul.search-choice-menu input {
 	padding: 5px;
 }
 
+.block-caption {
+	background: url(/static/images/block-caption.png) repeat-x;
+	padding-bottom: 5px;
+}
+
+.block-caption span.caption {
+	background: #fff;
+	padding-right: 10px;
+	font-weight: bold;
+}
+
+.top-dot-line {
+	border-top: 1px dotted #000;
+	padding-top: 5px;
+}
+
+.content-block {
+	padding: 10px 0;
+}
+
+.content-block .right-links {
+	float: right;
+}
+
 .form-table th {
 	text-align: right;
+}
+
+.people {
+	padding-left: 13px;
+	padding-right: 0;
+	clear: both;
+}
+
+.people .row {
+	overflow: hidden;
+	padding-bottom: 10px;
+}
+
+.people .person {
+	float: left;
+	overflow: hidden;
+	width: 60px;
+	text-align: center;
+}
+
+.people .person a {
+	display: block;
+	padding-right: 5px;
 }
 
 /* footer */

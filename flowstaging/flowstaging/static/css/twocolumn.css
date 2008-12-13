@@ -71,27 +71,8 @@ h4.left-box-header small {
 	font-size: 11px;
 }
 
-.people {
-	padding-left: 13px;
-	padding-right: 0;
+.left-column .people {
 	width: 180px;
-	clear: both;
-}
-
-.people .row {
-	overflow: hidden;
-	padding-bottom: 10px;
-}
-
-.people .person {
-	float: left;
-	overflow: hidden;
-	width: 60px;
-}
-
-.people .person a {
-	display: block;
-	padding-right: 5px;
 }
 
 .clearfix:after {
