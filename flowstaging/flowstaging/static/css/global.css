@@ -61,14 +61,12 @@ ul.search-choice-menu input {
 }
 
 dl {
-	clear: left;
 }
 
 dt {
 	color: #999;
 	margin-right: 5px;
 	float: left;
-	clear: left;
 }
 
 dd {

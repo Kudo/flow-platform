@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
+from django.template import TemplateDoesNotExist
 
 showArtPages = [ 
                 {'filename'    : 'base.html', 
@@ -61,7 +62,7 @@ showArtPages = [
                  'name'        : 'Activity: Activity List',
                  'description' : 'extends Base Page', 
                  'owner'       : 'brian_wang', 
-                 'status'      : 'BUG'},
+                 'status'      : 'DONE'},
                 {'filename'    : 'activity/activity-info.html', 
                  'name'        : 'Activity: Activity Info',
                  'description' : 'extends Base Page', 
@@ -88,8 +89,8 @@ def showartAction(request, filename):
     if ('' == filename):
         return render_to_response('showart.html', {'showart_pages' : showArtPages})
     else:
-        #try:
-        response = render_to_response(filename, {})
-        #except:
-        #    response = HttpResponse('Page not found: '+filename)
+        try:
+            response = render_to_response(filename, {})
+        except TemplateDoesNotExist:
+            response = HttpResponse('Page not found or included / extended template not found: '+filename)
         return response

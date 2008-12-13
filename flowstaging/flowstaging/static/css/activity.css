@@ -57,6 +57,7 @@
 .lack-people-block .lack {
 	position: absolute;
 	float: left;
+	font-weight: bold;
 }
 .lack-people-block .block {
 	border: 1px #f60 solid;
