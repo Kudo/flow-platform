@@ -61,12 +61,12 @@ showArtPages = [
                  'name'        : 'Registration: User Registration Step 2 Page',
                  'description' : 'extends Registration Base Page', 
                  'owner'       : 'tom_chen', 
-                 'status'      : 'TODO'},
+                 'status'      : 'DONE'},
                 {'filename'    : 'registration/user_step3.html', 
                  'name'        : 'Registration: User Registration Step 3 Page',
                  'description' : 'extends Registration Base Page', 
                  'owner'       : 'tom_chen', 
-                 'status'      : 'TODO'},
+                 'status'      : 'DONE'},
                 ]
 
 def showartAction(request, filename):
