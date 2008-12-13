@@ -1,5 +1,9 @@
 {% extends "registration/base.html" %}
 
+{% block registerExtraHeader %}
+<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
 {% block registerContent %}
 	<h2>註冊帳號</h2>
 	<div class="number-sign">2</div>
@@ -9,14 +13,242 @@
 		</div>
 		請填寫下列表格
 	</div>
-	
 	<div class="step-main">
-		<p>
-		請問您是否有 Google 帳號?
-		</p>
-		<form action="">
-			<input type="submit" value="是，我要登入" name="logingaccount">
-			<input type="submit" value="否，我要註冊一個 Google 帳號" name="registergaccount">
+		<form class="flow-form" action="">
+		<ul>
+			<li class="section">
+				<h3>基本資料</h3>
+				<div>關於您的基本資料</div>
+			</li>
+			<li>
+				<label class="desc">
+				姓名
+					<span class="req"> * </span>
+				</label>
+				<div>
+					<input id="name" class="field text medium" type="text" name="name" maxlength="255" />
+				</div>
+			</li>
+			<li>
+				<label class="desc">
+				生日
+					<span class="req"> * </span>
+				</label>
+				<span>
+					<input id="birthyear" class="field text" name="birthyear" maxlength="4" size="4" />
+					/
+					<label>YYYY</label>
+				</span>
+				<span>
+					<input id="birthmonth" class="field text" name="birthmonth" maxlength="2" size="2" />
+					/
+					<label>MM</label>
+				</span>
+				<span>
+					<input id="birthday" class="field text" name="birthday" maxlength="2" size="2" />
+					<label>DD</label>
+				</span>
+			</li>
+			<li>
+				<label class="desc">
+				性別
+					<span class="req"> * </span>
+				</label>
+				<div class="column">
+					<input id="male" class="field radio" type="radio" value="male" name="gender" />
+					<label class="choice" for="male">男性</label>
+					<input id="female" class="field radio" type="radio" value="female" name="gender" />
+					<label class="choice" for="female">女性</label>
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+				居住地
+					<span class="req"> * </span>
+				</label>
+				<div class="column">
+					<input id="livingplace" class="field text" name="livingplace" maxlength="5" size="5" />
+					<label>郵遞區號</label>
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+				大頭貼圖片
+				</label>
+				<div class="column">
+					<input id="picture" class="field file" type="file" name="picture" value="" />
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+				就讀學校 / 公司
+				</label>
+				<div>
+					<input id="schoolcompany" class="field text medium" name="schoolcompany" />
+					<input id="add" class="field button" name="add" type="button" value="-" />
+					<input id="del" class="field button" name="del" type="button" value="+" />
+				</div>
+			</li>
+			
+			<li class="section">
+				<h3>聯絡資訊</h3>
+				<div>一些關於您的聯絡資訊</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+				電子郵件信箱
+					<span class="req"> * </span>
+				</label>
+				<span class="left-column">
+					<input id="nopublicemail" class="field checkbox" type="checkbox" name="nopublicemail" />
+					<label class="choice" for="nopublicemail">不公開</label>
+				</span>
+				<span class="column">
+					<input id="email" class="field text large" name="email" maxlength="255" size="50" />
+					<label class="req">電子郵件信箱事後無法更改</label>
+				</span>
+			</li>
+			
+			<li>
+				<label class="desc">
+				即時通訊
+				</label>
+				<span class="left-column">
+					<input id="nopublicim" class="field checkbox" type="checkbox" name="nopublicim" />
+					<label class="choice" for="nopublicim">不公開</label>
+				</span>
+				<span class="column">
+					<select id="improtocol" class="field select" name="improtocol" />
+						<option value="http://messenger.msn.com/">MSN 即時通訊</option>
+						<option value="http://messenger.yahoo.com/">Yahoo! 即時通訊</option>
+					</select>
+					<label>通訊協定</label>
+				</span>
+				<span class="column">
+					<input id="im" class="field text large" name="im" maxlength="255" size="30" />
+					<label>帳號</label>
+				</span>
+			</li> 
+			
+			<li>
+				<label class="desc">
+				手機號碼
+				</label>
+				<span class="left-column">
+					<input id="nopublicphone" class="field checkbox" type="checkbox" name="nopublicphone" checked />
+					<label class="choice" for="nopublicphone">不公開</label>
+				</span>
+				<span class="column">
+					<input id="phone1" class="field text" name="phone1" maxlength="4" size="4" />
+					-
+					<label>
+						09##
+					</label>
+				</span>
+				<span class="column">
+					<input id="phone2" class="field text" name="phone2" maxlength="3" size="3" />
+					-
+					<label>
+						###
+					</label>
+				</span>
+				<span class="column">
+					<input id="phone3" class="field text" name="phone3" maxlength="3" size="3" />
+					<label>
+						###
+					</label>
+				</span>
+			</li>
+			
+			<li>
+				<label class="desc">
+				部落格 (個人網站)
+				</label>
+				<span class="left-column">
+					<input id="nopublicwebsite" class="field checkbox" type="checkbox" name="nopublicwebsite" />
+					<label class="choice" for="nopublicwebsite">不公開</label>
+				</span>
+				<span class="column">
+					<input id="website" class="field text" name="website" maxlength="255" size="50" value="http://" />
+				</span>
+			</li>
+			
+			<li class="section">
+				<h3>個人專長</h3>
+				<div>關於您個人的專長</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					我的專長
+					<span class="req"> * </span>
+				</label>
+				<div class="column">
+					<input id="profession" class="field text medium" name="profession" />
+				</div>
+			</li>
+			
+			<li class="section">
+				<h3>自我簡介</h3>
+				<div>關於您個人的簡介資訊</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					關新的議題
+				</label>
+				<div class="column">
+					<textarea class="field textarea medium" cols="50" rows="10">
+					</textarea>
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					我想說的話
+				</label>
+				<div class="column">
+					<textarea class="field textarea medium" cols="50" rows="10">
+					</textarea>
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					自我簡介
+				</label>
+				<div class="column">
+					<textarea class="field textarea medium" cols="50" rows="10">
+					</textarea>
+				</div>
+			</li>
+			
+			<li class="section">
+				<h3>圖片文字認證</h3>
+				<div>為了防止機器人大量註冊，請回答下面的問題</div>
+			</li>
+			
+			<img src="/static/images/Captcha.jpg">
+			<li>
+				<label class="desc">
+					請輸入您在上方看到的字元
+				</label>
+				<span class="column">
+					<input id="auth" class="field text" maxlength="15" size="15">
+					<label>
+						字母不區分大小寫
+					</label>
+				</span>
+			</li>
+			
+			<li class="buttons section">
+				<input id="submit" class="btTxt" type="submit" value="下一步" />
+			</li>
+		</ul>
 		</form>
 	</div>
 {% endblock %}
