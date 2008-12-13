@@ -62,7 +62,13 @@ ul.search-choice-menu input {
 
 /* header */
 .header {
-	height: 100px;
+#	height: 100px;
+}
+
+.header:after {
+	content: '.';
+	visibility: hidden;
+	clear: both;
 }
 
 .header-bar {
@@ -155,6 +161,14 @@ ul.search-choice-menu input {
 /* main content */
 
 .main-content {
+	margin-left: 10px;
+}
+
+.main-content h2 {
+	color: #F60;
+	font-size: 18px;
+	border-bottom: 1px solid #000;
+	margin-bottom: 10px;
 }
 
 #page-title {
@@ -164,6 +178,15 @@ ul.search-choice-menu input {
 	border-bottom: 1px solid #000;
 	padding-bottom: 3px;
 	margin-bottom: 10px;
+}
+
+.tip {
+	font-size: 12px;
+	padding-bottom: 5px;
+}
+
+.red {
+	color: #F00
 }
 
 .main-content p {
@@ -194,7 +217,7 @@ ul.search-choice-menu input {
 	border-top: 1px solid #C9D7F1;
 	padding-top: 2px;
 	position: relative;
-	margin-top: 50px;
+	margin-top: 15px;
 	width: 100%;
 }
 

@@ -1,0 +1,22 @@
+{% extends "registration/base.html" %}
+
+{% block registerContent %}
+	<h2>註冊帳號</h2>
+	<div class="number-sign">2</div>
+	<div class="tip">
+		<div class="red">
+			您已經登入 Google 帳號，但您尚未註冊為若水平台會員
+		</div>
+		請填寫下列表格
+	</div>
+	
+	<div class="step-main">
+		<p>
+		請問您是否有 Google 帳號?
+		</p>
+		<form action="">
+			<input type="submit" value="是，我要登入" name="logingaccount">
+			<input type="submit" value="否，我要註冊一個 Google 帳號" name="registergaccount">
+		</form>
+	</div>
+{% endblock %}
