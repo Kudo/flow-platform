@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{### header ###}
+
+{% block extraHeader %}
+
+	<link href="/static/css/activity.css" rel="stylesheet" type="text/css" />
+
+{% endblock extraHeader %}
+
+{### content ###}
+
+{% block mainContent %}
+
+	<div id="activity-info">
+		{% include "activity/activity-info-header.html" %}
+		{% include "activity/activity-info-basic.html" %}
+		<div class="activity-info-content">
+			<div class="content-block" id="activity-apply-block">
+				<h6>請問是否加入此活動?</h6>
+				<p><button>是</button><button>否</button></p>
+			</div> <!-- .content-block -->
+		</div> <!-- .activity-info-content -->
+	</div> <!-- #activity-info -->
+
+{% endblock mainContent %}
