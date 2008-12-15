@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{### header ###}
+
+{% block extraHeader %}
+
+	<link href="/static/css/activity.css" rel="stylesheet" type="text/css" />
+
+{% endblock extraHeader %}
+
+{### content ###}
+
+{% block mainContent %}
+
+	<h3 id="page-title">新增活動</h3>
+	
+	<form method="POST" action="--WEBBOT-SELF--">
+		<!--webbot bot="SaveResults" U-File="E:\Project\flow\documents\wf\KJ\_private\form_results.csv" S-Format="TEXT/CSV" S-Label-Fields="TRUE" -->
+		新增活動項目<br>
+		<br>
+		<font color="#FF0000">*</font>為必填欄位<br>
+		<br>
+		<table border="0" width="60%" cellspacing="0" cellpadding="0" id="table1">
+			<tr>
+				<td width="154">活動名稱<font color="#FF0000">*</font></td>
+				<td><input type="text" name="txtActivityName" size="37"></td>
+			</tr>
+			<tr>
+				<td width="154">開始時間<font color="#FF0000">*</font></td>
+				<td><input type="text" name="txtStartDate" size="20"> 結束時間<input type="text" name="txtEndDate" size="20"></td>
+			</tr>
+			<tr>
+				<td width="154">地點<font color="#FF0000">*</font></td>
+				<td><input type="text" name="txtPlace" size="59"></td>
+			</tr>
+			<tr>
+				<td width="154">志工服務<font color="#FF0000">*</font></td>
+				<td><input type="text" name="txtVolunteerHour" size="20">小時</td>
+			</tr>
+			<tr>
+				<td width="154">服務對象<font color="#FF0000">*</font></td>
+				<td><input type="text" name="txtServiceTarget" size="38"></td>
+			</tr>
+			<tr>
+				<td width="154">標籤(關鍵字)<font color="#FF0000">*</font></td>
+				<td><input type="text" name="txtLabel" size="20"></td>
+			</tr>
+			<tr>
+				<td width="154">發起人</td>
+				<td><input type="text" name="txtOriginator" size="20"></td>
+			</tr>
+			<tr>
+				<td width="154">發起群組</td>
+				<td><input type="text" name="txtOrignatorGroup" size="20"></td>
+			</tr>
+			<tr>
+				<td width="154">連絡手機<font color="#FF0000">*</font></td>
+				<td><input type="text" name="txtMobile0" size="7">-<input type="text" name="txtMobile1" size="7">-<input type="text" name="txtMobile2" size="7"></td>
+			</tr>
+			<tr>
+				<td width="154">活動目的<font color="#FF0000">*</font></td>
+				<td><input type="text" name="txtActivityTarget" size="49"></td>
+			</tr>
+			<tr>
+				<td width="154">活動內容<font color="#FF0000">*</font></td>
+				<td><textarea rows="10" name="txtActivityContent" cols="48"></textarea></td>
+			</tr>
+			<tr>
+				<td width="154">費用金額</td>
+				<td>新台幣<input type="text" name="txtActivityCost" size="20">元</td>
+			</tr>
+			<tr>
+				<td width="154">報名費</td>
+				<td>新台幣<input type="text" name="txtRegistrationFee" size="20">元</td>
+			</tr>
+			<tr>
+				<td width="154">活動企劃書位址<font color="#FF0000">*</font></td>
+				<td><input type="text" name="txtProjectProposalAddress" size="58"></td>
+			</tr>
+		</table>
+		<br>
+		<hr>
+		志工條件<input type="button" value="新增" name="btnNewVolunteerCriteria"><br>
+	　<table border="1" width="100%" cellspacing="0" cellpadding="0" id="table2">
+			<tr>
+				<td>編號</td>
+				<td>志工人數</td>
+				<td>志工年齡範圍</td>
+				<td>志工性別</td>
+				<td>志工所需專長</td>
+				<td>　</td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>10</td>
+				<td>20-40</td>
+				<td>男</td>
+				<td>會開車</td>
+				<td>
+				<input type="button" value="修改" name="btnVolunteerCriteriaUpdate1"><input type="button" value="刪除" name="btnVolunteerCriteriaDelete1"></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>10</td>
+				<td>20-40</td>
+				<td>女</td>
+				<td>會電腦</td>
+				<td>
+				<input type="button" value="修改" name="btnVolunteerCriteriaUpdate2"><input type="button" value="刪除" name="btnVolunteerCriteriaDelete2"></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>10</td>
+				<td>40-60</td>
+				<td>不拘</td>
+				<td>財務</td>
+				<td>
+				<input type="button" value="修改" name="btnVolunteerCriteriaUpdate3"><input type="button" value="刪除" name="btnVolunteerCriteriaDelete3"></td>
+			</tr>
+		</table>
+		<br>
+		<hr>
+		QA<input type="button" value="新增" name="btnNewQA"><br>
+	　<table border="1" width="100%" cellspacing="0" cellpadding="0" id="table3">
+			<tr>
+				<td>編號</td>
+				<td>問題</td>
+				<td>答案</td>
+				<td>　</td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>怎樣的條件才夠合格</td>
+				<td>都可以</td>
+				<td><input type="button" value="修改" name="btnQAUpdate"><input type="button" value="刪除" name="btnQADelete"><input type="button" value="公佈" name="btnQAPublish"></td>
+			</tr>
+		</table>
+		<p><input type="button" value="送審" name="btnSubmit"><input type="button" value="暫存" name="btnSave"><input type="button" value="取消" name="btnCancel"><br>
+		</p>
+	</form>
+
+{% endblock mainContent %}
