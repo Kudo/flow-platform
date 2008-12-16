@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{### header ###}
+
+{% block extraHeader %}
+
+	<link href="/static/css/activity.css" rel="stylesheet" type="text/css" />
+
+{% endblock extraHeader %}
+
+{### content ###}
+
+{% block mainContent %}
+
+	<div id="activity-cancel">
+		<h3 id="page-title">取消活動</h3>
+		<form class="flow-form" method="POST" action="">
+				
+				請輸入取消理由(300字以內):<br>
+				<div class="column">
+					<textarea name="reason" class="field textarea medium" cols="50" rows="10">
+					</textarea>
+				</div>
+				<input type="button" value="取消" name="btnCancel">
+				<input type="button" value="確定送出" name="btnSubmit">
+		</form>
+		
+	</div> <!-- #activity-cancel -->
+
+{% endblock mainContent %}
