@@ -68,6 +68,12 @@ form ul {
 	list-style-type: none !important;
 }
 
+form ul li.first {
+	border-top: medium none !important;
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+}
+
 form li.noclear {
 	clear: none;
 }
@@ -111,6 +117,14 @@ form li div.column {
 
 form li span.left-column {
 	margin-right: 15px;
+}
+
+form .default {
+	color: #999999;
+}
+
+form .align-center {
+	text-align: center;
 }
 
 label.desc {
