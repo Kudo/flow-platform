@@ -113,6 +113,11 @@ showArtPages = [
                  'description' : 'extends Base Page', 
                  'owner'       : 'feynman_huang', 
                  'status'      : 'DONE'},
+                {'filename'    : 'activity/activity-admin-cancel.html', 
+                 'name'        : 'Activity: Admin Cancel Activity',
+                 'description' : 'extends Base Page', 
+                 'owner'       : 'camgelo', 
+                 'status'      : 'DONE'},
                 ]
 
 def showartAction(request, filename):

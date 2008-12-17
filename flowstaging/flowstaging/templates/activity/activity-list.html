@@ -1,16 +1,9 @@
-{% extends "base.html" %}
+{% extends "activity/base.html" %}
 
 {### header ###}
-
-{% block extraHeader %}
-
-	<link href="/static/css/activity.css" rel="stylesheet" type="text/css" />
-
-{% endblock extraHeader %}
-
 {### content ###}
 
-{% block mainContent %}
+{% block activityContent %}
 
 	<div class="activity-lists">
 		<div id="new-activities">
@@ -196,4 +189,4 @@
 	</div> <!-- .activity-lists -->
 	<div id="activity-calendar">
 	</div>
-{% endblock mainContent %}
+{% endblock activityContent %}
