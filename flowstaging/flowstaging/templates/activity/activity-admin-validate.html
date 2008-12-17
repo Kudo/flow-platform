@@ -1,0 +1,68 @@
+{% extends "activity/base.html" %}
+
+{### header ###}
+
+{### content ###}
+
+{% block activityContent %}
+
+	<div id="activity-cancel">
+		<h3 id="page-title">志工審核</h3>
+		<form class="flow-form" method="POST" action="">
+			<ul>
+				<li class="section first">
+					<h3>請選擇參與活動的志工</h3>
+				</li>
+				
+				<li>
+					<span class="column">
+						<select multiple id="pool" name="pool" class="select" size="8">
+							<option value="id1">Mary</option>
+							<option value="id2">Brian</option>
+							<option value="id3">Feynmen</option>
+							<option value="id4">Tom</option>
+							<option value="id5">Alice</option>
+						</select>
+						<label>
+							等待審核
+						</label>
+					</span>
+					
+					<span class="column align-center">
+						<div class="column">
+							<input type="button" value="全部通過 >>" />
+						</div>
+						
+						<div class="column">
+							<input type="button" value="移至審核通過 >" />
+						</div>
+							
+						<div class="column">
+							<input type="button" value="< 移至等待審核" />
+						</div>
+						
+						<div class="column">
+							<input type="button" value="<< 全部刪除" />
+						</div>
+					</span>
+					
+					<span class="column">
+						<select multiple id="approved" name="approved" class="select" size="8">
+							<option value="none" class="default">(目前沒有人通過)</option>
+						</select>
+						<label>
+							已經審核通過
+						</label>
+					</span>
+				</li>
+				
+				<li class="section buttons">
+						<input type="button" class="btTxt" value="取消" name="btnCancel">
+						<input type="submit" class="btTxt" value="確定送出" name="btnSubmit">
+				</li>
+			</ul>
+		</form>
+		
+	</div> <!-- #activity-cancel -->
+
+{% endblock activityContent %}
