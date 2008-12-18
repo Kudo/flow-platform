@@ -23,7 +23,7 @@ showArtPages = [
                  'description' : 'two column layout template, extends Base Page',
                  'owner'       : 'tom_chen', 
                  'status'      : 'DONE'},
-                {'filename'    : 'user/profile_base.html', 
+                {'filename'    : 'user/base.html', 
                  'name'        : 'Profile: Base Page', 
                  'description' : 'extends Two Column Base Page',
                  'owner'       : 'tom_chen', 

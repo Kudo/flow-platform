@@ -125,7 +125,7 @@ h6 {
 #search-container {
 	text-align: center;
 	width: 430px;
-	height: 70px;
+	height: 60px;
 	padding-top: 5px;
 	padding-left: 3px;
 	position: relative;
@@ -276,6 +276,51 @@ h6 {
 .people .person a {
 	display: block;
 	padding-right: 5px;
+}
+
+/* topbar */
+div.topbar {
+	border-bottom: solid;
+	border-bottom-color: #333333;
+	border-bottom-width: 1px;
+	padding-bottom: 3px;
+	margin-bottom: 5px;
+	margin-top: 10px;
+}
+
+div.topbar ul {
+	text-align: right;
+	margin-right: 20px;
+
+}
+
+div.topbar li:first-child {
+	list-style-position: inside;
+	list-style-type: none;
+	display: inline;
+	padding: 3px 8px 3px;
+	border: 1px solid #333333;
+	background-color: #ACE7F9;
+}
+
+div.topbar li {
+	list-style-position: inside;
+	list-style-type: none;
+	display: inline;
+	padding: 3px 8px 3px;
+	background-color: #ACE7F9;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #333333;
+	border-right-color: #333333;
+	border-bottom-color: #333333;
+	border-left-color: #333333;
 }
 
 /* footer */
