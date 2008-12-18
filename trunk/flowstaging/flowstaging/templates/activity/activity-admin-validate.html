@@ -8,8 +8,10 @@
 <!--
 function setButtonsEnabled() 
 {
-	$('input.to-approved').attr('disabled', (0 == $('#pool option:selected').length) ? true : false);
-	$('input.to-pool').attr('disabled', (0 == $('#approved option:selected').length) ? true : false);
+	$('#move-all-to-approved').attr('disabled', (0 == $('#pool option:not(.default)').length) ? true : false);
+	$('#move-to-approved').attr('disabled', (0 == $('#pool option:selected').length) ? true : false);
+	$('#move-all-to-pool').attr('disabled', (0 == $('#approved option:not(.default)').length) ? true : false);
+	$('#move-to-pool').attr('disabled', (0 == $('#approved option:selected').length) ? true : false);
 }
 
 function checkIfSelectIsEmpty()
@@ -78,19 +80,19 @@ $(function() {
 					
 					<span class="column align-center">
 						<div class="column">
-							<input type="button" class="to-approved" value="全部通過 &raquo;" onclick="javascript:moveToApproved(true);"/>
+							<input type="button" id="move-all-to-approved" value="全部通過 &raquo;" onclick="javascript:moveToApproved(true);"/>
 						</div>
 						
 						<div class="column">
-							<input type="button" class="to-approved" value="移至審核通過 &gt;" onclick="javascript:moveToApproved(false);"/>
+							<input type="button" id="move-to-approved" value="移至審核通過 &gt;" onclick="javascript:moveToApproved(false);"/>
 						</div>
 							
 						<div class="column">
-							<input type="button" class="to-pool" value="&lt; 移至等待審核" onclick="javascript:moveToPool(false);"/>
+							<input type="button" id="move-to-pool" value="&lt; 移至等待審核" onclick="javascript:moveToPool(false);"/>
 						</div>
 						
 						<div class="column">
-							<input type="button" class="to-pool" value="&laquo; 全部刪除" onclick="javascript:moveToPool(true);"/>
+							<input type="button" id="move-all-to-pool" value="&laquo; 全部刪除" onclick="javascript:moveToPool(true);"/>
 						</div>
 					</span>
 					
