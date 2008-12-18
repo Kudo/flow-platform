@@ -1,7 +1,55 @@
 {% extends "activity/base.html" %}
 
 {### header ###}
+{% block activityExtraHeader %}
 
+<script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>  
+<script type="text/javascript">
+<!--
+function setButtonsEnabled() 
+{
+	$('input.to-approved').attr('disabled', (0 == $('#pool option:selected').length) ? true : false);
+	$('input.to-pool').attr('disabled', (0 == $('#approved option:selected').length) ? true : false);
+}
+
+function checkIfSelectIsEmpty()
+{
+	$('#approved, #pool').each(function(){
+		$(this).children('option.default').remove();
+		if (0 == $(this).children('option').length) {
+			$(this).append('<option value="none" class="default" disabled="true">('
+				+(('approved' == $(this).attr('id')) ? '目前沒有人通過' : '目前沒有人等待審核')+')</option>');
+		}
+	});
+	setButtonsEnabled();
+}
+
+function moveToApproved(moveAll)
+{
+	if (moveAll) {
+		$('#pool option').attr('selected', 'true');
+	}
+	$('#approved').append($('#pool option:selected').remove());
+	checkIfSelectIsEmpty();
+}
+
+function moveToPool(moveAll)
+{
+	if (moveAll) {
+		$('#approved option').attr('selected', 'true');
+	}
+	$('#pool').append($('#approved option:selected').remove());
+	checkIfSelectIsEmpty();
+}
+
+// onload function
+$(function() {
+	checkIfSelectIsEmpty();
+});
+-->
+</script>
+
+{% endblock activityExtraHeader %}
 {### content ###}
 
 {% block activityContent %}
@@ -16,7 +64,7 @@
 				
 				<li>
 					<span class="column">
-						<select multiple id="pool" name="pool" class="select" size="8">
+						<select multiple id="pool" name="pool" class="select" size="8" onchange="javascript:setButtonsEnabled();">
 							<option value="id1">Mary</option>
 							<option value="id2">Brian</option>
 							<option value="id3">Feynmen</option>
@@ -30,25 +78,24 @@
 					
 					<span class="column align-center">
 						<div class="column">
-							<input type="button" value="全部通過 >>" />
+							<input type="button" class="to-approved" value="全部通過 &raquo;" onclick="javascript:moveToApproved(true);"/>
 						</div>
 						
 						<div class="column">
-							<input type="button" value="移至審核通過 >" />
+							<input type="button" class="to-approved" value="移至審核通過 &gt;" onclick="javascript:moveToApproved(false);"/>
 						</div>
 							
 						<div class="column">
-							<input type="button" value="< 移至等待審核" />
+							<input type="button" class="to-pool" value="&lt; 移至等待審核" onclick="javascript:moveToPool(false);"/>
 						</div>
 						
 						<div class="column">
-							<input type="button" value="<< 全部刪除" />
+							<input type="button" class="to-pool" value="&laquo; 全部刪除" onclick="javascript:moveToPool(true);"/>
 						</div>
 					</span>
 					
 					<span class="column">
-						<select multiple id="approved" name="approved" class="select" size="8">
-							<option value="none" class="default">(目前沒有人通過)</option>
+						<select multiple id="approved" name="approved" class="select" size="8" onchange="javascript:setButtonsEnabled();">
 						</select>
 						<label>
 							已經審核通過

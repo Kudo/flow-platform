@@ -121,8 +121,8 @@ showArtPages = [
                 {'filename'    : 'activity/activity-admin-validate.html', 
                  'name'        : 'Activity: Admin Validate Activity Volunteers',
                  'description' : 'extends Activity Base Page', 
-                 'owner'       : 'tom_chen/brian_wang', 
-                 'status'      : 'PARTIAL'},
+                 'owner'       : 'HTML:tom_chen/SCRIPT:brian_wang', 
+                 'status'      : 'DONE'},
                 ]
 
 def showartAction(request, filename):
