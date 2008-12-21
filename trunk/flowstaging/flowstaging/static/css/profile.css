@@ -1,0 +1,100 @@
+.right-column #page-title {
+	border-bottom: 0;
+	padding-left: 10px;
+}
+
+.right-column dt {
+	width: 100px;
+}
+
+.list-title {
+	float: left;
+	font-weight: bold;
+	padding-bottom: 5px;
+}
+
+.volunteer-item,
+.activity-item {
+	clear: both;
+	border-bottom: 1px solid;
+	padding-top: 10px;
+	padding-bottom: 5px;
+}
+
+.first-item {
+	border-top: 1px solid;
+}
+
+.volunteer-img,
+.activity-img {
+	width: 60px;
+	height: 60px;
+	float: left;
+}
+
+.volunteer-desc,
+.activity-desc {
+	margin-left: 70px;
+	min-height: 60px;
+}
+
+.activity-info {
+	float: right;
+	width: 200px;
+}
+
+dl.activity-dl dt {
+	width: 60px;
+}
+
+dl.activity-dl dd {
+	margin-left: 70px;
+}
+
+.activity-item .activity-title {
+	font-size: 16px;
+	padding-bottom: 5px;
+}
+
+.activity-item .activity-group {
+	font-size: 14px;
+	padding-bottom: 5px;
+}
+
+.volunteer-desc h6 {
+	font-size: 14px;
+}
+
+.volunteer-desc dl.upcoming-activity dt {
+	width: 70px;
+	font-style: italic;
+}
+
+.volunteer-desc dl.upcoming-activity span.activity-title {
+	font-size: 14px;
+}
+
+.volunteer-desc dl.upcoming-activity span.activity-countdown {
+	color: #999;
+	padding-left: 10px;
+}
+
+.right-column dd {
+	width: 600px;
+	margin-left: 110px;
+}
+
+dl.portofolio {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+dl.portofolio dt {
+	width: 400px;
+	color: #000;
+}
+
+dl.portofolio dd {
+	width: 100px;
+	margin-left: 410px;
+}
