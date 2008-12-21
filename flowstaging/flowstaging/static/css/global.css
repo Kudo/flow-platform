@@ -247,7 +247,7 @@ h6 {
 	padding: 10px 0;
 }
 
-.content-block .right-links {
+.right-links {
 	float: right;
 }
 
@@ -275,6 +275,14 @@ h6 {
 .people .person a {
 	display: block;
 	padding-right: 5px;
+}
+
+.pager {
+	padding: 5px 0;
+}
+
+.pager .current {
+	font-weight: bold;
 }
 
 /* topbar */
