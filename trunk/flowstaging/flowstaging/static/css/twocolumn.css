@@ -11,7 +11,7 @@
 	float: left;
 	margin: 0;
 	padding: 0;
-	width: 200px;
+	width: 180px;
 	display: block;
 	position: relative;
 	text-align: center;
@@ -30,12 +30,28 @@
 
 .box-column {
 	border-bottom: 1px solid #94A3C4;
-	border-right: 1p solid #D8DFEA;
+	border-right: 1px solid #D8DFEA;
+}
+
+#action {
+	text-align: left;
+	padding-top: 5px;
+}
+
+#action ul {
+	list-style-type: none;
+	list-style-position: inside;
+	padding-left: 2px;
+	padding-bottom: 0;
+}
+
+#action li {
+	padding-bottom: 2px;
 }
 
 .left-box {
 	border-top: 1px solid #94A3C4;
-	padding-bottom: 10px;
+	padding-bottom: 2px;
 }
 
 h3.left-box-header {
@@ -56,7 +72,7 @@ h4.left-box-header {
 	color: #444444;
 	font-weight: normal;
 	margin: 0;
-	padding: 2px 8px;
+	padding: 2px 3px;
 	display: block;
 }
 
@@ -94,4 +110,23 @@ html[xmlns] .clearfix {
 
 * html .clearfix {
 	height:1%;
+}
+
+#picture {
+	margin-bottom: 5px;
+}
+
+#info .left-box-body {
+	padding-left: 2px;
+	text-align: left;
+}
+
+#info .left-box-body h4 {
+	font-size: 11px;
+	padding-top: 5px;
+	color: #999;
+}
+
+#info .left-box-body div {
+	color: #000000;
 }
