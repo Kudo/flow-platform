@@ -4,10 +4,12 @@
 
 {% block twocolumnExtraHeader %}
 
-	{% block profileExtraHeader %}
+	<link href="/static/css/npo.css" rel="stylesheet" type="text/css" />
+
+	{% block npoExtraHeader %}
 		{### this block can be replaced by children template with css / script definition ###}
 		<!-- block profileExtraHeader here -->
-	{% endblock profileExtraHeader %}
+	{% endblock npoExtraHeader %}
 
 {% endblock twocolumnExtraHeader %}
 
@@ -31,9 +33,9 @@
 {% block twocolumnContent %}
 
 	{% include "npo/topbar.html" %}
-	{% block profileContent %}
+	{% block npoContent %}
 		{### this block can be replaced by children template with actual profile content ###}
-		block profileContent here
-	{% endblock profileContent %}
+		block npoContent here
+	{% endblock npoContent %}
 
 {% endblock twocolumnContent %}
