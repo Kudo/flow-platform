@@ -1,0 +1,53 @@
+{% extends "npo/base.html" %}
+
+{### header ###}
+
+{% block npoExtraHeader %}
+
+	<link href="/static/css/form.css" rel="stylesheet" type="text/css" /
+	
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
+
+	<h2>最新消息維護</h2>
+	<div class="step-main">
+		<form class="flow-form" action="">
+		<ul>
+			<li>
+				<div>
+					<input id="txtGroupName" class="field text medium" type="text" name="txtGroupName" value="最新消息第一條" />
+					<input id="btnRemoveNews1" class="btTxt" type="button" value="-" />
+				</div>
+			</li>
+
+			<li>
+				<div>
+					<input id="txtGroupName" class="field text medium" type="text" name="txtGroupName" value="最新消息第二條" />
+					<input id="btnRemoveNews2" class="btTxt" type="button" value="-" />
+				</div>
+			</li>
+			
+			<li>
+				<div>
+					<input id="txtGroupName" class="field text medium" type="text" name="txtGroupName" value="最新消息第三條" />
+					<input id="btnRemoveNews3" class="btTxt" type="button" value="-" />
+				</div>
+			</li>
+			<li>
+				<div>
+					<input id="btnAddNews3" class="btTxt" type="button" value="+" />
+				</div>
+			</li>
+			<li>
+				<div>
+					<input id="btnSubmit" class="btTxt" type="button" value="完成送出" />
+				</div>
+			</li>
+		</ul>
+		</form>
+	</div>
+
+{% endblock %}
