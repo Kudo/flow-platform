@@ -330,6 +330,33 @@ div.npo-block {
 	border-top: 1px black solid;
 }
 
+div.npo-news {
+	padding-left: 20px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+div.volunteer-block {
+	width: 300px;
+	height: 65px;
+	padding: 10px 0;
+}
+
+div.volunteer-block .volunteer-image {
+	width: 60px;
+	float: left;
+}
+
+div.volunteer-block .volunteer-info {
+	width: 100px;
+	float: left;
+}
+
+div.volunteer-block .volunteer-stats {
+	width: 140px;
+	float: left;
+}
+
 div.npo-block .npo-image {
 	width: 60px;
 	float: left;
@@ -359,6 +386,88 @@ div.npo-block .npo-info .npo-upcoming-activities,
 div.npo-block .npo-info .npo-upcoming-activity
 {
 	padding: 5px 0;
+}
+
+div.npo-list {
+	clear: both;
+}
+
+div.npo-list .npo-item {
+	height: 75px;
+	padding: 10px 0;
+}
+
+div.npo-list .npo-item .npo-image {
+	width: 60px;
+	float: left;
+}
+
+div.npo-list .npo-item .npo-info {
+	float: left;
+}
+
+div.npo-list .npo-item .npo-activities {
+	float: left;
+}
+
+div.npo-list .npo-item .npo-stats {
+	width: 100px;
+	float: left;
+}
+
+.content-block .npo-list .npo-item {
+	width: 950px;
+}
+
+.content-block .npo-list .npo-item .npo-info {
+	width: 300px;
+}
+
+.content-block .npo-list .npo-item .npo-activities {
+	width: 400px;
+}
+
+.right-column .npo-list .npo-item {
+	width: 750px;
+}
+
+.right-column .npo-list .npo-item .npo-info {
+	width: 200px;
+}
+
+.right-column .npo-list .npo-item .npo-activities {
+	width: 300px;
+}
+
+div.npo-list .npo-item .npo-info .npo-title, 
+div.npo-list .npo-item .npo-activities .npo-upcoming-activity .title {
+	font-size: 14px;
+}
+
+div.npo-list .npo-item .npo-activities .npo-upcoming-activity .title {
+	padding-right: 10px;
+}
+div.npo-list .npo-item .npo-activities .npo-upcoming-activity .date {
+	padding-top: 2px;
+}
+
+div.npo-list .npo-item .npo-activities .npo-upcoming-activity {
+	height: 20px;
+}
+
+div.npo-list .npo-item .npo-activities .npo-upcoming-activity .title {
+	float: left;
+}
+
+div.npo-list .npo-item .npo-info .npo-desc, 
+div.npo-list .npo-item .npo-activities .npo-upcoming-activities-label,
+div.npo-list .npo-item .npo-activities .npo-upcoming-activity .date,
+div.npo-list .npo-item .npo-stats .npo-members {
+	color: #999;
+}
+
+div.npo-list .npo-item .npo-stats .link {
+	padding: 2px 0;
 }
 
 div.photo-block .photo-item {

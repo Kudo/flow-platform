@@ -33,12 +33,11 @@
 }
 
 .volunteer-name {
-	width: 60px;
+	width: 140px;
 	height: 60px;
 	float: left;
 }
 
-.volunteer-desc,
 .activity-desc {
 	margin-left: 70px;
 	min-height: 60px;
@@ -55,6 +54,7 @@ dl.activity-dl dt {
 
 dl.activity-dl dd {
 	margin-left: 70px;
+	width: 100px;
 }
 
 .activity-item .activity-title {
@@ -67,17 +67,34 @@ dl.activity-dl dd {
 	padding-bottom: 5px;
 }
 
+.volunteer-item {
+	height: 80px;
+	width: 750px;
+}
+
+.volunteer-desc {
+	float: left;
+	width: 500px;
+}
+
 .volunteer-desc h6 {
 	font-size: 14px;
+}
+
+.volunteer-desc dl.volunteer-desc-list {
+	float: left;
+	width: 400px;
 }
 
 .volunteer-desc dl.volunteer-desc-list dt {
 	width: 70px;
 }
 
+.volunteer-links {
+	float: left;
+}
 
 .right-column dd {
-	width: 600px;
 	margin-left: 110px;
 }
 
@@ -87,11 +104,39 @@ dl.portofolio {
 }
 
 dl.portofolio dt {
-	width: 400px;
 	color: #000;
 }
 
 dl.portofolio dd {
 	width: 100px;
 	margin-left: 410px;
+}
+
+.two-column-content-block dt {
+	width: 100px;
+}
+
+.two-column-content-block dd {
+	margin-left: 110px;
+}
+
+dl.info-block dd {
+	width: 200px;
+}
+
+dl.portofolio-block dd {
+	width: 50px;
+}
+
+.right-column div.article-block .article-author-img {
+	float: left;
+	width: 40px;
+	height: 50px;
+}
+
+.right-column div.article-block .article-info {
+	width: 240px;
+	height: 50px;
+	float: left;
+	overflow: block;
 }
