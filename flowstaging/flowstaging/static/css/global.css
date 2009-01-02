@@ -243,11 +243,18 @@ h6 {
 	padding-top: 5px;
 }
 
+.two-column-content-block {
+	width: 320px;
+	float: left;
+	padding: 10px;
+}
+
 .content-block {
 	padding: 10px 0;
 }
 
 .right-links {
+	clear: both;
 	float: right;
 }
 
@@ -283,6 +290,153 @@ h6 {
 
 .pager .current {
 	font-weight: bold;
+}
+
+dl.portofolio {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+dl.portofolio dt {
+	width: 400px;
+	color: #000;
+}
+
+dl.portofolio dd {
+	width: 100px;
+	margin-left: 410px;
+}
+
+dl.portofolio-block {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+dl.portofolio-block dt {
+	width: 250px;
+	color: #000;
+}
+
+dl.portofolio-block dd {
+	width: 100px;
+	margin-left: 260px;
+}
+
+div.npo-block {
+	padding: 5px 0;
+}
+
+.top-line {
+	border-top: 1px black solid;
+}
+
+div.npo-block .npo-image {
+	width: 60px;
+	float: left;
+}
+
+div.npo-block .npo-info {
+	width: 240px;
+	margin-left: 60px;
+}
+
+div.npo-block .npo-info .npo-title, 
+div.npo-block .npo-info .npo-upcoming-activity .title
+{
+	font-size: 14px;
+}
+
+div.npo-block .npo-info .npo-desc,
+div.npo-block .npo-info .npo-members,
+div.npo-block .npo-info .npo-upcoming-activities-label,
+div.npo-block .npo-info .npo-upcoming-activity .date
+{
+	color: #999;
+}
+
+div.npo-block .npo-info .npo-members,
+div.npo-block .npo-info .npo-upcoming-activities,
+div.npo-block .npo-info .npo-upcoming-activity
+{
+	padding: 5px 0;
+}
+
+div.photo-block .photo-item {
+	float: left;
+	width: 75px;
+	height: 75px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+}
+
+div.article-block {
+	padding: 10px 0;
+	overflow: visible;
+}
+
+div.article-block .article-title-item {
+	font-size: 14px;
+	
+}
+
+div.article-block .article-author-img {
+	float: left;
+	width: 60px;
+	height: 70px;
+}
+
+div.article-block .article-info {
+	width: 240px;
+	height: 70px;
+	margin-left: 70px;
+	overflow: block;
+}
+
+div.article-block .article-title {
+	font-size: 14px;
+}
+
+div.article-block .article-date {
+	color: #999;
+}
+div.album-block {
+	clear: both;
+	width: 700px;
+}
+
+div.album-block .album-item {
+	height: 80px;
+	padding: 5px;
+}
+div.album-block .album-item .album-cover {
+	width: 90px;
+	height: 90px;
+	float: left;
+}
+
+div.album-block .album-item .album-title {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+div.album-block .album-item .album-info {
+	color: #999;
+}
+
+div.album-block .album-item .album-thumb-img {
+	float: left;
+	width: 35px;
+	height: 35px;
+	padding: 3px;
+}
+
+div.video-block .video-item .video-title {
+	font-weight: bold;
+	font-size: 14px;
+}
+
+div.video-block .video-item .video-info {
+	color: #999;
 }
 
 /* topbar */

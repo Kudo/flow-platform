@@ -3,8 +3,20 @@
 	padding-left: 10px;
 }
 
-.right-column dt {
+.two-column-content-block dt {
 	width: 100px;
+}
+
+.two-column-content-block dd {
+	margin-left: 110px;
+}
+
+dl.info-block dd {
+	width: 200px;
+}
+
+dl.portofolio-block dd {
+	width: 50px;
 }
 
 .list-title {
@@ -82,19 +94,4 @@ dl.activity-dl dd {
 .right-column dd {
 	width: 600px;
 	margin-left: 110px;
-}
-
-dl.portofolio {
-	font-size: 16px;
-	font-weight: bold;
-}
-
-dl.portofolio dt {
-	width: 400px;
-	color: #000;
-}
-
-dl.portofolio dd {
-	width: 100px;
-	margin-left: 410px;
 }
