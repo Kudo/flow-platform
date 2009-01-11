@@ -69,12 +69,17 @@ dl.activity-dl dd {
 
 .volunteer-item {
 	height: 80px;
-	width: 750px;
+	width: 720px;
+}
+
+.activity-item {
+	height-80px;
+	width: 720px;
 }
 
 .volunteer-desc {
 	float: left;
-	width: 500px;
+	width: 450px;
 }
 
 .volunteer-desc h6 {
@@ -130,7 +135,6 @@ dl.portofolio-block dd {
 
 .right-column div.article-block .article-author-img {
 	float: left;
-	width: 40px;
 	height: 50px;
 }
 
@@ -139,4 +143,12 @@ dl.portofolio-block dd {
 	height: 50px;
 	float: left;
 	overflow: block;
+}
+
+div.article-block .article-info {
+	margin-left: 0px;
+}
+
+.article-block .article-item {
+	height: 70px;
 }
