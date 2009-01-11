@@ -7,7 +7,7 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	width: 940px;
+	width: 960px;
 }
 
 td {
@@ -428,7 +428,7 @@ div.npo-list .npo-item .npo-stats {
 }
 
 .right-column .npo-list .npo-item {
-	width: 750px;
+	width: 720px;
 }
 
 .right-column .npo-list .npo-item .npo-info {
@@ -604,10 +604,6 @@ div.topbar li {
 	width: 100%;
 }
 
-.bold {
-	font-weight: bold;
-}
-
 #footer-menu {
 	text-align: center;
 	height: 20px;
@@ -615,4 +611,12 @@ div.topbar li {
 
 #copyright {
 	text-align: center;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.clear-none {
+	clear: none;
 }
