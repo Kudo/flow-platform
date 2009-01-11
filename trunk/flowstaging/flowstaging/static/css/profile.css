@@ -107,3 +107,14 @@ dl.activity-dl dd {
 	width: 600px;
 	margin-left: 110px;
 }
+
+.form-block dt {
+	width: 100px;
+	float: left;
+}
+
+.form-block dd {
+	margin-left: 0px;
+	width: 500px;
+	padding-left: 0px;
+}
