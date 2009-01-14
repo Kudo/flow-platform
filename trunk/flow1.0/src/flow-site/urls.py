@@ -8,10 +8,8 @@ from django.conf import settings
 urlpatterns = patterns('',
     # Example:
     # (r'^flowstaging/', include('flowstaging.foo.urls')),
-    (r'^static/(?P<path>.*)$', 'django.views.static.serve',
-        {'document_root': settings.MEDIA_ROOT}),
-    # showart pages
-    (r'^showart/(?P<filename>.*)$', 'showart.showartAction'),
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
     # temp
-    (r'^$', 'showart.showartAction', {'filename' : ''}),
+    (r'^npoAddEvent$','event.npoAdmin.processAddEvent'),
+    (r'^$', 'event.npoAdmin.processAddEvent'),
 )
