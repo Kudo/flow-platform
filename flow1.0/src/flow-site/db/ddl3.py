@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -749,7 +749,8 @@ class EventProfile(FlowDdlModel):
     expertise_req              = db.StringListProperty()
     join_flow_plan             = db.BooleanProperty()         # default to True
     # Note that in the schema we have "QUESTIONNAIRE_ID", but it is more efficient to implement in the following way:
-    questionnaire_template_ref = db.ReferenceProperty(required=True, reference_class=QuestionnaireTemplate)
+    #questionnaire_template_ref = db.ReferenceProperty(required=True, reference_class=QuestionnaireTemplate)
+    questionnaire_template_ref = db.ReferenceProperty(reference_class=QuestionnaireTemplate)
     questionnaire_template_id  = db.IntegerProperty()         # auto-generated from questionnaire_template_ref.id
     sentiments                 = db.StringProperty(multiline=True)
     event_rating               = db.RatingProperty(required=True)
@@ -762,8 +763,8 @@ class EventProfile(FlowDdlModel):
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity:
-            require(kargs, "npo_profile_ref", "volunteer_profile_ref", "event_region", "event_zip", "event_target", "event_field", "max_age", "min_age",
-                    "questionnaire_template_ref")
+            #require(kargs, "npo_profile_ref", "volunteer_profile_ref", "event_region", "event_zip", "event_target", "event_field", "max_age", "min_age","questionnaire_template_ref")
+            require(kargs, "npo_profile_ref", "volunteer_profile_ref", "event_region", "event_zip", "event_target", "event_field", "max_age", "min_age")
             if "approved" not in kargs:
                 kargs["approved"] = False
             if kargs["approved"] and ("approved_time" not in kargs):
@@ -802,7 +803,7 @@ class EventProfile(FlowDdlModel):
             self.npo_id                    = self.npo_profile_ref.npo_id
             self.volunteer_profile_id      = self.volunteer_profile_ref.id
             self.originator                = self.volunteer_profile_ref.volunteer_id
-            self.questionnaire_template_id = self.questionnaire_template_ref.id
+            #self.questionnaire_template_id = self.questionnaire_template_ref.id
 
     @classmethod
     def unitTest(cls, npo, volunteer, template):
