@@ -1,0 +1,213 @@
+.flow-form .section {
+	border-top: 1px dotted #999999;
+}
+
+.flow-form .section h3 {
+	color: #000;
+	font-family: inherit;
+	font-size: 110%;
+}
+
+.flow-form .section div {
+	color: #444444;
+	font-family: inherit;
+	font-size: 85%;
+}
+
+.flow-form {
+	font-family: "Lucida Grande",Tahoma,Arial,sans-serif;
+}
+
+.flow-form label.desc {
+	color: #000000;
+	font-family: inherit;
+	font-size: 95%;
+}
+
+.flow-form li div, .flow-form li span, .flow-form li div label, .flow-form li span label {
+	color: #000000;
+	font-family: inherit;
+}
+
+.flow-form label.choice {
+	color: #000000;
+	font-family: inherit;
+	font-size: 100%;
+}
+
+.flow-form input.text, .flow-form textarea.textarea, .flow-form select.select {
+	color: #333333;
+	font-family: inherit;
+	font-size: 100%;
+}
+
+form li.section {
+	border-top: 1px dotted #CCCCCC;
+	padding-bottom: 0;
+	padding-left: 9px;
+	padding-top: 0.9em;
+	position: static !important;
+	width: 97% !important;
+}
+
+form .section h3 {
+	font-size: 110%;
+	font-weight: normal;
+	line-height: 135%;
+	margin: 0 0 0.2em;
+}
+
+form .section div {
+	display: block;
+	font-size: 85%;
+	margin: 0 0 1.2em;
+	padding: 0;
+}
+
+form ul {
+	list-style-type: none !important;
+}
+
+form ul li.first {
+	border-top: medium none !important;
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+}
+
+form li.noclear {
+	clear: none;
+}
+
+form li {
+	clear: both;
+	display: block;
+	margin: 0;
+	padding: 4px 5px 2px 9px;
+}
+
+form .req {
+	color: red !important;
+	float: none;
+	font-weight: bold;
+	margin: 0;
+}
+
+form li span {
+	float: left;
+}
+
+form li div, form li span {
+	color: #444444;
+	margin: 0 4px 0 0;
+	padding: 0 0 8px;
+}
+
+form li div label, form li span label {
+	clear: both;
+	display: block;
+	font-size: 9px;
+	line-height: 9px;
+	margin: 0;
+	padding-top: 6px;
+}
+
+form li div.column {
+	padding-bottom: 0;
+}
+
+form li span.left-column {
+	margin-right: 15px;
+}
+
+form .default {
+	color: #999999;
+}
+
+form .align-center {
+	text-align: center;
+}
+
+label.desc {
+	border: medium none;
+	color: #222222;
+	display: block;
+	font-size: 95%;
+	font-weight: bold;
+	line-height: 150%;
+	padding: 0 0 1px;
+}
+
+label.choice {
+	color: #222222;
+	display: block;
+	font-size: 100%;
+	line-height: 1.5em;
+	margin: -1.65em 0 0 25px;
+	padding: 0.44em 0 0.5em;
+	width: 88%;
+}
+
+input.small, select.small {
+	width: 25%;
+}
+
+input.medium, select.medium {
+	width: 40%;
+}
+
+input.large, select.large, textarea.textarea {
+	width: 60%;
+}
+
+textarea.small {
+	height: 5.5em;
+}
+
+textarea.medium {
+	height: 10em;
+}
+
+textarea.large {
+	height: 20em;
+}
+
+input.text, input.file {
+	padding: 2px 0;
+}
+
+input.text, textarea.textarea, .firefox select.select, input.file {
+	background: #FFFFFF url(../images/field-bg.gif) repeat-x scroll center top;
+	border-color: #7C7C7C #C3C3C3 #DDDDDD;
+	border-style: solid;
+	border-width: 1px;
+}
+
+input.text, input.file, textarea.textarea, select.select {
+	color: #333333;
+	font-size: 100%;
+	margin: 0;
+}
+
+input.checkbox, input.radio {
+	display: block;
+	height: 13px;
+	line-height: 1.5em;
+	margin: 0.6em 0 0 3px;
+	width: 13px;
+}
+
+input.btTxt {
+	overflow: visible;
+	padding: 0 7px;
+	width: auto;
+}
+
+select.select[class] {
+	margin: 0;
+	padding: 1px 0;
+}
+
+.buttons input {
+	font-size: 120%;
+	margin-right: 5px;
+}
