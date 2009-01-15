@@ -85,8 +85,8 @@ def setupDevServerEnv():
     option_dict = dev_appserver_main.DEFAULT_ARGS.copy()
     dev_appserver.SetupStubs(config.application, **option_dict)
     
-def main():
-    setupDevServerEnv()
+
+def create():
     npo = createNpoProfile()
     volunteer = createVolunteerProfile()
     template = createQuestionnaireTemplate()
@@ -97,5 +97,15 @@ def main():
     event = createEventProfile2(npo, volunteer, template, str(int(time.time())), u"±þÁ­½¸", "activity closed" )
     event = createEventProfile2(npo, volunteer, template, str(int(time.time())), u"¬r¦Ñ¹«", "activity closed" )
     
+def createFromGae(request):
+    from django.http import HttpResponse
+    create()
+    return HttpResponse('done')
+
+def main():
+    setupDevServerEnv()
+    create()
+    return
+
 if __name__=='__main__':
     main()
