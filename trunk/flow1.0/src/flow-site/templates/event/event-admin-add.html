@@ -1,4 +1,4 @@
-﻿{% extends "event/base.html" %}
+{% extends "event/base.html" %}
 
 {### header ###}
 
@@ -9,12 +9,23 @@
   <SCRIPT language="JavaScript">  
   
   function submitForm(url , submitType)
-  {  	
+  { 
+    disableButton(document.myForm);
     document.myForm.submitType.value = submitType
   	document.myForm.action = url; 
   	document.myForm.submit(); 
   	
   } 
+function disableButton(form) {
+  if (document.getElementById) {
+   for (var i = 0; i < form.length; i++) {
+     if (form.elements[i].type.toLowerCase() == "button")
+       form.elements[i].disabled = true;
+     }
+  }
+  return true;
+}
+
   </SCRIPT>
 	<h3 id="page-title">新增活動</h3>
 	
