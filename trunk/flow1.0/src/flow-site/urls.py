@@ -6,10 +6,8 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 
 urlpatterns = patterns('',
-    # Example:
-    # (r'^flowstaging/', include('flowstaging.foo.urls')),
     (r'^static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
-    # temp
-    (r'^npoAddEvent$','event.npoAdmin.processAddEvent'),
-    (r'^$', 'event.npoAdmin.processAddEvent'),
+    (r'^event/',include('eventView.urls')),
+    (r'^npo/',include('npoView.urls')),
+    (r'^$','eventView.eventList.mainPage'),
 )

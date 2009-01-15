@@ -1,4 +1,4 @@
-{% extends "activity/base.html" %}
+{% extends "event/base.html" %}
 
 {### header ###}
 {### content ###}
@@ -6,196 +6,20 @@
 {% block activityContent %}
 
 	<div id="activity-info">
-		{% include "activity/activity-info-header.html" %}
+		<!--{% include "event/event-info-header.html" %}-->
 		<div class="activity-info-content">
 			<div class="content-block">
 				<button>我要報名</button>
 				<button>轉寄朋友</button>
 			</div> <!-- .content-block -->
 		</div> <!-- .activity-info-content -->
-		{% include "activity/activity-info-basic.html" %}
+		{% include "event/event-info-basic.html" %}
 		<div class="activity-info-content">
 			<div class="content-block">
 				<div class="block-caption">
 					<span class="caption">活動企劃</span>
 				</div>
-				<p>活動企劃內容........<br/>balablbalblala............................................................................................................</p>
-				<p><a href="#">下載活動企劃書</a></p>
-			</div> <!-- .content-block -->
-			<div class="content-block">
-				<div class="block-caption">
-					<span class="caption">活動時間表</span>
-				</div>
-				<table class="schedule-table">
-					<tr>
-						<th>2008/11/04 00:00  ~  2008/11/05 12:00</th>
-						<td>志工招募</td>
-					</tr>
-					<tr>
-						<th>2008/11/06 09:00  ~  2008/11/06 11:00</th>
-						<td>志工訓練</td>
-					</tr>
-					<tr>
-						<th>2008/11/09 12:00  ~  2008/11/09 13:00</th>
-						<td>集合</td>
-					</tr>
-					<tr>
-						<th>2008/11/09 13:00  ~  2008/11/09 17:00</th>
-						<td>義賣活動</td>
-					</tr>
-				</table>
-			</div> <!-- .content-block -->
-			<div class="content-block">
-				<div class="block-caption">
-					<span class="caption">招募志工資格</span>
-				</div>
-				<p>招募志工資格內容........<br/>balablbalblala............................................................................................................</p>
-			</div> <!-- .content-block -->
-			<div class="content-block">
-				<div class="block-caption">
-					<span class="caption">參加志工</span>
-				</div>
-				<div class="right-links">
-					<button>我要報名</button>
-				</div>
-				<h6>已錄取:</h6>
-				<div class="people">
-					<div class="row">
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-					</div> <!-- .row -->
-				</div> <!-- .people -->
-				<h6>審核中:</h6>
-				<div class="people">
-					<div class="row">
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-						<div class="person">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-							<a href="#">Maki</a>
-						</div>
-					</div> <!-- .row -->
-				</div> <!-- .people -->
+				<p>{{event.summary}}</p>
 			</div> <!-- .content-block -->
 		</div> <!-- .activity-info-content -->
 	</div> <!-- #activity-info -->
