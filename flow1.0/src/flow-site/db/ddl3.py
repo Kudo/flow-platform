@@ -732,7 +732,7 @@ class EventProfile(FlowDdlModel):
     registered_count           = db.IntegerProperty()         # auto-generated from len(registered_volunteer)
     approved_volunteer         = db.ListProperty(users.User)  # required, must be enforced by program logic
     approved_count             = db.IntegerProperty()         # auto-generated from len(approved_volunteer)
-    status                     = db.StringProperty(required=True, choices=set(["new applicatin", "approved", "announced", "authenticating", "authenticated",
+    status                     = db.StringProperty(required=True, choices=set(["new application", "approved", "announced", "authenticating", "authenticated",
                                                                                "registrating", "recruiting", "registration closed", "on-going",
                                                                                "filling polls", "activity closed", "case-closed reporting", "cancelled",
                                                                                "abusive usage"]))
@@ -749,7 +749,7 @@ class EventProfile(FlowDdlModel):
     expertise_req              = db.StringListProperty()
     join_flow_plan             = db.BooleanProperty()         # default to True
     # Note that in the schema we have "QUESTIONNAIRE_ID", but it is more efficient to implement in the following way:
-    #questionnaire_template_ref = db.ReferenceProperty(required=True, reference_class=QuestionnaireTemplate)
+    questionnaire_template_ref = db.ReferenceProperty(required=True, reference_class=QuestionnaireTemplate)
     questionnaire_template_ref = db.ReferenceProperty(reference_class=QuestionnaireTemplate)
     questionnaire_template_id  = db.IntegerProperty()         # auto-generated from questionnaire_template_ref.id
     sentiments                 = db.StringProperty(multiline=True)
@@ -763,8 +763,7 @@ class EventProfile(FlowDdlModel):
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity:
-            #require(kargs, "npo_profile_ref", "volunteer_profile_ref", "event_region", "event_zip", "event_target", "event_field", "max_age", "min_age","questionnaire_template_ref")
-            require(kargs, "npo_profile_ref", "volunteer_profile_ref", "event_region", "event_zip", "event_target", "event_field", "max_age", "min_age")
+            require(kargs, "npo_profile_ref", "volunteer_profile_ref", "event_region", "event_zip", "event_target", "event_field", "max_age", "min_age","questionnaire_template_ref")
             if "approved" not in kargs:
                 kargs["approved"] = False
             if kargs["approved"] and ("approved_time" not in kargs):
@@ -803,7 +802,7 @@ class EventProfile(FlowDdlModel):
             self.npo_id                    = self.npo_profile_ref.npo_id
             self.volunteer_profile_id      = self.volunteer_profile_ref.id
             self.originator                = self.volunteer_profile_ref.volunteer_id
-            #self.questionnaire_template_id = self.questionnaire_template_ref.id
+            self.questionnaire_template_id = self.questionnaire_template_ref.id
 
     @classmethod
     def unitTest(cls, npo, volunteer, template):
@@ -814,7 +813,7 @@ class EventProfile(FlowDdlModel):
                              volunteer_profile_ref=volunteer, event_region=["Taipei"], event_zip=["104"],
                              event_target=["social worker"], event_field=[], category="socializing",
                              start_time=now, end_time=now, reg_start_time=now, reg_end_time=now, objective="Killing time with orcas",
-                             status="new applicatin", max_age=99, min_age=9, questionnaire_template_ref=template, event_rating=75, npo_event_rating=80,
+                             status="new application", max_age=99, min_age=9, questionnaire_template_ref=template, event_rating=75, npo_event_rating=80,
                              create_time=now, update_time=now)
 
         event.put()
