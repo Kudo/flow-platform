@@ -25,7 +25,7 @@ def mainPage(request):
     print request.POST
     query = db.GqlQuery("SELECT * FROM EventProfile")
     results = query.fetch(100)
-    return render_to_response(r'event\event-admin-list.html', {'lstActivityList' : actionCheck(results)})
+    return render_to_response(r'event/event-admin-list.html', {'lstActivityList' : actionCheck(results)})
 
 def actionCheck(lstEvent):
     '''
