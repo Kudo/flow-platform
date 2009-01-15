@@ -9,5 +9,6 @@ urlpatterns = patterns('',
     (r'^static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
     (r'^event/',include('eventView.urls')),
     (r'^npo/',include('npoView.urls')),
+    (r'^createTestData/','createTestData.createFromGae'),
     (r'^$','eventView.eventList.mainPage'),
 )
