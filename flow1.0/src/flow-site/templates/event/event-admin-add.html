@@ -24,9 +24,9 @@
 		<br>
 		<font color="#FF0000">*</font>為必填欄位<br>
 		<br>		
-		<table border="0" width="75%" cellspacing="0" cellpadding="0" id="table1">		 	
+		<table border="0" width="75%" cellspacing="4" cellpadding="0" id="table1">
 		  <tr>		  		
-				<td width="154">活動名稱<font color="#FF0000">*</font></td>
+				<td width="120">活動名稱<font color="#FF0000">*</font></td>
 				<td>{{ form.txtActivityName }} 
 				{% if form.txtActivityName.errors %}    
         {% for error in form.txtActivityName.errors %}
@@ -35,8 +35,18 @@
         {% endif %}
         </td>
 			</tr>
+		  <tr>		  		
+				<td>活動描述<font color="#FF0000">*</font></td>
+				<td>{{ form.description }} 
+				{% if form.description.errors %}    
+        {% for error in form.description.errors %}
+        <font color="#FF0000">{{ error|escape }}</font>
+        {% endfor %}
+        {% endif %}
+        </td>
+			</tr>
 			<tr>
-				<td width="77">開始時間<font color="#FF0000">*</font></td>
+				<td>活動開始時間<font color="#FF0000">*</font></td>
 				<td>{{ form.txtStartDate }} 
 				{% if form.txtStartDate.errors %}    
         {% for error in form.txtStartDate.errors %}
@@ -45,7 +55,7 @@
         {% endif %}</td> 
       </tr>
       <tr>
-        <td width="77">結束時間<font color="#FF0000">*</font></td>
+        <td>活動結束時間<font color="#FF0000">*</font></td>
         <td>{{ form.txtEndDate }} 
 				{% if form.txtEndDate.errors %}    
         {% for error in form.txtEndDate.errors %}
@@ -54,7 +64,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">地點<font color="#FF0000">*</font></td>
+				<td>地點<font color="#FF0000">*</font></td>
 				<td>{{ form.txtPlace }} 
 				{% if form.txtPlace.errors %}    
         {% for error in form.txtPlace.errors %}
@@ -63,7 +73,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">志工服務<font color="#FF0000">*</font></td>
+				<td>志工服務<font color="#FF0000">*</font></td>
 				<td>{{ form.txtVolunteerHour }}小時           
 				{% if form.txtVolunteerHour.errors %}    
         {% for error in form.txtVolunteerHour.errors %}
@@ -72,7 +82,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">服務對象<font color="#FF0000">*</font></td>
+				<td>服務對象<font color="#FF0000">*</font></td>
 				<td>{{ form.txtServiceTarget }} 
 				{% if form.txtServiceTarget.errors %}    
         {% for error in form.txtServiceTarget.errors %}
@@ -81,7 +91,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">標籤(關鍵字)<font color="#FF0000">*</font></td>
+				<td>標籤(關鍵字)<font color="#FF0000">*</font></td>
 				<td>{{ form.txtLabel }} 
 				{% if form.txtLabel.errors %}    
         {% for error in form.txtLabel.errors %}
@@ -90,7 +100,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">發起人</td>
+				<td>發起人</td>
 				<td>{{ form.txtOriginator }} 
 				{% if form.txtOriginator.errors %}    
         {% for error in form.txtOriginator.errors %}
@@ -99,7 +109,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">發起群組</td>
+				<td>發起群組</td>
 				<td>{{ form.txtOrignatorGroup }} 
 				{% if form.txtOrignatorGroup.errors %}    
         {% for error in form.txtOrignatorGroup.errors %}
@@ -108,7 +118,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">連絡手機<font color="#FF0000">*</font></td>
+				<td>連絡手機<font color="#FF0000">*</font></td>
 				<td>{{ form.txtMobile0 }} 
 				{% if form.txtMobile0.errors %}    
         {% for error in form.txtMobile0.errors %}
@@ -117,7 +127,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">活動目的<font color="#FF0000">*</font></td>
+				<td>活動目的<font color="#FF0000">*</font></td>
 				<td>{{ form.txtActivityTarget }} 
 				{% if form.txtActivityTarget.errors %}    
         {% for error in form.txtActivityTarget.errors %}
@@ -126,7 +136,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">活動內容<font color="#FF0000">*</font></td>
+				<td>活動內容<font color="#FF0000">*</font></td>
 				<td>{{ form.txtActivityContent }} 
 				{% if form.txtActivityContent.errors %}    
         {% for error in form.txtActivityContent.errors %}
@@ -135,7 +145,7 @@
         {% endif %}</textarea></td>
 			</tr>
 			<tr>
-				<td width="154">費用金額</td>
+				<td>費用金額</td>
 				<td>新台幣{{ form.txtActivityCost }} 
 				元 {% if form.txtActivityCost.errors %}    
         {% for error in form.txtActivityCost.errors %}
@@ -144,7 +154,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">報名費</td>
+				<td>報名費</td>
 				<td>新台幣{{ form.txtRegistrationFee }} 
 				元 {% if form.txtRegistrationFee.errors %}    
         {% for error in form.txtRegistrationFee.errors %}
@@ -153,7 +163,7 @@
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td width="154">活動企劃書位址<font color="#FF0000">*</font></td>
+				<td>活動企劃書位址<font color="#FF0000">*</font></td>
 				<td>{{ form.txtProjectProposalAddress }} 
 				{% if form.txtProjectProposalAddress.errors %}    
         {% for error in form.txtProjectProposalAddress.errors %}
