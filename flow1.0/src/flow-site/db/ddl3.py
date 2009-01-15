@@ -750,7 +750,6 @@ class EventProfile(FlowDdlModel):
     join_flow_plan             = db.BooleanProperty()         # default to True
     # Note that in the schema we have "QUESTIONNAIRE_ID", but it is more efficient to implement in the following way:
     questionnaire_template_ref = db.ReferenceProperty(required=True, reference_class=QuestionnaireTemplate)
-    questionnaire_template_ref = db.ReferenceProperty(reference_class=QuestionnaireTemplate)
     questionnaire_template_id  = db.IntegerProperty()         # auto-generated from questionnaire_template_ref.id
     sentiments                 = db.StringProperty(multiline=True)
     event_rating               = db.RatingProperty(required=True)
