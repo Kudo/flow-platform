@@ -9,7 +9,9 @@ for k in [k for k in sys.modules if k.startswith('django')]:
 
 # Force sys.path to have our own directory first, in case we want to import
 # from it.
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+abspath = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, abspath)
+sys.path.insert(0, abspath+r'/lib')
 
 if os.name == 'nt':
     os.unlink = lambda: None

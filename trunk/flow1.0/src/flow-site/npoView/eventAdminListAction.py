@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.template import TemplateDoesNotExist
 from django import forms
 from google.appengine.ext import db
-from db import ddl3
+from db import ddl
 
 
 

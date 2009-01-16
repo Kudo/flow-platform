@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from django import forms
-from db import ddl3
+from db import ddl
 
 class NewEventForm(forms.Form):
     txtActivityName = forms.CharField(required=True,widget=forms.TextInput(attrs={'size':'37'}))
@@ -45,9 +45,9 @@ def processAddEvent(request):
         if form.is_valid():
         # Create New Activity Instance                       
             # Prepare some mock reference model and some required data
-            npoRef = ddl3.NpoProfile.all().get()
-            questionnaire_template_ref = ddl3.QuestionnaireTemplate.all().get()
-            volunteer_profile_ref = ddl3.VolunteerProfile.all().get()
+            npoRef = ddl.NpoProfile.all().get()
+            questionnaire_template_ref = ddl.QuestionnaireTemplate.all().get()
+            volunteer_profile_ref = ddl.VolunteerProfile.all().get()
 
             newEventDict = {            
             'event_name' : form.cleaned_data['txtActivityName'],
@@ -91,7 +91,7 @@ def processAddEvent(request):
             if('' == newEventDict.get('summary')):
                 newEventDict['summary']=None
             
-            newEventProfile = ddl3.EventProfile(**newEventDict)
+            newEventProfile = ddl.EventProfile(**newEventDict)
         
         
         # Save into datastore based on submit type

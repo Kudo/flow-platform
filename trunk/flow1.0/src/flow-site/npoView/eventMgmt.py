@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import TemplateDoesNotExist
 from google.appengine.ext import db
-from db import ddl3
+from db import ddl
 
 dicRule = {'new application'        :{'modify':'','recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
            'approved'               :{'modify':'','recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
