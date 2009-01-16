@@ -13,5 +13,5 @@ urlpatterns = patterns('',
     # showart pages
     (r'^showart/(?P<filename>.*)$', 'showart.showartAction'),
     # temp
-    (r'^$', 'showart.showartAction', {'filename' : ''}),
+    (r'^/?$', 'showart.showartAction', {'filename' : ''}),
 )
