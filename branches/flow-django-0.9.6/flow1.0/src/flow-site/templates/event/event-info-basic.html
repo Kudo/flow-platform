@@ -1,0 +1,23 @@
+		<div class="activity-info-content">
+			<div class="content-block">
+				<div class="block-caption">
+					<span class="caption">基本資訊</span>
+				</div>
+				<dl>
+					<dt>發起人/群組:</dt>
+					<dd>{{event.originator}}</dd>
+					<dt>發起時間:</dt>
+					<dd>{{event.create_time}}</dd>
+					<dt>活動類型:</dt>
+					<dd>{{event.category}}</dd>
+					<dt>活動地區:</dt>
+					<dd>{% for item in event.event_region%}{{item}}{% endfor %}</dd>
+					<dt>活動地點:</dt>
+					<dd>{% for item in event.event_target%}{{item}}{% endfor %}</dd>
+					<dt>公益時數:</dt>
+					<dd>{{event.event_hours}} 小時</dd>
+					<dt>id:</dt>
+					<dd>{{event.event_id}}</dd>
+				</dl>
+			</div> <!-- .content-block -->
+		</div> <!-- .activity-info-content -->

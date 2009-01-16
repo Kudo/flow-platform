@@ -1,0 +1,41 @@
+{% extends "twocolumn_base.html" %}
+
+{### header ###}
+
+{% block twocolumnExtraHeader %}
+
+	<link href="/static/css/profile.css" rel="stylesheet" type="text/css" />
+
+	{% block profileExtraHeader %}
+		{### this block can be replaced by children template with css / script definition ###}
+		<!-- block profileExtraHeader here -->
+	{% endblock profileExtraHeader %}
+
+{% endblock twocolumnExtraHeader %}
+
+{### splashPage ###}
+
+{% block splashPage %}
+	{% include "splashbox_search.html" %}
+{% endblock splashPage %}
+
+
+{### sidebar ###}
+
+{% block twocolumnSidebar %}
+
+	{% include "user/profile_leftcolumn.html" %}
+
+{% endblock twocolumnSidebar %}
+
+{### content ###}
+
+{% block twocolumnContent %}
+
+	{% include "user/topbar.html" %}
+	{% block profileContent %}
+		{### this block can be replaced by children template with actual profile content ###}
+		block profileContent here
+	{% endblock profileContent %}
+
+{% endblock twocolumnContent %}

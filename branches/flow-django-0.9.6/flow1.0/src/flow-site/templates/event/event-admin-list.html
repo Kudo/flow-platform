@@ -1,0 +1,45 @@
+﻿{% extends "event/base.html" %}
+
+{### header ###}
+
+{% block extraHeader %}
+
+	<link href="/static/css/activity.css" rel="stylesheet" type="text/css" />
+
+{% endblock extraHeader %}
+
+{### content ###}
+
+{% block mainContent %}
+
+	<h3 id="page-title">活動管理</h3>
+		<form action="addEvent" method="POST">
+		<input type="submit" value="新增活動" name="btnNewActivity"><br>
+		<br>
+		<input type="hidden" name="submitType" value="">
+	</form>
+		<table border="1" width="80%" cellspacing="0" cellpadding="0" id="tblActivity">
+			<tr>
+				<td>活動名稱</td>
+				<td>狀態</td>
+				<td></td>
+			</tr>
+			
+			{% for act in lstActivityList %}
+			<form action="npoEventAction" method="POST">
+			<tr>
+				<td>{{ act.name }}</td>
+				<td>{{ act.status }}</td>
+				<td>
+				<input type="hidden" name="event_id" value="{{ act.event_id }}">
+				<input {{act.dicPerm.modify}} type="submit" value="修改" name="btnModify1">
+				<input {{act.dicPerm.recruit}} type="submit" value="召募" name="btnRecruit1">
+				<input {{act.dicPerm.validate}} type="submit" value="志工審核" name="btnVerify1">
+				<input {{act.dicPerm.close}} type="submit" value="結案" name="btnClose1">
+				<input {{act.dicPerm.cancel}} type="submit" value="取消" name="btnCancel1"></td>
+			</tr>
+			</form>
+			{% endfor %}
+		</table>
+
+{% endblock mainContent %}

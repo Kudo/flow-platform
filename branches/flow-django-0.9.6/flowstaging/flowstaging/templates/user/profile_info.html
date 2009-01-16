@@ -1,0 +1,84 @@
+{% extends "user/base.html" %}
+
+{### header ###}
+
+{% block profileExtraHeader %}
+
+	{### this block can put additional css / script definition to head tag ###}
+	<!-- block profileExtraHeader here -->
+{% endblock profileExtraHeader %}
+
+{### content ###}
+
+{% block profileContent %}
+
+			    	<h3 id="page-title">我的基本資料</h3>
+					<div class="right-links">
+						<a href="#">編輯基本資料</a>
+					</div>
+			    	<div class="content-block">
+						<div class="block-caption">
+							<span class="caption">基本資料</span>
+						</div>
+						<dl>
+							<dt>姓名</dt>
+							<dd>Tom Chen</dd>
+							<dt>生日</dt>
+							<dd>1983年11月28日</dd>
+							<dt>性別</dt>
+							<dd>男</dd>
+							<dt>所在地</dt>
+							<dd>台北市</dd>
+						</dl>
+					</div>
+			    	<div class="content-block">
+						<div class="block-caption">
+							<span class="caption">聯絡資訊</span>
+						</div>
+						<dl>
+							<dt>電子郵件信箱</dt>
+							<dd>tom_chen (at) trend.com.tw</dd>
+							<dt>即時通訊</dt>
+							<dd>tom_chen</dd>
+							<dt>手機號碼</dt>
+							<dd>0912345678</dd>
+							<dt>網頁/部落格</dt>
+							<dd><a href="http://joba.cc target="_blank">http://joba.cc</a></dd>
+							<dt>目前居住城市</dt>
+							<dd>目前居住城市內容</dd>
+						</dl>
+					</div>
+			    	<div class="content-block">
+						<div class="block-caption">
+							<span class="caption">學歷與工作</span>
+						</div>
+						<dl>
+							<dt>畢業學校</dt>
+							<dd>畢業學校內容</dd>
+							<dt>服務單位/公司</dt>
+							<dd>服務單位公司內容</dd>
+							<dt>職稱</dt>
+							<dd>職稱內容</dd>
+						</dl>
+					</div>
+			    	<div class="content-block">
+						<div class="block-caption">
+							<span class="caption">個人專長</span>
+						</div>
+						<dl>
+							<dt>我的專長</dt>
+							<dd>我的專長內容</dd>
+						</dl>
+					</div>
+			    	<div class="content-block">
+						<div class="block-caption">
+							<span class="caption">自我簡介</span>
+						</div>
+						<dl>
+							<dt>關心的議題</dt>
+							<dd>關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容</dd>
+							<dt>我想說的話</dt>
+							<dd>我想說的話內容我想說的話內容我想說的話內容我想說的話內容我想說的話內容我想說的話內容我想說的話內容我想說的話內容我想說的話內容我想說的話內容</dd>
+						</dl>
+					</div>
+{% endblock %}
