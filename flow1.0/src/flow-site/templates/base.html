@@ -27,7 +27,11 @@
 	            </div>
 	            <div id="login-box">
 	                <ul class="top-horizontal-menu">
-	                    <li><a>登入</a></li>
+										{% if base.user %}
+										  <li><a href="/logout?redirect={{ base.location }}">登出</a></li>
+										{% else %}
+										  <li><a href="/login?redirect={{ base.location }}">登入</a></li>
+										{% endif %}
 	                    <li><a>我的履歷表</a></li>
 	                    <li><a>Help</a></li>
 	                </ul>

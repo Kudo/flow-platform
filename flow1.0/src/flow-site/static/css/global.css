@@ -77,6 +77,22 @@ h6 {
 	font-weight: bold;
 	padding: 5px 0;
 }
+
+/* img */
+.img35 {
+    max-width: 35px;
+    max-height: 35px;
+}
+.img55 {
+    max-width: 55px;
+    max-height: 55px;
+}
+.img75 {
+    max-width: 75px;
+    max-height: 75px;
+}
+
+
 /* header */
 .header {
 #	height: 100px;

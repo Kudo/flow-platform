@@ -3,16 +3,16 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
-from db import ddl3
+from db import ddl
 
 def mainPage(request): 
     if request.path=='/':
         return HttpResponseRedirect('event/')
     
     now = datetime.datetime.now()
-    event1 = ddl3.EventProfile.gql('where status in (:1,:2)','approved','recruiting').fetch(5)
-    event2 = ddl3.EventProfile.gql('where status in (:1,:2)','approved','recruiting').fetch(5)
-    event3 = ddl3.EventProfile.gql('where status in (:1)','activity closed').fetch(5)
+    event1 = ddl.EventProfile.gql('where status in (:1,:2)','approved','recruiting').fetch(5)
+    event2 = ddl.EventProfile.gql('where status in (:1,:2)','approved','recruiting').fetch(5)
+    event3 = ddl.EventProfile.gql('where status in (:1)','activity closed').fetch(5)
     listActivityResult1 = []
     listActivityResult2 = []
     listActivityResult3 = []

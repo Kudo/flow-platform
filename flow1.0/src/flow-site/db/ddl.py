@@ -59,7 +59,7 @@
 #
 #
 # *** UNIT-TEST ***
-# 1. Prepare an "app.yaml", the script line should be "script: ddl3.py", and save the file where this ddl3.py is located.
+# 1. Prepare an "app.yaml", the script line should be "script: ddl.py", and save the file where this ddl.py is located.
 # 2. Start the GAE SDK local server emulator: dev_appserver.py --clear_datastore {the-path-where-app.yaml-is-saved}
 # 3. Open your browser, type the address: http://localhost:8080/
 # 4. The output should be a bunch of XML codes, and no <UnitTestFailure> is shown. If it does show up, you are fortunate
