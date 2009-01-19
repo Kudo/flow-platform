@@ -37,6 +37,7 @@
 # 2008/12/30, Kudo Chien:            add SearchableStringProperty for Chinese full text search
 # 2009/01/13, Tony Chu & Kudo Chien: bug fix: un-initialized data fields were used to construct other fields, now they are
 #                                    constructed in the correct order
+# 2009/01/19, Kudo Chien:            improve search() performance for SearchableStringProperty by chaining query filter
 #
 #
 # *** REMARKS ***
@@ -343,30 +344,20 @@ class FlowDdlModel(db.Model):
             if isinstance(query, str) and encFrom:
                 query = unicode(query, encFrom)
 
-            keywordList = re.sub("([^a-zA-Z0-9]{2})", "\\1 ", query).split()
-            matchList = {}
-            keywordCount = 0
-            for keyword in keywordList:
-                key = keyword.lower()
-                keywordCount += 1
-                keywordObj = self.filter(property.name + " = ", keyword)
-                for entry in keywordObj:
-                    key = entry.key()
-                    if not matchList.has_key(key):
-                        matchList[key] = [1, entry]
-                    else:
-                        matchList[key][0] += 1
+            queryList = re.sub("([^a-zA-Z0-9]{2})", "\\1 ", query).split()
+            queryObj = self
+            for query in queryList:
+                query = query.lower()
+                queryObj = queryObj.filter(property.name + " = ", query)
             entryList = []
             queryList = query.split()
-            for (key, value) in matchList.iteritems():
-                if value[0] < keywordCount:
-                    continue
+            for entry in queryObj:
                 isMatch = True
                 for query in queryList:
-                    if query not in getattr(value[1], property.name)[0]:
+                    if query not in getattr(entry, property.name)[0]:
                         isMatch = False
                 if isMatch:
-                    entryList.append(value[1])
+                    entryList.append(entry)
             return entryList
 
 # end class FlowDdlModel
