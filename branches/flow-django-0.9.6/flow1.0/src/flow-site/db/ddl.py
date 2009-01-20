@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -33,11 +33,13 @@
 # 2008/11/18, Kudo Chien:            add validators and counter-per-class
 # 2008/12/08, Kudo Chien:            adopt the use of _from_entity (from GAE 1.1.7) to simplify invocation of constructor
 # 2008/12/19, Alex Chiu:             revised schema to "FlowPlatform_DataSchema_v0.4.xls"
-# 2008/12/19, Tony Chu:              revised code based on Alex's schema "FlowPlatform_DataSchema_v0.4.xls"
+# 2008/12/19, Tony Chu:              revise code based on Alex's schema "FlowPlatform_DataSchema_v0.4.xls"
 # 2008/12/30, Kudo Chien:            add SearchableStringProperty for Chinese full text search
 # 2009/01/13, Tony Chu & Kudo Chien: bug fix: un-initialized data fields were used to construct other fields, now they are
 #                                    constructed in the correct order
 # 2009/01/19, Kudo Chien:            improve search() performance for SearchableStringProperty by chaining query filter
+# 2009/01/20, Tony Chu:              update code based on schema "FlowPlatform_DataSchema_v0.5.xls";
+#                                    simplify require-constraint by removing redundant ones
 #
 #
 # *** REMARKS ***
@@ -383,6 +385,9 @@ class NpoProfile(FlowDdlModel):
     logo                   = db.LinkProperty()
     website                = db.LinkProperty()
     blog                   = db.LinkProperty()
+    photo_link             = db.StringListProperty(db.Link)
+    video_link             = db.StringListProperty(db.Link)
+    article_link           = db.StringListProperty(db.Link)
     country                = db.StringProperty(required=True)            # the constraint must be enforced by program logic
     postal                 = db.StringProperty(required=True)
     state                  = db.StringProperty(required=True)            # the constraint must be enforced by program logic
@@ -447,6 +452,36 @@ class NpoProfile(FlowDdlModel):
 # end class NpoProfile
 
 
+class NpoNews(FlowDdlModel):
+    """
+    NPO_NEWS
+    """
+    npo_profile_ref = db.ReferenceProperty(required=True, reference_class=NpoProfile, collection_name="news2npo")
+    npo_profile_id  = db.IntegerProperty() # auto-generated from npo_profile_ref.id
+    news_no         = db.IntegerProperty(required=True)
+    create_date     = db.DateTimeProperty(required=True)
+    news            = db.TextProperty(required=True)
+
+    def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
+        FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
+
+        if not _from_entity:
+            self.npo_profile_id = self.npo_profile_ref.id
+
+    @classmethod
+    def unitTest(cls, npo):
+        startUnitTest("NpoNews.unitTest")
+
+        now  = datetime.datetime.utcnow()
+        news = NpoNews(npo_profile_ref=npo, news_no=99101, create_date=now, news="time to go")
+
+        news.put()
+        writeln(news)
+        rollBack(news)
+
+# end class NpoNews
+
+
 class NpoEmail(FlowDdlModel):
     """
     NPO_EMAIL
@@ -458,10 +493,8 @@ class NpoEmail(FlowDdlModel):
     hide            = db.BooleanProperty() # default to False
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "npo_profile_ref")
-            if "hide" not in kargs:
-                kargs["hide"] = False
+        if not _from_entity and "hide" not in kargs:
+            kargs["hide"] = False
 
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
@@ -491,12 +524,9 @@ class NpoContact(FlowDdlModel):
     contact_name    = db.StringProperty(required=True)
     contact_email   = db.EmailProperty(required=True, validator=vaEmail)
     contact_phone   = db.PhoneNumberProperty()
-    google_acct     = db.UserProperty()
+    volunteer_id    = db.UserProperty(required=True)
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "npo_profile_ref")
-
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
         if not _from_entity:
@@ -506,7 +536,10 @@ class NpoContact(FlowDdlModel):
     def unitTest(cls, npo):
         startUnitTest("NpoContact.unitTest")
 
-        contact = NpoContact(npo_profile_ref=npo, contact_type="Other", contact_name="John Doe", contact_email="john_doe@gmail.com")
+        email   = "john_doe@gmail.com"
+        user    = users.User(email)
+        contact = NpoContact(npo_profile_ref=npo, contact_type="Other", contact_name="John Doe", contact_email=email,
+                             volunteer_id=user)
 
         contact.put()
         writeln(contact)
@@ -526,10 +559,8 @@ class NpoPhone(FlowDdlModel):
     hide            = db.BooleanProperty() # default to False
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "npo_profile_ref")
-            if "hide" not in kargs:
-                kargs["hide"] = False
+        if not _from_entity and "hide" not in kargs:
+            kargs["hide"] = False
 
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
@@ -556,12 +587,9 @@ class NpoAdmin(FlowDdlModel):
     npo_profile_ref = db.ReferenceProperty(required=True, reference_class=NpoProfile, collection_name="admins2npo")
     npo_profile_id  = db.IntegerProperty() # auto-generated from npo_profile_ref.id
     admin_role      = db.StringProperty(required=True, choices=set(["Main", "Event", "Security", "Checker", "News"]))
-    google_acct     = db.UserProperty(required=True)
+    volunteer_id    = db.UserProperty(required=True)
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "npo_profile_ref")
-
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
         if not _from_entity:
@@ -572,7 +600,7 @@ class NpoAdmin(FlowDdlModel):
         startUnitTest("NpoAdmin.unitTest")
 
         user  = users.User("john_doe@gmail.com")
-        admin = NpoAdmin(npo_profile_ref=npo, admin_role="Event", google_acct=user)
+        admin = NpoAdmin(npo_profile_ref=npo, admin_role="Event", volunteer_id=user)
 
         admin.put()
         writeln(admin)
@@ -604,10 +632,15 @@ class VolunteerProfile(FlowDdlModel):
     resident_city        = db.StringProperty(required=True) # the constraint must be enforced by program logic
     resident_district    = db.StringProperty(required=True) # the constraint must be enforced by program logic
     tag                  = db.StringListProperty()
+    school               = db.StringProperty()
     organization         = db.StringProperty()
+    title                = db.StringProperty()
     blog                 = db.LinkProperty()
     brief_intro          = db.TextProperty()
     logo                 = db.LinkProperty()
+    photo_link           = db.StringListProperty(db.Link)
+    video_link           = db.StringListProperty(db.Link)
+    article_link         = db.StringListProperty(db.Link)
     prefer_region        = db.StringListProperty()          # required
     prefer_zip           = db.StringListProperty()          # required
     prefer_target        = db.StringListProperty()          # required
@@ -618,6 +651,7 @@ class VolunteerProfile(FlowDdlModel):
     total_serv_hours     = db.IntegerProperty()             # default to 0
     total_reg_events     = db.IntegerProperty()             # default to 0
     total_serv_events    = db.IntegerProperty()             # default to 0
+    total_sharing        = db.IntegerProperty()             # default to 0
     volunteer_rating     = db.RatingProperty(required=True) # range=[0..100]
     medal                = db.StringListProperty()
     status               = db.StringProperty(required=True, choices=set(["new application", "authenticating", "authenticated", "authenticatin failed",
@@ -640,6 +674,8 @@ class VolunteerProfile(FlowDdlModel):
                 kargs["total_reg_events"] = 0
             if "total_serv_events" not in kargs:
                 kargs["total_serv_events"] = 0
+            if "total_sharing" not in kargs:
+                kargs["total_sharing"] = 0
 
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
@@ -753,7 +789,7 @@ class EventProfile(FlowDdlModel):
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity:
-            require(kargs, "npo_profile_ref", "volunteer_profile_ref", "event_region", "event_zip", "event_target", "event_field", "max_age", "min_age","questionnaire_template_ref")
+            require(kargs, "event_region", "event_zip", "event_target", "event_field", "max_age", "min_age")
             if "approved" not in kargs:
                 kargs["approved"] = False
             if kargs["approved"] and ("approved_time" not in kargs):
@@ -841,10 +877,9 @@ class VolunteerEvent(FlowDdlModel):
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity:
-            require(kargs, "volunteer_profile_ref", "event_profile_ref")
             if "cancelled" not in kargs:
                 kargs["cancelled"] = False
-            if kargs["cancelled"] and ("cancel_date" not in kargs):
+            if kargs["cancelled"] and "cancel_date" not in kargs:
                 raise db.BadValueError("Property cancel_date is required if property cancelled is True")
 
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
@@ -871,6 +906,34 @@ class VolunteerEvent(FlowDdlModel):
 # end class VolunteerEvent
 
 
+class VolunteerEmailBook(FlowDdlModel):
+    """
+    VOLUNTEER_EMAIL_BOOK
+    """
+    volunteer_profile_ref = db.ReferenceProperty(required=True, reference_class=VolunteerProfile, collection_name="email_book2volunteer")
+    volunteer_profile_id  = db.IntegerProperty() # auto-generated from volunteer_profile_ref.id
+    email_group           = db.StringProperty()
+    email                 = db.EmailProperty(validator=vaEmail)
+
+    def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
+        FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
+
+        if not _from_entity:
+            self.volunteer_profile_id = self.volunteer_profile_ref.id
+
+    @classmethod
+    def unitTest(cls, volunteer):
+        startUnitTest("VolunteerEmailBook.unitTest")
+
+        veb = VolunteerEmailBook(volunteer_profile_ref=volunteer, im_type="MSN", email_group="board", email="johndoe@gmail.com")
+
+        veb.put()
+        writeln(veb)
+        rollBack(veb)
+
+#end class VolunteerEmailBook
+
+
 class VolunteerIm(FlowDdlModel):
     """
     VOLUNTEER_IM
@@ -881,9 +944,6 @@ class VolunteerIm(FlowDdlModel):
     im_account            = db.IMProperty()
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "volunteer_profile_ref")
-
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
         if not _from_entity:
@@ -914,9 +974,6 @@ class VolunteerLog(FlowDdlModel):
     signoff_datetime      = db.DateTimeProperty(required=True)
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "volunteer_profile_ref")
-
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
         if not _from_entity:
@@ -948,9 +1005,6 @@ class EventNews(FlowDdlModel):
     news              = db.TextProperty(required=True)
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "event_profile_ref")
-
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
         if not _from_entity:
@@ -988,9 +1042,6 @@ class EventQuestion(FlowDdlModel):
     ip                    = db.StringProperty(required=True, validator=vaIP)
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "event_profile_ref", "volunteer_profile_ref")
-
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
         if not _from_entity:
@@ -1030,9 +1081,6 @@ class EventAnswer(FlowDdlModel):
     ip                    = db.StringProperty(validator=vaIP)
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "event_question_ref", "volunteer_profile_ref")
-
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
         if not _from_entity:
@@ -1072,9 +1120,6 @@ class EventQuestionnaire(FlowDdlModel):
     ip                         = db.StringProperty(required=True, validator=vaIP)
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "event_profile_ref", "questionnaire_template_ref", "volunteer_profile_ref")
-
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
         if not _from_entity:
@@ -1139,9 +1184,6 @@ class EventReport(FlowDdlModel):
     ip                    = db.StringProperty(required=True, validator=vaIP)
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        if not _from_entity:
-            require(kargs, "event_profile_ref", "report_template_ref", "volunteer_profile_ref")
-
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
         if not _from_entity:
@@ -1310,11 +1352,13 @@ class DDL_UnitTest(webapp.RequestHandler):
             event          = EventProfile.unitTest(npo, volunteer, template)
             question       = EventQuestion.unitTest(volunteer, event)
             reportTemplate = ReportTemplate.unitTest()
+            NpoNews.unitTest(npo)
             NpoEmail.unitTest(npo)
             NpoContact.unitTest(npo)
             NpoPhone.unitTest(npo)
             NpoAdmin.unitTest(npo)
             VolunteerEvent.unitTest(volunteer, event)
+            VolunteerEmailBook.unitTest(volunteer)
             VolunteerIm.unitTest(volunteer)
             VolunteerLog.unitTest(volunteer)
             EventNews.unitTest(event)
