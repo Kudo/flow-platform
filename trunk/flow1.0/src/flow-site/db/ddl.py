@@ -38,7 +38,8 @@
 # 2009/01/13, Tony Chu & Kudo Chien: bug fix: un-initialized data fields were used to construct other fields, now they are
 #                                    constructed in the correct order
 # 2009/01/19, Kudo Chien:            improve search() performance for SearchableStringProperty by chaining query filter
-# 2009/01/20, Tony Chu:              update code based pn schema "FlowPlatform_DataSchema_v0.5.xls"; simplify require-constraint
+# 2009/01/20, Tony Chu:              update code based on schema "FlowPlatform_DataSchema_v0.5.xls";
+#                                    simplify require-constraint by removing redundant ones
 #
 #
 # *** REMARKS ***
