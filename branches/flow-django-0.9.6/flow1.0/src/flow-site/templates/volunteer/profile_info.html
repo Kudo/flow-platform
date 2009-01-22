@@ -64,7 +64,7 @@
 							<dt>手機號碼</dt>
 							<dd>{{ cellphone_no }}</dd>
 							<dt>網頁/部落格</dt>
-							<dd><a href="{{ blog }}" target="_blank">{{ blog }}</a></dd>
+							<dd>{% if blog %}<a href="{{ blog }}" target="_blank">{{ blog }}</a>{% else %}無{% endif %}</dd>
 							<dt>目前居住城市</dt>
 							<dd>{{ base.resident }}</dd>
 						</dl>

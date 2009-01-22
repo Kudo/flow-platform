@@ -96,6 +96,7 @@ def step3(request):
                 cellphone_no = '%s-%s-%s' % (cleaned_data['phone1'], cleaned_data['phone2'], cleaned_data['phone3'])
             else:
                 cellphone_no = None
+            resident_city = db.GqlQuery('SELECT * From CountryCity WHERE city_en = :1', cleaned_data['resident_city']).get().city_tc
             volunteerObj = VolunteerProfile(
                     volunteer_id                = user, 
                     gmail                       = user.email(),
@@ -108,14 +109,15 @@ def step3(request):
                     volunteer_last_name         = cleaned_data['volunteer_last_name'], 
                     sex                         = cleaned_data['sex'],
                     date_birth                  = datetime.date(int(cleaned_data['birthyear']), int(cleaned_data['birthmonth']), int(cleaned_data['birthday'])),
-                    resident_city               = cleaned_data['resident_city'],
-                    logo                        = cleaned_data['logo'],
+                    resident_city               = resident_city,
+                    logo                        = cleaned_data['logo'] or None,
                     school                      = cleaned_data['school'],
                     organization                = cleaned_data['organization'],
                     title                       = cleaned_data['title'],
                     hide_cellphone              = cleaned_data['hide_cellphone'],
                     cellphone_no                = cellphone_no,
                     hide_blog                   = cleaned_data['hide_blog'],
+                    blog                        = cleaned_data['blog'] or None,
                     expertise                   = [cleaned_data['expertise']],
                     concern                     = cleaned_data['concern'],
                     message                     = cleaned_data['message'],
@@ -132,7 +134,7 @@ def step3(request):
                     prefer_field                = ['???'],
                     prefer_group                = ['???'],
                     volunteer_rating            = 0,
-                    phone_no                    = cellphone_no,
+                    phone_no                    = cellphone_no or '0000-0000',
             )
             volunteerObjKey = volunteerObj.put()
 
