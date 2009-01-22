@@ -9,7 +9,8 @@ def getBase(request, volunteer=None):
     data = {}
     if not request:
         return data
-    data['location']        = request.get_full_path()
+    data['path']            = request.path
+    data['full_path']       = request.get_full_path()
     data['user']            = users.get_current_user()
 
     if volunteer:

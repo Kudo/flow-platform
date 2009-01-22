@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import re
 import cgi
 from datetime import datetime
 from django.http import HttpResponse
@@ -16,11 +17,10 @@ import gdata.blogger, gdata.blogger.service
 import flowBase
 from db.ddl import VolunteerProfile, VolunteerIm
 
-def show(request, displayAlbumCount=2, displayPhotoCount=5, displayBlogCount=5):
+def show(request, displayPhotoCount=8, displayBlogCount=6):
     if 'volunteer_id' not in request.GET:
         if users.get_current_user():
             userID = users.get_current_user()
-            isSelf = True
         else:
             return HttpResponseRedirect('/')
     else:
@@ -28,28 +28,20 @@ def show(request, displayAlbumCount=2, displayPhotoCount=5, displayBlogCount=5):
         if userID.find('@gmail.com') == -1:
             userID += '@gmail.com'
             userID = users.User(userID)
-            isSelf = True if users.get_current_user() == userID else False
-
-    user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', userID).get()
-    if not user:
-        pass
 
     # Picasa Web
     picasaUser = 'ckchien'
     service = gdata.photos.service.PhotosService()
     gdata.alt.appengine.run_on_appengine(service)
-    albumFeeds = service.GetUserFeed(user=picasaUser, limit=displayAlbumCount).entry
-    albums = [{'albumFeed': album, 'photoFeeds': service.GetEntry(album.GetPhotosUri(), limit=displayPhotoCount)} for album in albumFeeds] 
-    #return HttpResponse(albums[0]['photoFeeds'][0], mimetype="text/xml")
+    photoFeeds = service.GetUserFeed(user=picasaUser, kind='photo', limit=displayPhotoCount).entry
+    #photoFeeds.reverse()
     #photos = service.SearchUserPhotos(query='若水', user='ckchien').entry
-    del albumFeeds
 
     # Youtube
     vid = 'kt3JvQHQF-c'
     service = gdata.youtube.service.YouTubeService()
     gdata.alt.appengine.run_on_appengine(service)
     video = service.GetYouTubeVideoEntry(video_id=vid)
-    videoDate = datetime.strptime(video.published.text, '%Y-%m-%dT%H:%M:%S.000Z')
     #return HttpResponse(video, mimetype="text/xml")
 
     # Blogger
@@ -61,16 +53,17 @@ def show(request, displayAlbumCount=2, displayPhotoCount=5, displayBlogCount=5):
     blogFeeds = service.Get(query.ToUri())
     #return HttpResponse(blogFeeds.entry[0], mimetype="text/plain")
 
-
+    user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', userID).get()
+    if not user:
+        pass
+    userIM = user.im2volunteer.get()
     template_values = {
-            'isSelf':                   isSelf,
             'base':                     flowBase.getBase(request, user),
-            'albums':                   albums,
+            'sex':                      user.sex,
+            'photoFeeds':               photoFeeds,
             'video':                    video,
-            'videoDate':                videoDate,
-            'blogFeeds':                blogFeeds.entry,
-
     }
-    response = render_to_response('volunteer/profile_space.html', template_values)
+    response = render_to_response('volunteer/profile_home.html', template_values)
 
     return response
+

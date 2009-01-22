@@ -626,6 +626,9 @@ class VolunteerProfile(FlowDdlModel):
     phone_no             = db.PhoneNumberProperty(required=True)
     cellphone_no         = db.PhoneNumberProperty()
     hide_cellphone       = db.BooleanProperty()             # default to False
+    hide_email           = db.BooleanProperty()             # default to False
+    hide_im              = db.BooleanProperty()             # default to False
+    hide_blog            = db.BooleanProperty()             # default to False
     resident_country     = db.StringProperty(required=True) # the constraint must be enforced by program logic
     resident_postal      = db.StringProperty(required=True)
     resident_state       = db.StringProperty(required=True) # the constraint must be enforced by program logic
@@ -637,6 +640,8 @@ class VolunteerProfile(FlowDdlModel):
     title                = db.StringProperty()
     blog                 = db.LinkProperty()
     brief_intro          = db.TextProperty()
+    concern              = db.TextProperty()
+    message              = db.TextProperty()
     logo                 = db.LinkProperty()
     photo_link           = db.StringListProperty(db.Link)
     video_link           = db.StringListProperty(db.Link)

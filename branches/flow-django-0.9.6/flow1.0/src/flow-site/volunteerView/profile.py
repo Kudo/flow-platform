@@ -10,6 +10,18 @@ from google.appengine.ext import db
 from google.appengine.api import users
 import flowBase
 from db.ddl import VolunteerProfile, VolunteerIm
+from google.appengine.ext.webapp import template
+try:
+    from django import newforms as forms
+except ImportError:
+    from django import forms
+from google.appengine.ext.db import djangoforms
+
+class VolunteerProfileForm(djangoforms.ModelForm):
+    #sex = forms.CharField(widget=forms.TextInput(attrs={'size':'30'}))
+    class Meta:
+        model = VolunteerProfile
+        fields = ['volunteer_last_name', 'volunteer_first_name', 'date_birth', 'sex', 'cellphone_no', 'expertise']
 
 def show(request):
     if 'volunteer_id' not in request.GET:
@@ -64,13 +76,13 @@ def edit(request):
     else:
         template_values = {
                 'base':                     flowBase.getBase(request, user),
-                'selfLink':                 request.path,
                 'sex':                      user.sex,
                 'email':                    user.gmail,
                 'im':                       '%s：%s' % ( userIM.im_type, userIM.im_account.address) if userIM else '無',
                 'cellphone_no':             user.cellphone_no,
                 'blog':                     user.blog,
                 'brief_intro':              user.brief_intro or '無',
+                'form':                     VolunteerProfileForm(data=request.POST, instance=user),
         }
         response = render_to_response('volunteer/profile_edit.html', template_values)
         return response
