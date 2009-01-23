@@ -146,9 +146,11 @@ def edit(request):
                 'phone1':           phone1,
                 'phone2':           phone2,
                 'phone3':           phone3,
-                'im_type':          userIM.im_type,
-                'im_account':       userIM.im_account.address,
-                }
+        }
+        if userIM:
+            customData['im_type'] = userIM.im_type
+            customData['im_account'] = userIM.im_account.address
+
         form = VolunteerProfileForm(instance=user, initial=customData)
     else:
         if not request.POST['submit']:
