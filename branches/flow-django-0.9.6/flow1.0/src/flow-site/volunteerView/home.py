@@ -55,7 +55,7 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
 
     user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', userID).get()
     if not user:
-        pass
+        return HttpResponseRedirect('/')
     userIM = user.im2volunteer.get()
     template_values = {
             'base':                     flowBase.getBase(request, user),

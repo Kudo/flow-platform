@@ -57,7 +57,7 @@ def show(request):
     template_values = {
             'base':                     flowBase.getBase(request, user),
             'friends':                  friends,
-            'firstFriend':              friends[0],
+            'firstFriend':              friends[0] if len(friends) > 0 else None,
             'test':                     range(20),
     }
 
