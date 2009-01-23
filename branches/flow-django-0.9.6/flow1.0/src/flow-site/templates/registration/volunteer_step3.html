@@ -16,6 +16,7 @@
 		previewBoxObj.append('<img width="175" src="' + previewImgURL + '" />');
 
 		previewBoxObj.show().dialog({
+		    resizable:  false,
 		    close: function(e, ui) { previewBoxObj.hide().dialog('destroy'); }
 		});
 	    });
@@ -121,7 +122,7 @@
 			
 			<li>
 				<label class="desc">
-				大頭貼圖片
+				大頭貼圖片網址
 				</label>
 				<div class="column">
 				    {{ form.logo }}
@@ -179,33 +180,19 @@
 				電子郵件信箱
 					<span class="req"> * </span>
 				</label>
-				<span class="left-column">
-				    {{ form.hide_email }}
-					<label class="choice" for="nopublicemail">不公開</label>
-				    {% for error in form.hide_email.errors %}
-				    <span class="req">{{ error|escape }}</span>
-				    {% endfor %}
-				</span>
-				<span class="column">
+				<div class="column">
 				    {{ form.alternate_email }}
 					<label class="req">電子郵件信箱事後無法更改</label>
 				    {% for error in form.alternate_email.errors %}
 				    <span class="req">{{ error|escape }}</span>
 				    {% endfor %}
-				</span>
+				</div>
 			</li>
 			
 			<li>
 				<label class="desc">
 				即時通訊
 				</label>
-				<span class="left-column">
-				    {{ form.hide_im }}
-					<label class="choice" for="nopublicim">不公開</label>
-					{% for error in form.hide_im.errors %}
-					<span class="req">{{ error|escape }}</span>
-					{% endfor %}
-				</span>
 				<span class="column">
 				    {{ form.im_type }}
 					<label>通訊協定</label>
@@ -226,13 +213,6 @@
 				<label class="desc">
 				手機號碼
 				</label>
-				<span class="left-column">
-				    {{ form.hide_cellphone }}
-					<label class="choice" for="nopublicphone">不公開</label>
-					{% for error in form.hide_cellphone.errors %}
-					<span class="req">{{ error|escape }}</span>
-					{% endfor %}
-				</span>
 				<span class="column">
 				    {{ form.phone1 }}
 					-
@@ -268,13 +248,6 @@
 				<label class="desc">
 				部落格 (個人網站)
 				</label>
-				<span class="left-column">
-				    {{ form.hide_blog }}
-					<label class="choice" for="nopublicwebsite">不公開</label>
-				    {% for error in form.hide_blog.errors %}
-				    <span class="req">{{ error|escape }}</span>
-				    {% endfor %}
-				</span>
 				<span class="column">
 				    {{ form.blog }}
 				    {% for error in form.blog.errors %}
@@ -304,30 +277,6 @@
 			<li class="section">
 				<h3>自我簡介</h3>
 				<div>關於您個人的簡介資訊</div>
-			</li>
-			
-			<li>
-				<label class="desc">
-					關心的議題
-				</label>
-				<div class="column">
-				    {{ form.concern }}
-				    {% for error in form.concern.errors %}
-				    <span class="req">{{ error|escape }}</span>
-				    {% endfor %}
-				</div>
-			</li>
-			
-			<li>
-				<label class="desc">
-					我想說的話
-				</label>
-				<div class="column">
-				    {{ form.message }}
-				    {% for error in form.message.errors %}
-				    <span class="req">{{ error|escape }}</span>
-				    {% endfor %}
-				</div>
 			</li>
 			
 			<li>

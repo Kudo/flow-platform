@@ -53,6 +53,49 @@ class MyRadioSelect(forms.widgets.Select):
 # -------------------------------------------------------------
 """
 
+class VolunteerProfileForm(djangoforms.ModelForm):
+    volunteer_first_name        = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
+    volunteer_last_name         = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
+    sex                         = forms.ChoiceField(choices=(('Male', u'男性'), ('Female', u'女性')), widget=MyRadioSelect(attrs={'class': 'field radio'}))
+
+    birthyear                   = forms.CharField(min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
+    birthmonth                  = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
+    birthday                    = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
+
+    choices = []
+    citys = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
+    for city in citys:
+        choices.append((city.city_en, city.city_tc))
+    del citys
+    resident_city               = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
+
+    logo                        = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text large'}))
+    school                      = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    organization                = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    title                       = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    alternate_email             = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'field text large', 'size': '50' }))
+
+    choices = (
+            ('MSN',                     u'MSN 即時通訊'),
+            ('Yahoo Messenger',         u'Yahoo! 即時通訊'),
+    )
+    im_type                     = forms.ChoiceField(required=False, choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
+    im_account                  = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'field text large', 'size': '30'}))
+
+    phone1                      = forms.CharField(required=False, min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
+    phone2                      = forms.CharField(required=False, min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
+    phone3                      = forms.CharField(required=False, min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
+
+    blog                        = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'class': 'field text', 'size': '50'}))
+    expertise                   = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    brief_intro                 = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'field textarea medium', 'cols': '50', 'rows': '10'}))
+
+    class Meta:
+        model = VolunteerProfile
+        fields = ['volunteer_first_name', 'volunteer_last_name', 'sex', 'resident_city', 'logo', 'school', 'organization', 'title',
+                  'alternate_email', 'cellphone_no', 'blog', 'expertise', 'brief_intro',
+                 ]
+
 def step1(request):
     if 'register' in request.GET:
         return HttpResponseRedirect('/volunteer/register/step2/')
@@ -114,13 +157,9 @@ def step3(request):
                     school                      = cleaned_data['school'],
                     organization                = cleaned_data['organization'],
                     title                       = cleaned_data['title'],
-                    hide_cellphone              = cleaned_data['hide_cellphone'],
                     cellphone_no                = cellphone_no,
-                    hide_blog                   = cleaned_data['hide_blog'],
                     blog                        = cleaned_data['blog'] or None,
                     expertise                   = [cleaned_data['expertise']],
-                    concern                     = cleaned_data['concern'],
-                    message                     = cleaned_data['message'],
                     brief_intro                 = cleaned_data['brief_intro'],
 
                     id_no                       = '???',
@@ -160,112 +199,4 @@ def step3(request):
     }
     return render_to_response('registration/volunteer_step3.html', template_values)
 
-class VolunteerProfileForm(djangoforms.ModelForm):
-    volunteer_first_name        = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
-    volunteer_last_name         = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
-    sex                         = forms.ChoiceField(choices=(('Male', u'男性'), ('Female', u'女性')), widget=MyRadioSelect(attrs={'class': 'field radio'}))
 
-    birthyear                   = forms.CharField(min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
-    birthmonth                  = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
-    birthday                    = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
-
-    choices = []
-    citys = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
-    for city in citys:
-        choices.append((city.city_en, city.city_tc))
-    del citys
-    resident_city               = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
-
-    logo                        = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text large'}))
-    school                      = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
-    organization                = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
-    title                       = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
-    hide_email                  = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'field checkbox'}))
-    alternate_email             = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text large', 'maxlength': '255', 'size': '50' }))
-
-    hide_im                     = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'field checkbox'}))
-    choices = (
-            ('MSN',                     u'MSN 即時通訊'),
-            ('Yahoo Messenger',         u'Yahoo! 即時通訊'),
-    )
-    im_type                     = forms.ChoiceField(required=False, choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
-    im_account                  = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'field text large', 'size': '30'}))
-
-    hide_cellphone              = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'field checkbox', 'checked': 'checked'}))
-    phone1                      = forms.CharField(required=False, min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
-    phone2                      = forms.CharField(required=False, min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
-    phone3                      = forms.CharField(required=False, min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
-
-    hide_blog                   = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'field checkbox'}))
-    blog                        = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'class': 'field text', 'size': '50'}))
-    expertise                   = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text medium'}))
-    concern                     = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'field textarea medium', 'cols': '50', 'rows': '10'}))
-    message                     = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'field textarea medium', 'cols': '50', 'rows': '10'}))
-    brief_intro                 = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'field textarea medium', 'cols': '50', 'rows': '10'}))
-
-    class Meta:
-        model = VolunteerProfile
-        fields = ['volunteer_first_name', 'volunteer_last_name', 'sex', 'resident_city', 'logo', 'school', 'organization', 'title',
-                  'hide_email', 'alternate_email', 'hide_im', 'hide_cellphone', 'cellphone_no', 'hide_blog', 'blog',
-                  'expertise', 'concern', 'message', 'brief_intro',
-                 ]
-
-def show(request):
-    if 'volunteer_id' not in request.GET:
-        if users.get_current_user():
-            userID = users.get_current_user()
-            isSelf = True
-        else:
-            return HttpResponseRedirect('/')
-    else:
-        userID = cgi.escape(request.GET['volunteer_id'])
-        if userID.find('@gmail.com') == -1:
-            userID += '@gmail.com'
-            userID = users.User(userID)
-            isSelf = True if users.get_current_user() == userID else False
-
-    user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', userID).get()
-    if not user:
-        pass
-    userIM = user.im2volunteer.get()
-    template_values = {
-            'isSelf':                   isSelf,
-            'base':                     flowBase.getBase(request, user),
-            'sex':                      user.sex,
-            'cellphone_no':             (user.cellphone_no or '無') if isSelf or not user.hide_cellphone else '******',
-            'blog':                     user.blog,
-            'email':                    re.sub('(.+)@(.+)', '\\1 (at) \\2', user.gmail),
-            'im':                       '%s：%s' % ( userIM.im_type, userIM.im_account.address) if userIM else '無',
-            'brief_intro':              user.brief_intro or '無',
-
-    }
-    return render_to_response('volunteer/profile_info.html', template_values)
-
-def edit(request):
-    if not users.get_current_user():
-        return HttpResponseRedirect('profile')
-
-    user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', users.get_current_user()).get()
-    if not user:
-        pass
-    userIM = user.im2volunteer.get()
-    if request.method == 'POST':
-        try:
-            (user.volunteer_first_name, user.volunteer_last_name) = request.POST['name'].split(None, 1)
-        except:
-            (user.volunteer_first_name, user.volunteer_last_name) = (request.POST['name'][0], request.POST['name'][1:])
-        user.cellphone_no = request.POST['cellphone_no']
-        user.put()
-        return HttpResponseRedirect('/volunteer/profile')
-    else:
-        template_values = {
-                'base':                     flowBase.getBase(request, user),
-                'sex':                      user.sex,
-                'email':                    user.gmail,
-                'im':                       '%s：%s' % ( userIM.im_type, userIM.im_account.address) if userIM else '無',
-                'cellphone_no':             user.cellphone_no,
-                'blog':                     user.blog,
-                'brief_intro':              user.brief_intro or '無',
-                'form':                     VolunteerProfileForm(data=request.POST, instance=user),
-        }
-        return render_to_response('volunteer/profile_edit.html', template_values)

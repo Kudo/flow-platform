@@ -65,8 +65,6 @@
 							<dd>{{ cellphone_no }}</dd>
 							<dt>網頁/部落格</dt>
 							<dd>{% if blog %}<a href="{{ blog }}" target="_blank">{{ blog }}</a>{% else %}無{% endif %}</dd>
-							<dt>目前居住城市</dt>
-							<dd>{{ base.resident }}</dd>
 						</dl>
 					</div>
 			    	<div class="content-block">
@@ -75,11 +73,11 @@
 						</div>
 						<dl>
 							<dt>畢業學校</dt>
-							<dd>畢業學校內容</dd>
+							<dd>{{ school }}</dd>
 							<dt>服務單位/公司</dt>
-							<dd>服務單位公司內容</dd>
+							<dd>{{ organization }}</dd>
 							<dt>職稱</dt>
-							<dd>職稱內容</dd>
+							<dd>{{ title }}</dd>
 						</dl>
 					</div>
 			    	<div class="content-block">
@@ -88,7 +86,7 @@
 						</div>
 						<dl>
 							<dt>我的專長</dt>
-							<dd>我的專長內容</dd>
+							<dd>{{ expertise }}</dd>
 						</dl>
 					</div>
 			    	<div class="content-block">
@@ -96,9 +94,7 @@
 							<span class="caption">自我簡介</span>
 						</div>
 						<dl>
-							<dt>關心的議題</dt>
-							<dd>關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容關心的議題內容</dd>
-							<dt>我想說的話</dt>
+							<dt>自我簡介</dt>
 							<dd>{{ brief_intro }}</dd>
 						</dl>
 					</div>
