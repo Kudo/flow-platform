@@ -64,7 +64,7 @@
 					{% for friend in friends %}
 					<div class="volunteer-item{% ifequal friend firstFriend %} first-item{% endifequal %}">
 						<div class="volunteer-img">
-						    <img class="img55" src="{% if friend.logo %} {{ friend.logo }} {% else %} {{ base.noLogo }} {% endif %}"/>
+						    <img class="img55" src="{% if friend.logo %} {{ friend.logo|escape }} {% else %} {{ base.noLogo }} {% endif %}"/>
 						</div>
 						<div class="right-links">
 						    <a href="/volunteer/friend/delete/?volunteer_id={{ friend.volunteer_id }}&t={{ base.token }}">移除好友</a>

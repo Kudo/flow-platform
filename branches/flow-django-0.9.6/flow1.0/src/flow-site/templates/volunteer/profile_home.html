@@ -19,13 +19,13 @@
 							</div>
 							<dl class="info-block">
 								<dt>姓名</dt>
-								<dd>{{ base.name }}</dd>
+								<dd>{{ base.name|escape }}</dd>
 								<dt>生日</dt>
-								<dd>{{ base.birthday }}</dd>
+								<dd>{{ base.birthday|escape }}</dd>
 								<dt>性別</dt>
 								<dd>{% ifequal sex "Female" %}女{% else %}男{% endifequal %}</dd>
 								<dt>所在地</dt>
-								<dd>{{ base.resident }}</dd>
+								<dd>{{ base.resident|escape }}</dd>
 							</dl>
 					    	<div class="right-links">
 						    <a href="/volunteer/profile/?volunteer_id={{ base.user }}">檢視完整基本資料</a>

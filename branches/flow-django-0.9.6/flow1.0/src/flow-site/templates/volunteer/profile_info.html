@@ -43,13 +43,13 @@
 						</div>
 						<dl>
 							<dt>姓名</dt>
-							<dd>{{ base.name }}</dd>
+							<dd>{{ base.name|escape }}</dd>
 							<dt>生日</dt>
-							<dd>{{ base.birthday }}</dd>
+							<dd>{{ base.birthday|escape }}</dd>
 							<dt>性別</dt>
 							<dd>{% ifequal sex "Female" %}女{% else %}男{% endifequal %}</dd>
 							<dt>所在地</dt>
-							<dd>{{ base.resident }}</dd>
+							<dd>{{ base.resident|escape }}</dd>
 						</dl>
 					</div>
 			    	<div class="content-block">
@@ -58,13 +58,13 @@
 						</div>
 						<dl>
 							<dt>電子郵件信箱</dt>
-							<dd>{{ email }}</dd>
+							<dd>{{ email|escape }}</dd>
 							<dt>即時通訊</dt>
-							<dd>{{ im }}</dd>
+							<dd>{{ im|escape }}</dd>
 							<dt>手機號碼</dt>
-							<dd>{{ cellphone_no }}</dd>
+							<dd>{{ cellphone_no|escape }}</dd>
 							<dt>網頁/部落格</dt>
-							<dd>{% if blog %}<a href="{{ blog }}" target="_blank">{{ blog }}</a>{% else %}無{% endif %}</dd>
+							<dd>{% if blog %}<a href="{{ blog|escape }}" target="_blank">{{ blog|escape }}</a>{% else %}無{% endif %}</dd>
 						</dl>
 					</div>
 			    	<div class="content-block">
@@ -73,11 +73,11 @@
 						</div>
 						<dl>
 							<dt>畢業學校</dt>
-							<dd>{{ school }}</dd>
+							<dd>{{ school|escape }}</dd>
 							<dt>服務單位/公司</dt>
-							<dd>{{ organization }}</dd>
+							<dd>{{ organization|escape }}</dd>
 							<dt>職稱</dt>
-							<dd>{{ title }}</dd>
+							<dd>{{ title|escape }}</dd>
 						</dl>
 					</div>
 			    	<div class="content-block">
@@ -86,7 +86,7 @@
 						</div>
 						<dl>
 							<dt>我的專長</dt>
-							<dd>{{ expertise }}</dd>
+							<dd>{{ expertise|escape }}</dd>
 						</dl>
 					</div>
 			    	<div class="content-block">
@@ -95,7 +95,7 @@
 						</div>
 						<dl>
 							<dt>自我簡介</dt>
-							<dd>{{ brief_intro }}</dd>
+							<dd>{{ brief_intro|escape }}</dd>
 						</dl>
 					</div>
 {% endblock %}
