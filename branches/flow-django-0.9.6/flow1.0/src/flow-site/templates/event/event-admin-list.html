@@ -13,7 +13,7 @@
 {% block mainContent %}
 
 	<h3 id="page-title">活動管理</h3>
-		<form action="addEvent" method="POST">
+		<form action="../addEvent/" method="POST">
 		<input type="submit" value="新增活動" name="btnNewActivity"><br>
 		<br>
 		<input type="hidden" name="submitType" value="">
@@ -26,7 +26,7 @@
 			</tr>
 			
 			{% for act in lstActivityList %}
-			<form action="npoEventAction" method="POST">
+			<form action="../npoEventAction/" method="POST">
 			<tr>
 				<td>{{ act.name }}</td>
 				<td>{{ act.status }}</td>
