@@ -1,0 +1,14 @@
+.picture {
+	padding-right: 5px;	
+}
+
+.indent {
+	padding-left: 25px;
+}
+
+.preview {
+	font-weight: normal;
+	color: #333 !important;	
+	font-size: 1em;
+	line-height: 1.2em;
+}
