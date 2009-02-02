@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 """
@@ -111,9 +111,10 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 #----------------------------------------------------------
 """
 
-__all__ = ["NpoProfile", "NpoEmail", "NpoContact", "NpoPhone", "NpoAdmin", "VolunteerProfile", "QuestionnaireTemplate",
-           "EventProfile", "VolunteerEvent", "VolunteerIm", "VolunteerLog", "EventNews", "EventQuestion", "EventAnswer",
-           "EventQuestionnaire", "ReportTemplate", "EventReport", "ImproperReport", "CountryCity", "Target", "Field"]
+__all__ = ["CountryCity", "EventAnswer", "EventNews", "EventProfile", "EventQuestion", "EventQuestionnaire", "EventReport",
+           "Expertise", "Field", "ImproperReport", "NpoAdmin", "NpoContact", "NpoEmail", "NpoNews", "NpoPhone",
+           "NpoProfile", "QuestionnaireTemplate", "ReportTemplate", "Target", "VolunteerEmailBook", "VolunteerEvent",
+           "VolunteerIm", "VolunteerLog", "VolunteerProfile"]
 
 """
 #----------------------------------------------------------
@@ -656,6 +657,7 @@ class VolunteerProfile(FlowDdlModel):
     medal                = db.StringListProperty()
     status               = db.StringProperty(required=True, choices=set(["new application", "authenticating", "authenticated", "authenticatin failed",
                                                                          "normal", "revoked", "abusive usage", "terminated"]))
+    hide                 = db.BooleanProperty()             # defaut to False (not hiding)
     friends              = db.ListProperty(db.Key)          # the constraint must be enforced by program logic
     volunteer_profile    = db.ListProperty(db.Key)          # the constraint must be enforced by program logic
     npo_profile_ref      = db.ListProperty(db.Key)          # the constraint must be enforced by program logic
@@ -676,6 +678,8 @@ class VolunteerProfile(FlowDdlModel):
                 kargs["total_serv_events"] = 0
             if "total_sharing" not in kargs:
                 kargs["total_sharing"] = 0
+            if "hide" not in kargs:
+                kargs["hide"] = False
 
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
@@ -1272,7 +1276,7 @@ class Target(FlowDdlModel):
     def unitTest(cls):
         startUnitTest("Target.unitTest")
 
-        target=Target(name="John Doe")
+        target = Target(name="John Doe")
 
         target.put()
         writeln(target)
@@ -1291,13 +1295,37 @@ class Field(FlowDdlModel):
     def unitTest(cls):
         startUnitTest("Field.unitTest")
 
-        field=Field(name="Social works")
+        field = Field(name="Social works")
 
         field.put()
         writeln(field)
         rollBack(field)
 
 # end class Field
+
+
+class Expertise(FlowDdlModel):
+    """
+    EXPERTISE
+    """
+    group1_c    = db.StringProperty() # note that groups 1 and 2 are not required yet in this 
+    group1_e    = db.StringProperty() # ... early stage of project development, as opposed to what
+    group2_c    = db.StringProperty() # ... the schema described
+    group2_e    = db.StringProperty()
+    expertise_c = db.StringProperty(required=True)
+    expertise_e = db.StringProperty(required=True)
+
+    @classmethod
+    def unitTest(cls):
+        startUnitTest("Expertise.unitTest")
+
+        expertise = Expertise(expertise_c=u"電腦", expertise_e="computer")
+
+        expertise.put()
+        writeln(expertise)
+        rollBack(expertise)
+        
+# end class Expertise
 
 
 """
@@ -1369,6 +1397,7 @@ class DDL_UnitTest(webapp.RequestHandler):
             CountryCity.unitTest()
             Target.unitTest()
             Field.unitTest()
+            Expertise.unitTest()
             VolunteerProfile.unitTestSearch()
 
             rollBackFor(reportTemplate, "ReportTemplate.unitTest")
