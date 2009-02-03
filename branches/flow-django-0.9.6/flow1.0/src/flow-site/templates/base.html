@@ -13,18 +13,11 @@
 
 </head>
 <body>
+<div id="outer-page">
+	<div id="page">
 	<div id="nonfooter">
 		<div class="header">
 	    	<div class="header-bar">
-	            <div id="header-links">
-	                <ul class="top-horizontal-menu">
-	                    <li><a href="/">首頁</a></li>
-	                    <li><a href="/event/">活動</a></li>
-	                    <li><a href="/npo/listEvent">NPO</a></li>
-	                    <li><a>志工</a></li>
-	                    <li><a>網站行事曆</a></li>
-	                </ul>
-	            </div>
 	            <div id="login-box">
 	                <ul class="top-horizontal-menu">
 										{% if base.user %}
@@ -45,6 +38,15 @@
 
 				
 	        </div>
+	        <div id="header-links" class="clearfix">
+	        	<ul class="top-horizontal-menu">
+	                <li><a href="/">首頁</a></li>
+	                <li><a href="/event/">活動</a></li>
+	                <li><a href="/npo/listEvent">NPO</a></li>
+	                <li><a>志工</a></li>
+	                <li><a>網站行事曆</a></li>
+	            </ul>
+	        </div>
 	    </div><!-- .header -->
 	    <div class="main-content">
 	    
@@ -58,13 +60,15 @@
     <div class="footer">
     <div id="footer-menu">
         <ul class="horizontal-menu">
-            <li>About Us |&nbsp;</li>
-            <li>Press Room |&nbsp;</li>
-            <li>Careers |&nbsp;</li>
-            <li>Contact Social eBay</li>
+            <li>網站介紹</li>
+            <li>網站使用說明</li>
+            <li>法律聲明</li>
         </ul>
     </div>
-    <p id="copyright">© 2008 Social eBay. All Right Reserved </p>
+    <p id="copyright">2009 © <img src="/static/images/small-logo.png" align="absmiddle"> 若水國際 All Rights Reserved</p>
     </div>
+    </div>
+</div>
+<div id="bottom-page"></div>
 </body>
 </html>
