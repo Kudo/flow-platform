@@ -57,6 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     #'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'middleware.csrf.CsrfMemcacheMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -83,4 +84,4 @@ INSTALLED_APPS = (
     'django.contrib.sites',
 )
 
-APPEND_SLASH=False
+APPEND_SLASH = False

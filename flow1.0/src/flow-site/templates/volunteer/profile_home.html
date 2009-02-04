@@ -19,31 +19,26 @@
 							</div>
 							<dl class="info-block">
 								<dt>姓名</dt>
-								<dd>Tom Chen</dd>
+								<dd>{{ base.name|escape }}</dd>
 								<dt>生日</dt>
-								<dd>1983年11月28日</dd>
+								<dd>{{ base.birthday|escape }}</dd>
 								<dt>性別</dt>
-								<dd>男</dd>
+								<dd>{% ifequal sex "Female" %}女{% else %}男{% endifequal %}</dd>
 								<dt>所在地</dt>
-								<dd>台北市</dd>
+								<dd>{{ base.resident|escape }}</dd>
 							</dl>
 					    	<div class="right-links">
-					    		<a href="#">檢視完整基本資料</a>
+						    <a href="/volunteer/profile/?volunteer_id={{ base.user }}">檢視完整基本資料</a>
 					    	</div>
 						</div>
 				    	<div class="content-block">
 							<div class="block-caption">
-								<span class="caption">最新相片</span>
+								<span class="caption">我的相片</span>
 							</div>
 							<div class="photo-block clearfix">
-								<div class="photo-item"><a href="#"><img width="75" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="75" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="75" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="75" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="75" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="75" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="75" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="75" src="/static/images/maki.png"/></a></div>
+							    {% for photo in photoFeeds %}
+							    <div class="photo-item"><a href="{{ photo.link.1.href }}"><img class="img75" src="{{ photo.media.thumbnail.0.url }}"/></a></div>
+							    {% endfor %}
 							</div>
 					    	<div class="right-links">
 					    		<a href="#">看更多</a>
@@ -51,12 +46,17 @@
 				    	</div>
 				    	<div class="content-block">
 							<div class="block-caption">
-								<span class="caption">最新影片</span>
+								<span class="caption">我的影片</span>
 							</div>
 							<div class="video-block">
 								<div class="video-item">
 									<div class="video-content">
-										<img src="/static/images/u77.png"/>
+									    <object width="290" height="234">
+										<param name="movie" value="{{ video.media.content.0.url }}"></param>
+										<param name="allowFullScreen" value="true"></param>
+										<param name="allowscriptaccess" value="always"></param>
+										<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234"></embed>
+									    </object>
 									</div>
 								</div>
 							</div>
@@ -66,7 +66,7 @@
 				    	</div>
 				    	<div class="content-block">
 							<div class="block-caption">
-								<span class="caption">最新分享</span>
+								<span class="caption">我的公益分享</span>
 							</div>
 							<div class="article-block">
 								<div class="article-item">
@@ -103,6 +103,7 @@
 				    	</div>
 					</div>
 					<div class="two-column-content-block">
+						<!--
 				    	<div class="content-block">
 							<div class="block-caption">
 								<span class="caption">公益足跡</span>
@@ -119,6 +120,7 @@
 					    		<a href="#">檢視完整公益履歷</a>
 					    	</div>
 				    	</div>
+					-->
 				    	<div class="content-block">
 							<div class="block-caption">
 								<span class="caption">加入的NPO</span>

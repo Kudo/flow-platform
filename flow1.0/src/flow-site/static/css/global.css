@@ -6,8 +6,9 @@
 
 body {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	width: 960px;
+	font-size: 14px;
+	text-algin: center;
+	background-color: #cdcdcd;
 }
 
 td {
@@ -16,6 +17,22 @@ td {
 
 th {
 	font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a:visited {
+	text-decoration: none;
+}
+
+a:active {
+	text-decoration: none;
 }
 
 ul.horizontal-menu {
@@ -31,7 +48,7 @@ ul.horizontal-menu li {
 
 ul.top-horizontal-menu {
 	list-style: none;
-	padding-left: 0px;
+	padding-left: 10px;
 }
 
 ul.top-horizontal-menu li {
@@ -107,15 +124,42 @@ h6 {
 .header-bar {
 	height: 25px;
 	font-size: 13px;
-	border-bottom: 1px solid #C9D7F1;
+#	border-bottom: 1px solid #C9D7F1;
+}
+
+#outer-page {
+	width: 880px;
+	margin: 0 auto;
+	background-attachment: scroll;
+	background-image: url(/static/images/page-bg.jpg);
+	background-repeat: repeat-y;	
+}
+
+#bottom-page {
+	width: 880px;
+	height: 20px;
+	margin: 0 auto;
+	background-attachment: scroll;
+	background-image: url(/static/images/page-bottom.jpg);	
+}
+
+#page {
+	width: 860px;
+	background-color: #FFF;
+	min-width: 860px;
+	margin: 0 auto;
+	text-align: left;
 }
 
 #header-links {
-	float: left;
-	width: 400px;
-	padding-top: 2px;
-	padding-left: 10px;
+	width: 860px;
+	height:33px;
+	padding-top: 7px;
+#	padding-left: 10px;
+	background-image: url(/static/images/bar-bg.jpg);
+	background-repeat: repeat-x;
 }
+
 #login-box {
 	float: right;
 	text-align: right;
@@ -124,7 +168,7 @@ h6 {
 }
 
 #site-logo {
-	float: left;
+#	float: left;
 	padding: 5px;
 	padding-left: 10px;
 	padding-bottom: 0px;
@@ -137,6 +181,9 @@ h6 {
 }
 
 /* splashbox_search */
+#splash-box {
+	padding-bottom: 8px;
+}
 
 #search-container {
 	text-align: center;
@@ -613,10 +660,11 @@ div.topbar li {
 
 .footer {
 	clear: both;
-	border-top: 1px solid #C9D7F1;
+	border-top: 1px solid #cdcdcd;
 	padding-top: 2px;
 	position: relative;
 	margin-top: 15px;
+	background: #e8e8e8;
 	width: 100%;
 }
 
@@ -627,6 +675,10 @@ div.topbar li {
 
 #copyright {
 	text-align: center;
+	padding-top: 3px;
+	padding-bottom: 5px;
+	color: #595858;
+	font-size: 10px;
 }
 
 .bold {
