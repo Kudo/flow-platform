@@ -28,7 +28,7 @@ function disableButton(form) {
 
 	<h3 id="page-title">編輯活動</h3>
 	
-	<form method="POST" name="myForm" action="../npoEventAction/">
+	<form method="POST" name="myForm" action="">
 		<!--webbot bot="SaveResults" U-File="E:\Project\flow\documents\wf\KJ\_private\form_results.csv" S-Format="TEXT/CSV" S-Label-Fields="TRUE" -->
 		修改活動項目<br>
 		<br>
@@ -313,9 +313,9 @@ function disableButton(form) {
 		<p>
 		<input type="hidden" name="submitType" value="">
 		<input type="hidden" name="event_id" value="{{ event_id }}">
-		<p><input type="button" value="送審" name="btnSubmit" onClick="submitForm('../npoEventAction/','send');">
-			<input type="button" value="暫存" name="btnSave" onClick="submitForm('../npoEventAction/','save');">
-			<input type="button" value="取消" name="btnCancel" onClick="submitForm('../npoEventAction/','cancel');"><br>
+		<p><input type="button" value="送審" name="btnSubmit" onClick="submitForm('editEvent','send');">
+			<input type="button" value="暫存" name="btnSave" onClick="submitForm('editEvent','save');">
+			<input type="button" value="取消" name="btnCancel" onClick="submitForm('editEvent','cancel');"><br>
 		</p>
 	</form>
 

@@ -11,10 +11,10 @@ from google.appengine.ext.db import djangoforms
 class NewEventForm(djangoforms.ModelForm):
     event_name = forms.CharField(required=True,widget=forms.TextInput(attrs={'size':'37'}))
     description = forms.CharField(required=True,initial=u'event description',widget=forms.Textarea(attrs={'rows':'4', 'cols':'40'}))
-    start_time = forms.DateTimeField(required=True,initial=datetime.utcnow(),widget=forms.TextInput(attrs={'size':'20'}))
-    end_time = forms.DateTimeField(required=True,initial=datetime.utcfromtimestamp(time.time()+86400),widget=forms.TextInput(attrs={'size':'20'}))
-    reg_start_time = forms.DateTimeField(required=True,initial=datetime.utcnow(),widget=forms.TextInput(attrs={'size':'20'}))
-    reg_end_time = forms.DateTimeField(required=True,initial=datetime.utcnow(),widget=forms.TextInput(attrs={'size':'20'}))
+    start_time = forms.DateTimeField(required=True,initial=str(datetime.now())[:16],widget=forms.TextInput(attrs={'size':'20'}))
+    end_time = forms.DateTimeField(required=True,initial=str(datetime.fromtimestamp(time.time()+86400))[:16],widget=forms.TextInput(attrs={'size':'20'}))
+    reg_start_time = forms.DateTimeField(required=True,initial=str(datetime.now())[:16],widget=forms.TextInput(attrs={'size':'20'}))
+    reg_end_time = forms.DateTimeField(required=True,initial=str(datetime.now())[:16],widget=forms.TextInput(attrs={'size':'20'}))
     #event_region = forms.CharField(required=True,initial='Taipei',widget=forms.TextInput(attrs={'size':'59'}))
     event_hours = forms.IntegerField(required=True,min_value=0,initial=1,widget=forms.TextInput(attrs={'size':'20'}))
     event_target = forms.CharField(required=True,initial='',widget=forms.TextInput(attrs={'size':'38'}))    
@@ -45,14 +45,12 @@ def processAddEvent(request):
               
     # Fetch event input from request
     if request.method == 'POST':
-    #        return HttpResponseRedirect('../listEvent')
-            
-        submitType = request.POST['submitType']
+        submitType = request.POST.get('submitType')
         
         if(submitType=='cancel'):
-            return HttpResponseRedirect('../listEvent')
+            return HttpResponseRedirect('listEvent')
         
-        if(submitType==''):
+        if not submitType:
             form = NewEventForm()
         else:
             form = NewEventForm(data = request.POST)
@@ -151,7 +149,7 @@ def processAddEvent(request):
                             
                 # Save into database
                 newEventEntity.put() 
-                return HttpResponseRedirect('../listEvent')            
+                return HttpResponseRedirect('listEvent')            
     else:
         form = NewEventForm()
         
@@ -168,10 +166,10 @@ def modifyEvent(request):
             submitType = request.POST['submitType']
             
             if(submitType=='cancel'):
-                return HttpResponseRedirect('../listEvent')
+                return HttpResponseRedirect('listEvent')
         
-            if(submitType==''):
-                form = NewEventForm(instance = eventProfile)
+            if not submitType:
+                return HttpResponseRedirect('listEvent')
             else:
             
                 event_id = request.POST['event_id']        
@@ -208,7 +206,7 @@ def modifyEvent(request):
                     
                     # Save into database
                     modEventEntity.put() 
-                    return HttpResponseRedirect('../listEvent')         
+                    return HttpResponseRedirect('listEvent')         
         
         else:
             event_id = request.POST['event_id']        
@@ -220,7 +218,7 @@ def modifyEvent(request):
             form = NewEventForm(instance = eventProfile)
     
         return render_to_response('event/event-admin-edit.html', {'form': form,'event_id' : event_id})
-    
+    return HttpResponseRedirect('listEvent')
 
 # submit event to invest
 def submitEvent(request):
