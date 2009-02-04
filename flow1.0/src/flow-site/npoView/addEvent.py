@@ -48,7 +48,7 @@ def processAddEvent(request):
         submitType = request.POST.get('submitType')
         
         if(submitType=='cancel'):
-            return HttpResponseRedirect('listEvent')
+            return HttpResponseRedirect('/npo/listEvent')
         
         if not submitType:
             form = NewEventForm()
@@ -149,7 +149,7 @@ def processAddEvent(request):
                             
                 # Save into database
                 newEventEntity.put() 
-                return HttpResponseRedirect('listEvent')            
+                return HttpResponseRedirect('/npo/listEvent')            
     else:
         form = NewEventForm()
         
@@ -166,10 +166,10 @@ def modifyEvent(request):
             submitType = request.POST['submitType']
             
             if(submitType=='cancel'):
-                return HttpResponseRedirect('listEvent')
+                return HttpResponseRedirect('/npo/listEvent')
         
             if not submitType:
-                return HttpResponseRedirect('listEvent')
+                return HttpResponseRedirect('/npo/listEvent')
             else:
             
                 event_id = request.POST['event_id']        
@@ -206,7 +206,7 @@ def modifyEvent(request):
                     
                     # Save into database
                     modEventEntity.put() 
-                    return HttpResponseRedirect('listEvent')         
+                    return HttpResponseRedirect('/npo/listEvent')         
         
         else:
             event_id = request.POST['event_id']        
@@ -218,7 +218,7 @@ def modifyEvent(request):
             form = NewEventForm(instance = eventProfile)
     
         return render_to_response('event/event-admin-edit.html', {'form': form,'event_id' : event_id})
-    return HttpResponseRedirect('listEvent')
+    return HttpResponseRedirect('/npo/listEvent')
 
 # submit event to invest
 def submitEvent(request):

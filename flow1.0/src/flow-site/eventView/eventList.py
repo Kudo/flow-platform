@@ -7,7 +7,7 @@ from db import ddl
 
 def mainPage(request): 
     if request.path=='/':
-        return HttpResponseRedirect('event/')
+        return HttpResponseRedirect('/event/')
     
     now = datetime.datetime.now()
     event1 = ddl.EventProfile.gql('where status in (:1,:2)','approved','recruiting').fetch(5)
