@@ -9,7 +9,8 @@ def getBase(request, volunteer=None):
     data = {}
     if not request:
         return data
-    data['location']        = request.get_full_path()
+    data['path']            = request.path
+    data['full_path']       = request.get_full_path()
     data['user']            = users.get_current_user()
 
     if volunteer:
@@ -23,7 +24,7 @@ def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
         return data
 
     data['volunteer_id']    = volunteer.volunteer_id
-    data['name']            = '%s %s' % (volunteer.volunteer_first_name, volunteer.volunteer_last_name)
+    data['name']            = '%s, %s' % (volunteer.volunteer_first_name, volunteer.volunteer_last_name)
     data['birthday']        = volunteer.date_birth.strftime('%Y 年 %m 月 %d 日')
     data['resident']        = volunteer.resident_city
     data['logo']            = volunteer.logo

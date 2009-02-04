@@ -16,7 +16,7 @@ import gdata.blogger, gdata.blogger.service
 import flowBase
 from db.ddl import VolunteerProfile, VolunteerIm
 
-def show(request, displayAlbumCount=2, displayBlogCount=5):
+def show(request, displayAlbumCount=2, displayPhotoCount=5, displayBlogCount=5):
     if 'volunteer_id' not in request.GET:
         if users.get_current_user():
             userID = users.get_current_user()
@@ -38,8 +38,8 @@ def show(request, displayAlbumCount=2, displayBlogCount=5):
     picasaUser = 'ckchien'
     service = gdata.photos.service.PhotosService()
     gdata.alt.appengine.run_on_appengine(service)
-    albumFeeds = service.GetUserFeed(user=picasaUser).entry[:displayAlbumCount]
-    albums = [{'albumFeed': album, 'photoFeeds': service.GetFeed(album.GetPhotosUri()).entry} for album in albumFeeds] 
+    albumFeeds = service.GetUserFeed(user=picasaUser, limit=displayAlbumCount).entry
+    albums = [{'albumFeed': album, 'photoFeeds': service.GetEntry(album.GetPhotosUri(), limit=displayPhotoCount)} for album in albumFeeds] 
     #return HttpResponse(albums[0]['photoFeeds'][0], mimetype="text/xml")
     #photos = service.SearchUserPhotos(query='若水', user='ckchien').entry
     del albumFeeds
