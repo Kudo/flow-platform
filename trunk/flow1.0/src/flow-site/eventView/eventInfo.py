@@ -26,4 +26,4 @@ def showEvent(request):
     dicData={"originator":event.originator,"create_time":event.create_time,"category":event.category,
         "event_region":event.event_region,"event_target":event.event_target,"event_hours":event.event_hours,
         "summary":event.summary,"event_id":event.event_id}
-    return render_to_response(r'event\event-info.html', {'event' : dicData})
+    return render_to_response(r'event/event-info.html', {'event' : dicData})
