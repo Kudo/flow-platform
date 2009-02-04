@@ -82,3 +82,5 @@ INSTALLED_APPS = (
     #'django.contrib.sessions',
     'django.contrib.sites',
 )
+
+APPEND_SLASH=False

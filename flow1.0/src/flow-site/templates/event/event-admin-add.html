@@ -165,7 +165,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>費用金額<font color="#FF0000">*</font></td>
+				<td>費用金額</td>
 				<td>新台幣{{ form.expense }} 
 				元 {% if form.expense.errors %}    
         {% for error in form.expense.errors %}
@@ -174,7 +174,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>報名費<font color="#FF0000">*</font></td>
+				<td>報名費</td>
 				<td>新台幣{{ form.registration_fee }} 
 				元 {% if form.registration_fee.errors %}    
         {% for error in form.registration_fee.errors %}
@@ -183,7 +183,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>	
 			<tr>
-				<td>活動企劃書位址<font color="#FF0000">*</font></td>
+				<td>活動企劃書位址</td>
 				<td>{{ form.attachment_links_show }} 
 				{% if form.attachment_links_show.errors %}    
         {% for error in form.attachment_links_show.errors %}
@@ -192,7 +192,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>標籤(關鍵字)</font></td>
+				<td>標籤(關鍵字)</td>
 				<td>{{ form.tag }} 
 				{% if form.tag.errors %}    
         {% for error in form.tag.errors %}
@@ -314,9 +314,9 @@ function disableButton(form) {
 				<p>
 			
 		<input type="hidden" name="submitType" value="">
-		<p><input type="button" value="送審" name="btnSubmit" onClick="submitForm('../addEvent/','send');">
-			<input type="button" value="暫存" name="btnSave" onClick="submitForm('../addEvent/','save');">
-			<input type="button" value="取消" name="btnCancel" onClick="submitForm('../addEvent/','cancel');"><br>
+		<p><input type="button" value="送審" name="btnSubmit" onClick="submitForm('addEvent','send');">
+			<input type="button" value="暫存" name="btnSave" onClick="submitForm('addEvent','save');">
+			<input type="button" value="取消" name="btnCancel" onClick="submitForm('addEvent','cancel');"><br>
 		</p>
 	</form>
 

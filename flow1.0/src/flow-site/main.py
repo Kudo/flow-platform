@@ -3,6 +3,9 @@ import logging, os, sys
 # Google App Engine imports.
 from google.appengine.ext.webapp import util
 
+# Must set this env var *before* importing any part of Django
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+
 # Force Django to reload its settings.
 from django.conf import settings
 settings._target = None
@@ -15,9 +18,6 @@ sys.path.insert(0, abspath+r'/lib')
 
 if os.name == 'nt':
     os.unlink = lambda: None
-    
-# Must set this env var *before* importing any part of Django
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 import logging
 import django.core.handlers.wsgi
