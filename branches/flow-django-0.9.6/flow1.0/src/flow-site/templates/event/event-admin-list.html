@@ -12,11 +12,31 @@
 
 {% block mainContent %}
 
+<SCRIPT language="JavaScript">  
+  
+  function submitForm(strUrl,intEvtId)
+  { 
+    disableButton(document.myForm);
+  	document.myForm.action = strUrl; 
+  	document.myForm.event_id.value=intEvtId;
+  	document.myForm.submit(); 
+  	
+  } 
+function disableButton(form) {
+  if (document.getElementById) {
+   for (var i = 0; i < form.length; i++) {
+     if (form.elements[i].type.toLowerCase() == "button")
+       form.elements[i].disabled = true;
+     }
+  }
+  return true;
+}
+  </SCRIPT>
+
 	<h3 id="page-title">活動管理</h3>
-		<form action="../addEvent/" method="POST">
+		<form name="addEvtForm" action="addEvent" method="POST">
 		<input type="submit" value="新增活動" name="btnNewActivity"><br>
 		<br>
-		<input type="hidden" name="submitType" value="">
 	</form>
 		<table border="1" width="80%" cellspacing="0" cellpadding="0" id="tblActivity">
 			<tr>
@@ -24,22 +44,24 @@
 				<td>狀態</td>
 				<td></td>
 			</tr>
-			
+			<form name="myForm" action="" method="POST">
+			<input type="hidden" name="event_id" value="">
 			{% for act in lstActivityList %}
-			<form action="../npoEventAction/" method="POST">
+			
 			<tr>
 				<td>{{ act.name }}</td>
 				<td>{{ act.status }}</td>
 				<td>
-				<input type="hidden" name="event_id" value="{{ act.event_id }}">
-				<input {{act.dicPerm.modify}} type="submit" value="修改" name="btnModify1">
-				<input {{act.dicPerm.recruit}} type="submit" value="召募" name="btnRecruit1">
-				<input {{act.dicPerm.validate}} type="submit" value="志工審核" name="btnVerify1">
-				<input {{act.dicPerm.close}} type="submit" value="結案" name="btnClose1">
-				<input {{act.dicPerm.cancel}} type="submit" value="取消" name="btnCancel1"></td>
+				
+				<input {{act.dicPerm.modify}} type="button" value="修改" name="btnModify1" onClick="submitForm('editEvent',{{ act.event_id }});">
+				<input {{act.dicPerm.recruit}} type="button" value="召募" name="btnRecruit1" onClick="submitForm('recruitVolunteer',{{ act.event_id }});">
+				<input {{act.dicPerm.validate}} type="button" value="志工審核" name="btnVerify1" onClick="submitForm('selectVolunteer',{{ act.event_id }});">
+				<input {{act.dicPerm.close}} type="button" value="結案" name="btnClose1" onClick="submitForm('closeEvent',{{ act.event_id }});">
+				<input {{act.dicPerm.cancel}} type="button" value="取消" name="btnCancel1" onClick="submitForm('cancelEvent',{{ act.event_id }});"></td>
 			</tr>
-			</form>
+			
 			{% endfor %}
+			</form>
 		</table>
 
 {% endblock mainContent %}
