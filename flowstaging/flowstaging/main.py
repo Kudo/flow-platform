@@ -3,13 +3,15 @@ import logging, os, sys
 # Google App Engine imports.
 from google.appengine.ext.webapp import util
 
-# Remove the standard version of Django.
-for k in [k for k in sys.modules if k.startswith('django')]:
-    del sys.modules[k]
+# Force Django to reload its settings.
+from django.conf import settings
+settings._target = None
 
 # Force sys.path to have our own directory first, in case we want to import
 # from it.
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+abspath = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, abspath)
+sys.path.insert(0, abspath+r'/lib')
 
 if os.name == 'nt':
     os.unlink = lambda: None
@@ -26,15 +28,13 @@ def log_exception(*args, **kwds):
     logging.exception('Exception in request:')
 
 # Log errors.
-django.core.signals.got_request_exception.connect(log_exception)
-#django.dispatch.dispatcher.connect(
-#    log_exception, django.core.signals.got_request_exception)
+django.dispatch.dispatcher.connect(
+    log_exception, django.core.signals.got_request_exception)
 
 # Unregister the rollback event handler.
-django.core.signals.got_request_exception.disconnect(django.db._rollback_on_exception)
-#django.dispatch.dispatcher.disconnect(
-#    django.db._rollback_on_exception,
-#    django.core.signals.got_request_exception)
+django.dispatch.dispatcher.disconnect(
+    django.db._rollback_on_exception,
+    django.core.signals.got_request_exception)
 
 def main():
     # Create a Django application for WSGI.
