@@ -36,67 +36,63 @@ class NewEventForm(djangoforms.ModelForm):
         fields = event_fields + volunteer_fileds + event_feedback_fileds        
     
 
-def splitData(strData,strToken=',|;| '):
-    return [s.strip() for s in re.split(strToken,strData) if s.strip()]
+# Modify Event
+def processEditEvent(request):
+    # If not POST Get Entity from Data store and transfer to NewEventForm
+    # If POST , Use old entity and new Form input to form a new Form and do as addnewevent...
+    if request.method != 'POST':
+        return HttpResponseRedirect('/npo/')
+    
+    if request.POST.has_key('submitType'):           
+    
+        submitType = request.POST['submitType']
+    
+        if not submitType:
+            return HttpResponseRedirect('/npo/')
 
- # save event into database
-def processAddEvent(request):
-              
-    # Fetch event input from request
-    if request.method == 'POST' and request.POST.get('submitType'):
-        submitType = request.POST.get('submitType')
-        form = NewEventForm(data = request.POST)
+        event_id = request.POST['event_id']        
+        eventProfile = ddl.EventProfile.gql("WHERE event_id = :1" , event_id).get()         # event_id should be unique
         
+        if None == eventProfile:
+            raise db.BadQueryError()
+        
+        form = NewEventForm(data = request.POST , instance = eventProfile)
         if form.is_valid():
-            # Create New Activity Instance  
-            npoRef = ddl.NpoProfile.all().get()
-            questionnaire_template_ref = ddl.QuestionnaireTemplate.all().get()
-            volunteer_profile_ref = ddl.VolunteerProfile.all().get()               
-            
-            
-            form.clean_data['event_id']=str(int(time.time()))
-            form.clean_data['npo_profile_ref']=npoRef
-            form.clean_data['volunteer_profile_ref']=volunteer_profile_ref
-            form.clean_data['questionnaire_template_ref']=questionnaire_template_ref
-            
-            form.clean_data['status']='new application'
-            form.clean_data['create_time']=datetime.now()
-            form.clean_data['update_time']=datetime.now()
-            form.clean_data['questionnaire_template_id']=11111 # There is no questionnaire_template_ref.id (based on ddl.py) ??
-            form.clean_data['attachment_links']=[db.Link(form.clean_data['attachment_links_show'])]
-            form.clean_data['npo_event_rating']=0
-            form.clean_data['event_rating']=0
-            
-            newEventEntity = form.save(commit=False)
+            modEventEntity = form.save(commit=False)
             
             # Check if some filed may become None due to no input
-            if(None == newEventEntity.registration_fee):
-                newEventEntity.registration_fee=0
+            if(None == modEventEntity.registration_fee):
+                modEventEntity.registration_fee=0
+                
+            if(None == modEventEntity.expense):
+                modEventEntity.expense=0
             
-            if(None == newEventEntity.expense):
-                newEventEntity.expense=0
-            
-            if('' == newEventEntity.summary):
-                newEventEntity.summary=None
-            
-                       
-        # Save into datastore based on submit type
+            if('' == modEventEntity.summary):
+                modEventEntity.summary=None
+                           
+            # Save into datastore based on submit type
             if('send' == submitType):
-                newEventEntity.status = 'approved'
-                newEventEntity.approved=True
-                newEventEntity.approved_time=datetime.now()
-                        
+                modEventEntity.status = 'approved'
+                modEventEntity.approved=True
+                modEventEntity.approved_time=datetime.now()
+            
+            if('save' == submitType):
+                modEventEntity.status = 'new application'
+                modEventEntity.approved=False
+                modEventEntity.approved_time=None
+
             # Save into database
-            newEventEntity.put() 
+            modEventEntity.put() 
             return HttpResponseRedirect('/npo/')
-    else:
-        form = NewEventForm()
-        
     
-    return render_to_response('event/event-admin-add.html', {'form': form})
+    else:
+        event_id = request.POST['event_id']        
+        eventProfile = ddl.EventProfile.gql("WHERE event_id = :1" , event_id).get()         # event_id should be unique
+        
+        if None == eventProfile:
+            raise db.BadQueryError()
+        
+        form = NewEventForm(instance = eventProfile)
 
-
-# submit event to invest
-def submitEvent(request):
-   pass
+    return render_to_response('event/event-admin-edit.html', {'form': form,'event_id' : event_id})
     

@@ -9,6 +9,7 @@ settings._target = None
 
 # Force sys.path to have our own directory first, in case we want to import
 # from it.
+
 abspath = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, abspath)
 sys.path.insert(0, abspath+r'/lib')
@@ -19,7 +20,6 @@ if os.name == 'nt':
 # Must set this env var *before* importing any part of Django
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
-import logging
 import django.core.handlers.wsgi
 import django.core.signals
 import django.db

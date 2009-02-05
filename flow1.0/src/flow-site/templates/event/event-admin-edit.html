@@ -315,7 +315,7 @@ function disableButton(form) {
 		<input type="hidden" name="event_id" value="{{ event_id }}">
 		<p><input type="button" value="送審" name="btnSubmit" onClick="submitForm('editEvent','send');">
 			<input type="button" value="暫存" name="btnSave" onClick="submitForm('editEvent','save');">
-			<input type="button" value="取消" name="btnCancel" onClick="submitForm('editEvent','cancel');"><br>
+			<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='.';"><br>
 		</p>
 	</form>
 
