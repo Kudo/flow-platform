@@ -29,7 +29,7 @@ function disableButton(form) {
   </SCRIPT>
 	<h3 id="page-title">新增活動</h3>
 	
-	<form method="POST" name="myForm" action="../addEvent">
+	<form method="POST" name="myForm" action="">
 		<!--webbot bot="SaveResults" U-File="E:\Project\flow\documents\wf\KJ\_private\form_results.csv" S-Format="TEXT/CSV" S-Label-Fields="TRUE" -->
 		新增活動項目<br>
 		<br>
@@ -316,7 +316,7 @@ function disableButton(form) {
 		<input type="hidden" name="submitType" value="">
 		<p><input type="button" value="送審" name="btnSubmit" onClick="submitForm('addEvent','send');">
 			<input type="button" value="暫存" name="btnSave" onClick="submitForm('addEvent','save');">
-			<input type="button" value="取消" name="btnCancel" onClick="submitForm('addEvent','cancel');"><br>
+			<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='.';"><br>
 		</p>
 	</form>
 
