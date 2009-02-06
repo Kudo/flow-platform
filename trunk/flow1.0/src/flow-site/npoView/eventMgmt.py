@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response
 from django.template import TemplateDoesNotExist
 from google.appengine.ext import db
 from db import ddl
+import flowBase
 
 dicRule = {'new application'        :{'modify':'','recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
            'approved'               :{'modify':'','recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
@@ -25,7 +26,7 @@ def mainPage(request):
     print request.POST
     query = db.GqlQuery("SELECT * FROM EventProfile")
     results = query.fetch(100)
-    return render_to_response(r'event/event-admin-list.html', {'lstActivityList' : actionCheck(results)})
+    return render_to_response(r'event/event-admin-list.html', {'lstActivityList' : actionCheck(results), 'base': flowBase.getBase(request)})
 
 def actionCheck(lstEvent):
     '''
