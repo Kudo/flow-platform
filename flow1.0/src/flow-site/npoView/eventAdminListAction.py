@@ -4,10 +4,11 @@ from django.template import TemplateDoesNotExist
 from django import forms
 from google.appengine.ext import db
 from db import ddl
+import flowBase
 
 
 
 def eventAction(request):
     #print request.POST['event_id']
-    return render_to_response(r'event\event-admin-cancel.html', {})
+    return render_to_response(r'event/event-admin-cancel.html', {'base': flowBase.getBase(request)})
     

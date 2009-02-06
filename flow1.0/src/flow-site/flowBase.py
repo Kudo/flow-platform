@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import cgi
 from google.appengine.api import users
+from google.appengine.ext import db
 from django.http import HttpResponseRedirect
 from db.ddl import *
 
@@ -14,9 +15,16 @@ def getBase(request, volunteer=None):
     data['user']            = users.get_current_user()
 
     if volunteer:
+        if isinstance(volunteer, (str, unicode)):
+            volunteer = getVolunteer(volunteer)
         data.update(getVolunteerBase(volunteer))
 
     return data
+
+def getVolunteer(volunteer_id=users.get_current_user()):
+    if not volunteer_id:
+        return None
+    return db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1',volunteer_id).get()
 
 def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
     data = {}

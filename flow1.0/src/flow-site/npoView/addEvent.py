@@ -6,6 +6,7 @@ from google.appengine.ext import db
 from django import newforms as forms
 from db import ddl
 from google.appengine.ext.db import djangoforms
+import flowBase
 
 class NewEventForm(djangoforms.ModelForm):
     event_name = forms.CharField(required=True,widget=forms.TextInput(attrs={'size':'37'}))
@@ -93,7 +94,7 @@ def processAddEvent(request):
         form = NewEventForm()
         
     
-    return render_to_response('event/event-admin-add.html', {'form': form})
+    return render_to_response('event/event-admin-add.html', {'form': form, 'base': flowBase.getBase(request)})
 
 
 # submit event to invest
