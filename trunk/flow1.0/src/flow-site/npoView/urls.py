@@ -5,4 +5,8 @@ urlpatterns = patterns('npoView',
     (r'^addEvent/?$', 'addEvent.processAddEvent'),
     (r'^listEvent/?$', 'eventMgmt.mainPage'),
     (r'^/?$', 'eventMgmt.mainPage'),
+    # register
+    (r'^register/?$',               'register.step1'),
+    (r'^register/step2/?$',         'register.step2'),
+    (r'^register/step3/?$',         'register.step3'),
 )

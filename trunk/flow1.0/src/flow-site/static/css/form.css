@@ -211,3 +211,8 @@ select.select[class] {
 	font-size: 120%;
 	margin-right: 5px;
 }
+
+#adminaccount input {
+    display: block;
+    margin-top: 10px;
+}
