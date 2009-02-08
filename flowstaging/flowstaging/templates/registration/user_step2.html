@@ -95,12 +95,12 @@
 					<span class="req"> * </span>
 				</label>
 				<span class="column">
-					<select id="locationCounty" name="locationCounty" onchange="javascript:setAreaOptions($('#locationCounty'), $('#locationArea'));");
+					<select class="field select" id="locationCounty" name="locationCounty" onchange="javascript:setAreaOptions($('#locationCounty'), $('#locationArea'));");
 					</select>
 					<label>縣市</label>
 				</span>
 				<span class="column">
-					<select id="locationArea" name="locationCounty">
+					<select class="field select" id="locationArea" name="locationCounty">
 					</select>
 					<label>鄉鎮市區</label>
 				</span>
@@ -240,7 +240,7 @@
 			
 			<li>
 				<label class="desc">
-					關新的議題
+					關心的議題
 				</label>
 				<div class="column">
 					<textarea class="field textarea medium" cols="50" rows="10">
@@ -268,6 +268,16 @@
 				</div>
 			</li>
 			
+			<li>
+				<label class="desc">
+					您希望被搜尋到的關鍵字
+				</label>
+				<div class="column">
+					<input id="tag" class="field text" name="tag" maxlength="255" size="50" value="" />
+					<label>以逗點","為間隔</label>
+				</div>
+			</li>
+
 			<li class="section">
 				<h3>圖片文字認證</h3>
 				<div>為了防止機器人大量註冊，請回答下面的問題</div>
