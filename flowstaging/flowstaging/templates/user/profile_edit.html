@@ -5,13 +5,41 @@
 {% block profileExtraHeader %}
 
 	{### this block can put additional css / script definition to head tag ###}
-	<!-- block profileExtraHeader here -->
+	<script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>  
+	<script type="text/javascript" src="/static/js/zipcode.js"></script>
+	<script type="text/javascript">
+	<!--
+	function addCountyOptions(countySelectTag) {
+		for(var county in zipcode) {
+			countySelectTag.append('<option>'+county+'</option>');
+		}
+	}
+	
+	function setAreaOptions(countySelectTag, areaSelectTag) {
+		var county = countySelectTag.attr('value');
+		areaSelectTag.html('');
+		if (zipcode[county] == undefined) {
+			areaSelectTag.html('<option disabled>請先選擇縣市!</option>');
+			return;
+		}
+		for (var area in zipcode[county]) {
+			areaSelectTag.append('<option value="'+area+'">'+area+' ('+zipcode[county][area]+')</option>');
+		}
+	}
+	$(function(){ // init function
+		addCountyOptions($('#locationCounty'));
+		setAreaOptions($('#locationCounty'), $('#locationArea'));
+	});
+	-->
+	</script>
+
 {% endblock profileExtraHeader %}
 
 {### content ###}
 
 {% block profileContent %}
 
+					
 			    	<h3 id="page-title">編輯基本資料</h3>
 			    	<form action="" method="POST" name="edit-profile" id="edit-profile">
 				    	<div class="content-block form-block">
@@ -29,11 +57,12 @@
 									<input type="radio" value="女" id="sex-female" name="sex"/><label for="sex-female">女</label>
 								</dd>
 								<dt>所在地</dt>
-								<dd><select id="" name="">
-									<option selected>台北市</option>
-									<option>台北縣</option>
-									<option>...</option>
-								</select></dd>
+								<dd>
+									縣市: <select id="locationCounty" name="" onchange="javascript:setAreaOptions($('#locationCounty'), $('#locationArea'));");
+									</select>
+									鄉鎮市區: <select id="locationArea" name="">
+									</select>
+								</dd>
 							</dl>
 						</div>
 				    	<div class="content-block form-block">
@@ -72,7 +101,17 @@
 							</div>
 							<dl>
 								<dt>我的專長</dt>
-								<dd><textarea id="" name="" rows="5" cols="40"></textarea></dd>
+								<dd id="profession">
+									<table>
+									{% for row in proflist %}
+										<tr>
+										{% for profession in row %}
+											<td><input type="checkbox"/> {{ profession }}</td>
+										{% endfor %}
+										</tr>
+									{% endfor %}
+									</table>
+								</dd>
 							</dl>
 						</div>
 				    	<div class="content-block form-block">

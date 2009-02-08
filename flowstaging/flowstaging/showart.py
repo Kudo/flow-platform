@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import TemplateDoesNotExist
+#from flowstaging.data.proflist import getProfessionList
+from proflist import getProfessionList
 
 showArtPages = [ 
                 {'filename'    : 'base.html', 
@@ -240,7 +242,16 @@ def showartAction(request, filename):
         return render_to_response('showart.html', {'showart_pages' : showArtPages})
     else:
         try:
-            response = render_to_response(filename, {})
+            # process proflist to 5 per row
+            proflist = getProfessionList()
+            viewproflist = []
+            num_profession_per_row = 3
+            for i in range(0, len(proflist)):
+                if (i % num_profession_per_row == 0):
+                    viewproflist.append([])
+                viewproflist[i/num_profession_per_row].append(proflist[i])
+            
+            response = render_to_response(filename, {'proflist': viewproflist})
         except TemplateDoesNotExist:
             response = HttpResponse('Page not found or included / extended template not found: '+filename)
         return response

@@ -2,6 +2,33 @@
 
 {% block registerExtraHeader %}
 <link href="/static/css/form.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>  
+	<script type="text/javascript" src="/static/js/zipcode.js"></script>
+	<script type="text/javascript">
+	<!--
+	function addCountyOptions(countySelectTag) {
+		for(var county in zipcode) {
+			countySelectTag.append('<option>'+county+'</option>');
+		}
+	}
+	
+	function setAreaOptions(countySelectTag, areaSelectTag) {
+		var county = countySelectTag.attr('value');
+		areaSelectTag.html('');
+		if (zipcode[county] == undefined) {
+			areaSelectTag.html('<option disabled>請先選擇縣市!</option>');
+			return;
+		}
+		for (var area in zipcode[county]) {
+			areaSelectTag.append('<option value="'+area+'">'+area+' ('+zipcode[county][area]+')</option>');
+		}
+	}
+	$(function(){ // init function
+		addCountyOptions($('#locationCounty'));
+		setAreaOptions($('#locationCounty'), $('#locationArea'));
+	});
+	-->
+	</script>
 {% endblock %}
 
 {% block registerContent %}
@@ -67,10 +94,16 @@
 				居住地
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
-					<input id="livingplace" class="field text" name="livingplace" maxlength="5" size="5" />
-					<label>郵遞區號</label>
-				</div>
+				<span class="column">
+					<select id="locationCounty" name="locationCounty" onchange="javascript:setAreaOptions($('#locationCounty'), $('#locationArea'));");
+					</select>
+					<label>縣市</label>
+				</span>
+				<span class="column">
+					<select id="locationArea" name="locationCounty">
+					</select>
+					<label>鄉鎮市區</label>
+				</span>
 			</li>
 			
 			<li>
@@ -188,7 +221,15 @@
 					<span class="req"> * </span>
 				</label>
 				<div class="column">
-					<input id="profession" class="field text medium" name="profession" />
+					<table>
+					{% for row in proflist %}
+						<tr>
+						{% for profession in row %}
+							<td><input type="checkbox"/> {{ profession }}</td>
+						{% endfor %}
+						</tr>
+					{% endfor %}
+					</table>
 				</div>
 			</li>
 			
