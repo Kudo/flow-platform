@@ -118,3 +118,7 @@ dl.activity-dl dd {
 	width: 500px;
 	padding-left: 0px;
 }
+
+.form-block dd#profession td {
+	width: 150px;
+}
