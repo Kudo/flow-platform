@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     (r'^/?$',                                       'eventView.eventList.mainPage'),
     (r'^login/?$',                                  'flowBase.login'),
     (r'^logout/?$',                                 'flowBase.logout'),
+    (r'^showart/',                                  include('showart.urls')),
 )

@@ -1,0 +1,33 @@
+{% extends "event/base.html" %}
+
+{### header ###}
+
+{### content ###}
+
+{% block activityContent %}
+
+	<div id="activity-cancel">
+		<h3 id="page-title">取消活動</h3>
+		<form class="flow-form" method="POST" action="">
+			<ul>
+				<li class="section first">
+					<h3>請輸入取消理由</h3>
+					<label>(300字以內)</label>
+				</li>
+				
+				<li>
+					<div class="column">
+						<textarea name="reason" class="field textarea medium" cols="50" rows="10"></textarea>
+					</div>
+				</li>
+				
+				<li class="section buttons">
+						<input type="button" class="btTxt" value="取消" name="btnCancel">
+						<input type="submit" class="btTxt" value="確定送出" name="btnSubmit">
+				</li>
+			</ul>
+		</form>
+		
+	</div> <!-- #activity-cancel -->
+
+{% endblock activityContent %}
