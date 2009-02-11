@@ -57,6 +57,13 @@ class NpoProfileForm(djangoforms.ModelForm):
     for cmd in _makeFields("adminaccount_%d = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'style': 'display: none;', 'class': 'field text', 'size': '50'}))", 9, startNum=2):
         exec(cmd)
 
+    def clean_npo_name(self):
+        self.cleaned_data = self._cleaned_data()
+        data = self.cleaned_data['npo_name']
+        if db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_name = :1', data).count() > 0:
+            raise forms.ValidationError(u'這個 NPO 名稱已經被註冊了，請試著以其他名稱註冊。')
+        return data
+
     class Meta:
         model = NpoProfile
         fields = ['npo_name', 'founder', 'brief_intro', 'logo',
@@ -91,8 +98,6 @@ def step2(request):
 
 def step3(request):
     isWarning = None
-    if 'registered' in request.GET:
-        isWarning = u'這個 NPO 名稱已經被註冊了，請試著以其他名稱註冊。'
     user = flowBase.getVolunteer(users.get_current_user())
     if not user:
         pass
@@ -167,7 +172,7 @@ def step3(request):
                     personObj = NpoAdmin(
                             npo_profile_ref             = npoObjKey,
                             admin_role                  = 'Main',
-                            volunteer_id                = person,
+                            volunteer_id                = person.volunteer_id,
                     )
                     personObj.put()
 
