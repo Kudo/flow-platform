@@ -24,6 +24,8 @@ def getBase(request, volunteer=None):
 def getVolunteer(volunteer_id=users.get_current_user()):
     if not volunteer_id:
         return None
+    if isinstance(volunteer_id, (str, unicode)):
+        volunteer_id = users.User(volunteer_id)
     return db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1',volunteer_id).get()
 
 def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
