@@ -50,7 +50,7 @@
 		var count = adminAcctCount.val();
 		if (count > 1)
 		{
-		    adminAcctBox = $("#adminaccount [name='adminaccount_" + count + "']").remove();
+		    adminAcctBox = $("#adminaccount [name='adminaccount_" + count + "']").hide();
 		    adminAcctCount.val(count - 1);
 		}
 	    });
