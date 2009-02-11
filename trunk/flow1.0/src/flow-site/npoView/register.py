@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from google.appengine.api import users
 import flowBase
-from db.ddl import NpoProfile, CountryCity
+from db.ddl import NpoProfile, NpoContact, NpoPhone, NpoEmail, NpoNews, NpoAdmin, CountryCity
 from itertools import chain
 from django.conf import settings
 from google.appengine.ext.webapp import template
@@ -18,6 +18,10 @@ try:
 except ImportError:
     from django import forms
 from google.appengine.ext.db import djangoforms
+
+def _makeFields(fieldDataFormat, count, startNum=1):
+    for i in range(startNum, startNum + count):
+        yield fieldDataFormat % (i)
 
 class NpoProfileForm(djangoforms.ModelForm):
     npo_name                    = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'field text medium'}))
@@ -40,19 +44,24 @@ class NpoProfileForm(djangoforms.ModelForm):
     telephone                   = forms.CharField(max_length=20,  widget=forms.TextInput(attrs={'class': 'field text medium'}))
     fax                         = forms.CharField(max_length=20,  required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
 
-    foundyear                   = forms.CharField(required=False, min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
-    foundmonth                  = forms.CharField(required=False, min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
-    foundday                    = forms.CharField(required=False, min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
+    foundyear                   = forms.CharField(min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
+    foundmonth                  = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
+    foundday                    = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
 
     authority                   = forms.CharField(required=False, initial='無', widget=forms.TextInput(attrs={'class': 'field text medium'}))
     bank_acct_no                = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
     bank_acct_name              = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
 
+    adminAcctCount              = forms.CharField(required=False, initial=1, widget=forms.HiddenInput())
+    adminaccount_1              = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'field text', 'size': '50'}))
+    for cmd in _makeFields("adminaccount_%d = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'style': 'display: none;', 'class': 'field text', 'size': '50'}))", 9, startNum=2):
+        exec(cmd)
+
     class Meta:
         model = NpoProfile
         fields = ['npo_name', 'founder', 'brief_intro', 'logo',
                   'service_region', 'service_target', 'service_field',
-                  'website', 'blog', 'founding_date', 'authority', 'bank_acct_no', 'bank_acct_name',
+                  'website', 'blog', 'authority', 'bank_acct_no', 'bank_acct_name',
                  ]
 
 def step1(request):
@@ -100,7 +109,7 @@ def step3(request):
             cleaned_data = form._cleaned_data()
             service_region = db.GqlQuery('SELECT * From CountryCity WHERE city_en = :1', cleaned_data['service_region']).get().city_tc
             npoObj = NpoProfile(
-                    google_acct                 = user,
+                    google_acct                 = user.volunteer_id,
                     create_time                 = now,
                     update_time                 = now,
                     status                      = "normal",
@@ -113,8 +122,8 @@ def step3(request):
                     service_region              = [service_region],
                     service_target              = [cleaned_data['service_target']],
                     service_field               = [cleaned_data['service_field']],
-                    website                     = cleaned_data['website'],
-                    blog                        = cleaned_data['blog'],
+                    website                     = cleaned_data['website'] or None,
+                    blog                        = cleaned_data['blog'] or None,
                     founding_date               = datetime.date(int(cleaned_data['foundyear']), int(cleaned_data['foundmonth']), int(cleaned_data['foundday'])),
                     authority                   = cleaned_data['authority'],
                     bank_acct_no                = cleaned_data['bank_acct_no'],
@@ -127,6 +136,7 @@ def step3(request):
                     district                    = '???',
                     tag                         = [cleaned_data['npo_name'], service_region],
                     npo_rating                  = 0,
+                    docs_link                   = ['???'],
             )
             npoObjKey = npoObj.put()
 
@@ -146,10 +156,11 @@ def step3(request):
                 npoPhoneObj.put()
 
             people = set()
-            count = request.POST['adminAcctCount'] if request.POST['adminAcctCount'] <= 10 else 10
+            count = cleaned_data['adminAcctCount'] if cleaned_data['adminAcctCount'] <= 10 else 10
             for i in range(1, count + 1):
-                if request.POST['adminaccount-'+i]:
-                    people.add(request.POST['adminaccount-'+i])
+                i = str(i)
+                if cleaned_data['adminaccount_'+i]:
+                    people.add(cleaned_data['adminaccount_'+i])
             for person in people:
                 person = flowBase.getVolunteer(person)
                 if person:
@@ -163,10 +174,10 @@ def step3(request):
             if cleaned_data['contact']:
                 personObj = NpoContact(
                         npo_profile_ref                 = npoObjKey,
-                        contact_type                    = 'Majoy',
+                        contact_type                    = 'Major',
                         contact_name                    = cleaned_data['contact'],
-                        contact_email                   = user.email(),
-                        volunteer_id                    = user,
+                        contact_email                   = user.volunteer_id.email(),
+                        volunteer_id                    = user.volunteer_id,
                 )
                 personObj.put()
 
@@ -176,5 +187,6 @@ def step3(request):
             'base':                     flowBase.getBase(request, user),
             'isWarning':                isWarning,
             'form':                     form,
+            'formAdminList':            [eval('form["adminaccount_%d"]' % (i)) for i in range(2, 2 + 9)],
     }
     return render_to_response('registration/npo_step3.html', template_values)
