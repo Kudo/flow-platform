@@ -1,0 +1,27 @@
+﻿{% extends "event/base.html" %}
+
+{### header ###}
+{### content ###}
+
+{% block activityContent %}
+
+	<div id="activity-info">
+		<!--{% include "event/event-info-header.html" %}-->
+		<div class="activity-info-content">
+			<div class="content-block">
+				<!-- <button>我要報名</button> -->
+				<button>轉寄朋友</button>
+			</div> <!-- .content-block -->
+		</div> <!-- .activity-info-content -->
+		{% include "event/event-info-basic.html" %}
+		<div class="activity-info-content">
+			<div class="content-block">
+				<div class="block-caption">
+					<span class="caption">活動企劃</span>
+				</div>
+				<pre>{{event.summary}}</pre>
+			</div> <!-- .content-block -->
+		</div> <!-- .activity-info-content -->
+	</div> <!-- #activity-info -->
+
+{% endblock activityContent %}
