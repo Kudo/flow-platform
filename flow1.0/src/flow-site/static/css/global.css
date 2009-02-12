@@ -420,6 +420,62 @@ div.volunteer-block .volunteer-stats {
 	float: left;
 }
 
+div.volunteer-list {
+	clear: both;
+}
+
+div.volunteer-list .volunteer-item {
+	height: 75px;
+	padding: 10px 0;
+}
+
+div.volunteer-list .volunteer-item .volunteer-image {
+	width: 60px;
+	float: left;
+}
+
+div.volunteer-list .volunteer-item .volunteer-info {
+	width: 100px;
+	float: left;
+}
+
+div.volunteer-list .volunteer-item .volunteer-stats {
+    margin-left: 20px;
+	width: 200px;
+	float: left;
+}
+
+div.volunteer-list .volunteer-item .volunteer-npos-title {
+    margin-left: 20px;
+	width: 70px;
+	float: left;
+}
+
+div.volunteer-list .volunteer-item .volunteer-npos {
+    width: 280px;
+	float: left;
+}
+
+div.volunteer-list .volunteer-item .volunteer-list-actions {
+    margin-left: 20px;
+    width: 80px;
+	float: left;
+}
+
+.volunteer-location,
+.volunteer-npo-item {
+    margin-bottom: 2px;
+}
+
+.volunteer-npo-more {
+    margin-left: 100px;
+}
+
+.volunteer-title {
+	font-size: 14px;
+    font-weight: bold;
+}
+
 div.npo-block .npo-image {
 	width: 60px;
 	float: left;
