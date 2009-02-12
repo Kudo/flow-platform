@@ -21,3 +21,24 @@ indexes:
   properties:
   - name: time_end
     direction: desc
+
+# Used 2 times in query history.
+- kind: EventProfile
+  properties:
+  - name: status
+  - name: create_time
+    direction: desc
+
+# Used once in query history.
+- kind: EventProfile
+  properties:
+  - name: status
+  - name: update_time
+    direction: desc
+
+# Used 2 times in query history.
+- kind: EventProfile
+  properties:
+  - name: status
+  - name: volunteer_shortage
+    direction: desc
