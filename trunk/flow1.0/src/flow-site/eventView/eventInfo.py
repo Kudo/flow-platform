@@ -38,20 +38,20 @@ dicRule = {'new application'        :{'modify':'','recruit':'disabled','validate
            'abusive usage'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'}
            }
 
-'''dicStatus = {'new application'      :'新申請',
-           'approved'               :'審核通過',
-           'announced'              :'已公告',
-           'authenticating'         :'手機認證中',
-           'authenticated'          :'手機認證通過',
-           'registrating'           :'開放註冊中',
-           'recruiting'             :'招募中',
-           'registration closed'    :'停止註冊',
-           'on-going'               :'活動執行中',
-           'filling polls'          :'填寫問卷',
-           'activity closed'        :'活動已結束',
-           'case-closed reporting'  :'活動結案報告',
-           'cancelled'              :'活動已取消',
-           'abusive usage'          :'不當使用'
+dicStatus = {'new application'      : u'新申請',
+           'approved'               : u'審核通過',
+           'announced'              : u'已公告',
+           'authenticating'         : u'手機認證中',
+           'authenticated'          : u'手機認證通過',
+           'registrating'           : u'開放註冊中',
+           'recruiting'             : u'招募中',
+           'registration closed'    : u'停止註冊',
+           'on-going'               : u'活動執行中',
+           'filling polls'          : u'填寫問卷',
+           'activity closed'        : u'活動已結束',
+           'case-closed reporting'  : u'活動結案報告',
+           'cancelled'              : u'活動已取消',
+           'abusive usage'          : u'不當使用'
            }
 '''
 dicStatus = {'new application'      :'new application',
@@ -69,6 +69,7 @@ dicStatus = {'new application'      :'new application',
            'cancelled'              :'cancelled',
            'abusive usage'          :'abusive usage'
            }
+'''
 def showEvent(request):
     # Retrieve Events from Database
     eventKey=request.GET.get('id')
@@ -303,4 +304,56 @@ def applyYes(request):
     return HttpResponse('Volunteer Event Data Added!')
                     
 def applyNo(request):
-    HttpResponse('Nothing was done!')
+    # Retrieve Events from Database
+    eventKey=request.POST.get('event_id')
+    event=db.get(db.Key(eventKey))
+    dicData={   "event_name": event.event_name,
+                "description": event.description,
+                "originator":event.originator,
+                "event_region": event.event_region,
+                "event_hours" : event.event_hours,
+                "event_target": event.event_target,
+                "event_field": event.event_field,
+                "create_time":event.create_time,
+                "category":event.category,
+                "start_time": event.start_time.strftime('%Y-%m-%d %H:%M'),
+                "end_time" : event.end_time.strftime('%Y-%m-%d %H:%M'),
+                "reg_start_time" : event.reg_start_time.strftime('%Y-%m-%d %H:%M'),
+                "reg_end_time": event.reg_end_time.strftime('%Y-%m-%d %H:%M'),
+                "objective": event.objective,
+                "summary":event.summary,
+                "event_id":event.event_id,
+                "expense": event.expense,
+                "registration_fee": event.registration_fee,
+                "registered_volunteer": event.registered_volunteer,
+                "registered_count": event.registered_count,
+                "approved_volunteer": event.approved_volunteer,
+                "approved_count": event.approved_count,
+                "status": event.status,
+                "approved": event.approved,
+                "approved_time": event.approved_time,
+                "attachment_links": event.attachment_links,
+                "tag": event.tag,
+                "max_age": event.max_age,
+                "min_age": event.min_age,
+                "sex": event.sex,
+                "female_req": event.female_req,
+                "male_req" : event.male_req,
+                "volunteer_req": event.volunteer_req,
+                "join_flow_plan": event.join_flow_plan,
+                "sentiments": event.sentiments,
+                "event_rating": event.event_rating,
+                "npo_event_rating": event.npo_event_rating,
+                "event_album_link": event.event_album_link,
+                "event_video_link": event.event_video_link,
+                "event_blog_link": event.event_blog_link,
+                "create_time": event.create_time.strftime('%Y-%m-%d %H:%M'),
+                "update_time": event.update_time.strftime('%Y-%m-%d %H:%M'),
+                "id_key" : eventKey
+            }
+    intVolunteerNeeded = event.volunteer_req - event.approved_count
+    if dicData["status"] == "recruiting" or dicData["status"] == "approved":
+        return render_to_response(r'event/event-info.html', {'event' : dicData, 'base': flowBase.getBase(request), 'status' : dicStatus[event.status], 'needed': str(intVolunteerNeeded)})
+    else:
+        return render_to_response(r'event/event-info-noapply.html', {'event' : dicData, 'base': flowBase.getBase(request)})
+
