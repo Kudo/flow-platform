@@ -11,9 +11,10 @@ def mainPage(request):
         return HttpResponseRedirect('/event/')
     
     now = datetime.datetime.now()
-    event1 = ddl.EventProfile.gql('where status in (:1,:2)','approved','recruiting').fetch(5)
-    event2 = ddl.EventProfile.gql('where status in (:1,:2)','approved','recruiting').fetch(5)
-    event3 = ddl.EventProfile.gql('where status in (:1)','activity closed').fetch(5)
+    event1 = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY create_time DESC','approved','recruiting').fetch(5)
+    event2 = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage DESC','approved','recruiting').fetch(5)
+    #event2 = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY (:3)','approved','recruiting','volunteer_req - approved_count').fetch(5)
+    event3 = ddl.EventProfile.gql('where status in (:1) ORDER BY update_time DESC','activity closed').fetch(5)
     listActivityResult1 = []
     listActivityResult2 = []
     listActivityResult3 = []
@@ -35,7 +36,7 @@ def mainPage(request):
     
   
     for event in event2:
-        intLackPeople= event.volunteer_req - event.approved_count
+        #intLackPeople= event.volunteer_req - event.approved_count
         listActivityResult2.append(
             {'event_id':event.event_id,
              'event_name':event.event_name,
@@ -44,7 +45,7 @@ def mainPage(request):
              'start_time':event.start_time.strftime('%Y-%m-%d %H:%M'),
              'event_region':u','.join(event.event_region),
              'description':event.description,
-             'lackpeople':intLackPeople,
+             'lackpeople':event.volunteer_shortage,
              'event_key':str(event.key()),
              }
              )
