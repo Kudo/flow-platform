@@ -29,14 +29,14 @@
 
 	    var adminAcctCount = $("#id_adminAcctCount");
 	    var AdminObj = $("#addAdmin");
-	    for (var i = 2; i <= adminAcctCount.val() && i <= 10; ++i)
+	    for (var i = 2; i <= adminAcctCount.val() && i <= {{ maxAdminCount }}; ++i)
 		$("#id_adminaccount_" + i).show();
 
 	    AdminObj.click(function(e) {
 		e.preventDefault();
 		var adminAcctBox = $("#adminaccount");
 		var count = adminAcctCount.val();
-		if (count < 10)
+		if (count < {{ maxAdminCount }})
 		{
 		    ++count;
 		    $("#id_adminaccount_" + count).show();
