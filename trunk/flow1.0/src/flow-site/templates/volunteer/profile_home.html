@@ -142,7 +142,7 @@
 										<div class="npo-upcoming-activities-label">接下來的活動:</div>
 										{% for event in npo.eventList %}
 										<div class="npo-upcoming-activity">
-										    <div class="title upcoming-title"><a href="#">{{ event.event_name }}</a></div>
+										    <div class="title upcoming-title"><a href="/event/viewEvent?id={{ event.key }}">{{ event.event_name }}</a></div>
 										    <div class="date">
 											{% if event.upcoming %}即將進行, 還有 {{ event.diffDays }} 天 {% endif %}
 											({{ event.start_time.month }} 月 {{ event.start_time.day }} 日)</div>
