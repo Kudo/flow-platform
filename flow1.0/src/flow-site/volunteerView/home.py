@@ -79,7 +79,7 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
             'photoFeeds':               photoFeeds,
             'video':                    video,
             'npoList':                  npoList,
-            'npoFirst':                 npoList[0] or None,
+            'npoFirst':                 npoList[0] if len(npoList) > 0 else None,
     }
     response = render_to_response('volunteer/profile_home.html', template_values)
 
