@@ -19,8 +19,10 @@ except ImportError:
     from django import forms
 from google.appengine.ext.db import djangoforms
 
-def _makeFields(fieldDataFormat, count, startNum=1):
-    for i in range(startNum, startNum + count):
+maxAdminCount = 10
+
+def _makeFields(fieldDataFormat, endNum, startNum=1):
+    for i in range(startNum, endNum + 1):
         yield fieldDataFormat % (i)
 
 class NpoProfileForm(djangoforms.ModelForm):
@@ -54,7 +56,7 @@ class NpoProfileForm(djangoforms.ModelForm):
 
     adminAcctCount              = forms.CharField(required=False, initial=1, widget=forms.HiddenInput())
     adminaccount_1              = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'field text', 'size': '50'}))
-    for cmd in _makeFields("adminaccount_%d = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'style': 'display: none;', 'class': 'field text', 'size': '50'}))", 9, startNum=2):
+    for cmd in _makeFields("adminaccount_%d = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'style': 'display: none;', 'class': 'field text', 'size': '50'}))", maxAdminCount, startNum=2):
         exec(cmd)
 
     def clean_npo_name(self):
@@ -161,7 +163,7 @@ def step3(request):
                 npoPhoneObj.put()
 
             people = set()
-            count = cleaned_data['adminAcctCount'] if cleaned_data['adminAcctCount'] <= 10 else 10
+            count = cleaned_data['adminAcctCount'] if cleaned_data['adminAcctCount'] <= maxAdminCount else maxAdminCount
             for i in range(1, count + 1):
                 i = str(i)
                 if cleaned_data['adminaccount_'+i]:
@@ -192,6 +194,7 @@ def step3(request):
             'base':                     flowBase.getBase(request, user),
             'isWarning':                isWarning,
             'form':                     form,
-            'formAdminList':            [eval('form["adminaccount_%d"]' % (i)) for i in range(2, 2 + 9)],
+            'formAdminList':            [eval('form["adminaccount_%d"]' % (i)) for i in range(2, maxAdminCount + 1)],
+            'maxAdminCount':            maxAdminCount,
     }
     return render_to_response('registration/npo_step3.html', template_values)
