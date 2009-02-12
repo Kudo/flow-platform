@@ -125,48 +125,33 @@
 							<div class="block-caption">
 								<span class="caption">加入的NPO</span>
 							</div>
+							{% for npo in npoList %}
+							{% ifequal npo npoFirst %}
 							<div class="npo-block">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-							</div>
+							{% else %}
 							<div class="npo-block top-line">
+							{% endifequal %}
 								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/maki.png"/></a>
+								    <a href="#"><img class="img55" src="{% if npo.logo %}{{ npo.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
 								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-									<div class="npo-members">共有 7,123 名會員</div>
+								    <div class="npo-title"><a href="#">{{ npo.npo_name }}</a></div>
+								    <div class="npo-desc">{{ npo.brief_intro|default:"" }}</div>
+								    <div class="npo-members">共有 {{ npo.memberCount }} 名會員</div>
 									<div class="npo-upcoming-activities">
 										<div class="npo-upcoming-activities-label">接下來的活動:</div>
+										{% for event in npo.eventList %}
 										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
+										    <div class="title upcoming-title"><a href="#">{{ event.event_name }}</a></div>
+										    <div class="date">
+											{% if event.upcoming %}即將進行, 還有 {{ event.diffDays }} 天 {% endif %}
+											({{ event.start_time.month }} 月 {{ event.start_time.day }} 日)</div>
 										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
+										{% endfor %}
 									</div>
 								</div>
 							</div>
+							{% endfor %}
 					    	<div class="right-links">
 					    		<a href="#">檢視所有加入NPO</a>
 					    	</div>

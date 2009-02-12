@@ -39,16 +39,16 @@ def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
     data['resident']        = volunteer.resident_city
     data['logo']            = volunteer.logo
     data['noLogo']          = '/static/images/head_blue50.jpg'
-    data['friendCount']     = len(volunteer.friends)
+    #data['friendCount']     = len(volunteer.friends)
     data['npoCount']        = len(volunteer.npo_profile_ref)
     data['token']           = ''
 
     # friends
-    tmp = [VolunteerProfile.get(volunteer.friends[i]) for i in range(displayFriendCount) if i < len(volunteer.friends)]
-    data['friends']         = [tmp[i:i+3] for i in range(0, displayFriendCount, 3) if i < len(tmp)]
+    #tmp = [VolunteerProfile.get(volunteer.friends[i]) for i in range(displayFriendCount) if i < len(volunteer.friends)]
+    #data['friends']         = [tmp[i:i+3] for i in range(0, displayFriendCount, 3) if i < len(tmp)]
 
     # npo
-    tmp = [VolunteerProfile.get(volunteer.npo_profile_ref[i]) for i in range(displayNpoCount) if i < len(volunteer.npo_profile_ref)]
+    tmp = [NpoProfile.get(volunteer.npo_profile_ref[i]) for i in range(displayNpoCount) if i < len(volunteer.npo_profile_ref)]
     data['npos']             = [tmp[i:i+3] for i in range(0, displayNpoCount, 3) if i < len(tmp)]
 
     del tmp

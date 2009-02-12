@@ -16,6 +16,9 @@
 							<li>
 								<a href="">檢舉這位使用者</a>
 							</li>
+							<li>
+							  <a href="/npo/register/">申請註冊NPO</a>
+							</li>
 						</ul>
 					</div><!-- left-box -->
 					<div id="info" class="left-box">
@@ -30,6 +33,7 @@
 							<div>{{ base.resident|escape }}</div>
 						</div>
 					</div>
+					<!--
 	                <div id="friends" class="left-box">
                 		<h3 class="left-box-header">我的朋友</h3>
                     	<div class="left-box-body">
@@ -48,14 +52,14 @@
                             		<div class="person">
 																	<a href="/volunteer/profile/?volunteer_id={{ friend.volunteer_id }}"><img src="{% if friend.logo %} {{ friend.logo|escape }} {% else %} {{ base.noLogo }} {% endif %}" class="img55"></a>
 																	<a href="/volunteer/profile/?volunteer_id={{ friend.volunteer_id }}">{{ friend.volunteer_id }}</a>
-                            		</div><!-- person -->
+                            		</div>
 															{% endfor %}
-	                            </div><!-- row -->
+	                            </div>
 														{% endfor %}
-	                        </div><!-- people -->
-	                    </div><!-- left-box-body -->
-	    		        <!-- <p>Left sidebar here</p>-->
-	                </div><!-- friends -->
+	                        </div>
+	                    </div>
+	                </div>
+						-->
 	                <div id="npos" class="left-box">
                 		<h3 class="left-box-header">我參與的 NPO</h3>
                     	<div class="left-box-body">
