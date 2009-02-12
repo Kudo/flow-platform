@@ -776,8 +776,9 @@ class EventProfile(FlowDdlModel):
     sex                        = db.CategoryProperty(choices=set(["Male", "Female", "Both", "None"])) # default to Both
     female_req                 = db.IntegerProperty()         # default to 0
     male_req                   = db.IntegerProperty()         # default to 0
-    volunteer_req              = db.IntegerProperty()         # default to 0
+    volunteer_req              = db.IntegerProperty(required=True)         # default to 0
     expertise_req              = db.StringListProperty()
+    volunteer_shortage         = db.IntegerProperty()         # default to volunteer_req
     join_flow_plan             = db.BooleanProperty()         # default to True
     # Note that in the schema we have "QUESTIONNAIRE_ID", but it is more efficient to implement in the following way:
     questionnaire_template_ref = db.ReferenceProperty(required=True, reference_class=QuestionnaireTemplate)
@@ -820,10 +821,9 @@ class EventProfile(FlowDdlModel):
                 kargs["female_req"] = 0
             if "male_req" not in kargs:
                 kargs["male_req"] = 0
-            if "volunteer_req" not in kargs:
-                kargs["volunteer_req"] = 0
             if "join_flow_plan" not in kargs:
                 kargs["join_flow_plan"] = True
+            kargs["volunteer_shortage"] = kargs["volunteer_req"]
 
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
