@@ -1,0 +1,67 @@
+				<div id="picture">
+	    	        <img src="/static/images/01_cis.jpg" width="175" />
+	    	        {{ npoProfile.npo_name }}
+	                </div>
+				<div id="boxes-left" class="box-column">
+					<div id="action" class="left-box">
+						<ul>
+							<li>
+								<a href="">管理頁面</a>
+							</li>
+							<li>
+								<a href="">加入此 NPO</a>
+							</li>
+							<li>
+								<a href="">檢舉這個 NPO</a>
+							</li>
+						</ul>
+					</div><!-- left-box -->
+					<div id="info" class="left-box">
+						<h3 class="left-box-header">
+							NPO 資訊
+						</h3>
+						<div class="left-box-body">
+							<h4>平台建立日期</h4>
+							<div> {{ npoProfile.create_time.date }} </div>
+							
+							<h4>創辦人</h4>
+							<div> {{ npoProfile.founder }} </div>
+						</div>
+					</div>
+	                <div id="friends" class="left-box">
+                		<h3 class="left-box-header">志工</h3>
+                    	<div class="left-box-body">
+                    		<h4 class="left-box-header clearfix">
+                        		<span>
+                        			<a href="npo_volunteers.html?npo_id={{npoProfile.npo_id}}">{{numOfMembers}} 位志工</a>
+                            	</span>
+                            	<small>
+                            		<a href="npo_volunteers.html?npo_id={{npoProfile.npo_id}}">全部</a>
+                            	</small>
+                        	</h4>
+                        	<div class="people">
+                        		<div class="row">
+                        			{% for member in leftMembersRow1 %}
+                        			
+                        			<div class="person">
+                            			<a href=""><img src="/static/images/3226562-big.jpg" width=55></a>
+                            			<a href="">{{ member.volunteer_first_name }}</a>
+                            		</div><!-- person -->
+                        			
+                        			{% endfor %}
+	                            </div><!-- row -->
+	                        	<div class="row">
+	                        		{% for member in leftMembersRow2 %}
+                        			
+                        			<div class="person">
+                            			<a href=""><img src="/static/images/3226562-big.jpg" width=55></a>
+                            			<a href="">{{ member.volunteer_first_name }}</a>
+                            		</div><!-- person -->
+                        			
+                        			{% endfor %}
+	                            </div><!-- row -->
+	                        </div><!-- people -->
+	                    </div><!-- left-box-body -->
+	    		        <!-- <p>Left sidebar here</p>-->
+	                </div><!-- friends -->
+				</div><!-- boxes-left -->
