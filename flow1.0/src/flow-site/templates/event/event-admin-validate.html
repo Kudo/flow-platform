@@ -1,4 +1,4 @@
-{% extends "activity/base.html" %}
+﻿{% extends "event/base.html" %}
 
 {### header ###}
 {% block activityExtraHeader %}
@@ -58,7 +58,7 @@ $(function() {
 
 	<div id="activity-cancel">
 		<h3 id="page-title">志工審核</h3>
-		<form class="flow-form" method="POST" action="">
+		<form class="flow-form" method="POST" action="/npo/eventAdminValidateSubmit/">
 			<ul>
 				<li class="section first">
 					<h3>請選擇參與活動的志工</h3>
@@ -67,11 +67,9 @@ $(function() {
 				<li>
 					<span class="column">
 						<select multiple id="pool" name="pool" class="select" size="8" onchange="javascript:setButtonsEnabled();">
-							<option value="id1">Mary</option>
-							<option value="id2">Brian</option>
-							<option value="id3">Feynmen</option>
-							<option value="id4">Tom</option>
-							<option value="id5">Alice</option>
+							{% for vol in lstVolunteer %}
+							<option value="{{vol.volunteer_id}}">{{vol.volunteer_first_name}} {{vol.volunteer_last_name}}</option>
+							{% endfor %}
 						</select>
 						<label>
 							等待審核
