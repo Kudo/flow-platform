@@ -110,7 +110,7 @@ def show(request):
     userIM = user.im2volunteer.get()
     template_values = {
             'isSelf':                   isSelf,
-            'base':                     flowBase.getBase(request, user),
+            'base':                     flowBase.getBase(request, volunteer=user),
             'sex':                      user.sex,
             'cellphone_no':             (user.cellphone_no or u'無'),
             'blog':                     user.blog,
@@ -199,7 +199,7 @@ def edit(request):
             return HttpResponseRedirect("/volunteer/profile/")
 
     template_values = {
-            'base':                     flowBase.getBase(request, user),
+            'base':                     flowBase.getBase(request, volunteer=user),
             'isWarning':                isWarning,
             'form':                     form,
             'sex':                      user.sex,
