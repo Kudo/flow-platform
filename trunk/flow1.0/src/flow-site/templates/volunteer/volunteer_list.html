@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{### header ###}
+
+{% block extraHeader %}
+
+	{### this block can put additional css / script definition to head tag ###}
+	<!-- block extraHeader here -->
+	
+{% endblock extraHeader %}
+
+{### content ###}
+
+{% block mainContent %}
+
+			    	<div class="content-block">
+				    	<h3 id="page-title">志工列表</h3>
+					<div class="list-title">共有 {{ count }} 位志工, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 位</div>
+						<div class="right-links">
+							<div class="pager">
+							    {% ifnotequal prevIndex None %}
+							    <a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    {% endifnotequal %}
+							    {% for page in pageList %}
+							    <a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    {% endfor %}
+							    {% if nextIndex %}
+							    <a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    {% endif %}
+							</div>
+						</div>
+						<div class="volunteer-list">
+						    {% for entry in entryList %}
+						    {% ifequal entry firstEntry %}
+							<div class="volunteer-item">
+						    {% else %}
+							<div class="volunteer-item top-line">
+						    {% endifequal %}
+								<div class="volunteer-image">
+								    <a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
+								</div>
+								<div class="volunteer-info">
+								    <div class="volunteer-title"><a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}">{{ entry.volunteer_id }}</a></div>
+								</div>
+								<div class="volunteer-stats">
+								    <div class="volunteer-location"><b>所在位置: </b>{{ entry.resident_city }}</div>
+									<div class="volunteer-expertises">
+									    <div class="volunteer-title">專長: </div>
+									    {{ entry.showExpertise }}
+									</div>
+								</div>
+								<div class="volunteer-npos-title volunteer-title">所屬群組: </div>
+								<div class="volunteer-npos">
+								    {% for npo in entry.npoList %}
+								    <div class="volunteer-npo-item">
+									<a href="#">{{ npo.npo_name }}</a>
+								    </div>
+								    {% endfor %}
+								    {% if entry.npoShowMore %}
+								    <div class="volunteer-npo-more">
+									... (<a href="#">共 {{ entry.npoCount }} 個群組</a>)
+								    </div>
+								    {% endif %}
+								</div>
+								<div class="volunteer-list-actions">
+								    <!--   <a href="#">加入好友</a> -->
+								    <a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}">檢視檔案</a>
+								</div>
+							</div>
+						    {% endfor %}
+						</div>
+						<div class="right-links">
+							<div class="pager">
+							    {% ifnotequal prevIndex None %}
+							    <a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    {% endifnotequal %}
+							    {% for page in pageList %}
+							    <a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    {% endfor %}
+							    {% if nextIndex %}
+							    <a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    {% endif %}
+							</div>
+						</div>
+					</div>
+{% endblock %}

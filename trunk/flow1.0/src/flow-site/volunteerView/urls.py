@@ -1,7 +1,8 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('volunteerView',   
-    (r'^/?$',                           'home.show'),
+    (r'^/?$',                           'list.list'),
+    (r'^home/?$',                       'home.show'),
     (r'^profile/?$',                    'profile.show'),
     (r'^profile/edit/?$',               'profile.edit'),
     (r'^friend/?$',                     'friend.show'),

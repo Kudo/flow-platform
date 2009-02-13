@@ -15,6 +15,10 @@ pages = [
             'description'   : 'Create volunteer related test data',
             'owner'         : 'Kudo Chien', 
         },
+        {   'uri'           : '/unitTest/volunteer/createTestData/bulk/', 
+            'description'   : 'Bulk create volunteer test data',
+            'owner'         : 'Kudo Chien', 
+        },
 ]
 
 
