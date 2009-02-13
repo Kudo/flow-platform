@@ -55,7 +55,7 @@ def show(request):
 
     friends = [VolunteerProfile.get(user.friends[i]) for i in range(0, 10) if i < len(user.friends)]
     template_values = {
-            'base':                     flowBase.getBase(request, user),
+            'base':                     flowBase.getBase(request, volunteer=user),
             'friends':                  friends,
             'firstFriend':              friends[0] if len(friends) > 0 else None,
             'test':                     range(20),

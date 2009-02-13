@@ -13,311 +13,69 @@
 
 {% block mainContent %}
 
-					<h3 id="test">test title {{npoId}} </h3>
-
 			    	<div class="content-block">
 				    	<h3 id="page-title">NPO列表</h3>
-				    	<div class="list-title">共有48個NPO, 顯示第 1 至 10 位</div>
+					<div class="list-title">共有 {{ count }} 個NPO, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 位</div>
 						<div class="right-links">
 							<div class="pager">
-								<a href="#" class="current">1</a>
-								<a href="#">2</a>
-								<a href="#">3</a>
-								<a href="#">4</a>
-								<a href="#">5</a>
-								<a href="#">下一頁</a>
+							    {% ifnotequal prevIndex None %}
+							    <a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    {% endifnotequal %}
+							    {% for page in pageList %}
+							    <a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    {% endfor %}
+							    {% if nextIndex %}
+							    <a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    {% endif %}
 							</div>
 						</div>
 						<div class="npo-list">
+						    {% for entry in entryList %}
+						    {% ifequal entry firstEntry %}
 							<div class="npo-item">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
-								</div>
-							</div>
+						    {% else %}
 							<div class="npo-item top-line">
+						    {% endifequal %}
 								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
+								    <a href="#"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
 								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
+								    <div class="npo-title"><a href="#">{{ entry.npo_name }}</a></div>
+								    <div class="npo-desc">{{ npo.brief_intro }}</div>
 								</div>
 								<div class="npo-activities">
 									<div class="npo-upcoming-activities">
 										<div class="npo-upcoming-activities-label">接下來的活動:</div>
+										{% for event in entry.eventList %}
 										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
+										    <div class="title upcoming-title"><a href="/event/viewEvent?id={{ event.key }}">{{ event.event_name }}</a></div>
+										    <div class="date">
+											{% if event.upcoming %}即將進行, 還有 {{ event.diffDays }} 天 {% endif %}
+											({{ event.start_time.month }} 月 {{ event.start_time.day }} 日)</div>
 										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
+										{% endfor %}
 									</div>
 								</div>
 								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
+								    <div class="npo-location"><b>服務區域：</b>{{ entry.region }}</div>
+								    <div class="npo-members">共有 {{ entry.memberCount }} 名會員</div>
 									<div class="link"><a href="#">前往群組首頁</a></div>
 									<div class="link"><a href="#">加入群組</a></div>
 								</div>
 							</div>
-							<div class="npo-item top-line">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
-								</div>
-							</div>
-							<div class="npo-item top-line">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
-								</div>
-							</div>
-							<div class="npo-item top-line">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
-								</div>
-							</div>
-							<div class="npo-item top-line">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
-								</div>
-							</div>
-							<div class="npo-item top-line">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
-								</div>
-							</div>
-							<div class="npo-item top-line">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
-								</div>
-							</div>
-							<div class="npo-item top-line">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
-								</div>
-							</div>
-							<div class="npo-item top-line">
-								<div class="npo-image">
-									<a href="#"><img width="55" src="/static/images/01_cis.jpg"/></a>
-								</div>
-								<div class="npo-info">
-									<div class="npo-title"><a href="#">中華民國紅十字會</a></div>
-									<div class="npo-desc">中華民國紅十字會總會</div>
-								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
-										<div class="npo-upcoming-activity">
-											<div class="title upcoming-title"><a href="#">台大捐血</a></div>
-											<div class="date">即將進行, 還有 3 天 (11 月 8 日)...</div>
-										</div>
-										<div class="npo-upcoming-activity">
-											<div class="title"><a href="#">柏大尼育幼院耶誕活動</a></div>
-											<div class="date">12 月 1 日</div>
-										</div>
-									</div>
-								</div>
-								<div class="npo-stats">
-									<div class="npo-location"><b>所在位置：</b>台北市</div>
-									<div class="npo-members">共有 7,123 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
-								</div>
-							</div>
+						    {% endfor %}
 						</div>
 						<div class="right-links">
 							<div class="pager">
-								<a href="#" class="current">1</a>
-								<a href="#">2</a>
-								<a href="#">3</a>
-								<a href="#">4</a>
-								<a href="#">5</a>
-								<a href="#">下一頁</a>
+							    {% ifnotequal prevIndex None %}
+							    <a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    {% endifnotequal %}
+							    {% for page in pageList %}
+							    <a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    {% endfor %}
+							    {% if nextIndex %}
+							    <a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    {% endif %}
 							</div>
 						</div>
 					</div>
