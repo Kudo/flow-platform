@@ -60,6 +60,10 @@ def list(request):
         if npo.brief_intro:
             npo.brief_intro = npo.brief_intro if len(npo.brief_intro) < 15 else npo.brief_intro[0:15] + u'...'
 
+    # Special case, if count <= 0
+    if count <= 0:
+        startIndex = -1
+
     template_values = {
             'base':                     flowBase.getBase(request),
             'count':                    count,
