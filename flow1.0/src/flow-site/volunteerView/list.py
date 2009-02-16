@@ -52,6 +52,10 @@ def list(request):
         volunteer.npoShowMore = True if volunteer.npoCount > displayNpoCount else False
         volunteer.showExpertise = u', '.join(volunteer.expertise)
 
+    # Special case, if count <= 0
+    if count <= 0:
+        startIndex = -1
+
     template_values = {
             'base':                     flowBase.getBase(request),
             'count':                    count,
