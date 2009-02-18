@@ -7,4 +7,5 @@ urlpatterns = patterns('eventView',
     (r'^mailToFriend/?$',           'eventInfo.mailToFriend'),
     (r'^applyYes/?$',               'eventInfo.applyYes'),
     (r'^applyNo/?$',                'eventInfo.applyNo'),
+    (r'^EmptyApply/?$',             'eventInfo.EmptyApply'),
 )

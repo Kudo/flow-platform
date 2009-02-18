@@ -228,10 +228,15 @@ def mailToFriend(request):
     
     
 def applyYes(request):
+# choose I want to apply , there will be:
+# (1) trying select whether current user existed in VolunteerEvent table, if existed will return some information
+# (2) if not existed, then add the use, and then add registered_count 1, and registered_volunteer list will be added as well.
+
+
     eventKey=request.POST.get('event_id')
     #return HttpResponse(str(eventKey))
     event=db.get(db.Key(eventKey))
-    event.registered_count = event.registered_count + 1
+
     dicEventData={   "event_name": event.event_name,
                     "description": event.description,
                     "originator":event.originator,
@@ -274,18 +279,29 @@ def applyYes(request):
                     "event_blog_link": event.event_blog_link,
                     "create_time": event.create_time.strftime('%Y-%m-%d %H:%M'),
                     "update_time": event.update_time.strftime('%Y-%m-%d %H:%M')
-                    }
-    userSet = db.GqlQuery('select * from VolunteerProfile')
+                }
+
+# Getting current user currently  hardcoded as volunteer_id = "trend@flow.org"
+    get_volunteer_id = 'trend@flow.org'
+    intVolunteerEventItems = db.GqlQuery('select * from VolunteerEvent where volunteer_id = :1 and event_profile_ref = :2', users.User(get_volunteer_id), event).count()
+    logging.info("Volunteer %d got!", intVolunteerEventItems)
+    if intVolunteerEventItems > 0:
+        return HttpResponse(u'本帳號 %s 已經有報名[%s]了,所以無法再加入!' % (get_volunteer_id,event.event_name) )
+
+        
+# Following part will trying insert the record, if cannot find any account in the list
+    userSet = db.GqlQuery('select * from VolunteerProfile where volunteer_id = :1',  users.User(get_volunteer_id))
+    event.registered_count = event.registered_count + 1
     count = 0
-    logging.info(userSet[0].volunteer_id)
-    dicUserData={   "volunteer_id" : userSet[0].volunteer_id,
+    logging.info("The Volunteer is : " + str(userSet[0].volunteer_id))
+    dicUserData={   "volunteer_id" : users.User(get_volunteer_id),
                     "id_no" : userSet[0].id_no,
                     "volunteer_last_name" : userSet[0].volunteer_last_name,
                     "volunteer_first_name" : userSet[0].volunteer_first_name,
                     "statue" : userSet[0].status
                 }
  
-    event.registered_volunteer.append(userSet[0].volunteer_id)
+    event.registered_volunteer.append(users.User(get_volunteer_id))
  
     now            = datetime.datetime.utcnow()
     volunteer_event_item = ddl.VolunteerEvent(
@@ -301,7 +317,7 @@ def applyYes(request):
                                             )
     event.put()
     volunteer_event_item.put()
-    return HttpResponse('Volunteer Event Data Added!')
+    return HttpResponse(u'志工 [%s] 已報名 [%s] 成功!' % (get_volunteer_id, event.event_name))
                     
 def applyNo(request):
     # Retrieve Events from Database
@@ -357,3 +373,18 @@ def applyNo(request):
     else:
         return render_to_response(r'event/event-info-noapply.html', {'event' : dicData, 'base': flowBase.getBase(request)})
 
+def EmptyApply(request):
+
+    eventKey=request.POST.get('event_id')
+    #return HttpResponse(str(eventKey))
+    EventProfile = db.GqlQuery('select * from EventProfile')
+    for event in EventProfile:
+        event.registered_count=0
+        #event.registered_volunteer=[]
+        event.put()
+        logging.info('event information cleaned...')
+    VolunteerEvent = db.GqlQuery("select * from VolunteerEvent")
+    for item in VolunteerEvent:
+        logging.info('VolunteerEvent record deleted!...')
+        item.delete()
+    return HttpResponse(u'已刪除VolunteerEvent所有資料,與清除EventProfile相對應欄位')
