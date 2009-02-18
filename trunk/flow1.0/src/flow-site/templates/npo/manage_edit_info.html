@@ -40,14 +40,14 @@
 				簡介
 				</label>
 				<div>
-					<textarea class="field textarea medium" cols="50" rows="10" >
+					<textarea class="field textarea medium" cols="50" rows="10" name="textareaIntro">
 					{{npoProfile.brief_intro}}
 					</textarea>
 				</div>
 			</li>
 			<li class="buttons section">
-				<input id="btnSubmitBasicInfo" class="btTxt" type="submit" value="儲存變更" />
-				<input id="btnCancelBasicInfo" class="btTxt" type="button" value="取消變更" />
+				<input id="btnSubmitBasicInfo" class="btTxt" type="submit" name="submit" value="儲存變更" />
+				<input id="btnCancelBasicInfo" class="btTxt" type="submit" name="cancel" value="取消變更" />
 			</li>
 
 			<li class="section">
@@ -158,8 +158,8 @@
 			</li>
 			
 			<li class="buttons section">
-				<input id="btnSubmitOhterInfo" class="btTxt" type="submit" value="儲存變更" />
-				<input id="btnCancelOtherInfo" class="btTxt" type="button" value="取消變更" />
+				<input id="btnSubmitOhterInfo" class="btTxt" type="submit" name="submit" value="儲存變更" />
+				<input id="btnCancelOtherInfo" class="btTxt" type="submit" name="cancel" value="取消變更" />
 			</li>
 		</ul>
 		</form>
