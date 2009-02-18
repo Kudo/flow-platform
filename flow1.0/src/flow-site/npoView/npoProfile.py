@@ -13,14 +13,28 @@ from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from google.appengine.api import users
 from db.ddl import NpoProfile
-#from db.ddl import VolunteerProfile
+from db.ddl import VolunteerProfile
+from db.ddl import NpoContact
+from db.ddl import NpoPhone
 
 def edit(request):
     if request.method == 'POST':
+        npo_id = cgi.escape(request.GET['npo_id'])
+        if 'cancel' in request.POST:
+            return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id)
         npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', 'NPO:0').get()
+        npoProfile.npo_name = request.POST['txtGroupName']
         npoProfile.founder = request.POST['txtFounder']
+#        npoProfile.brief_intro = request.POST['textareaIntro']
+#        npoProfile.founding_date = request.POST['txtFoundDate']
+        npoProfile.authority = request.POST['txtApproveGov']
+#        npoProfile.service_region[1] = request.POST['txtServiceArea']
+#        npoProfile.service_target[1] = request.POST['txtServiceTarget']
+#        npoProfile.service_field[1] = request.POST['txtServiceItem']
+        npoProfile.bank_acct_no = request.POST['txtTransferAccountNo']
+        npoProfile.bank_acct_name = request.POST['txtTransferAccountTitle']
         npoProfile.put()
-        return HttpResponseRedirect("npo_info.html?npo_id=NPO:0")
+        return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id)
     else:
         if 'npo_id' not in request.GET:
             return HttpResponseRedirect('/')
@@ -29,9 +43,17 @@ def edit(request):
         
         npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
   
+        numOfMembers = 0
+        row1 = []
+        row2 = []
+        leftColumn(npoProfile, numOfMembers, row1, row2)
+  
         template_values = {
                 'path': request.path,
                 'npoProfile': npoProfile,
+                'numOfMembers': numOfMembers,
+                'leftMembersRow1': row1,
+                'leftMembersRow2': row2,
          }
         response = render_to_response('npo/manage_edit_info.html', template_values)
         return response    
@@ -90,7 +112,7 @@ def showHome(request):
 #                     status="new application", docs_link=["Timbuck2"], npo_rating=1, create_time=now, update_time=now, news_list=[db.Text(u"最新消息第一條"), db.Text(u"最新消息第二條"), db.Text(u"最新消息第三條")])
 # 
 #    npo.put()
-        
+#  
 #    user      = users.User("jane_doe@gmail.com")
 #    now       = datetime.datetime.utcnow()
 #    volunteer = VolunteerProfile(volunteer_id=user, id_no="A123456789", volunteer_last_name="Doe", volunteer_first_name="Jacy", gmail=user.email(),
@@ -104,9 +126,27 @@ def showHome(request):
 #    npoProfile.members.append(volunteer.key())
 #    
 #    npoProfile.put()
+#
 
     npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
     members = db.get(npoProfile.members)
+    
+#    npoContact = NpoContact(npo_profile_ref = npoProfile,
+#                            contact_type = "Major",
+#                            contact_name = "Contact Name",
+#                            contact_email= "npo@email.com",
+#                            volunteer_id = users.User("john_doe@gmail.com"))
+#    npoContact.put()
+
+#    npoPhone = NpoPhone(npo_profile_ref = npoProfile,
+#                        phone_type = "Fixed",
+#                        phone_no = "0912345678")
+#    npoPhone.put()
+#    
+#    npoPhone = NpoPhone(npo_profile_ref = npoProfile,
+#                        phone_type = "Fax",
+#                        phone_no = "0234567890")
+#    npoPhone.put()
     
     # recently attended members
     recentMembers = members[:]
@@ -149,43 +189,56 @@ def showInfo(request):
 
     npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
 
+    fixedPhone = ""
+    faxPhone = ""
+    for phone in npoProfile.phones2npo:
+        if (phone.phone_type == "Fixed"):
+            fixedPhone = phone.phone_no
+        if (phone.phone_type == "Fax"):
+            faxPhone = phone.phone_no
+
     template_values = {
             'npoProfile': npoProfile,
+            'npoContact': npoProfile.contacts2npo,
+            'fixedPhone': fixedPhone,
+            'faxPhone': faxPhone,
      }
     response = render_to_response('npo/npo_info.html', template_values)
     return response
 
-def leftColumn(request):
-    if 'npo_id' not in request.GET:
-        return HttpResponseRedirect('/')
-    else:
-        npo_id = cgi.escape(request.GET['npo_id'])
-        
-    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
+def leftColumn(npoProfile, numOfMembers, row1, row2):
+#    if 'npo_id' not in request.GET:
+#        return HttpResponseRedirect('/')
+#    else:
+#        npo_id = cgi.escape(request.GET['npo_id'])
+#        
+#    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
     members = db.get(npoProfile.members)
-        
+    numOfMembers = len(members)     
+    
     # members showed in left column
     leftMembers = members[:]
-    row1 = []
+#    row1 = []
     for i in range(0, 3):
         if len(leftMembers) == 0:
             break
         row1.append(random.choice(leftMembers))
         leftMembers.remove(row1[i])
     
-    row2 = []
+#    row2 = []
     for i in range(0, 3):
         if len(leftMembers) == 0:
             break
         row2.append(random.choice(leftMembers))
         leftMembers.remove(row2[i])
         
-    template_values = {
-            'npoProfile': npoProfile,
-            'leftMembersRow1': row1,
-            'leftMembersRow2': row2,
-            'numOfMembers': len(members),
-     }
-    response = render_to_response('npo/profile_leftcolumn.html', template_values)
-    return response
+#    template_values = {
+#            'npoProfile': npoProfile,
+#            'leftMembersRow1': row1,
+#            'leftMembersRow2': row2,
+#            'numOfMembers': len(members),
+#     }
+#    response = render_to_response('npo/profile_leftcolumn.html', template_values)
+#    return response
+    return
     

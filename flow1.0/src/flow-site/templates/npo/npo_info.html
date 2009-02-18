@@ -37,13 +37,15 @@
 						</div>
 						<dl>
 							<dt>聯絡人</dt>
-							<dd>聯絡人</dd>
+							{% for contact in npoContact %}
+							<dd> {{ contact.contact_name }} </dd>
+							{% endfor %}
 							<dt>網址</dt>
-							<dd> {{ npoProfile.brief_intro }} </dd>
+							<dd> {{ npoProfile.website }} </dd>
 							<dt>電話</dt>
-							<dd>09123456xx</dd>
+							<dd> {{ fixedPhone }} </dd>
 							<dt>傳真</dt>
-							<dd>02345678xx</dd>
+							<dd> {{ faxPhone }} </dd>
 						</dl>
 					</div>
 			    	<div class="content-block">
