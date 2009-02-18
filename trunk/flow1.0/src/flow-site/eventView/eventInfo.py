@@ -224,7 +224,7 @@ def mailToFriend(request):
             "update_time": event.update_time.strftime('%Y-%m-%d %H:%M')
             }
             
-    return HttpResponse('sending the info of [' + event.event_name + '] to your friend but currently not implemented!')
+    return HttpResponse(u'本功能將會把活動 [' + event.event_name + u'] 的資訊發信給你的朋友,但是目前還沒有建置!')
     
     
 def applyYes(request):
