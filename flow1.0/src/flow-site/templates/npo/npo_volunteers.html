@@ -25,6 +25,7 @@
 						</div>
 					</div>
 					<div class="volunteer-list">
+						{% if firstMember %}
 						<div class="volunteer-item first-item">
 							<div class="volunteer-img">
 								<img width="55" src="/static/images/maki.png"/>
@@ -48,6 +49,7 @@
 								<div class="remove-volunteer"><a href="#">移除這位志工</a></div>
 							</div>
 						</div>
+						{% endif %}
 						
 						{% for member in members %}
 						<div class="volunteer-item">

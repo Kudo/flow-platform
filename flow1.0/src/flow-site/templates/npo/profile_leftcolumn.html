@@ -1,5 +1,5 @@
 				<div id="picture">
-	    	        <img src="/static/images/01_cis.jpg" width="175" />
+	    	        <img src="{% if npoProfile.logo %}{{ npoProfile.logo }}{%else%}/static/images/01_cis.jpg{% endif %}" width="175" />
 	    	        {{ npoProfile.npo_name }}
 	                </div>
 				<div id="boxes-left" class="box-column">

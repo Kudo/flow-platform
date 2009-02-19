@@ -37,10 +37,10 @@
 							<div class="npo-item top-line">
 						    {% endifequal %}
 								<div class="npo-image">
-								    <a href="#"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
+								    <a href="/npo/npo_home.html?npo_id={{entry.npo_id}}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
 								<div class="npo-info">
-								    <div class="npo-title"><a href="#">{{ entry.npo_name }}</a></div>
+								    <div class="npo-title"><a href="/npo/npo_home.html?npo_id={{entry.npo_id}}">{{ entry.npo_name }}</a></div>
 								    <div class="npo-desc">{{ npo.brief_intro }}</div>
 								</div>
 								<div class="npo-activities">

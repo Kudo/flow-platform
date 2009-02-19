@@ -16,6 +16,7 @@ from db.ddl import NpoProfile
 from db.ddl import VolunteerProfile
 from db.ddl import NpoContact
 from db.ddl import NpoPhone
+import flowBase
 
 def edit(request):
     if request.method == 'POST':
@@ -85,8 +86,10 @@ def memberList(request):
         leftMembers.remove(row2[i])
 
     # prepare member list
-    firstMember = members[0]
-    del members[0]
+    firstMember = None
+    if (len(members) > 0):
+        firstMember = members[0]
+        del members[0]
             
     template_values = {
         'npoProfile': npoProfile,
@@ -150,9 +153,11 @@ def showHome(request):
     
     # recently attended members
     recentMembers = members[:]
-    latestMember = recentMembers[-1]
-    recentMembers = recentMembers[-5:-1]
-    recentMembers.reverse()
+    latestMember = None
+    if (len(recentMembers) > 0):
+        latestMember = recentMembers[-1]
+        recentMembers = recentMembers[-5:-1]
+        recentMembers.reverse()
     
     # members showed in left column
     leftMembers = members[:]
