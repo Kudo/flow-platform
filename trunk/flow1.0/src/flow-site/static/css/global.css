@@ -186,19 +186,18 @@ h6 {
 }
 
 #search-container {
-	text-align: center;
 	width: 430px;
-	height: 60px;
-	padding-top: 5px;
-	padding-left: 3px;
-	position: relative;
-	left: 30%;
+    margin: 0 auto;
+    margin-bottom: -80px;
+    position: relative;
+    top: -90px;
 }
 
 #search-site-mark {
-	float: left;
-	width: 100px;
-	text-align: right;
+    width: 200px;
+    height: 60px;
+    margin-top: 30px;
+    text-align: right;
 }
 
 #search {
@@ -211,17 +210,20 @@ h6 {
 	top: 17px;
 }
 
-#search-site-mark
-{
-}
-
 #search-site-title
 {
 }
 
 #search-bar
 {
-	height: 2em;
+}
+
+#search-bar label,
+#search-bar input,
+#search-bar select
+{
+    margin-bottom: 5px;
+    display: block;
 }
 
 #search-choices
