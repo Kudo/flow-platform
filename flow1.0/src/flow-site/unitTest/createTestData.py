@@ -27,6 +27,11 @@ pages = [
             'description'   : 'Bulk create npo test data',
             'owner'         : 'Kudo Chien', 
         },
+        {   'uri'           : '/unitTest/cleanData/all/', 
+            'description'   : 'Clean all the ddl entities in datastore',
+            'owner'         : 'Kudo Chien', 
+        },
+
 ]
 
 
