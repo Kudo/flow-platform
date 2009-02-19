@@ -135,6 +135,7 @@
 								<span class="caption">最新加入志工</span>
 							</div>
 							
+							{% if latestMember %}
 							<div class="volunteer-block">
 								<div class="volunteer-image">
 									<a href="#"><img width="55" src="/static/images/maki.png"/></a>
@@ -148,6 +149,7 @@
 									<div class="volunteer-join"><b>加入日期：</b>{{ latestMember.create_time.date }}</div>
 								</div>
 							</div>
+							{% endif %}
 							
 							{% for member in recentMembers %}
 							<div class="volunteer-block top-line">
