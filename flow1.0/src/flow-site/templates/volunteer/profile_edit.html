@@ -11,8 +11,12 @@
 <script type="text/javascript" src="/static/js/jquery-ui-1.6rc5.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-	var linkObjs = $("a[href*='friend/create']");
-	linkObjs.click(function(e) {
+	$("#cancel-button").click(function(e) {
+	    e.preventDefault();
+	    history.go(-1);
+	});
+
+	$("a[href*='friend/create']").click(function(e) {
 	    e.preventDefault();
 	    var target = $(this);
 	    $.getJSON(target.attr("href"), function(data) {
@@ -26,8 +30,7 @@
 		});
 	});
 
-	var previewObj = $("#preview");
-	previewObj.click(function(e) {
+	$("#preview").click(function(e) {
 	    e.preventDefault();
 	    var previewBoxObj = $("#previewBox");
 	    var previewImgURL = $("#id_logo").attr("value");
