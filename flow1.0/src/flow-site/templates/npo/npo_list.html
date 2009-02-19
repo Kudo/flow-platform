@@ -37,10 +37,10 @@
 							<div class="npo-item top-line">
 						    {% endifequal %}
 								<div class="npo-image">
-								    <a href="/npo/npo_home.html?npo_id={{entry.npo_id}}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
+								    <a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
 								<div class="npo-info">
-								    <div class="npo-title"><a href="/npo/npo_home.html?npo_id={{entry.npo_id}}">{{ entry.npo_name }}</a></div>
+								    <div class="npo-title"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">{{ entry.npo_name }}</a></div>
 								    <div class="npo-desc">{{ npo.brief_intro }}</div>
 								</div>
 								<div class="npo-activities">
@@ -59,7 +59,7 @@
 								<div class="npo-stats">
 								    <div class="npo-location"><b>服務區域：</b>{{ entry.region }}</div>
 								    <div class="npo-members">共有 {{ entry.memberCount }} 名會員</div>
-									<div class="link"><a href="#">前往群組首頁</a></div>
+								    <div class="link"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">前往群組首頁</a></div>
 									<div class="link"><a href="#">加入群組</a></div>
 								</div>
 							</div>

@@ -9,6 +9,7 @@ urlpatterns = patterns('volunteerView',
     (r'^friend/create/?$',              'friend.create'),
     (r'^friend/delete/?$',              'friend.delete'),
     (r'^space/?$',                      'space.show'),
+    (r'^search/?$',                     'search.list'),
     # register
     (r'^register/?$',                   'register.step1'),
     (r'^register/step2/?$',             'register.step2'),

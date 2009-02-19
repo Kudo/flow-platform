@@ -6,6 +6,7 @@ from google.appengine.api import users
 from google.appengine.ext import db
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from db import proflist
 from db.ddl import *
 
 COOKIE_ID = 'ACSID'             # Borrow this from GAE
@@ -22,6 +23,8 @@ def getBase(request, volunteer=None, npo_id=None):
     data['full_path']       = request.get_full_path()
     data['user']            = users.get_current_user()
     data['noLogo']          = '/static/images/head_blue50.jpg'
+    data['proflist']        = getProfessionList()
+    data['region']          = getRegion()
     data['token']           = _make_token(request)
 
     if volunteer:
@@ -89,3 +92,10 @@ def logout(request):
         return HttpResponseRedirect(users.create_logout_url(cgi.escape(request.GET['redirect'])))
     else:
         return HttpResponseRedirect(users.create_logout_url('/'))
+
+def getProfessionList():
+	return proflist.getProfessionList()
+
+def getRegion():
+    regions = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
+    return [region.city_tc for region in regions]

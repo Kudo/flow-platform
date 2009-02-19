@@ -29,8 +29,8 @@
 {% block mainContent %}
 
 			    	<div class="content-block">
-				    	<h3 id="page-title">志工列表</h3>
-					<div class="list-title">共有 {{ count }} 位志工, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 位</div>
+				    	<h3 id="page-title">志工搜尋</h3>
+					<div class="list-title">共找到 {{ count }} 位志工, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 位</div>
 						<div class="right-links">
 							<div class="pager">
 							    {% ifnotequal prevIndex None %}
@@ -68,7 +68,7 @@
 								<div class="volunteer-npos">
 								    {% for npo in entry.npoList %}
 								    <div class="volunteer-npo-item">
-									<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">{{ npo.npo_name }}</a>
+									<a href="#">{{ npo.npo_name }}</a>
 								    </div>
 								    {% endfor %}
 								    {% if entry.npoShowMore %}
