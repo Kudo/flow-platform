@@ -74,23 +74,25 @@ class NpoProfileForm(djangoforms.ModelForm):
                  ]
 
 def step1(request):
+    isWarning = None
     user = users.get_current_user()
-    if not flowBase.getVolunteer(user):
-        pass
-    if db.GqlQuery('SELECT * From NpoProfile WHERE founder = :1', user).count() > 0:
-        pass
+    if (not flowBase.getVolunteer(user)) or ('notMember' in request.GET):
+        isWarning = u'您尚未註冊至若水平台，請先點選右上角註冊後才能申請 NPO 喔。'
+    if db.GqlQuery('SELECT * From NpoProfile WHERE google_acct = :1', user).count() > 0:
+        pass            # 暫時不限制一個人可以申請幾個 NPO
     if 'yes' in request.GET:
         return HttpResponseRedirect('/npo/register/step2/')
     if 'no' in request.GET:
         return HttpResponseRedirect('/')
     template_values = {
             'base':                     flowBase.getBase(request),
+            'isWarning':                isWarning
     }
     return render_to_response('registration/npo_step1.html', template_values)
 
 def step2(request):
     if not flowBase.getVolunteer(users.get_current_user()):
-        pass
+        return HttpResponseRedirect('/npo/register/?notMember=True')
     if 'register' in request.GET:
         return HttpResponseRedirect('/npo/register/step3/')
     template_values = {
@@ -102,7 +104,7 @@ def step3(request):
     isWarning = None
     user = flowBase.getVolunteer(users.get_current_user())
     if not user:
-        pass
+        return HttpResponseRedirect('/npo/register/?notMember=True')
 
     if request.method != 'POST':
         form = NpoProfileForm()
