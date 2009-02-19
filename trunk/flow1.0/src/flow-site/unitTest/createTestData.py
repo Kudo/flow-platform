@@ -19,6 +19,14 @@ pages = [
             'description'   : 'Bulk create volunteer test data',
             'owner'         : 'Kudo Chien', 
         },
+        {   'uri'           : '/unitTest/npo/createTestData/', 
+            'description'   : 'Create npo related test data',
+            'owner'         : 'Kudo Chien', 
+        },
+        {   'uri'           : '/unitTest/npo/createTestData/bulk/', 
+            'description'   : 'Bulk create npo test data',
+            'owner'         : 'Kudo Chien', 
+        },
 ]
 
 
