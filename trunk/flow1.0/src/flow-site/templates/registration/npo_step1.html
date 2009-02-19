@@ -1,6 +1,25 @@
 {% extends "registration/base.html" %}
 
+{% block registerExtraHeader %}
+<link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+	$("input[name='no']").click(function(e) {
+	    e.preventDefault();
+	    history.go(-1);
+	});
+    });
+</script>
+{% endblock registerExtraHeader %}
+
 {% block registerContent %}
+	{% if isWarning %}
+	<div class="ui-widget-header" style="clear: both; padding: 5px; text-align: center; font-size: large;">
+	    {{ isWarning }}
+	</div>
+	{% endif %}
+
 	<h2>申請註冊 NPO</h2>
 	<div class="number-sign">1</div>
 	<div class="step-main">

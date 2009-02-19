@@ -53,7 +53,7 @@
 								<div class="volunteer-npos">
 								    {% for npo in entry.npoList %}
 								    <div class="volunteer-npo-item">
-									<a href="#">{{ npo.npo_name }}</a>
+									<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">{{ npo.npo_name }}</a>
 								    </div>
 								    {% endfor %}
 								    {% if entry.npoShowMore %}
