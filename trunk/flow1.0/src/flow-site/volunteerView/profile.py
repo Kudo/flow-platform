@@ -57,7 +57,7 @@ class MyCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
         has_id = attrs and attrs.has_key('id')
         final_attrs = self.build_attrs(attrs, name=name)
         output = [u'<table>\n<tr>']
-        str_values = set([forms.util.smart_unicode(v) for v in value]) # Normalize to strings.
+        str_values = set([forms.util.smart_unicode(v) for v in value.split('\n')]) # Normalize to strings.
         for i, (option_value, option_label) in enumerate(chain(self.choices, choices)):
             # If an ID attribute was given, add a numeric index as a suffix,
             # so that the checkboxes don't all have the same ID attribute.
@@ -164,7 +164,10 @@ def edit(request):
     userIM = user.im2volunteer.get()
     isWarning = None
     if request.method != 'POST':
-        [phone1, phone2, phone3] = user.cellphone_no.split('-')
+        try:
+            (phone1, phone2, phone3) = user.cellphone_no.split('-')
+        except:
+            (phone1, phone2, phone3) = ('', '', '')
         customData = {
                 'birthyear':        user.date_birth.year,
                 'birthmonth':       user.date_birth.month,
