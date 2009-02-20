@@ -24,7 +24,7 @@ def create(request):
 
         user = users.User("gina@gmail.com")
         gina = VolunteerProfile(volunteer_id=user, id_no="M123456789", volunteer_last_name="Lin", volunteer_first_name="Gina", gmail=user.email(),
-                                     date_birth=datetime.date(1984, 6, 2), expertise=[u"護理", u"中國文學"], sex="Female", phone_no="02-1234-5678", resident_country=u"中華民國",
+                                     date_birth=datetime.date(1984, 6, 2), expertise=[u"護理", u"中國文學"], sex="Female", phone_no="02-1234-5678", resident_country=u"中華民國",
                                      resident_postal="104", resident_state=u"台灣省", resident_city=u"臺北縣市", resident_district=u"大安區",
                                      prefer_region=[u'臺北', u'台中'], prefer_zip=[u'104'], prefer_target=[u'老弱婦孺'], prefer_field=[u'聊天'], prefer_group=[u'不拘'],
                                      create_time=now, update_time=now, volunteer_rating=80, status="normal", search_text="Gina in the house",

@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('volunteerView',   
-    (r'^/?$',                           'list.list'),
+    (r'^/?$',                           'volunteerList.show'),
     (r'^home/?$',                       'home.show'),
     (r'^profile/?$',                    'profile.show'),
     (r'^profile/edit/?$',               'profile.edit'),
@@ -9,7 +9,7 @@ urlpatterns = patterns('volunteerView',
     (r'^friend/create/?$',              'friend.create'),
     (r'^friend/delete/?$',              'friend.delete'),
     (r'^space/?$',                      'space.show'),
-    (r'^search/?$',                     'search.list'),
+    (r'^search/?$',                     'search.show'),
     # register
     (r'^register/?$',                   'register.step1'),
     (r'^register/step2/?$',             'register.step2'),
