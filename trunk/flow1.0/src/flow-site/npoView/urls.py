@@ -2,7 +2,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('npoView',   
     # list
-    (r'^/?$',                       'list.list'),
+    (r'^/?$',                       'npoList.show'),
     # event
     (r'^editEvent/?$', 'editEvent.processEditEvent'),
     (r'^addEvent/?$', 'addEvent.processAddEvent'),

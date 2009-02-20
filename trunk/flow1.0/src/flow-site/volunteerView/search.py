@@ -16,15 +16,26 @@ displayCount = 10
 displayNpoCount = 3
 displayPageCount = 5
 
-def list(request):
-    searchRegion = request.GET.get('region', default='any').decode('UTF-8')
-    searchExpertise = request.GET.get('expertise', default='any').decode('UTF-8')
+def show(request):
+    searchVal = {}
+    searchVal['searchRegion'] = request.GET.get('region') and request.GET.get('region').decode('UTF-8')
+    searchVal['searchExpertise_1'] = request.GET.get('expertise_1') and request.GET.get('expertise_1').decode('UTF-8')
+    searchVal['searchExpertise_2'] = request.GET.get('expertise_2') and request.GET.get('expertise_2').decode('UTF-8')
+    searchVal['searchExpertise_3'] = request.GET.get('expertise_3') and request.GET.get('expertise_3').decode('UTF-8')
+
+    searchExpertiseList = set()
+    if searchVal['searchExpertise_1']:
+        searchExpertiseList.add(searchVal['searchExpertise_1'])
+    if searchVal['searchExpertise_2']:
+        searchExpertiseList.add(searchVal['searchExpertise_2'])
+    if searchVal['searchExpertise_3']:
+        searchExpertiseList.add(searchVal['searchExpertise_3'])
 
     queryObj = VolunteerProfile.all()
-    if searchRegion != 'any':
-        queryObj.filter('resident_city = ', searchRegion)
-    if searchExpertise != 'any':
-        queryObj.filter('expertise = ', searchExpertise)
+    if searchVal['searchRegion']:
+        queryObj.filter('resident_city = ', searchVal['searchRegion'])
+    if len(searchExpertiseList) > 0:
+        queryObj.filter('expertise in ', list(searchExpertiseList))
 
     count = queryObj.count()
 
@@ -77,7 +88,7 @@ def list(request):
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
             'pageList':                 pageList,
             'currentPage':              currentPage,
-            'searchVal':                {'region': searchRegion, 'expertise': searchExpertise},
+            'searchVal':                searchVal,
     }
     response = render_to_response('volunteer/volunteer_search.html', template_values)
 
