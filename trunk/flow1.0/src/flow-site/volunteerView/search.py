@@ -23,19 +23,25 @@ def show(request):
     searchVal['searchExpertise_2'] = request.GET.get('expertise_2') and request.GET.get('expertise_2').decode('UTF-8')
     searchVal['searchExpertise_3'] = request.GET.get('expertise_3') and request.GET.get('expertise_3').decode('UTF-8')
 
+    queryStringList = []
     searchExpertiseList = set()
     if searchVal['searchExpertise_1']:
         searchExpertiseList.add(searchVal['searchExpertise_1'])
+        queryStringList.append(u'expertise_1=%s' % searchVal['searchExpertise_1'])
     if searchVal['searchExpertise_2']:
         searchExpertiseList.add(searchVal['searchExpertise_2'])
+        queryStringList.append(u'expertise_2=%s' % searchVal['searchExpertise_2'])
     if searchVal['searchExpertise_3']:
         searchExpertiseList.add(searchVal['searchExpertise_3'])
+        queryStringList.append(u'expertise_3=%s' % searchVal['searchExpertise_3'])
 
     queryObj = VolunteerProfile.all()
     if searchVal['searchRegion']:
         queryObj.filter('resident_city = ', searchVal['searchRegion'])
+        queryStringList.append(u'region=%s' % searchVal['searchRegion'])
     if len(searchExpertiseList) > 0:
         queryObj.filter('expertise in ', list(searchExpertiseList))
+    del searchExpertiseList
 
     count = queryObj.count()
 
@@ -89,6 +95,7 @@ def show(request):
             'pageList':                 pageList,
             'currentPage':              currentPage,
             'searchVal':                searchVal,
+            'queryString':              u'&'.join(queryStringList),
     }
     response = render_to_response('volunteer/volunteer_search.html', template_values)
 
