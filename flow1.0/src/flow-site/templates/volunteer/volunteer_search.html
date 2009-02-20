@@ -34,13 +34,13 @@
 						<div class="right-links">
 							<div class="pager">
 							    {% ifnotequal prevIndex None %}
-							    <a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    <a href="{{ base.path }}?{% if prevIndex %}start={{ prevIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}">上一頁</a>
 							    {% endifnotequal %}
 							    {% for page in pageList %}
-							    <a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    <a href="{{ base.path }}?{% if page.startIndex %}start={{ page.startIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
 							    {% endfor %}
 							    {% if nextIndex %}
-							    <a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    <a href="{{ base.path }}?start={{ nextIndex }}&{% if queryString %}{{ queryString }}{% endif %}">下一頁</a>
 							    {% endif %}
 							</div>
 						</div>
@@ -87,13 +87,13 @@
 						<div class="right-links">
 							<div class="pager">
 							    {% ifnotequal prevIndex None %}
-							    <a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    <a href="{{ base.path }}?{% if prevIndex %}start={{ prevIndex }}{% endif %}&{% if queryString %}{{ queryString }}{% endif %}">上一頁</a>
 							    {% endifnotequal %}
 							    {% for page in pageList %}
-							    <a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    <a href="{{ base.path }}?{% if page.startIndex %}start={{ page.startIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
 							    {% endfor %}
 							    {% if nextIndex %}
-							    <a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    <a href="{{ base.path }}?start={{ nextIndex }}&{% if queryString %}{{ queryString }}{% endif %}">下一頁</a>
 							    {% endif %}
 							</div>
 						</div>
