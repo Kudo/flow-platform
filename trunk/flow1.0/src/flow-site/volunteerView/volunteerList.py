@@ -17,7 +17,7 @@ displayNpoCount = 3
 displayPageCount = 5
 
 def show(request):
-    count = db.GqlQuery('SELECT * FROM VolunteerProfile').count()
+    count = VolunteerProfile.all().totalCount()
     startIndex = 0
     if 'start' in request.GET:
         startIndex = int(request.GET['start'])

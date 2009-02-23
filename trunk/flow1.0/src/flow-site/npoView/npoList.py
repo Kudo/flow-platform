@@ -18,7 +18,7 @@ displayNpoEventCount = 2
 diffDaysLimit = 14
 
 def show(request):
-    count = db.GqlQuery('SELECT * FROM NpoProfile').count()
+    count = NpoProfile.all().totalCount()
     startIndex = 0
     if 'start' in request.GET:
         startIndex = int(request.GET['start'])
