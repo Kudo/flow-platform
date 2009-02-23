@@ -44,9 +44,18 @@
 	                </form>
 							</div>
 							<div id="search_npo">
+	                <form action="/npo/search/" method="GET">
                     	<div id="search-bar">
-												TBD
+												<label for="region">服務地區:</label>
+												<select name="region">
+													<option value="">任何地區</option>
+													{% for region in base.region %}
+													<option value="{{ region }}"{% ifequal searchVal.searchRegion region %} selected="selected"{% endifequal %}>{{ region }}</option>
+													{% endfor %}
+												</select>
+												<input type="submit" value="搜尋" />
                       </div>
+	                </form>
 							</div>
 							<div id="search_event">
                     	<div id="search-bar">
