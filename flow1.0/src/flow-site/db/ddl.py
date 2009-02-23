@@ -40,6 +40,7 @@
 # 2009/01/19, Kudo Chien:            improve search() performance for SearchableStringProperty by chaining query filter
 # 2009/01/20, Tony Chu:              update code based on schema "FlowPlatform_DataSchema_v0.5.xls";
 #                                    simplify require-constraint by removing redundant ones
+# 2009/02/21, Kudo Chien:            Add ModelCount class for solving the count() limitation in GAE.
 #
 #
 # *** REMARKS ***
@@ -80,6 +81,7 @@
 #    obtain the entity: (using NpoProfile as an example)
 #          entity = NpoProfile.gql("WHERE id = :1", id).get()
 #    The result would be None if the id is bogus.
+# 6. To get the real total count of model, use YourModel.all().totalCount(). e.g. NpoProfile.all().totalCount().
 #
 #
 # *** USAGE: SearchableStringProperty ***
@@ -112,7 +114,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 """
 
 __all__ = ["CountryCity", "EventAnswer", "EventNews", "EventProfile", "EventQuestion", "EventQuestionnaire", "EventReport",
-           "Expertise", "Field", "ImproperReport", "NpoAdmin", "NpoContact", "NpoEmail", "NpoNews", "NpoPhone",
+           "Expertise", "Field", "ImproperReport", "ModelCount", "NpoAdmin", "NpoContact", "NpoEmail", "NpoNews", "NpoPhone",
            "NpoProfile", "QuestionnaireTemplate", "ReportTemplate", "Target", "VolunteerEmailBook", "VolunteerEvent",
            "VolunteerIm", "VolunteerLog", "VolunteerProfile"]
 
@@ -321,11 +323,11 @@ class FlowDdlModel(db.Model):
                             # The "back_ref" is a reference from a child node to parent.
                             # We must avoid adding it to the "children" list or else the
                             # result would be an infinite recursion.
-                            children.append(str(value))
+                            children.append(unicode(value).encode('UTF-8'))
                     else:
                         ret.append('"None"')
                 else:
-                    ret.append('"' + cgi.escape(str(value)) + '"')
+                    ret.append('"' + cgi.escape(unicode(value).encode('UTF-8')) + '"')
         if children == []:
             ret.append(" />")
         else:
@@ -334,11 +336,24 @@ class FlowDdlModel(db.Model):
             ret.append("</" + self.__class__.__name__ + ">")
         return "".join(ret)
 
+    def put(self):
+        key = super(FlowDdlModel, self).put()
+        ModelCount.increment(self)
+        return key
+
+    def delete(self):
+        key = super(FlowDdlModel, self).delete()
+        ModelCount.decrement(self)
+        return key
+
     @classmethod
     def all(cls):
         return FlowDdlModel.Query(cls)
 
     class Query(db.Query):
+        def totalCount(self, limit=None):
+            return ModelCount.getCount(self._model_class, limit)
+
         def search(self, property, query, encFrom="UTF-8"):
             if not isinstance(property, SearchableStringProperty):
                 raise db.BadPropertyError("Currently, search() is only for SearchableStringProperty.")
@@ -371,6 +386,102 @@ class FlowDdlModel(db.Model):
 # Public classes, as declared by __all__.
 #----------------------------------------------------------
 """
+
+class ModelCount(db.Model):
+    """
+    The Model count class.
+    """
+    className = db.StringProperty(required=True)
+    count     = db.IntegerProperty(required=True)
+
+    @staticmethod
+    def _init(obj):
+        """
+        Start a ModelCount entity. User should not directly call this method.
+        """
+        ctr = ModelCount(className=obj.__class__.__name__, count=1)
+        ctr.put()
+        return ctr.count
+
+    @staticmethod
+    def _doIncrement(key):
+        """
+        Increment the count by 1. User should not directly call this method.
+        """
+        ctr = db.get(key)
+        ctr.count += 1
+        ctr.put()
+        return ctr.count
+
+    @staticmethod
+    def _doDecrement(key):
+        """
+        Decrement the count by 1. User should not directly call this method.
+        """
+        ctr = db.get(key)
+        ctr.count -= 1
+        ctr.put()
+        return ctr.count
+
+    @staticmethod
+    def increment(obj):
+        """
+        Increment the count by 1.
+        """
+        acc = ModelCount.gql("WHERE className=:1", obj.__class__.__name__).get()
+        if acc == None:
+            return db.run_in_transaction(ModelCount._init, obj)
+        else:
+            return db.run_in_transaction(ModelCount._doIncrement, acc.key())
+
+    @staticmethod
+    def decrement(obj):
+        """
+        Increment the count by 1.
+        """
+        acc = ModelCount.gql("WHERE className=:1", obj.__class__.__name__).get()
+        if acc == None:
+            return db.run_in_transaction(ModelCount._init, obj)
+        else:
+            return db.run_in_transaction(ModelCount._doDecrement, acc.key())
+
+    @staticmethod
+    def getCount(modelClass, limit=None):
+        """
+        Get the entity count of obj class 
+        """
+        acc = ModelCount.gql("WHERE className=:1", modelClass.__name__).get()
+        if acc is not None:
+            if limit and acc.count > limit:
+                return limit
+            return acc.count
+        else:
+            return 0
+
+    @classmethod
+    def unitTest(cls):
+        startUnitTest("ModelCount.unitTest")
+
+        count = NpoProfile.all().count()
+
+        user = users.User("john_doe@gmail.com")
+        now  = datetime.datetime.utcnow()
+        npo  = NpoProfile(npo_name="Save the Orcas", founder="John Doe", google_acct=user, country="ROC", postal="104", state="Taiwan", city="Taipei",
+                          district="Nangang", founding_date=datetime.date(1980, 1, 1), authority="GOV", tag=["wild lives", "marines"],
+                          status="new application", docs_link=["Timbuck2"], npo_rating=1, create_time=now, update_time=now)
+
+        npo.put()
+        if NpoProfile.all().count() != count + 1:
+            raise IOError 
+
+        count = NpoProfile.all().count()
+        npo.delete()
+        if NpoProfile.all().count() != count - 1:
+            raise IOError 
+
+        writeln("OK")
+
+# end class ModelCount
 
 class NpoProfile(FlowDdlModel):
     """
@@ -840,7 +951,7 @@ class EventProfile(FlowDdlModel):
 
         now   = datetime.datetime.utcnow()
         event = EventProfile(event_id="2009010199", event_name="Operation Save-Orcas", description="Beach watch?", npo_profile_ref=npo,
-                             volunteer_profile_ref=volunteer, event_region=["Taipei"], event_zip=["104"],
+                             volunteer_profile_ref=volunteer, volunteer_req=1, event_region=["Taipei"], event_zip=["104"],
                              event_target=["social worker"], event_field=[], category="socializing",
                              start_time=now, end_time=now, reg_start_time=now, reg_end_time=now, objective="Killing time with orcas",
                              status="new application", max_age=99, min_age=9, questionnaire_template_ref=template, event_rating=75, npo_event_rating=80,
@@ -1374,6 +1485,7 @@ class DDL_UnitTest(webapp.RequestHandler):
             writeln('<?xml version="1.0"?>')
             writeln("<UnitTest>")
 
+            ModelCount.unitTest()
             npo            = NpoProfile.unitTest()
             volunteer      = VolunteerProfile.unitTest()
             template       = QuestionnaireTemplate.unitTest()
