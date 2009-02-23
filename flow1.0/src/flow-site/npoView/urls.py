@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('npoView',   
-    # list
     (r'^/?$',                       'npoList.show'),
+    (r'^search/?$',                 'search.show'),
     # event
     (r'^editEvent/?$', 'editEvent.processEditEvent'),
     (r'^addEvent/?$', 'addEvent.processAddEvent'),
