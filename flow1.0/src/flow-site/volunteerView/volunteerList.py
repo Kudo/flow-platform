@@ -15,6 +15,7 @@ from db.ddl import VolunteerProfile, VolunteerIm, NpoProfile
 displayCount = 10
 displayNpoCount = 3
 displayPageCount = 5
+displayExpertiseCount = 5
 
 def show(request):
     #count = VolunteerProfile.all().totalCount()
@@ -51,7 +52,9 @@ def show(request):
         volunteer.npoList = [NpoProfile.get(volunteer.npo_profile_ref[i]) for i in range(displayNpoCount) if i < len(volunteer.npo_profile_ref)]
         volunteer.npoCount = len(volunteer.npo_profile_ref)
         volunteer.npoShowMore = True if volunteer.npoCount > displayNpoCount else False
-        volunteer.showExpertise = u', '.join(volunteer.expertise)
+        volunteer.showExpertise = u', '.join(volunteer.expertise[:displayExpertiseCount])
+        if (len(volunteer.expertise) > displayExpertiseCount):
+            volunteer.showExpertise += u', ...'
 
     # Special case, if count <= 0
     if count <= 0:
