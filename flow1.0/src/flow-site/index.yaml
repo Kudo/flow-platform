@@ -38,21 +38,21 @@ indexes:
   - name: time_end
     direction: desc
 
-# Used 2 times in query history.
+# Unused in query history -- copied from input.
 - kind: EventProfile
   properties:
   - name: status
   - name: create_time
     direction: desc
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: EventProfile
   properties:
   - name: status
   - name: update_time
     direction: desc
 
-# Used 2 times in query history.
+# Unused in query history -- copied from input.
 - kind: EventProfile
   properties:
   - name: status
