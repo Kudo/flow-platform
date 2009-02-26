@@ -85,3 +85,6 @@ INSTALLED_APPS = (
 )
 
 APPEND_SLASH = False
+
+JQUERY_URI = 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'
+JQUERY_UI_URI = '/static/js/jquery-ui-1.6rc6.min.js'
