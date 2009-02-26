@@ -9,7 +9,7 @@ search_tabs = function() {
 			});
 
 	// Add event listener
-	$tabs.mouseover(function() {
+	$tabs.mouseover(function(e) {
 			// Remove previous
 			$(".chosen").removeClass("chosen");
 			$(".showing").hide();
@@ -32,3 +32,4 @@ search_tabs = function() {
 
 }
 
+$(document).ready(search_tabs);

@@ -27,6 +27,9 @@ def getBase(request, volunteer=None, npo_id=None):
     data['region']          = getRegion()
     data['token']           = _make_token(request)
 
+    data['jQueryURI']       = settings.JQUERY_URI
+    data['jQueryUI-URI']    = settings.JQUERY_UI_URI
+
     if volunteer:
         if isinstance(volunteer, (str, unicode)):
             volunteer = getVolunteer(volunteer)
