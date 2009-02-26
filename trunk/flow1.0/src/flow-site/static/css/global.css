@@ -165,13 +165,16 @@ h6 {
 	text-align: right;
 	padding-top: 2px;
 	width: auto;
+	display: block;
 }
 
 #site-logo {
-#	float: left;
 	padding: 5px;
 	padding-left: 10px;
 	padding-bottom: 0px;
+	width: 50px;
+	height: 50px;
+	float: left;
 }
 
 #site-title {
@@ -182,15 +185,50 @@ h6 {
 
 /* splashbox_search */
 #splash-box {
+	display: block;
 	padding-bottom: 8px;
+	height: 60px;
 }
 
 #search-container {
-	width: 430px;
-    margin: 0 auto;
-    margin-bottom: -80px;
-    position: relative;
-    top: -90px;
+	display: block;
+	text-align: left;
+	padding: 2px;
+	width: 700px !important;
+	height: 50px;
+	position: relative;
+	left: 50px;
+	top: 7px;
+	padding: 5px 5px 0 10px;
+}
+
+#search-tags ul {
+	text-align: left;
+	padding-left: 5px;
+	padding-bottom: 4px;
+}
+
+#search-tags li {
+	font-size: 16px;
+	display: inline;
+	
+}
+
+#search-tags A {
+	padding: 4px;
+}
+
+#search-tags .chosen {
+	border: 2px solid #000;
+}
+
+#search-label {
+	font-size: 12px;
+	color: #666;
+}
+
+#search-content {
+	padding-top: 3px;
 }
 
 #search-site-mark {
@@ -214,10 +252,13 @@ h6 {
 {
 }
 
+
 #search-bar
 {
+	height: 26px;
 }
 
+/*
 #search-bar label,
 #search-bar input,
 #search-bar select
@@ -225,6 +266,7 @@ h6 {
     margin-bottom: 5px;
     display: block;
 }
+*/
 
 #search-choices
 {
@@ -750,4 +792,26 @@ div.topbar li {
 
 .clear-none {
 	clear: none;
+}
+
+/* clearfix */
+.clearfix:after {
+	content:".";
+	display:block;
+	clear:both;
+	visibility:hidden;
+	line-height:0;
+	height:0;
+}
+
+.clearfix {
+	display:inline-block;
+}
+
+html[xmlns] .clearfix {
+	display:block;
+}
+
+* html .clearfix {
+	height:1%;
 }
