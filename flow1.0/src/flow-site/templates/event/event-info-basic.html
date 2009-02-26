@@ -1,39 +1,39 @@
-		<div class="activity-info-content">
+﻿		<div class="activity-info-content">
 			<div class="content-block">
 				<div class="block-caption">
 					<span class="caption">基本資訊</span>
 				</div>
 				<dl>
 					<dt>活動名稱:</dt>
-                    <dd>{{event.event_name}}</dd>
+                    <dd>{{event.event_name|escape}}</dd>
                     <dt>發起人/群組:</dt>
-					<dd>{{event.originator}}</dd>
+					<dd>{{event.originator|escape}}</dd>
 					<dt>活動類型:</dt>
-					<dd>{{event.category}}</dd>
+					<dd>{{event.category|escape}}</dd>
 					<dt>活動地區:</dt>
-					<dd>{% for item in event.event_region%}{{item}}{% endfor %}</dd>
+					<dd>{% for item in event.event_region%}{{item|escape}}{% endfor %}</dd>
 					<dt>活動地點:</dt>
-					<dd>{% for item in event.event_target%}{{item}}{% endfor %}</dd>
+					<dd>{% for item in event.event_target%}{{item|escape}}{% endfor %}</dd>
 					<dt>公益時數:</dt>
-					<dd>{{event.event_hours}} 小時</dd>
+					<dd>{{event.event_hours|escape}} 小時</dd>
                     <dt>活動的開始/結束時間:</dt>
-                    <dd>{{event.start_time}}~{{event.end_time}}</dd>
+                    <dd>{{event.start_time|escape}}~{{event.end_time|escape}}</dd>
                     <dt>登記的開始/結束時間:</dt>
-                    <dd>{{event.reg_start_time}}~{{event.reg_end_time}}</dd>
+                    <dd>{{event.reg_start_time|escape}}~{{event.reg_end_time|escape}}</dd>
                     <dt>報名費用:</dt>
-                    <dd>新台幣 {{event.registration_fee}} 元整</dd>
+                    <dd>新台幣 {{event.registration_fee|escape}} 元整</dd>
                     <dt>已報名人數/通過審核人數</dt>
-                    <dd>{{event.registered_count}} / {{event.approved_count}}</dd>
+                    <dd>{{event.registered_count|escape}} / {{event.approved_count|escape}}</dd>
                     <dt>尚欠人數:</dt>
-                    <dd>{{needed}}</dd>
+                    <dd>{{needed|escape}}</dd>
                     <dt>活動狀態</dt>
                     <dd>{{status}}</dd>
 					<dt>id:</dt>
-					<dd>{{event.event_id}}</dd>
+					<dd>{{event.event_id|escape}}</dd>
 					<dt>本活動建立時間:</dt>
-					<dd>{{event.create_time}}</dd>
+					<dd>{{event.create_time|escape}}</dd>
                     <dt>上一次更新時間:</dt>
-					<dd>{{event.update_time}}</dd>
+					<dd>{{event.update_time|escape}}</dd>
 				</dl>
 			</div> <!-- .content-block -->
 		</div> <!-- .activity-info-content -->
