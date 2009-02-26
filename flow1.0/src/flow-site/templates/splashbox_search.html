@@ -1,65 +1,73 @@
-				<div id="search-site-mark">
-						<img src="/static/images/u28.png" />
-					<h2 id="search-site-title">若水公益交換平台</h2>
-				</div>
-       	<div id="search-container">
-							<ul>
-								<li><a href="#search_volunteer"><span>志工</span></a></li>
-								<li><a href="#search_npo"><span>NPO</span></a></li>
-								<li><a href="#search_event"><span>活動</span></a></li>
-							</ul>
+				<span id="site-logo">
+		            <img src="/static/images/site-logo.png" />
+	            </span>
+       			<span id="search-container">
+       				<div id="search-tags">
+					<ul>
+						<li><span id="search-label">搜尋</span></li>
+						<li><a href="#search-volunteer"><span>志工</span></a></li>
+						<li><a href="#search-npo"><span>NPO</span></a></li>
+						<li><a href="#search-event"><span>活動</span></a></li>
+					</ul>
+					</div>
 
-							<div id="search_volunteer">
-	                <form action="/volunteer/search/" method="GET">
-                    	<div id="search-bar">
-												<label for="region">居住地:</label>
-												<select name="region">
-													<option value="">任何地區</option>
-													{% for region in base.region %}
-													<option value="{{ region }}"{% ifequal searchVal.searchRegion region %} selected="selected"{% endifequal %}>{{ region }}</option>
-													{% endfor %}
-												</select>
-												<label for="expertise">專長:</label>
-												<select name="expertise_1">
-													<option value="">任何專長</option>
-													{% for expertise in base.proflist %}
-													<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise_1 expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
-													{% endfor %}
-												</select>
-												<select name="expertise_2">
-													<option value="">---</option>
-													{% for expertise in base.proflist %}
-													<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise_2 expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
-													{% endfor %}
-												</select>
-												<select name="expertise_3">
-													<option value="">---</option>
-													{% for expertise in base.proflist %}
-													<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise_3 expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
-													{% endfor %}
-												</select>
-												<input type="submit" value="搜尋" />
-												<!-- <a>進階搜尋</a> -->
-                      </div>
-	                </form>
+					<div id="search-content">
+					<div id="search-volunteer">
+	    	            <form action="/volunteer/search/" method="GET">
+            	        	<div id="search-bar">
+								<label for="region">居住地:</label>
+								<select name="region">
+									<option value="">任何地區</option>
+									{% for region in base.region %}
+									<option value="{{ region }}"{% ifequal searchVal.searchRegion region %} selected="selected"{% endifequal %}>{{ region }}</option>
+									{% endfor %}
+								</select>
+								<label for="expertise">專長:</label>
+								<select name="expertise_1">
+									<option value="">任何專長</option>
+									{% for expertise in base.proflist %}
+									<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise_1 expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
+									{% endfor %}
+								</select>
+								<select name="expertise_2">
+									<option value="">---</option>
+									{% for expertise in base.proflist %}
+									<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise_2 expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
+									{% endfor %}
+								</select>
+								<select name="expertise_3">
+									<option value="">---</option>
+									{% for expertise in base.proflist %}
+									<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise_3 expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
+									{% endfor %}
+								</select>
+								<input type="submit" value="搜尋" />
+								<!-- <a>進階搜尋</a> -->
 							</div>
-							<div id="search_npo">
-	                <form action="/npo/search/" method="GET">
-                    	<div id="search-bar">
-												<label for="region">服務地區:</label>
-												<select name="region">
-													<option value="">任何地區</option>
-													{% for region in base.region %}
-													<option value="{{ region }}"{% ifequal searchVal.searchRegion region %} selected="selected"{% endifequal %}>{{ region }}</option>
-													{% endfor %}
-												</select>
-												<input type="submit" value="搜尋" />
-                      </div>
-	                </form>
+						</form>
+					</div>
+				
+					<div id="search-npo">
+	            	    <form action="/npo/search/" method="GET">
+							<div id="search-bar">
+								<label for="region">服務地區:</label>
+								<select name="region">
+									<option value="">任何地區</option>
+									{% for region in base.region %}
+									<option value="{{ region }}"{% ifequal searchVal.searchRegion region %} selected="selected"{% endifequal %}>{{ region }}</option>
+									{% endfor %}
+								</select>
+								<input type="submit" value="搜尋" />
 							</div>
-							<div id="search_event">
+						</form>
+					</div>
+					<div id="search-event">
                     	<div id="search-bar">
-												TBD
-                      </div>
-							</div>
-          </div>
+							TBD
+						</div>
+					</div>
+					
+					
+					
+					</div>	<!-- search-content -->
+				</span> <!-- search-container -->
