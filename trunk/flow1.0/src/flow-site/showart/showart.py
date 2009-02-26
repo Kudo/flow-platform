@@ -235,6 +235,11 @@ showArtPages = [
                  'description' : 'extends event Base Page', 
                  'owner'       : 'camgelo', 
                  'status'      : 'DONE'},
+                {'filename'    : 'event/site-event-admin-list.html', 
+                 'name'        : 'event: Site Admin event List',
+                 'description' : 'extends event Base Page', 
+                 'owner'       : 'brian_wang', 
+                 'status'      : 'DONE'},
                 {'filename'    : 'event/event-admin-validate.html', 
                  'name'        : 'event: Admin Validate event Volunteers',
                  'description' : 'extends event Base Page', 
@@ -244,7 +249,6 @@ showArtPages = [
 
 def showartAction(request, filename):
     from django.conf import settings
-    old_template = settings.TEMPLATE_DIRS
     settings.TEMPLATE_DIR = (settings.ROOT_PATH + '/showart/templates',)
     if ('' == filename):
         return render_to_response('showart.html', {'showart_pages' : showArtPages})
@@ -265,5 +269,5 @@ def showartAction(request, filename):
         except TemplateDoesNotExist:
             response = HttpResponse('Page not found or included / extended template not found: '+filename)
         
-        settings.TEMPLATE_DIRS = old_template
+        settings.TEMPLATE_DIR = (settings.ROOT_PATH + '/templates',)
         return response

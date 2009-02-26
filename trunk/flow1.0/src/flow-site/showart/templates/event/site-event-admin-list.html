@@ -1,0 +1,63 @@
+{% extends "event/base.html" %}
+
+{### header ###}
+
+{### content ###}
+
+{% block activityContent %}
+
+	<h3 id="page-title">志工平台活動管理</h3>
+	
+	<form method="POST" action="">
+		<table border="1" width="80%" cellspacing="0" cellpadding="0" id="tblActivity">
+			<tr>
+				<td>活動名稱</td>
+				<!--<td>狀態</td>-->
+				<td>　</td>
+			</tr>
+			<tr>
+				<td>喜憨兒餅乾義賣</td>
+				<!--<td>企劃暫存中</td>-->
+				<td><input type="button" value="上架">
+				<input type="button" value="警告">
+				<input type="button" value="下架"></td>
+			</tr>
+			<tr>
+				<td>台大捐血</td>
+				<!--<td>手機認證中</td>-->
+				<td><input type="button" value="上架">
+				<input type="button" value="警告">
+				<input type="button" value="下架"></td>
+			</tr>
+			<tr>
+				<td>烏來國小圖書館整理</td>
+				<!--<td>志工招募中</td>-->
+				<td><input type="button" value="上架">
+				<input type="button" value="警告">
+				<input type="button" value="下架"></td>
+			</tr>
+			<tr>
+				<td>柏大尼育幼院耶誕活動</td>
+				<!--<td>活動執行中</td>-->
+				<td><input type="button" value="上架">
+				<input type="button" value="警告">
+				<input type="button" value="下架"></td>
+			</tr>
+			<tr>
+				<td>活動五</td>
+				<!--<td>活動結案中</td>-->
+				<td><input type="button" value="上架">
+				<input type="button" value="警告">
+				<input type="button" value="下架"></td>
+			</tr>
+			<tr>
+				<td>活動六</td>
+				<!--<td>已結案</td>-->
+				<td><input type="button" value="上架">
+				<input type="button" value="警告">
+				<input type="button" value="下架"></td>
+			</tr>
+		</table>
+	</form>
+
+{% endblock activityContent %}
