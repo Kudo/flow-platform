@@ -57,7 +57,10 @@ class MyCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
         has_id = attrs and attrs.has_key('id')
         final_attrs = self.build_attrs(attrs, name=name)
         output = [u'<table>\n<tr>']
-        str_values = set([forms.util.smart_unicode(v) for v in value.split('\n')]) # Normalize to strings.
+        if isinstance(value, list):
+            str_values = set([forms.util.smart_unicode(v) for v in value]) # Normalize to strings.
+        else:
+            str_values = set([forms.util.smart_unicode(v) for v in value.split('\n')]) # Normalize to strings.
         for i, (option_value, option_label) in enumerate(chain(self.choices, choices)):
             # If an ID attribute was given, add a numeric index as a suffix,
             # so that the checkboxes don't all have the same ID attribute.
@@ -114,6 +117,27 @@ class VolunteerProfileForm(djangoforms.ModelForm):
         fields = ['volunteer_first_name', 'volunteer_last_name', 'sex', 'resident_city', 'logo', 'school', 'organization', 'title',
                   'cellphone_no', 'blog', 'expertise', 'brief_intro',
                  ]
+
+    def clean_birthyear(self):
+        self.cleaned_data = self._cleaned_data()
+        data = int(self.cleaned_data['birthyear'])
+        if data < 1900 or data > 2030:
+            raise forms.ValidationError(u'輸入的值不洽當，請試著輸入正確的值。')
+        return data
+
+    def clean_birthmonth(self):
+        self.cleaned_data = self._cleaned_data()
+        data = int(self.cleaned_data['birthmonth'])
+        if data < 1 or data > 12:
+            raise forms.ValidationError(u'輸入的值不洽當，請試著輸入正確的值。')
+        return data
+
+    def clean_birthday(self):
+        self.cleaned_data = self._cleaned_data()
+        data = int(self.cleaned_data['birthday'])
+        if data < 1 or data > 31:
+            raise forms.ValidationError(u'輸入的值不洽當，請試著輸入正確的值。')
+        return data
 
 
 def show(request):
