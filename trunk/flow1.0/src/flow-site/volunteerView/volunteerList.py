@@ -17,7 +17,8 @@ displayNpoCount = 3
 displayPageCount = 5
 
 def show(request):
-    count = VolunteerProfile.all().totalCount()
+    #count = VolunteerProfile.all().totalCount()
+    count = VolunteerProfile.all().count()
     startIndex = 0
     if 'start' in request.GET:
         startIndex = int(request.GET['start'])
