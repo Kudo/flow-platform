@@ -13,13 +13,13 @@
 			{% for event in event1 %}
 
 			<div class="activity-info-item">
-				<p><a href="viewEvent?id={{event.event_key}}" class="activity-title">{{ event.event_name }}</a> 
-					<span class="info-desc">{{ event.originator }} 於 {{ event.create_time }} 發起</span></p>
+				<p><a href="viewEvent?id={{event.event_key|escape }}" class="activity-title">{{ event.event_name|escape  }}</a> 
+					<span class="info-desc">{{ event.originator|escape  }} 於 {{ event.create_time|escape }} 發起</span></p>
 
 				<dl>
-					<dt>活動時間:</dt><dd>{{ event.start_time }}</dd>
-					<dt>活動地點:</dt><dd>{{ event.event_region }}</dd>
-					<dt>活動說明:</dt><dd>{{ event.description }}</dd>
+					<dt>活動時間:</dt><dd>{{ event.start_time|escape  }}</dd>
+					<dt>活動地點:</dt><dd>{{ event.event_region|escape }}</dd>
+					<dt>活動說明:</dt><dd>{{ event.description|escape }}</dd>
 				</dl>
 			</div>
       {% endfor %}
@@ -36,17 +36,17 @@
 			{% for event in event2 %}
 			<div class="lack-people-block">
 				<span class="lack">缺</span>
-				<div class="block number">{{ event.lackpeople }}</div>
+				<div class="block number">{{ event.lackpeople|escape }}</div>
 				<div class="block">人</div>
 
 			</div>
 			<div class="activity-info-item with-lack-people-num">
-				<p><a href="viewEvent?id={{event.event_key}}" class="activity-title">{{ event.event_name }}</a> 
-					<span class="info-desc">{{ event.originator }} 於 {{ event.create_time }} 發起</span></p>
+				<p><a href="viewEvent?id={{event.event_key|escape }}" class="activity-title">{{ event.event_name|escape }}</a> 
+					<span class="info-desc">{{ event.originator|escape }} 於 {{ event.create_time|escape }} 發起</span></p>
 				<dl>
-					<dt>活動時間:</dt><dd>{{ event.start_time }}</dd>
-					<dt>活動地點:</dt><dd>{{ event.event_region }}</dd>
-					<dt>活動說明:</dt><dd>{{ event.description }}</dd>
+					<dt>活動時間:</dt><dd>{{ event.start_time|escape }}</dd>
+					<dt>活動地點:</dt><dd>{{ event.event_region|escape }}</dd>
+					<dt>活動說明:</dt><dd>{{ event.description|escape  }}</dd>
 				</dl>
 			</div>
 			{% endfor %}
@@ -63,12 +63,12 @@
 
 			{% for event in event3 %}
 			<div class="activity-info-item">
-				<p><a href="viewEvent?id={{event.event_key}}" class="activity-title">{{ event.event_name }}</a> 
-					<span class="info-desc">{{ event.originator }} 於 {{ event.create_time }} 發起</span></p>
+				<p><a href="viewEvent?id={{event.event_key|escape }}" class="activity-title">{{ event.event_name|escape  }}</a> 
+					<span class="info-desc">{{ event.originator|escape  }} 於 {{ event.create_time|escape  }} 發起</span></p>
 				<dl>
-					<dt>活動時間:</dt><dd>{{ event.start_time }}</dd>
-					<dt>活動地點:</dt><dd>{{ event.event_region }}</dd>
-					<dt>活動說明:</dt><dd>{{ event.description }}</dd>
+					<dt>活動時間:</dt><dd>{{ event.start_time|escape  }}</dd>
+					<dt>活動地點:</dt><dd>{{ event.event_region|escape  }}</dd>
+					<dt>活動說明:</dt><dd>{{ event.description|escape }}</dd>
 				</dl>
 			</div>
 			{% endfor %}
