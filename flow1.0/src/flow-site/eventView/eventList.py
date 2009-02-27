@@ -12,7 +12,7 @@ def mainPage(request):
     
     now = datetime.datetime.now()
     event1 = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY create_time DESC','approved','recruiting').fetch(5)
-    event2 = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage DESC','approved','recruiting').fetch(5)
+    event2 = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage ASC','approved','recruiting').fetch(5)
     #event2 = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY (:3)','approved','recruiting','volunteer_req - approved_count').fetch(5)
     event3 = ddl.EventProfile.gql('where status in (:1) ORDER BY update_time DESC','activity closed').fetch(5)
     listActivityResult1 = []
