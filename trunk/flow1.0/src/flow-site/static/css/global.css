@@ -19,20 +19,9 @@ th {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-a {
+a, a:hover, a:visited, a:active {
 	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-}
-
-a:visited {
-	text-decoration: none;
-}
-
-a:active {
-	text-decoration: none;
+	color: #036;
 }
 
 ul.horizontal-menu {
@@ -44,6 +33,7 @@ ul.horizontal-menu li {
 	display: inline;
 	line-height: 20px;
 	vertical-align:top;
+	margin-right:0.4em;
 }
 
 ul.top-horizontal-menu {
@@ -286,6 +276,7 @@ h6 {
 
 .main-content {
 	margin-left: 10px;
+	margin-right: 10px;
 }
 
 .main-content h2 {
