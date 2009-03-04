@@ -6,6 +6,7 @@ from google.appengine.ext import db
 from django import newforms as forms
 from db import ddl
 from google.appengine.ext.db import djangoforms
+import flowBase
 
 class NewEventForm(djangoforms.ModelForm):
     event_name = forms.CharField(required=True,widget=forms.TextInput(attrs={'size':'37'}))
@@ -93,6 +94,8 @@ def processEditEvent(request):
             raise db.BadQueryError()
         
         form = NewEventForm(instance = eventProfile)
-
-    return render_to_response('event/event-admin-edit.html', {'form': form,'event_id' : event_id})
+    dicData={'lstVolunteer' : addName(results),
+             'base':flowBase.getBase(request),
+             }
+    return render_to_response('event/event-admin-edit.html', {'form':form, 'event_id':event_id, 'base':flowBase.getBase(request)})
     
