@@ -1,10 +1,11 @@
+import datetime
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import TemplateDoesNotExist
 from google.appengine.ext import db
 from db import ddl
 from django import newforms as forms
-import datetime
+import flowBase
 
 # Form submit verification
 class volForm(forms.Form):
@@ -13,17 +14,19 @@ class volForm(forms.Form):
 # Check to see if eventID is given. Direct to error page if not.
 def volunteerShow(request):
     try:
-        #strEventId = request.POST['event_id']
-        strEventID = "2009010199"
+        strEventId = request.POST['event_id']
     except KeyError:
         # Redirect to login page
         return render_to_response(r'someErrorPage.html', {})
     # Retrieve data with given eventID and status
-    query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_id = :1 AND status = :2",strEventID,'approving')
-    results = query.fetch(20)
+    query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_id = :1 AND status = :2",strEventId,'new registration')
+    results = query.fetch(100)
     #print results[0].key
     #print strEventID
-    return render_to_response(r'event\event-admin-validate.html', {'lstVolunteer' : addName(results)})
+    dicData={'lstVolunteer' : addName(results),
+             'base':flowBase.getBase(request),
+             }
+    return render_to_response(r'event\event-admin-validate.html', dicData)
 
 
 # append volunteer name from volunteer profile
@@ -32,16 +35,15 @@ def addName(lstVolEvent):
     Match and added correct rule to each activity according its status.
     @ return: active list with correct rule appended.
     '''
-    lstVolID = []
-    lstVolList = []
     # Retrieve all volunteer ID and put them in a list
+    lstVolunteer=[]
     for volEvent in lstVolEvent:
-        lstVolID.append(volEvent.volunteer_id)
-    # select volunteer profile for the list of IDs given
-    query = db.GqlQuery("SELECT * FROM VolunteerProfile WHERE volunteer_id = :1",lstVolID)
-    results = query.fetch(20)
-    #print volEvent.volunteer_id
-    return results
+        objVolunteer = db.GqlQuery("SELECT * FROM VolunteerProfile WHERE volunteer_id = :1",volEvent.volunteer_id).get()
+        if objVolunteer:
+            lstVolunteer.append(objVolunteer)
+        else:
+            raise RuntimeError('%s does NOT exist!'%volEvent.volunteer_id)
+    return lstVolunteer
 
 def volSubmit(request):
     if request.method == 'POST': # If the form has been submitted...
