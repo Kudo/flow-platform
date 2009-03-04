@@ -242,11 +242,16 @@ def edit(request):
             }
 
             if cleaned_data['im_account']:
-                volunteerIMObj = VolunteerIm(
-                        volunteer_profile_ref       = volunteerObjKey,
-                        im_type                     = cleaned_data['im_type'],
-                        im_account                  = '%s %s' % (imTypeTable[cleaned_data['im_type']], cleaned_data['im_account'])
-                )
+                volunteerIMObj = VolunteerIm.all().filter('volunteer_profile_ref =', volunteerObjKey).get()
+                if volunteerIMObj:
+                    volunteerIMObj.im_type = cleaned_data['im_type']
+                    volunteerIMObj.im_account = '%s %s' % (imTypeTable[cleaned_data['im_type']], cleaned_data['im_account'])
+                else:
+                    volunteerIMObj = VolunteerIm(
+                            volunteer_profile_ref       = volunteerObjKey,
+                            im_type                     = cleaned_data['im_type'],
+                            im_account                  = '%s %s' % (imTypeTable[cleaned_data['im_type']], cleaned_data['im_account'])
+                    )
                 volunteerIMObj.put()
 
             return HttpResponseRedirect("/volunteer/profile/")
