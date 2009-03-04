@@ -182,6 +182,7 @@ def showHome(request):
             'leftMembersRow1': row1,
             'leftMembersRow2': row2,
             'numOfMembers': len(members),
+            'base':flowBase.getBase(request)
      }
     response = render_to_response('npo/npo_home.html', template_values)
     return response
