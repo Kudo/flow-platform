@@ -41,6 +41,7 @@
 # 2009/01/20, Tony Chu:              update code based on schema "FlowPlatform_DataSchema_v0.5.xls";
 #                                    simplify require-constraint by removing redundant ones
 # 2009/02/21, Kudo Chien:            Add ModelCount class for solving the count() limitation in GAE.
+# 2009/03/05, Kudo Chien:            Fix bug of ModelCount
 #
 #
 # *** REMARKS ***
@@ -82,6 +83,7 @@
 #          entity = NpoProfile.gql("WHERE id = :1", id).get()
 #    The result would be None if the id is bogus.
 # 6. To get the real total count of model, use YourModel.all().totalCount(). e.g. NpoProfile.all().totalCount().
+#    Moreover, to assure the model total count, use entity.delete() instead db.delete(entity)
 #
 #
 # *** USAGE: SearchableStringProperty ***
@@ -307,6 +309,7 @@ class FlowDdlModel(db.Model):
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity and "id" not in kargs:
             kargs["id"] = counter[self]
+        self.isInit = True
         db.Model.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
     def __str__(self):
@@ -338,7 +341,9 @@ class FlowDdlModel(db.Model):
 
     def put(self):
         key = super(FlowDdlModel, self).put()
-        ModelCount.increment(self)
+        if getattr(self, 'isInit', None):
+            ModelCount.increment(self)
+            del self.isInit
         return key
 
     def delete(self):
@@ -462,7 +467,7 @@ class ModelCount(db.Model):
     def unitTest(cls):
         startUnitTest("ModelCount.unitTest")
 
-        count = NpoProfile.all().count()
+        count = NpoProfile.all().totalCount()
 
         user = users.User("john_doe@gmail.com")
         now  = datetime.datetime.utcnow()
@@ -471,12 +476,14 @@ class ModelCount(db.Model):
                           status="new application", docs_link=["Timbuck2"], npo_rating=1, create_time=now, update_time=now)
 
         npo.put()
-        if NpoProfile.all().count() != count + 1:
+        npo.npo_name = "Test ModelCount"
+        npo.put()
+        if NpoProfile.all().totalCount() != count + 1:
             raise IOError 
 
-        count = NpoProfile.all().count()
+        count = NpoProfile.all().totalCount()
         npo.delete()
-        if NpoProfile.all().count() != count - 1:
+        if NpoProfile.all().totalCount() != count - 1:
             raise IOError 
 
         writeln("OK")
@@ -1456,7 +1463,7 @@ def startUnitTest(name):
 
 def rollBack(data):
     count = db.Query(data.__class__).count()
-    db.delete(data)
+    data.delete()
     if db.Query(data.__class__).count() != count - 1:
         raise IOError
 
