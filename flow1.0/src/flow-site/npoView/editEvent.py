@@ -94,8 +94,6 @@ def processEditEvent(request):
             raise db.BadQueryError()
         
         form = NewEventForm(instance = eventProfile)
-    dicData={'lstVolunteer' : addName(results),
-             'base':flowBase.getBase(request),
-             }
+
     return render_to_response('event/event-admin-edit.html', {'form':form, 'event_id':event_id, 'base':flowBase.getBase(request)})
     
