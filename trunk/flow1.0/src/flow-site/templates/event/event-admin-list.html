@@ -49,8 +49,8 @@ function disableButton(form) {
 			{% for act in lstActivityList %}
 			
 			<tr>
-				<td>{{ act.name }}</td>
-				<td>{{ act.status }}</td>
+				<td>{{ act.name|escape }}</td>
+				<td>{{ act.status|escape }}</td>
 				<td>
 				
 				<input {{act.dicPerm.modify}} type="button" value="修改" name="btnModify1" onClick="submitForm('editEvent',{{ act.event_id }});">

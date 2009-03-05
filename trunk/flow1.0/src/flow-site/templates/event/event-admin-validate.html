@@ -67,7 +67,7 @@ $(function() {
 					<span class="column">
 						<select multiple id="pool" name="pool" class="select" size="8" onchange="javascript:setButtonsEnabled();">
 							{% for vol in lstVolunteer %}
-							<option value="{{vol.volunteer_id}}">{{vol.volunteer_first_name}} {{vol.volunteer_last_name}}</option>
+							<option value="{{vol.volunteer_id}}">{{vol.volunteer_first_name|escape}} {{vol.volunteer_last_name|escape}}</option>
 							{% endfor %}
 						</select>
 						<label>
