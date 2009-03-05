@@ -62,4 +62,3 @@ indexes:
   properties:
   - name: status
   - name: volunteer_shortage
-    direction: desc
