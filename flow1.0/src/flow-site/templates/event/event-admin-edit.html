@@ -6,8 +6,14 @@
 
 {% block activityContent %}
 <SCRIPT language="JavaScript">  
-  
-  function submitForm(url , submitType)
+// onload function
+$(document).ready(function() {
+	$('#mainForm :text').addClass('text');
+	$('#mainForm :textarea').addClass('textarea');
+	$('#mainForm :select').addClass('select');
+});
+
+function submitForm(url , submitType)
   { 
     disableButton(document.myForm);
     document.myForm.submitType.value = submitType
@@ -28,7 +34,7 @@ function disableButton(form) {
 
 	<h3 id="page-title">編輯活動</h3>
 	
-	<form method="POST" name="myForm" action="">
+	<form method="POST" name="myForm" id="mainForm" action="" class="flow-form">
 		<!--webbot bot="SaveResults" U-File="E:\Project\flow\documents\wf\KJ\_private\form_results.csv" S-Format="TEXT/CSV" S-Label-Fields="TRUE" -->
 		修改活動項目<br>
 		<br>
@@ -36,7 +42,9 @@ function disableButton(form) {
 		<br>
 		<table border="0" width="75%" cellspacing="0" cellpadding="0" id="table4">
 			<tr>		  		
-				<td width="120">活動名稱<font color="#FF0000">*</font></td>
+				<td width="120">活動名稱
+					{% if form.event_name.field.required %}<span class="req">*</span>{% endif %}
+				</td>
 				<td>{{ form.event_name }} 
 				{% if form.event_name.errors %}    
         {% for error in form.event_name.errors %}
@@ -46,7 +54,7 @@ function disableButton(form) {
         </td>
 			</tr>
 		  <tr>		  		
-				<td>活動描述<font color="#FF0000">*</font></td>
+				<td>活動描述{% if form.description.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.description }} 
 				{% if form.description.errors %}    
         {% for error in form.description.errors %}
@@ -56,7 +64,7 @@ function disableButton(form) {
         </td>
 			</tr>
 			<tr>
-				<td>活動開始時間<font color="#FF0000">*</font></td>
+				<td>活動開始時間{% if form.start_time.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.start_time }} 
 				{% if form.start_time.errors %}    
         {% for error in form.start_time.errors %}
@@ -65,7 +73,7 @@ function disableButton(form) {
         {% endif %}</td> 
       </tr>
       <tr>
-        <td>活動結束時間<font color="#FF0000">*</font></td>
+        <td>活動結束時間{% if form.end_time.field.required %}<span class="req">*</span>{% endif %}</td>
         <td>{{ form.end_time }} 
 				{% if form.end_time.errors %}    
         {% for error in form.end_time.errors %}
@@ -74,7 +82,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>活動登記開始時間<font color="#FF0000">*</font></td>
+				<td>活動登記開始時間{% if form.reg_start_time.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.reg_start_time }} 
 				{% if form.reg_start_time.errors %}    
         {% for error in form.reg_start_time.errors %}
@@ -83,7 +91,7 @@ function disableButton(form) {
         {% endif %}</td> 
       </tr>
       <tr>
-				<td>活動登記結束時間<font color="#FF0000">*</font></td>
+				<td>活動登記結束時間{% if form.reg_end_time.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.reg_end_time }} 
 				{% if form.reg_end_time.errors %}    
         {% for error in form.reg_end_time.errors %}
@@ -92,7 +100,7 @@ function disableButton(form) {
         {% endif %}</td> 
       </tr>			
 			<tr>
-				<td>地點<font color="#FF0000">*</font></td>
+				<td>地點{% if form.event_region.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.event_region }} 
 				{% if form.event_region.errors %}    
         {% for error in form.event_region.errors %}
@@ -101,7 +109,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>涵蓋地區郵遞區號<font color="#FF0000">*</font></td>
+				<td>涵蓋地區郵遞區號{% if form.event_zip.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.event_zip }} 
 				{% if form.event_zip.errors %}    
         {% for error in form.event_zip.errors %}
@@ -110,7 +118,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>志工服務<font color="#FF0000">*</font></td>
+				<td>志工服務{% if form.event_hours.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.event_hours }}小時           
 				{% if form.event_hours.errors %}    
         {% for error in form.event_hours.errors %}
@@ -119,7 +127,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>服務對象<font color="#FF0000">*</font></td>
+				<td>服務對象{% if form.event_target.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.event_target }} 
 				{% if form.event_target.errors %}    
         {% for error in form.event_target.errors %}
@@ -128,7 +136,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>活動目的<font color="#FF0000">*</font></td>
+				<td>活動目的{% if form.objective.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.objective }} 
 				{% if form.objective.errors %}    
         {% for error in form.objective.errors %}
@@ -146,7 +154,7 @@ function disableButton(form) {
         {% endif %}</textarea></td>
 			</tr>
 			<tr>
-				<td>活動所屬的領域<font color="#FF0000">*</font></td>
+				<td>活動所屬的領域{% if form.event_field.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.event_field }} 
 				{% if form.event_field.errors %}    
         {% for error in form.event_field.errors %}
@@ -155,7 +163,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>活動種類<font color="#FF0000">*</font></td>
+				<td>活動種類{% if form.category.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.category }} 
 				{% if form.category.errors %}    
         {% for error in form.category.errors %}
@@ -164,7 +172,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>費用金額<font color="#FF0000">*</font></td>
+				<td>費用金額{% if form.expense.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>新台幣{{ form.expense }} 
 				元 {% if form.expense.errors %}    
         {% for error in form.expense.errors %}
@@ -173,7 +181,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>報名費<font color="#FF0000">*</font></td>
+				<td>報名費{% if form.registration_fee.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>新台幣{{ form.registration_fee }} 
 				元 {% if form.registration_fee.errors %}    
         {% for error in form.registration_fee.errors %}
@@ -182,7 +190,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>	
 			<tr>
-				<td>活動企劃書位址<font color="#FF0000">*</font></td>
+				<td>活動企劃書位址{% if form.attachment_links_show.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.attachment_links_show }} 
 				{% if form.attachment_links_show.errors %}    
         {% for error in form.attachment_links_show.errors %}
@@ -242,7 +250,7 @@ function disableButton(form) {
 		  <br>			  
 		<table border="0" width="75%" cellspacing="4" cellpadding="0" id="table1">	  
 			<tr>
-				<td>性別<font color="#FF0000">*</font></td>
+				<td>性別{% if form.sex.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.sex }}  
 				{% if form.sex.errors %}    
         {% for error in form.sex.errors %}
@@ -251,14 +259,14 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>最大年齡<font color="#FF0000">*</font></td>
+				<td>最大年齡</td>
 				<td>{{ form.max_age }}  
 				{% if form.max_age.errors %}    
         {% for error in form.max_age.errors %}
         <font color="#FF0000">{{ error|escape }}</font>
         {% endfor %}
         {% endif %}</td>
-        <td>最小年齡<font color="#FF0000">*</font></td>
+        <td>最小年齡</td>
 				<td>{{ form.min_age }}  
 				{% if form.min_age.errors %}    
         {% for error in form.min_age.errors %}
@@ -267,7 +275,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>活動所需志工總人數<font color="#FF0000">*</font></td>
+				<td>活動所需志工總人數{% if form.volunteer_req.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.volunteer_req }}  
 				{% if form.volunteer_req.errors %}    
         {% for error in form.volunteer_req.errors %}
@@ -276,7 +284,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>活動所需專長<font color="#FF0000">*</font></td>
+				<td>活動所需專長</td>
 				<td>{{ form.expertise_req }}  
 				{% if form.expertise_req.errors %}    
         {% for error in form.expertise_req.errors %}
@@ -285,7 +293,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>是否參與若水公益創新計畫<font color="#FF0000">*</font></td>
+				<td>是否參與若水公益創新計畫{% if form.join_flow_plan.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.join_flow_plan }}  
 				{% if form.join_flow_plan.errors %}    
         {% for error in form.join_flow_plan.errors %}
@@ -314,7 +322,7 @@ function disableButton(form) {
 		-->
 		<p>
 		<input type="hidden" name="submitType" value="">
-		<input type="hidden" name="event_id" value="{{ event_id }}">
+		<input type="hidden" name="event_key" value="{{ event_key }}">
 		<p><input type="button" value="送審" name="btnSubmit" onClick="submitForm('editEvent','send');">
 			<input type="button" value="暫存" name="btnSave" onClick="submitForm('editEvent','save');">
 			<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='.';"><br>

@@ -131,13 +131,6 @@ def vaNonnegative(value):
         raise db.BadValueError("Non-negative value expected.")
     return value
 
-def vaEventId(id):
-    if len(id) != 10:
-        raise db.BadValueError("Event-ID length error.")
-    if not re.compile("^[0-9]+$").match(id):
-        raise db.BadValueError("Event-ID should be 10 digits.")
-    return id
-
 def vaIP(ip):
     if not re.compile("^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$").match(ip):
         raise db.BadValueError("Invalid IP address.")
@@ -184,7 +177,7 @@ class Counter(db.Model):
         """
         Start a new counter singleton. User should not directly call this method.
         """
-        ctr = Counter(className=obj.__class__.__name__, counter=0)
+        ctr = Counter(className=obj.__class__.__name__, counter=1)
         ctr.put()
         return ctr.counter
 
@@ -220,7 +213,7 @@ class Counter(db.Model):
         """
         return Counter.next(obj)
 
-counter = Counter(className="Counter", counter=0)
+counter = Counter(className="Counter", counter=1)
 
 # end class Counter
 
@@ -854,7 +847,7 @@ class EventProfile(FlowDdlModel):
     """
     EVENT_PROFILE
     """
-    event_id                   = db.StringProperty(required=True, validator=vaEventId) # the constraint (UNIQUE) must be enforced by program logic
+    event_id                   = db.StringProperty() # the constraint (UNIQUE) must be enforced by program logic
     event_name                 = db.StringProperty(required=True)
     description                = db.TextProperty(required=True)
     npo_profile_ref            = db.ReferenceProperty(required=True, reference_class=NpoProfile, collection_name="event2npo")
@@ -891,7 +884,7 @@ class EventProfile(FlowDdlModel):
     tag                        = db.StringListProperty()
     max_age                    = db.IntegerProperty(required=True, validator=vaNonnegative) # max_age >= min_age
     min_age                    = db.IntegerProperty(required=True, validator=vaNonnegative) # ditto
-    sex                        = db.CategoryProperty(choices=set(["Male", "Female", "Both", "None"])) # default to Both
+    sex                        = db.CategoryProperty(choices=set(["Male", "Female", "Both"])) # default to Both
     female_req                 = db.IntegerProperty()         # default to 0
     male_req                   = db.IntegerProperty()         # default to 0
     volunteer_req              = db.IntegerProperty(required=True)         # default to 0
@@ -951,6 +944,7 @@ class EventProfile(FlowDdlModel):
             self.volunteer_profile_id      = self.volunteer_profile_ref.id
             self.originator                = self.volunteer_profile_ref.volunteer_id
             self.questionnaire_template_id = self.questionnaire_template_ref.id
+            self.event_id='%010d'%int(self.id)
 
     @classmethod
     def unitTest(cls, npo, volunteer, template):

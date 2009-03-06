@@ -54,8 +54,6 @@ def processAddEvent(request):
             questionnaire_template_ref = ddl.QuestionnaireTemplate.all().get()
             volunteer_profile_ref = ddl.VolunteerProfile.all().get()               
             
-            
-            form.clean_data['event_id']=str(int(time.time()))
             form.clean_data['npo_profile_ref']=npoRef
             form.clean_data['volunteer_profile_ref']=volunteer_profile_ref
             form.clean_data['questionnaire_template_ref']=questionnaire_template_ref

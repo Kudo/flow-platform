@@ -1,18 +1,41 @@
-﻿{% extends "activity/activity-admin-action.html" %}
+﻿{% extends "event/base.html" %}
 
-{% block mainContent %}
+{% block activityContent %}
+<SCRIPT language="JavaScript">  
+function submitForm(url)
+  { 
+    disableButton(document.myForm);
+  	document.myForm.action = url; 
+  	document.myForm.submit(); 
+  } 
+function disableButton(form) {
+  if (document.getElementById) {
+   for (var i = 0; i < form.length; i++) {
+     if (form.elements[i].type.toLowerCase() == "button")
+       form.elements[i].disabled = true;
+     }
+  }
+  return true;
+}
+</SCRIPT>
+
 	<div id="activity-cancel">
 		<h3 id="page-title">取消活動</h3>
-		<form class="flow-form" method="POST" action="">
-				
+		<form class="flow-form" name="myForm" method="POST" action="">
+			活動名稱: {{ event.event_name }}<br/><br/>
 				請輸入取消理由(300字以內):<br>
 				<div class="column">
-					<textarea name="reason" class="field textarea medium" cols="50" rows="10">
-					</textarea>
+					{{ form.reason }}  
+					{% if form.reason.errors %}    
+	        	{% for error in form.reason.errors %}
+	        	<font color="#FF0000">{{ error|escape }}</font>
+	        	{% endfor %}
+	        {% endif %}
 				</div>
-				<input type="button" value="取消" name="btnCancel">
-				<input type="button" value="確定送出" name="btnSubmit">
+				<input type="hidden" name="event_key" value="{{ event_key }}">
+				<input type="button" value="確定送出" name="btnSubmit" onClick="submitForm('handleCancelEvent');">
+				<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='.';">
 		</form>
 		
 	</div> <!-- #activity-cancel -->
-{% endblock %}
+{% endblock activityContent %}

@@ -8,29 +8,38 @@ from db import ddl
 from google.appengine.ext.db import djangoforms
 import flowBase
 
+class DatetimeInput(forms.TextInput):
+    def render(self, name, value, attrs=None):
+        if isinstance(value,datetime):
+            value=value.strftime('%Y-%m-%d %H:%M')
+        return super(DatetimeInput,self).render(name, value, attrs)
+
 class NewEventForm(djangoforms.ModelForm):
-    event_name = forms.CharField(required=True,widget=forms.TextInput(attrs={'size':'37'}))
-    description = forms.CharField(required=True,initial=u'event description',widget=forms.Textarea(attrs={'rows':'4', 'cols':'40'}))
-    start_time = forms.DateTimeField(required=True,initial=str(datetime.now())[:16],widget=forms.TextInput(attrs={'size':'20'}))
-    end_time = forms.DateTimeField(required=True,initial=str(datetime.fromtimestamp(time.time()+86400))[:16],widget=forms.TextInput(attrs={'size':'20'}))
-    reg_start_time = forms.DateTimeField(required=True,initial=str(datetime.now())[:16],widget=forms.TextInput(attrs={'size':'20'}))
-    reg_end_time = forms.DateTimeField(required=True,initial=str(datetime.now())[:16],widget=forms.TextInput(attrs={'size':'20'}))
-    #event_region = forms.CharField(required=True,initial='Taipei',widget=forms.TextInput(attrs={'size':'59'}))
-    event_hours = forms.IntegerField(required=True,min_value=0,initial=1,widget=forms.TextInput(attrs={'size':'20'}))
-    event_target = forms.CharField(required=True,initial='',widget=forms.TextInput(attrs={'size':'38'}))    
-    objective = forms.CharField(required=True,initial='',widget=forms.TextInput(attrs={'size':'49'}))
+    event_name = forms.CharField(widget=forms.TextInput(attrs={'size':'37'}))
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows':'4', 'cols':'40'}))
+    start_time = forms.DateTimeField(widget=DatetimeInput(attrs={'size':'20'}))
+    end_time = forms.DateTimeField(widget=DatetimeInput(attrs={'size':'20'}))
+    reg_start_time = forms.DateTimeField(widget=DatetimeInput(attrs={'size':'20'}))
+    reg_end_time = forms.DateTimeField(widget=DatetimeInput(attrs={'size':'20'}))
+    #event_region = forms.CharField(initial='Taipei',widget=forms.TextInput(attrs={'size':'59'}))
+    event_hours = forms.IntegerField(min_value=0,initial=1,widget=forms.TextInput(attrs={'size':'20'}))
+    event_target = forms.CharField(initial='',widget=forms.TextInput(attrs={'size':'38'}))    
+    objective = forms.CharField(initial='',widget=forms.TextInput(attrs={'size':'49'}))
     summary = forms.CharField(required=False,initial=u'Event content',widget=forms.Textarea(attrs={'rows':'4', 'cols':'40'}))
     expense = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'size':'20'}))
     registration_fee = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'size':'20'}))
     attachment_links_show = forms.URLField(required=False,initial='http://www.google.com.tw',widget=forms.TextInput(attrs={'size':'58'}))
     
-    max_age = forms.IntegerField(required=True,min_value=1,initial=99,widget=forms.TextInput(attrs={'size':'3'}))
-    min_age = forms.IntegerField(required=True,min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))    
-    volunteer_req = forms.IntegerField(required=True,min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
+    max_age = forms.IntegerField(required=False,min_value=1,widget=forms.TextInput(attrs={'size':'3'}))
+    min_age = forms.IntegerField(required=False,min_value=1,widget=forms.TextInput(attrs={'size':'3'}))    
+    volunteer_req = forms.IntegerField(min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
+    expertise_req = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'3', 'cols':'40'}))
+    tag = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'3', 'cols':'40'}))
     
-   
     class Meta:
-        event_fields = ['event_name', 'description', 'start_time', 'end_time','reg_start_time','reg_end_time', 'event_region', 'event_hours', 'event_target', 'tag', 'objective', 'summary', 'expense','registration_fee','attachment_links_show','event_zip','event_field','category']
+        event_fields = ['event_name', 'description', 'start_time', 'end_time','reg_start_time','reg_end_time',
+                        'event_region', 'event_hours', 'event_target', 'tag', 'objective', 'summary', 'expense',
+                        'registration_fee','attachment_links_show','event_zip','event_field','category']
         volunteer_fileds = ['sex','max_age', 'min_age','volunteer_req','expertise_req','join_flow_plan']
         event_feedback_fileds = ['event_album_link','event_video_link','event_blog_link','sentiments']
         model = ddl.EventProfile
@@ -51,8 +60,8 @@ def processEditEvent(request):
         if not submitType:
             return HttpResponseRedirect('/npo/')
 
-        event_id = request.POST['event_id']        
-        eventProfile = ddl.EventProfile.gql("WHERE event_id = :1" , event_id).get()         # event_id should be unique
+        eventKey = request.POST['event_key']
+        eventProfile=db.get(db.Key(eventKey))
         
         if None == eventProfile:
             raise db.BadQueryError()
@@ -84,16 +93,16 @@ def processEditEvent(request):
 
             # Save into database
             modEventEntity.put() 
-            return HttpResponseRedirect('/npo/')
+            return HttpResponseRedirect('/npo/listEvent')
     
     else:
-        event_id = request.POST['event_id']        
-        eventProfile = ddl.EventProfile.gql("WHERE event_id = :1" , event_id).get()         # event_id should be unique
+        eventKey = request.POST['event_key']
+        eventProfile=db.get(db.Key(eventKey))
         
         if None == eventProfile:
             raise db.BadQueryError()
         
         form = NewEventForm(instance = eventProfile)
 
-    return render_to_response('event/event-admin-edit.html', {'form':form, 'event_id':event_id, 'base':flowBase.getBase(request)})
+    return render_to_response('event/event-admin-edit.html', {'form':form, 'event_key':eventKey, 'base':flowBase.getBase(request)})
     

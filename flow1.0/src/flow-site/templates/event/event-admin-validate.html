@@ -95,6 +95,9 @@ $(function() {
 					
 					<span class="column">
 						<select multiple id="approved" name="approved" class="select" size="8" onchange="javascript:setButtonsEnabled();">
+							{% for vol in lstApproved %}
+							<option value="{{vol.volunteer_id}}">{{vol.volunteer_first_name|escape}} {{vol.volunteer_last_name|escape}}</option>
+							{% endfor %}
 						</select>
 						<label>
 							已經審核通過
