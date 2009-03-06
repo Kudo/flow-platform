@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+
+{### header ###}
+
+{% block adminExtraHeader %}
+
+	<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
+	
+{% endblock adminExtraHeader %}
+
+{### content ###}
+
+{% block adminContent %}
+
+	<h3 id="page-title">官方帳號管理</h3>
+	
+	<div class="step-main">
+		<form class="flow-form" action="">
+		<ul>
+			<li class="section">
+				<h3>邀請志工加入</h3>
+			</li>
+			<li>
+				<label class="desc">
+				輸入志工email:
+				</label>
+				<span>
+					<input id="txtEmail" class="field text" name="txtEmail" />
+				</span>
+				<span>
+					<input id="btnInvite" class="btTxt" type="button" value="邀請加入" />
+				</span>
+			</li>
+
+			<li class="section">
+				<h3>管理員列表</h3>
+			</li>
+			
+			<li>
+				<label class="desc">
+				Kinny (真實姓名)
+				</label>
+				<div>
+					<input id="btnRemoveManager1" class="btTxt" type="button" value="移除此管理者" />
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+				Catherine (真實姓名)
+				</label>
+				<div>
+					<input id="btnRemoveManager1" class="btTxt" type="button" value="移除此管理者" />
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+				Chiawei (真實姓名)
+				</label>
+				<div>
+					<input id="btnRemoveManager1" class="btTxt" type="button" value="移除此管理者" />
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+				Jennifer (真實姓名)
+				</label>
+				<div>
+					<input id="btnRemoveManager1" class="btTxt" type="button" value="移除此管理者" />
+				</div>
+			</li>
+		</ul>
+		</form>
+	</div>
+
+{% endblock %}

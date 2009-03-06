@@ -14,7 +14,8 @@
 	width: 360px;
 }
 
-#completed-activities {
+#completed-activities,
+#detailed-activities {
 	width: 750px;
 	padding-top: 10px;
 }
