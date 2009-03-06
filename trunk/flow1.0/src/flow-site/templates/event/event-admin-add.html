@@ -6,9 +6,15 @@
 
 {% block activityContent %}
   
-  <SCRIPT language="JavaScript">  
-  
-  function submitForm(url , submitType)
+<SCRIPT language="JavaScript">  
+// onload function
+$(document).ready(function() {
+	$('#mainForm :text').addClass('text');
+	$('#mainForm :textarea').addClass('textarea');
+	$('#mainForm :select').addClass('select');
+});
+
+function submitForm(url , submitType)
   { 
     disableButton(document.myForm);
     document.myForm.submitType.value = submitType
@@ -25,11 +31,11 @@ function disableButton(form) {
   }
   return true;
 }
+</SCRIPT>
 
-  </SCRIPT>
 	<h3 id="page-title">新增活動</h3>
 	
-	<form method="POST" name="myForm" action="">
+	<form method="POST" name="myForm" id="mainForm" action="" class="flow-form">
 		<!--webbot bot="SaveResults" U-File="E:\Project\flow\documents\wf\KJ\_private\form_results.csv" S-Format="TEXT/CSV" S-Label-Fields="TRUE" -->
 		新增活動項目<br>
 		<br>
@@ -316,9 +322,9 @@ function disableButton(form) {
 				<p>
 			
 		<input type="hidden" name="submitType" value="">
-		<p><input type="button" value="送審" name="btnSubmit" onClick="submitForm('addEvent','send');">
-			<input type="button" value="暫存" name="btnSave" onClick="submitForm('addEvent','save');">
-			<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='.';"><br>
+		<p><input type="button" class="field button" value="送審" name="btnSubmit" onClick="submitForm('addEvent','send');">
+			<input type="button" class="field button" value="暫存" name="btnSave" onClick="submitForm('addEvent','save');">
+			<input type="button" class="field button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='.';"><br>
 		</p>
 	</form>
 

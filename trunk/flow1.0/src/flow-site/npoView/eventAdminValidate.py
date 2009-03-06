@@ -14,20 +14,22 @@ class volForm(forms.Form):
 # Check to see if eventID is given. Direct to error page if not.
 def volunteerShow(request):
     try:
-        strEventId = request.POST['event_id']
+        strEventKey = request.POST['event_key']
     except KeyError:
         # Redirect to login page
-        return render_to_response(r'someErrorPage.html', {})
+        return HttpResponseRedirect('/npo/listEvent')
+    event=db.get(db.Key(strEventKey))
     # Retrieve data with given eventID and status
-    query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_id = :1 AND status = :2",strEventId,'new registration')
-    results = query.fetch(100)
-    #print results[0].key
-    #print strEventID
-    dicData={'lstVolunteer' : addName(results),
+    query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'new registration')
+    result1 = query.fetch(100)
+    query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'approved')
+    result2 = query.fetch(100)
+    dicData={'lstVolunteer' : addName(result1),
+             'lstApproved' : addName(result2),
              'base':flowBase.getBase(request),
+             'event':event
              }
-    return render_to_response(r'event\event-admin-validate.html', dicData)
-
+    return render_to_response(r'event/event-admin-validate.html', dicData)
 
 # append volunteer name from volunteer profile
 def addName(lstVolEvent):
@@ -48,7 +50,6 @@ def addName(lstVolEvent):
 def volSubmit(request):
     if request.method == 'POST': # If the form has been submitted...
         form = volForm(request.POST) # A form bound to the POST data
-        print form.cleaned_data['approved']
         if form.is_valid(): # All validation rules pass
             # Process the data in form.cleaned_data
             lstApprovedVol = form.cleaned_data['approved']
