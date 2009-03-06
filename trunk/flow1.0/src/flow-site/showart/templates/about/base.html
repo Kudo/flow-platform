@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{### header ###}
+
+{% block extraHeader %}
+	{% block aboutExtraHeader %}
+		{### this block can be replaced by children template with css / script definition ###}
+		<!-- block registerExtraHeader here -->
+	{% endblock aboutExtraHeader %}
+
+{% endblock extraHeader %}
+
+{### splashPage ###}
+
+{% block splashPage %}
+	{% include "splashbox.html" %}
+{% endblock splashPage %}
+
+{### content ###}
+
+{% block mainContent %}
+
+	{% include "about/topbar.html" %}
+
+	{% block aboutContent %}
+		{### this block can be replaced by children template with activity main content ###}
+		block aboutContent here
+	{% endblock aboutContent %}
+	
+{% endblock mainContent %}

@@ -1,0 +1,63 @@
+{% extends "admin/base.html" %}
+
+{### header ###}
+
+{### content ###}
+
+{% block adminContent %}
+
+	<h3 id="page-title">NPO履歷表管理</h3>
+	
+	<form method="POST" action="">
+		<table border="1" width="80%" cellspacing="0" cellpadding="0" id="tblActivity">
+			<tr>
+				<td>NPO名稱</td>
+				<td>狀態</td>
+				<td>　</td>
+			</tr>
+			<tr>
+				<td><a href="javascript:;">NPO名稱 (連至履歷表頁面)</a></td>
+				<td>審核中</td>
+				<td><input type="button" value="啟用">
+				<input type="button" value="警告" disabled="true">
+				<input type="button" value="下架"></td>
+			</tr>
+			<tr>
+				<td><a href="javascript:;">NPO名稱 (連至履歷表頁面)</a></td>
+				<td>啟用</td>
+				<td><input type="button" value="啟用" disabled="true">
+				<input type="button" value="警告">
+				<input type="button" value="下架"></td>
+			</tr>
+			<tr>
+				<td><a href="javascript:;">NPO名稱 (連至履歷表頁面)</a></td>
+				<td>警告</td>
+				<td><input type="button" value="啟用">
+				<input type="button" value="警告" disabled="true">
+				<input type="button" value="下架"></td>
+			</tr>
+			<tr>
+				<td><a href="javascript:;">NPO名稱 (連至履歷表頁面)</a></td>
+				<td>下架</td>
+				<td><input type="button" value="啟用">
+				<input type="button" value="警告">
+				<input type="button" value="下架" disabled="true"></td>
+			</tr>
+			<tr>
+				<td><a href="javascript:;">NPO名稱 (連至履歷表頁面)</a></td>
+				<td>啟用</td>
+				<td><input type="button" value="啟用" disabled="true">
+				<input type="button" value="警告">
+				<input type="button" value="下架"></td>
+			</tr>
+			<tr>
+				<td><a href="javascript:;">NPO名稱 (連至履歷表頁面)</a></td>
+				<td>啟用</td>
+				<td><input type="button" value="啟用" disabled="true">
+				<input type="button" value="警告">
+				<input type="button" value="下架"></td>
+			</tr>
+		</table>
+	</form>
+
+{% endblock adminContent %}
