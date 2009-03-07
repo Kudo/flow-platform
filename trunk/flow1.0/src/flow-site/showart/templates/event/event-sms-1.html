@@ -1,0 +1,52 @@
+{% extends "event/base.html" %}
+
+{### header ###}
+{% block activityExtraHeader %}
+	<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{### content ###}
+
+{% block activityContent %}
+	<h3 id="page-title">手機驗證</h3>
+	<form class="flow-form" action="">
+		<ul>
+			<li class="section first">
+				<div>您已經將活動基本資料填妥，我們將傳驗證碼簡訊至您的手機。</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+				請輸入手機號碼
+				</label>
+				<span class="column">
+					<input id="phone1" class="field text" name="phone1" maxlength="4" size="4" />
+					-
+					<label>
+						09##
+					</label>
+				</span>
+				<span class="column">
+					<input id="phone2" class="field text" name="phone2" maxlength="3" size="3" />
+					-
+					<label>
+						###
+					</label>
+				</span>
+				<span class="column">
+					<input id="phone3" class="field text" name="phone3" maxlength="3" size="3" />
+					<label>
+						###
+					</label>
+				</span>
+			</li>
+			
+			<li class="buttons section">
+				<input id="submit" class="btTxt" type="submit" value="下一步" />
+			</li>
+		</ul>
+	</form>
+	
+
+{% endblock activityContent %}
