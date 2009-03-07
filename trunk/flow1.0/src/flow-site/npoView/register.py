@@ -192,8 +192,11 @@ def step3(request):
 
             return HttpResponseRedirect("/npo/?from=register&r=True")
 
+    base = flowBase.getBase(request)
+    volunteer = base['volunteer']
     template_values = {
-            'base':                     flowBase.getBase(request, volunteer=user),
+            'base':                     base,
+            'myRealName':               u', '.join([volunteer.volunteer_first_name, volunteer.volunteer_last_name]),
             'isWarning':                isWarning,
             'form':                     form,
             'formAdminList':            [eval('form["adminaccount_%d"]' % (i)) for i in range(2, maxAdminCount + 1)],

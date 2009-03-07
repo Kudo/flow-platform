@@ -132,23 +132,24 @@ def step1(request):
 
 def step2(request):
     isWarning = None
-    if users.get_current_user():
+    base = flowBase.getBase(request)
+    if base['user']:
         return HttpResponseRedirect('/volunteer/register/step3/')
     if 'registered' in request.GET:
         isWarning = u'這個帳號已經註冊至若水平台，請試著以其他帳號註冊。'
     if 'logingaccount' in request.GET:
         return HttpResponseRedirect('/login?redirect=/volunteer/register/step3/')
     template_values = {
-            'base':                     flowBase.getBase(request),
+            'base':                     base,
             'isWarning':                isWarning,
     }
     return render_to_response('registration/volunteer_step2.html', template_values)
 
 def step3(request):
-    user = users.get_current_user()
-    if not user:
+    base = flowBase.getBase(request)
+    if not base['user']:
         return HttpResponseRedirect('/volunteer/register/')
-    if db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', user).count() > 0:
+    if base['volunteer']:
         return HttpResponseRedirect('/logout?redirect=/volunteer/register/step2/?registered=True')
     isWarning = None
     if request.method != 'POST':
@@ -219,7 +220,7 @@ def step3(request):
             return HttpResponseRedirect("/?from=register&r=True")
 
     template_values = {
-            'base':                     flowBase.getBase(request),
+            'base':                     base,
             'isWarning':                isWarning,
             'form':                     form,
     }

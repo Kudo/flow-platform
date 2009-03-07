@@ -1,16 +1,16 @@
 				<div id="picture">
-					<img src="{% if base.logo %} {{ base.logo|escape }} {% else %} {{ base.noLogo }} {% endif %}" width="175" />
-	    	        {{ base.name|escape }}
+					<img src="{% if volunteerBase.logo %} {{ volunteerBase.logo|escape }} {% else %} {{ base.noLogo }} {% endif %}" width="175" />
+	    	        {{ volunteerBase.name|escape }}
 	                </div>
 				<div id="boxes-left" class="box-column">
 					<div id="action" class="left-box">
 						<ul>
 							<li>
-								<a href="">建議活動給 {{ base.volunteer_id }}</a>
+								<a href="">建議活動給 {{ volunteerBase.volunteer_id }}</a>
 							</li>
 							<!--
 							<li>
-							  <a href="/volunteer/friend/create/?volunteer_id={{ base.volunteer_id }}&t={{ base.token }}">與 {{ base.volunteer_id }} 成為好友</a>
+							  <a href="/volunteer/friend/create/?volunteer_id={{ volunteerBase.volunteer_id }}&t={{ base.token }}">與 {{ volunteerBase.volunteer_id }} 成為好友</a>
 							</li>
 							-->
 							<li>
@@ -27,10 +27,10 @@
 						</h3>
 						<div class="left-box-body">
 							<h4>生日</h4>
-							<div>{{ base.birthday|escape }}</div>
+							<div>{{ volunteerBase.birthday|escape }}</div>
 							
 							<h4>目前所在城市</h4>
-							<div>{{ base.resident|escape }}</div>
+							<div>{{ volunteerBase.resident|escape }}</div>
 						</div>
 					</div>
 					<!--
@@ -39,14 +39,14 @@
                     	<div class="left-box-body">
                     		<h4 class="left-box-header clearfix">
                         		<span>
-															<a href="/volunteer/friend">{{ base.friendCount }} 位朋友</a>
+															<a href="/volunteer/friend">{{ volunteerBase.friendCount }} 位朋友</a>
                             	</span>
                             	<small>
                             		<a href="/volunteer/friend">全部</a>
                             	</small>
                         	</h4>
                         	<div class="people">
-														{% for friendTriple in base.friends %}
+														{% for friendTriple in volunteerBase.friends %}
                         		<div class="row">
 															{% for friend in friendTriple %}
                             		<div class="person">
@@ -65,14 +65,14 @@
                     	<div class="left-box-body">
                     		<h4 class="left-box-header clearfix">
                         		<span>
-															<a href="">{{ base.npoCount }} 個 NPO</a>
+															<a href="">{{ volunteerBase.npoCount }} 個 NPO</a>
                             	</span>
                             	<small>
                             		<a href="">全部</a>
                             	</small>
                         	</h4>
                         	<div class="people">
-														{% for npoTriple in base.npos %}
+														{% for npoTriple in volunteerBase.npos %}
                         		<div class="row">
 															{% for npo in npoTriple %}
                             		<div class="person">
