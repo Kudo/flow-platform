@@ -319,9 +319,17 @@ showArtPages = [
 
 def showartAction(request, filename):
     from django.conf import settings
-    settings.TEMPLATE_DIR = (settings.ROOT_PATH + '/showart/templates',)
+    olddir = settings.TEMPLATE_DIRS
+
     if ('' == filename):
-        return render_to_response('showart.html', {'showart_pages' : showArtPages})
+    	# workaround
+    	settings.TEMPLATE_DIRS = (settings.ROOT_PATH + '/showart/templates',)
+    	response = render_to_response('showart.html', {'showart_pages': showArtPages})
+    	
+    	# set back
+    	settings.TEMPLATE_DIRS = olddir
+    	
+        return response
     else:
         try:
             # process proflist to 5 per row
@@ -333,11 +341,12 @@ def showartAction(request, filename):
                     viewproflist.append([])
                 viewproflist[i/num_profession_per_row].append(proflist[i])
             
-            from django.conf import settings
+            # Workaround
             settings.TEMPLATE_DIRS = (settings.ROOT_PATH + '/showart/templates',)
             response = render_to_response(filename, {'proflist': viewproflist})
         except TemplateDoesNotExist:
             response = HttpResponse('Page not found or included / extended template not found: '+filename)
         
-        settings.TEMPLATE_DIR = (settings.ROOT_PATH + '/templates',)
+        # set back
+        settings.TEMPLATE_DIRS = olddir
         return response
