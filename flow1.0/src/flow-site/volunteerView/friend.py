@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import cgi
 import sys
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -18,8 +19,8 @@ def create(request):
     if mySelf.nickname() == request.GET['volunteer_id']:
         return HttpResponse(simplejson.dumps({'statusCode': 405, 'reason': 'Adding yourself as friend'}), mimetype='application/json')
     try:
-        user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', users.User(request.GET['volunteer_id']+'@gmail.com')).get()
-        mySelf = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', mySelf).get()
+        user = flowBase.getVolunteer(cgi.escape(request.GET['volunteer_id'])+'@gmail.com')
+        mySelf = flowBase.getVolunteer(mySelf)
         if user.key() not in mySelf.friends:
             mySelf.friends.append(user.key())
             mySelf.put()
@@ -35,8 +36,8 @@ def delete(request):
     if 'volunteer_id' not in request.GET or not mySelf:
         return HttpResponse(simplejson.dumps({'statusCode': 404, 'reason': 'No login'}), mimetype='application/json')
     try:
-        user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', users.User(request.GET['volunteer_id']+'@gmail.com')).get()
-        mySelf = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', mySelf).get()
+        user = flowBase.getVolunteer(cgi.escape(request.GET['volunteer_id'])+'@gmail.com')
+        mySelf = flowBase.getVolunteer(mySelf)
         mySelf.friends.remove(user.key())
         mySelf.put()
     except:
@@ -45,17 +46,15 @@ def delete(request):
 
 
 def show(request):
-    mySelf = users.get_current_user()
-    if not mySelf:
+    base = flowBase.getBase(request)
+    volunteer = base['volunteer']
+    if not volunteer:
         return HttpResponseRedirect('/')
 
-    user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', mySelf).get()
-    if not user:
-        pass
-
-    friends = [VolunteerProfile.get(user.friends[i]) for i in range(0, 10) if i < len(user.friends)]
+    friends = [VolunteerProfile.get(volunteer.friends[i]) for i in range(0, 10) if i < len(volunteer.friends)]
     template_values = {
-            'base':                     flowBase.getBase(request, volunteer=user),
+            'base':                     base,
+            'volunteerBase':            flowBase.getVolunteerBase(volunteer),
             'friends':                  friends,
             'firstFriend':              friends[0] if len(friends) > 0 else None,
             'test':                     range(20),

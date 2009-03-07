@@ -6,6 +6,7 @@ from google.appengine.api import users
 from google.appengine.ext import db
 from django.conf import settings
 from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
 from db import proflist
 from db.ddl import *
 
@@ -15,13 +16,14 @@ def _make_token(request):
         return md5.new(settings.SECRET_KEY + request.COOKIES[COOKIE_ID]).hexdigest()
     return ''
 
-def getBase(request, volunteer=None, npo_id=None):
+def getBase(request):
     data = {}
     if not request:
         return data
     data['path']            = request.path
     data['full_path']       = request.get_full_path()
     data['user']            = users.get_current_user()
+    data['volunteer']       = getVolunteer(data['user'])
     data['noLogo']          = '/static/images/head_blue50.jpg'
     data['proflist']        = getProfessionList()
     data['region']          = getRegion()
@@ -30,14 +32,6 @@ def getBase(request, volunteer=None, npo_id=None):
     data['jQueryURI']       = settings.JQUERY_URI
     data['jQueryUI_URI']    = settings.JQUERY_UI_URI
 
-    if volunteer:
-        if isinstance(volunteer, (str, unicode)):
-            volunteer = getVolunteer(volunteer)
-        data.update(getVolunteerBase(volunteer))
-
-    if npo_id:
-        data.update(getNpoBase(getNpo(npo_id)))
-
     return data
 
 def getVolunteer(volunteer_id=users.get_current_user()):
@@ -45,7 +39,7 @@ def getVolunteer(volunteer_id=users.get_current_user()):
         return None
     if isinstance(volunteer_id, (str, unicode)):
         volunteer_id = users.User(volunteer_id)
-    return db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1',volunteer_id).get()
+    return db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', volunteer_id).get()
 
 def getNpo(id=None):
     if not id:
@@ -58,7 +52,7 @@ def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
         return data
 
     data['volunteer_id']    = volunteer.volunteer_id
-    data['name']            = '%s, %s' % (volunteer.volunteer_first_name, volunteer.volunteer_last_name)
+    data['name']            = u', '.join([volunteer.volunteer_first_name, volunteer.volunteer_last_name])
     data['birthday']        = volunteer.date_birth.strftime('%Y 年 %m 月 %d 日')
     data['resident']        = volunteer.resident_city
     data['logo']            = volunteer.logo
@@ -86,9 +80,28 @@ def getNpoBase(npo):
 
 def login(request):
     if 'redirect' in request.GET:
-        return HttpResponseRedirect(users.create_login_url(cgi.escape(request.GET['redirect'])))
+        return HttpResponseRedirect(users.create_login_url('/loginProxy?redirect=' + cgi.escape(request.GET['redirect'])))
     else:
-        return HttpResponseRedirect(users.create_login_url('/'))
+        return HttpResponseRedirect(users.create_login_url('/loginProxy'))
+
+def loginProxy(request):
+    base = getBase(request)
+    if 'redirect' in request.GET:
+        redirectURI = request.GET['redirect']
+    else:
+        redirectURI = '/'
+
+    if getVolunteer(base['user']):
+        loginSuccess = True
+    else:
+        loginSuccess = False
+
+    template_values = {
+        'base':                 base,
+        'redirectURI':          redirectURI,
+        'loginSuccess':         loginSuccess,
+    }
+    return render_to_response('loginProxy.html', template_values)
 
 def logout(request):
     if 'redirect' in request.GET:
@@ -99,6 +112,8 @@ def logout(request):
 def getProfessionList():
 	return proflist.getProfessionList()
 
-def getRegion():
+def getRegion(getProperty=False):
     regions = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
+    if getProperty:
+        return regions
     return [region.city_tc for region in regions]

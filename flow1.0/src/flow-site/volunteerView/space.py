@@ -30,9 +30,9 @@ def show(request, displayAlbumCount=2, displayPhotoCount=5, displayBlogCount=5):
             userID = users.User(userID)
             isSelf = True if users.get_current_user() == userID else False
 
-    user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', userID).get()
+    user = flowBase.getVolunteer(userID)
     if not user:
-        pass
+        return HttpResponseRedirect('/')
 
     # Picasa Web
     picasaUser = 'ckchien'
@@ -64,7 +64,8 @@ def show(request, displayAlbumCount=2, displayPhotoCount=5, displayBlogCount=5):
 
     template_values = {
             'isSelf':                   isSelf,
-            'base':                     flowBase.getBase(request, volunteer=user),
+            'base':                     flowBase.getBase(request),
+            'volunteerBase':            flowBase.getVolunteerBase(user),
             'albums':                   albums,
             'video':                    video,
             'videoDate':                videoDate,

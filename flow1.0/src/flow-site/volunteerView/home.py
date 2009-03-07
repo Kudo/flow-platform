@@ -53,7 +53,7 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
     blogFeeds = service.Get(query.ToUri())
     #return HttpResponse(blogFeeds.entry[0], mimetype="text/plain")
 
-    user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', userID).get()
+    user = flowBase.getVolunteer(userID)
     if not user:
         return HttpResponseRedirect('/')
 
@@ -74,7 +74,8 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
 
     userIM = user.im2volunteer.get()
     template_values = {
-            'base':                     flowBase.getBase(request, volunteer=user),
+            'base':                     flowBase.getBase(request),
+            'volunteerBase':            flowBase.getVolunteerBase(user),
             'sex':                      user.sex,
             'photoFeeds':               photoFeeds,
             'video':                    video,

@@ -89,7 +89,7 @@ class VolunteerProfileForm(djangoforms.ModelForm):
     birthday                    = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'size': '2'}))
 
     choices = []
-    citys = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
+    citys = flowBase.getRegion(getProperty=True)
     for city in citys:
         choices.append((city.city_en, city.city_tc))
     del citys
@@ -154,13 +154,14 @@ def show(request):
             userID = users.User(userID)
             isSelf = True if users.get_current_user() == userID else False
 
-    user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', userID).get()
+    user = flowBase.getVolunteer(userID) 
     if not user:
         return HttpResponseRedirect('/')
     userIM = user.im2volunteer.get()
     template_values = {
             'isSelf':                   isSelf,
-            'base':                     flowBase.getBase(request, volunteer=user),
+            'base':                     flowBase.getBase(request),
+            'volunteerBase':            flowBase.getVolunteerBase(user),
             'sex':                      user.sex,
             'cellphone_no':             (user.cellphone_no or u'無'),
             'blog':                     user.blog,
@@ -178,10 +179,8 @@ def show(request):
 
 
 def edit(request):
-    if not users.get_current_user():
-        return HttpResponseRedirect('/')
-
-    user = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', users.get_current_user()).get()
+    base = flowBase.getBase(request)
+    user = base['volunteer']
     if not user:
         return HttpResponseRedirect('/')
 
@@ -257,7 +256,8 @@ def edit(request):
             return HttpResponseRedirect("/volunteer/profile/")
 
     template_values = {
-            'base':                     flowBase.getBase(request, volunteer=user),
+            'base':                     base,
+            'volunteerBase':            flowBase.getVolunteerBase(user),
             'isWarning':                isWarning,
             'form':                     form,
             'sex':                      user.sex,

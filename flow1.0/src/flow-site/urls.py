@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     (r'^createTestData/?$',                         'createTestData.createFromGae'),
     (r'^/?$',                                       'homepage.home'),
     (r'^login/?$',                                  'flowBase.login'),
+    (r'^loginProxy/?$',                             'flowBase.loginProxy'),
     (r'^logout/?$',                                 'flowBase.logout'),
     (r'^showart/',                                  include('showart.urls')),
 )
