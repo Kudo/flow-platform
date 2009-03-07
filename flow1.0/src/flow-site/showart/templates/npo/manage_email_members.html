@@ -1,0 +1,49 @@
+{% extends "npo/base.html" %}
+
+{### header ###}
+
+{% block npoExtraHeader %}
+
+	<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="/static/js/jquery-1.2.6.min.js"></script>  
+
+{% endblock npoExtraHeader %}
+{### content ###}
+
+{% block npoContent %}
+
+	<h3 id="page-title">寄送群組信</h3>
+	<form class="flow-form" method="POST" action="">
+		<ul>
+			<li class="section first">
+				<div>寄送訊息給 NPO 內所有志工</div>
+			</li>
+			<li>
+				<label class="desc">
+				標題
+					<span class="req"> * </span>
+				</label>
+				<div>
+					<input id="title" class="field text large" type="title" name="title" maxlength="255" />
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					內文
+						<span class="req"> * </span>
+				</label>
+				<div class="column">
+					<textarea class="field textarea medium" cols="50" rows="10">
+					</textarea>
+				</div>
+			</li>
+			
+			<li class="section buttons">
+					<input type="button" class="btTxt" value="取消" name="btnCancel">
+					<input type="submit" class="btTxt" value="確定送出" name="btnSubmit">
+			</li>
+		</ul>
+	</form>
+	
+{% endblock npoContent %}
