@@ -5,10 +5,11 @@
 /* elements */
 
 body {
-	font-family: Arial, Helvetica, sans-serif;
+	/* font-family: Arial, Helvetica, sans-serif; */
 	font-size: 14px;
 	text-algin: center;
 	background-color: #cdcdcd;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
 td {
@@ -296,9 +297,8 @@ h6 {
 }
 
 #page-title {
-	font-weight: bold;
-	color: #F60;
-	font-size: 16px;
+	color: #36C;
+	font-size: 18px;
 	border-bottom: 1px solid #000;
 	padding-bottom: 3px;
 	margin-bottom: 10px;
@@ -357,7 +357,7 @@ h6 {
 }
 
 .content-block {
-	padding: 10px 0;
+/*	padding: 10px 0; */
 }
 
 .right-links {
@@ -392,11 +392,36 @@ h6 {
 }
 
 .pager {
-	padding: 5px 0;
+	font-size: 13px;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+.ptop {
+	padding: 5px 0 0;
+}
+
+.pbottom {
+	padding: 0 0 5px;
 }
 
 .pager .current {
 	font-weight: bold;
+	border: 1px solid #006;
+	padding: 0px 3px;
+	background: #006;
+	color: #FFF;
+}
+
+.pager .item {
+	padding: 0 1px;
+}
+
+.pager .prev {
+	padding: 0 2px 0 0;
+}
+
+.pager .next {
+	padding: 0 0 0 2px;
 }
 
 dl.portofolio {
@@ -464,13 +489,134 @@ div.volunteer-block .volunteer-stats {
 	float: left;
 }
 
+/* ----- Full Page list classes ----- */
+div.fullpage-list {
+	clear: both;
+	border-top-width: 1px;
+	border-right-width: 2px;
+	border-bottom-width: 1px;
+	border-left-width: 2px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-top-color: #666;
+	border-right-color: #666;
+	border-bottom-color: #AAA;
+	border-left-color: #666;
+}
+
+div.fullpage-list .top-line {
+	border-top: 1px #AAA solid;
+}
+
+div.fullpage-list .item {
+	padding: 0 0 8px;
+	clear: both;
+}
+
+/* Volunteer related */
+div.fullpage-list .volunteer {
+	height: 75px;
+}
+
+div.fullpage-list .volunteer .image {
+	width: 60px;
+	float: left;
+}
+
+div.fullpage-list .volunteer .npo-more {
+    display: inline;
+}
+/* End of volunteer related */
+
+/* NPO related */
+div.fullpage-list .npo .activities {
+	border-left: dotted 1px #999;
+	margin-left: 370px;
+	padding-left: 20px;
+}
+
+div.fullpage-list .npo .activities .label {
+	position: relative;
+	left: -15px;
+}
+
+div.fullpage-list .npo .activities .upcoming-activity {
+	padding-bottom: 5px;
+}
+div.fullpage-list .npo .activities .date {
+	font-size: 12px;
+	color: #333;
+}
+
+/* End of NPO related */
+div.fullpage-list .image {
+	width: 60px;
+	float: left;
+}
+
+div.fullpage-list .item .name A {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+div.fullpage-list .item .label {
+	font-size: 12px;
+	color: #666;
+}
+
+div.fullpage-list .item .value {
+	font-size: 14px;
+	display: inline;
+	margin-left: 3px;
+}
+
+div.fullpage-list .item dl {
+	float: left;
+	padding-top: 5px;
+/*	padding-left: 60px; */
+	line-height: 16px;
+	vertical-align: text-bottom;
+	width: 320px;
+}
+
+div.fullpage-list .item dt {
+	font-size: 12px;
+	color: #666;
+	width: 8em;
+}
+
+div.fullpage-list .actions {
+	float: right;
+	margin: 3px;
+	text-align: right;
+}
+
+/* ----- End of full page list classes ----- */
 div.volunteer-list {
 	clear: both;
+	border-top-width: 1px;
+	border-right-width: 2px;
+	border-bottom-width: 1px;
+	border-left-width: 2px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-top-color: #666;
+	border-right-color: #666;
+	border-bottom-color: #AAA;
+	border-left-color: #666;
+}
+
+div.volunteer-list .top-line {
+	border-top: 1px #AAA solid;
 }
 
 div.volunteer-list .volunteer-item {
 	height: 75px;
-	padding: 10px 0;
+	padding: 0 0 8px;
 }
 
 div.volunteer-list .volunteer-item .volunteer-image {
@@ -479,32 +625,80 @@ div.volunteer-list .volunteer-item .volunteer-image {
 }
 
 div.volunteer-list .volunteer-item .volunteer-info {
-	width: 100px;
-	float: left;
+/*	width: 100px;
+	float: left;*/
+}
+
+/* Added by yychen 2009 03 08 */
+#volunteer-info A {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#volunteer-info .label {
+	font-size: 12px;
+	color: #666;
+}
+
+#volunteer-info .value {
+	font-size: 14px;
+	display: inline;
+	margin-left: 3px;
+}
+
+.volunteer-item dl {
+	padding-top: 5px;
+	padding-left: 60px;
+	line-height: 16px;
+	vertical-align: text-bottom;
+}
+
+.volunteer-item dt {
+	font-size: 12px;
+	color: #666;
+	width: 8em;
+}
+
+.volunteer-item .label {
+	width: 4em;
+	display: inline-block;
+	text-align: right;
+	font-size: 13px;
+	color: #666;
+}
+
+.volunteer-item .value {
+	font-size: 15px;
+	display: inline;
+}
+
+#volunteer-stats {
+	height: 17px;
 }
 
 div.volunteer-list .volunteer-item .volunteer-stats {
-    margin-left: 20px;
+/*    margin-left: 20px;
 	width: 200px;
-	float: left;
+	float: left; */
 }
 
 div.volunteer-list .volunteer-item .volunteer-npos-title {
     margin-left: 20px;
 	width: 70px;
-	float: left;
+/*	float: left; */
 }
 
 div.volunteer-list .volunteer-item .volunteer-npos {
     width: 280px;
     height: 75px;
-	float: left;
+/*	float: left; */
 }
 
 div.volunteer-list .volunteer-item .volunteer-list-actions {
-    margin-left: 20px;
-    width: 80px;
-	float: left;
+/*    margin-left: 20px;
+    width: 80px;*/
+	float: right;
+	margin: 3px;
 }
 
 .volunteer-location,
@@ -513,7 +707,7 @@ div.volunteer-list .volunteer-item .volunteer-list-actions {
 }
 
 .volunteer-npo-more {
-    margin-left: 100px;
+    display: inline;
 }
 
 .volunteer-title {

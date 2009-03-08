@@ -16,64 +16,87 @@
 				    	<h3 id="page-title">NPO列表</h3>
 					<div class="list-title">共有 {{ count }} 個NPO, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 位</div>
 						<div class="right-links">
-							<div class="pager">
+							<div class="pager ptop">
 							    {% ifnotequal prevIndex None %}
-							    <a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    <span class="prev">
+							    	<a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    </span>
 							    {% endifnotequal %}
 							    {% for page in pageList %}
-							    <a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    <span class="item">
+							    	<a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    </span>
 							    {% endfor %}
 							    {% if nextIndex %}
-							    <a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    <span class="next">
+							    	<a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    </span>
 							    {% endif %}
 							</div>
 						</div>
-						<div class="npo-list">
+						<div class="fullpage-list">
 						    {% for entry in entryList %}
 						    {% ifequal entry firstEntry %}
-							<div class="npo-item">
+							<div class="item npo top-line">
 						    {% else %}
-							<div class="npo-item top-line">
+							<div class="item npo top-line clearfix">
 						    {% endifequal %}
-								<div class="npo-image">
+						    	<div class="actions">
+						    		<div class="link"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">前往群組首頁</a></div>
+									<div class="link"><a href="#">加入群組</a></div>
+						    	</div>
+								<div class="image">
 								    <a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
-								<div class="npo-info">
+								<div class="name">
 								    <div class="npo-title"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">{{ entry.npo_name }}</a></div>
 								    <div class="npo-desc">{{ npo.brief_intro }}</div>
 								</div>
-								<div class="npo-activities">
-									<div class="npo-upcoming-activities">
-										<div class="npo-upcoming-activities-label">接下來的活動:</div>
+								
+								<div class="stats">
+									<dl>
+										<dt>會員人數: </dt>
+										<dd>{{ entry.memberCount }} 名</dd>
+										<dt>服務區域: </dt>
+										<dd>{{ entry.region }} Taipei </dd>
+									</dl>
+								</div>
+								<div class="activities">
+									<div class="upcoming-activities">
+										{% if entry.eventList %}
+										<div class="label">接下來的活動:</div>
+
 										{% for event in entry.eventList %}
-										<div class="npo-upcoming-activity">
-										    <div class="title upcoming-title"><a href="/event/viewEvent?id={{ event.key }}">{{ event.event_name }}</a></div>
+										<div class="upcoming-activity">
+										    <div class="title"><a href="/event/viewEvent?id={{ event.key }}">{{ event.event_name }}</a></div>
 										    <div class="date">
 											{% if event.upcoming %}即將進行, 還有 {{ event.diffDays }} 天 {% endif %}
 											({{ event.start_time.month }} 月 {{ event.start_time.day }} 日)</div>
 										</div>
 										{% endfor %}
+										
+										{% endif %}
 									</div>
-								</div>
-								<div class="npo-stats">
-								    <div class="npo-location"><b>服務區域：</b>{{ entry.region }}</div>
-								    <div class="npo-members">共有 {{ entry.memberCount }} 名會員</div>
-								    <div class="link"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
 								</div>
 							</div>
 						    {% endfor %}
 						</div>
 						<div class="right-links">
-							<div class="pager">
+							<div class="pager pbottom">
 							    {% ifnotequal prevIndex None %}
-							    <a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    <span class="prev">
+							    	<a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    </span>
 							    {% endifnotequal %}
 							    {% for page in pageList %}
-							    <a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    <span class="item">
+							    	<a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    </span>
 							    {% endfor %}
 							    {% if nextIndex %}
-							    <a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    <span class="next">
+							    	<a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    </span>
 							    {% endif %}
 							</div>
 						</div>
