@@ -122,6 +122,28 @@ class VolunteerProfileForm(djangoforms.ModelForm):
                   'alternate_email', 'cellphone_no', 'blog', 'expertise', 'brief_intro',
                  ]
 
+    def clean_birthyear(self):
+        self.cleaned_data = self._cleaned_data()
+        data = int(self.cleaned_data['birthyear'])
+        if data < 1900 or data > 2030:
+            raise forms.ValidationError(u'輸入的值不洽當，請試著輸入正確的值。')
+        return data
+
+    def clean_birthmonth(self):
+        self.cleaned_data = self._cleaned_data()
+        data = int(self.cleaned_data['birthmonth'])
+        if data < 1 or data > 12:
+            raise forms.ValidationError(u'輸入的值不洽當，請試著輸入正確的值。')
+        return data
+
+    def clean_birthday(self):
+        self.cleaned_data = self._cleaned_data()
+        data = int(self.cleaned_data['birthday'])
+        if data < 1 or data > 31:
+            raise forms.ValidationError(u'輸入的值不洽當，請試著輸入正確的值。')
+        return data
+
+
 def step1(request):
     if 'register' in request.GET:
         return HttpResponseRedirect('/volunteer/register/step2/')
@@ -168,8 +190,8 @@ def step3(request):
                 cellphone_no = None
             resident_city = db.GqlQuery('SELECT * From CountryCity WHERE city_en = :1', cleaned_data['resident_city']).get().city_tc
             volunteerObj = VolunteerProfile(
-                    volunteer_id                = user, 
-                    gmail                       = user.email(),
+                    volunteer_id                = base['user'], 
+                    gmail                       = base['user'].email(),
                     create_time                 = now,
                     update_time                 = now,
                     status                      = "normal",
