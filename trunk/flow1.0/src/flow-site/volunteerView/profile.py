@@ -162,6 +162,7 @@ def show(request):
             'isSelf':                   isSelf,
             'base':                     flowBase.getBase(request, 'volunteer'),
             'volunteerBase':            flowBase.getVolunteerBase(user),
+            'page':                     'profile',
             'sex':                      user.sex,
             'cellphone_no':             (user.cellphone_no or u'無'),
             'blog':                     user.blog,
@@ -257,6 +258,7 @@ def edit(request):
 
     template_values = {
             'base':                     base,
+            'page':                     'profile',
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'isWarning':                isWarning,
             'form':                     form,

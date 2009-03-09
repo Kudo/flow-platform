@@ -248,3 +248,13 @@ html[xmlns] .clearfix {
 	clear: left;
 	border-bottom: solid #666 1px;
 }
+
+/* dt / dd */
+.left-column .content dt {
+	width: 8em;
+	color: #666;
+}
+
+.left-column form .content dt {
+	line-height: 20px;
+}

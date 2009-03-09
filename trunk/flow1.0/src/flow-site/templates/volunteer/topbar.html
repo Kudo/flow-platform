@@ -1,28 +1,31 @@
-<div class="topbar">
-	<ul>
-		<li>
-		<a href="/volunteer/home/?volunteer_id={{ volunteerBase.volunteer_id }}">履歷首頁</a>
-		</li>
-		<li>
-		<a href="/volunteer/profile?volunteer_id={{ volunteerBase.volunteer_id }}">基本資料</a>
-		</li>
-		<li class="grey">
-		<!--		<a href="/volunteer/friend/?volunteer_id={{ volunteerBase.volunteer_id }}">朋友</a> -->
-		  朋友
-		</li>
-		<li>
-			加入的 NPO
-		</li>
-<!--
-		<li>
-			公益足跡
-		</li>
-		<li>
-			活動
-		</li>
--->
-		<li>
-		<a href="/volunteer/space/?volunteer_id={{ volunteerBase.volunteer_id }}">公益分享</a>
-		</li>
-	</ul>
+<div class="new-top-bar-container">
+	<div class="new-top-bar volunteer">
+		<img src="/static/images/angle.gif">
+		<ul>
+			<li>
+				<a {% ifequal page 'home' %} class="selected" {% endifequal %}href="/volunteer/home/?volunteer_id={{ volunteerBase.volunteer_id }}">履歷首頁</a>
+			</li>
+			<li>
+				<a {% ifequal page 'profile' %} class="selected" {% endifequal %}href="/volunteer/profile?volunteer_id={{ volunteerBase.volunteer_id }}">基本資料</a>
+			</li>
+			<li class="grey">
+			<!--		<a href="/volunteer/friend/?volunteer_id={{ volunteerBase.volunteer_id }}">朋友</a> -->
+			  朋友
+			</li>
+			<li>
+				加入的 NPO
+			</li>
+	<!--
+			<li>
+				公益足跡
+			</li>
+			<li>
+				活動
+			</li>
+	-->
+			<li>
+			<a {% ifequal page 'space' %} class="selected" {% endifequal %}href="/volunteer/space/?volunteer_id={{ volunteerBase.volunteer_id }}">公益分享</a>
+			</li>
+		</ul>
+	</div>
 </div>

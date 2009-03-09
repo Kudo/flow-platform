@@ -1,25 +1,27 @@
 				<div id="picture">
-					<img src="{% if volunteerBase.logo %} {{ volunteerBase.logo|escape }} {% else %} {{ base.noLogo }} {% endif %}" width="175" />
-	    	        {{ volunteerBase.name|escape }}
+					<img src="{% if volunteerBase.logo %} {{ volunteerBase.logo|escape }} {% else %} {{ base.noLogo }} {% endif %}" width="100" />
+	    	        <!-- {{ volunteerBase.name|escape }} -->
 	                </div>
 				<div id="boxes-left" class="box-column">
 					<div id="action" class="left-box">
-						<ul>
-							<li>
-								<a href="">建議活動給 {{ volunteerBase.volunteer_id }}</a>
-							</li>
-							<!--
-							<li>
-							  <a href="/volunteer/friend/create/?volunteer_id={{ volunteerBase.volunteer_id }}&t={{ base.token }}">與 {{ volunteerBase.volunteer_id }} 成為好友</a>
-							</li>
-							-->
-							<li>
-								<a href="">檢舉這位使用者</a>
-							</li>
-							<li>
-							  <a href="/npo/register/">申請註冊NPO</a>
-							</li>
-						</ul>
+						<div class="left-box-body">
+							<ul>
+								<li>
+									<a href="">建議活動給 {{ volunteerBase.volunteer_id }}</a>
+								</li>
+								<!--
+								<li>
+								  <a href="/volunteer/friend/create/?volunteer_id={{ volunteerBase.volunteer_id }}&t={{ base.token }}">與 {{ volunteerBase.volunteer_id }} 成為好友</a>
+								</li>
+								-->
+								<li>
+									<a href="">檢舉這位使用者</a>
+								</li>
+								<li>
+								  <a href="/npo/register/">申請註冊NPO</a>
+								</li>
+							</ul>
+						</div><!-- left-box-body -->
 					</div><!-- left-box -->
 					<div id="info" class="left-box">
 						<h3 class="left-box-header">
@@ -31,6 +33,8 @@
 							
 							<h4>目前所在城市</h4>
 							<div>{{ volunteerBase.resident|escape }}</div>
+							
+							<div class="right-links"><a href="/volunteer/profile/?volunteer_id={{ volunteerBase.volunteer_id }}">檢視詳細資料 >></a></div>
 						</div>
 					</div>
 					<!--

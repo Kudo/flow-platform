@@ -73,9 +73,12 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
             npo.brief_intro = npo.brief_intro if len(npo.brief_intro) < 15 else npo.brief_intro[0:15] + u'...'
 
     userIM = user.im2volunteer.get()
+    
+    # page: home, added by tom_chen... nasty workaround
     template_values = {
             'base':                     flowBase.getBase(request, 'volunteer'),
             'volunteerBase':            flowBase.getVolunteerBase(user),
+            'page':                     'home',
             'sex':                      user.sex,
             'photoFeeds':               photoFeeds,
             'video':                    video,
