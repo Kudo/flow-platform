@@ -312,8 +312,14 @@ h6 {
 	color: #36C;
 	font-size: 18px;
 	border-bottom: 1px solid #000;
+	padding-top: 12px;
 	padding-bottom: 3px;
 	margin-bottom: 10px;
+}
+
+#page-title.subbar {
+	padding-top: 0px;
+	border-bottom: none;
 }
 
 .tip {
@@ -544,6 +550,10 @@ div.left-column div.content-block div.right-links {
 }
 
 div.left-column div.content-block div.npo-news {
+	padding-bottom: 3px;
+}
+
+div.left-column div.content-block div.article-title-item {
 	padding-bottom: 3px;
 }
 /* ----- End of Content Block ----- */
@@ -977,6 +987,10 @@ div.new-top-bar {
 
 div.new-top-bar-container div.npo {
 	left: 95px;
+}
+
+div.new-top-bar-container div.volunteer {
+	left: 135px;
 }
 
 div.new-top-bar img {

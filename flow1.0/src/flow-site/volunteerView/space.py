@@ -64,8 +64,9 @@ def show(request, displayAlbumCount=2, displayPhotoCount=5, displayBlogCount=5):
 
     template_values = {
             'isSelf':                   isSelf,
-            'base':                     flowBase.getBase(request),
+            'base':                     flowBase.getBase(request, 'volunteer'),
             'volunteerBase':            flowBase.getVolunteerBase(user),
+            'page':                     'space',
             'albums':                   albums,
             'video':                    video,
             'videoDate':                videoDate,
