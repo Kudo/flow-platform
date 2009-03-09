@@ -74,7 +74,7 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
 
     userIM = user.im2volunteer.get()
     template_values = {
-            'base':                     flowBase.getBase(request),
+            'base':                     flowBase.getBase(request, 'volunteer'),
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'sex':                      user.sex,
             'photoFeeds':               photoFeeds,

@@ -16,7 +16,7 @@ def _make_token(request):
         return md5.new(settings.SECRET_KEY + request.COOKIES[COOKIE_ID]).hexdigest()
     return ''
 
-def getBase(request):
+def getBase(request, category = 'homepage'):
     data = {}
     if not request:
         return data
@@ -31,6 +31,9 @@ def getBase(request):
 
     data['jQueryURI']       = settings.JQUERY_URI
     data['jQueryUI_URI']    = settings.JQUERY_UI_URI
+    
+    # Added by Tom, workaround
+    data['cat_' + category]          = True
 
     return data
 

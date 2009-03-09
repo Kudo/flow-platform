@@ -63,5 +63,5 @@ def mainPage(request):
         )
 
     
-    return render_to_response('event/event-list.html',{'event1':listActivityResult1,'event2':listActivityResult2,'event3':listActivityResult3, 'base': flowBase.getBase(request)})    
+    return render_to_response('event/event-list.html',{'event1':listActivityResult1,'event2':listActivityResult2,'event3':listActivityResult3, 'base': flowBase.getBase(request, 'event')})    
 
