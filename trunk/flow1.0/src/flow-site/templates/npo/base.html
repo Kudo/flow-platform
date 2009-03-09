@@ -20,19 +20,22 @@
 {% endblock splashPage %}
 
 
+{### topBar ###}
+{% block topBar %}
+	{% include "npo/topbar.html" %}
+{% endblock topBar %}
+
 {### sidebar ###}
 
 {% block twocolumnSidebar %}
 
-	{% include "npo/profile_leftcolumn.html" %}
+{% include "npo/profile_leftcolumn.html" %}
 
 {% endblock twocolumnSidebar %}
 
 {### content ###}
 
 {% block twocolumnContent %}
-
-	{% include "npo/topbar.html" %}
 	{% block npoContent %}
 		{### this block can be replaced by children template with actual profile content ###}
 		block npoContent here
