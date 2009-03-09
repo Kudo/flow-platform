@@ -119,9 +119,9 @@ def showEvent(request):
             }
     intVolunteerNeeded = event.volunteer_req - event.approved_count
     if dicData["status"] == "recruiting" or dicData["status"] == "approved":
-        return render_to_response(r'event/event-info.html', {'event' : dicData, 'base': flowBase.getBase(request), 'status' : dicStatus[event.status], 'needed': str(intVolunteerNeeded)})
+        return render_to_response(r'event/event-info.html', {'event' : dicData, 'base': flowBase.getBase(request, 'event'), 'status' : dicStatus[event.status], 'needed': str(intVolunteerNeeded)})
     else:
-        return render_to_response(r'event/event-info-noapply.html', {'event' : dicData, 'base': flowBase.getBase(request)})
+        return render_to_response(r'event/event-info-noapply.html', {'event' : dicData, 'base': flowBase.getBase(request, 'event')})
 
 def applyEvent(request):
     objUser=users.get_current_user()
@@ -182,7 +182,7 @@ def applyEvent(request):
             "update_time": event.update_time.strftime('%Y-%m-%d %H:%M')
             }
     intVolunteerNeeded = event.volunteer_req - event.approved_count        
-    return render_to_response(r'event/event-apply.html', {'event' : dicData, 'base': flowBase.getBase(request), 'status' : dicStatus[event.status], 'needed': str(intVolunteerNeeded), 'event_id': str(eventKey)})
+    return render_to_response(r'event/event-apply.html', {'event' : dicData, 'base': flowBase.getBase(request, 'event'), 'status' : dicStatus[event.status], 'needed': str(intVolunteerNeeded), 'event_id': str(eventKey)})
 
 def mailToFriend(request):
     eventKey=request.POST.get('event_id')
@@ -380,9 +380,9 @@ def applyNo(request):
             }
     intVolunteerNeeded = event.volunteer_req - event.approved_count
     if dicData["status"] == "recruiting" or dicData["status"] == "approved":
-        return render_to_response(r'event/event-info.html', {'event' : dicData, 'base': flowBase.getBase(request), 'status' : dicStatus[event.status], 'needed': str(intVolunteerNeeded)})
+        return render_to_response(r'event/event-info.html', {'event' : dicData, 'base': flowBase.getBase(request, 'event'), 'status' : dicStatus[event.status], 'needed': str(intVolunteerNeeded)})
     else:
-        return render_to_response(r'event/event-info-noapply.html', {'event' : dicData, 'base': flowBase.getBase(request)})
+        return render_to_response(r'event/event-info-noapply.html', {'event' : dicData, 'base': flowBase.getBase(request, 'event')})
 
 def EmptyApply(request):
 
@@ -399,4 +399,4 @@ def EmptyApply(request):
         logging.info('VolunteerEvent record deleted!...')
         item.delete()
     return HttpResponse(u'已刪除VolunteerEvent所有資料,與清除EventProfile相對應欄位')
-?
+
