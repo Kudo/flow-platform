@@ -68,6 +68,7 @@
 
 #event-container {
 	padding: 3px;
+	margin: 0 auto;
 }
 
 #event-container .event-item:first-child {
@@ -80,8 +81,9 @@
 	border-left-color: #AAA;
 	padding: 0 5px;
 	/* display: inline-table; */
-	display: inline-table;
-	width: 152px;
+	/* display: inline-table; */
+	float: left;
+	width: 155px;
 	height: 92px;
 }
 

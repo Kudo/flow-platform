@@ -16,28 +16,67 @@
 				    	<h3 id="page-title">志工搜尋</h3>
 					<div class="list-title">共找到 {{ count }} 位志工, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 位</div>
 						<div class="right-links">
-							<div class="pager">
+							<div class="pager ptop">
 							    {% ifnotequal prevIndex None %}
-							    <a href="{{ base.path }}?{% if prevIndex %}start={{ prevIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}">上一頁</a>
+							    <span class="prev">
+							    	<a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    </span>
 							    {% endifnotequal %}
 							    {% for page in pageList %}
-							    <a href="{{ base.path }}?{% if page.startIndex %}start={{ page.startIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    <span class="item">
+							    	<a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    </span>
 							    {% endfor %}
 							    {% if nextIndex %}
-							    <a href="{{ base.path }}?start={{ nextIndex }}&{% if queryString %}{{ queryString }}{% endif %}">下一頁</a>
+							    <span class="next">
+							    	<a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    </span>
 							    {% endif %}
 							</div>
 						</div>
-						<div class="volunteer-list">
+						<div class="fullpage-list">
 						    {% for entry in entryList %}
 						    {% ifequal entry firstEntry %}
-							<div class="volunteer-item">
+							<div class="item volunteer top-line">
 						    {% else %}
-							<div class="volunteer-item top-line">
+							<div class="item volunteer top-line">
 						    {% endifequal %}
-								<div class="volunteer-image">
+						    	<div class="actions">
+								    <!--   <a href="#">加入好友</a> -->
+								    <a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}">檢視檔案</a>
+								</div>
+								
+								<div class="image">
 								    <a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
+								
+								<div class="name">
+								    <a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}">{{ entry.volunteer_id }}</a>
+								</div>
+								
+								<div class="stats">
+									<dl>
+										<dt>位於:</dt>
+										<dd>{{ entry.resident_city }}</dd>
+										<dt>專長:</dt>
+										<dd>{{ entry.showExpertise }}</dd>
+										<dt>所屬群組:</dt>
+										<dd>
+										{% for npo in entry.npolist %}
+										<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">{{ npo.npo_name }}</a> 
+										{% endfor %}
+										
+										{% if entry.npoShowMore %}
+								    	<span class="npo-more">
+										... (<a href="#">共 {{ entry.npoCount }} 個群組</a>)
+								   		</span>
+								    {% endif %}
+										</dd>
+									</dl>
+								</div>
+								
+								<!--
+								
 								<div class="volunteer-info">
 								    <div class="volunteer-title"><a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}">{{ entry.volunteer_id }}</a></div>
 								</div>
@@ -61,23 +100,26 @@
 								    </div>
 								    {% endif %}
 								</div>
-								<div class="volunteer-list-actions">
-								    <!--   <a href="#">加入好友</a> -->
-								    <a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}">檢視檔案</a>
-								</div>
+								-->
 							</div>
 						    {% endfor %}
 						</div>
 						<div class="right-links">
-							<div class="pager">
+							<div class="pager pbottom">
 							    {% ifnotequal prevIndex None %}
-							    <a href="{{ base.path }}?{% if prevIndex %}start={{ prevIndex }}{% endif %}&{% if queryString %}{{ queryString }}{% endif %}">上一頁</a>
+							    <span class="prev">
+							    	<a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
+							    </span>
 							    {% endifnotequal %}
 							    {% for page in pageList %}
-							    <a href="{{ base.path }}?{% if page.startIndex %}start={{ page.startIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    <span class="item">
+							    	<a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    </span>
 							    {% endfor %}
 							    {% if nextIndex %}
-							    <a href="{{ base.path }}?start={{ nextIndex }}&{% if queryString %}{{ queryString }}{% endif %}">下一頁</a>
+							    <span class="next">
+							    	<a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
+							    </span>
 							    {% endif %}
 							</div>
 						</div>
