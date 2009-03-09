@@ -399,3 +399,4 @@ def EmptyApply(request):
         logging.info('VolunteerEvent record deleted!...')
         item.delete()
     return HttpResponse(u'已刪除VolunteerEvent所有資料,與清除EventProfile相對應欄位')
+?

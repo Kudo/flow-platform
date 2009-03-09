@@ -508,42 +508,42 @@ div.no-padding-bottom {
 	padding-bottom: 0px !important;
 }
 
-div.content-block {
+div.left-column div.content-block {
 	padding-bottom: 25px;
 }
-div.content-block div.title {
+div.left-column div.content-block div.title {
 	background-image: url(/static/images/titlebar.gif);
 	height: 22px;
 	margin-bottom: 8px;
 }
 
-div.content-block div.title h3 {
+div.left-column div.content-block div.title h3 {
 	font-size: 14px;
 	padding-top: 2px;
 	padding-left: 10px;
 	color: #333;
 }
 
-div.content-block div.title img.left {
+div.left-column div.content-block div.title img.left {
 	float: left;
 }
 
-div.content-block div.title img.right {
+div.left-column div.content-block div.title img.right {
 	float: right;
 }
 
-div.content-block div.content {
+div.left-column div.content-block div.content {
 	padding-left: 25px;
 }
 
-div.content-block div.right-links {
+div.left-column div.content-block div.right-links {
 	clear: none;
 	font-size: 13px;
 	padding-top: 2px;
 	padding-right: 2px;
 }
 
-div.content-block div.npo-news {
+div.left-column div.content-block div.npo-news {
 	padding-bottom: 3px;
 }
 /* ----- End of Content Block ----- */

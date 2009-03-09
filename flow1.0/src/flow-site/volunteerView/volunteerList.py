@@ -61,7 +61,7 @@ def show(request):
         startIndex = -1
 
     template_values = {
-            'base':                     flowBase.getBase(request),
+            'base':                     flowBase.getBase(request, 'volunteer'),
             'count':                    count,
             'startIndex':               startIndex,
             'nextIndex':                startIndex + displayCount if currentPage < totalPage else None,
