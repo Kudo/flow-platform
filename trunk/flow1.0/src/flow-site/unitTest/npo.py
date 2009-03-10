@@ -13,10 +13,16 @@ def create(request):
     now       = datetime.datetime.utcnow()
     try:
         user = users.User("ckchien@gmail.com")
+        volunteer = VolunteerProfile.all().filter('volunteer_id = ', user).get()
+        if not volunteer:
+            return
         npo  = NpoProfile(npo_name=u"若水國際", founder=u"張明正 & 王文華", google_acct=user, country=u"ROC", postal=u"104", state=u"Taiwan", city=u"Taipei",
                 district=u"大安區", founding_date=datetime.date(2007, 6, 1), authority=u"GOV", tag=[u"flow"],
                 status=u"new application", docs_link=[u"Timbuck2"], npo_rating=1, create_time=now, update_time=now)
+        npo.members = [volunteer.key()]
         npo.put()
+        volunteer.npo_profile_ref = [npo.key()]
+        volunteer.put()
     except:
         response.write('新增 NpoProfile 失敗!!!')
         return response
