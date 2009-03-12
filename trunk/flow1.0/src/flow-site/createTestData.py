@@ -14,8 +14,7 @@ sys.path = EXTRA_PATHS + sys.path
 from google.appengine.api import users
 from db import ddl
 
-def createNpoProfile():
-    user = users.User("trend@flow.org",'local')
+def createNpoProfile(user):
     now  = datetime.datetime.now()
     npo  = ddl.NpoProfile(npo_name=u'宅男激金會', founder="John Doe", google_acct=user, country='ROC', postal="104", state='TW', city='tp',
                       district='NK', founding_date=datetime.date(1980, 1, 1), authority="GOV", tag=["wild lives", "marines"],
@@ -23,15 +22,24 @@ def createNpoProfile():
     npo.put()
     return npo
 
-def createVolunteerProfile():
-    user      = users.User("trend@flow.org",'local')
+def createVolunteerProfile(user):
     now       = datetime.datetime.now()
     volunteer = ddl.VolunteerProfile(volunteer_id=user, id_no="A123456789", volunteer_last_name=u"林", volunteer_first_name=u"志玲", gmail=user.email(),
-                                 date_birth=datetime.date(1970, 2, 1), expertise=['eat','drink','gambling'], sex="Female", phone_no="02-1234-5678", resident_country="ROC",
+                                 date_birth=datetime.date(1970, 2, 1), expertise=['eat','drink','gambling'], sex="Female", phone_no="02-1234-5678",cellphone_no="0982197997", resident_country="ROC",
                                  resident_postal="104", resident_state='tw', resident_city='tp', resident_district='SL',
                                  prefer_region=['taipei'], prefer_zip=['106'], prefer_target=['test'], prefer_field=['drive'], prefer_group=['trend'],
                                  create_time=now, update_time=now, volunteer_rating=80, status="normal")
+    volunteer.put()
+    return volunteer
 
+def createVolunteerProfile1():
+    user      = users.User("camge@flow.org",'local')
+    now       = datetime.datetime.now()
+    volunteer = ddl.VolunteerProfile(volunteer_id=user, id_no="Q123456789", volunteer_last_name=u"羅", volunteer_first_name=u"健志", gmail=user.email(),
+                                 date_birth=datetime.date(1970, 2, 1), expertise=['eat','drink','gambling'], sex="Female", phone_no="02-1234-5678",cellphone_no="0982197997", resident_country="ROC",
+                                 resident_postal="104", resident_state='tw', resident_city='tp', resident_district='SL',
+                                 prefer_region=['taipei'], prefer_zip=['106'], prefer_target=['test'], prefer_field=['drive'], prefer_group=['trend'],
+                                 create_time=now, update_time=now, volunteer_rating=80, status="normal")
     volunteer.put()
     return volunteer
     
@@ -88,8 +96,12 @@ def setupDevServerEnv():
     
 
 def create():
-    npo = createNpoProfile()
-    volunteer = createVolunteerProfile()
+    createVolunteerProfile1()
+    
+    user = users.User("trend@flow.org",'local')
+    volunteer = createVolunteerProfile(user)
+    npo = createNpoProfile(user)
+    
     template = createQuestionnaireTemplate()
     event = createEventProfile(npo, volunteer, template)
     event = createEventProfile2(npo, volunteer, template, u"招募中的活動", "recruiting" )

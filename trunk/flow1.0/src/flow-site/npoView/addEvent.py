@@ -3,6 +3,7 @@ from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
+from google.appengine.api import users
 from django import newforms as forms
 from db import ddl
 from google.appengine.ext.db import djangoforms
@@ -42,7 +43,16 @@ def splitData(strData,strToken=',|;| '):
 
  # save event into database
 def processAddEvent(request):
-              
+    objUser=users.get_current_user()
+    if not objUser:
+        return HttpResponseRedirect('/')
+    objVolunteer=flowBase.getVolunteer(objUser)
+    if not objVolunteer:
+        return HttpResponseRedirect('/')
+    objNpo=flowBase.getNpoByUser(objUser)
+    if not objNpo:
+        return HttpResponseRedirect('/')
+
     # Fetch event input from request
     if request.method == 'POST' and request.POST.get('submitType'):
         submitType = request.POST.get('submitType')
@@ -50,11 +60,10 @@ def processAddEvent(request):
         
         if form.is_valid():
             # Create New Activity Instance  
-            npoRef = ddl.NpoProfile.all().get()
             questionnaire_template_ref = ddl.QuestionnaireTemplate.all().get()
             volunteer_profile_ref = ddl.VolunteerProfile.all().get()               
             
-            form.clean_data['npo_profile_ref']=npoRef
+            form.clean_data['npo_profile_ref']=objNpo
             form.clean_data['volunteer_profile_ref']=volunteer_profile_ref
             form.clean_data['questionnaire_template_ref']=questionnaire_template_ref
             
@@ -77,17 +86,14 @@ def processAddEvent(request):
             
             if('' == newEventEntity.summary):
                 newEventEntity.summary=None
-            
+            newEventEntity.status='new application'
+            newEventEntity.put() 
                        
         # Save into datastore based on submit type
             if('send' == submitType):
-                newEventEntity.status = 'approved'
-                newEventEntity.approved=True
-                newEventEntity.approved_time=datetime.now()
-                        
-            # Save into database
-            newEventEntity.put() 
-            return HttpResponseRedirect('/npo/')
+                return render_to_response('event/event-sms-1.html', {'event_key':newEventEntity.key(),'phone_number':objVolunteer.cellphone_no, 'base': flowBase.getBase(request)})
+            else:
+                return HttpResponseRedirect('/npo/')
     else:
         form = NewEventForm()
         

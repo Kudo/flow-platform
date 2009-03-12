@@ -1,0 +1,61 @@
+{% extends "event/base.html" %}
+
+{### header ###}
+{% block activityExtraHeader %}
+	<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+{### content ###}
+
+{% block activityContent %}
+<SCRIPT language="JavaScript">  
+function submitForm(url)
+  { 
+    disableButton(document.myForm);
+  	document.myForm.action = url; 
+  	document.myForm.submit(); 
+  } 
+function disableButton(form) {
+  if (document.getElementById) {
+   for (var i = 0; i < form.length; i++) {
+     if (form.elements[i].type.toLowerCase() == "button")
+       form.elements[i].disabled = true;
+     }
+  }
+  return true;
+}
+</SCRIPT>
+
+	<h3 id="page-title">手機驗證</h3>
+	<form class="flow-form" action="" name="myForm" method="POST">
+		<ul>
+			<li class="section first">
+				<div>您將會收到一封驗證碼簡訊，請將驗證碼輸入以完成活動手續。</div>
+			</li>
+			
+			<li>
+				{% if token_invalid %}
+					<label class="desc">
+					驗證碼錯誤，請重新輸入
+					</label>
+				{% else %}
+					<label class="desc">
+					請輸入驗證碼
+					</label>
+        {% endif %}
+				
+				<div class="column">
+					<input id="validation" class="field text" name="validation" maxlength="10" size="10" />
+				</div>
+			</li>
+			<input type="hidden" name="event_key" value="{{ event_key }}">
+			<li class="buttons section">
+				<input id="submit" class="btTxt" type="submit" value="完成" onClick="submitForm('handleAuthEvent');"/>
+			</li>
+		</ul>
+		{{auth_token}}
+	</form>
+	
+
+{% endblock activityContent %}

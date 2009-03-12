@@ -3,6 +3,7 @@ from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
+from google.appengine.api import users
 from django import newforms as forms
 from db import ddl
 from google.appengine.ext.db import djangoforms
@@ -50,6 +51,16 @@ class NewEventForm(djangoforms.ModelForm):
 def processEditEvent(request):
     # If not POST Get Entity from Data store and transfer to NewEventForm
     # If POST , Use old entity and new Form input to form a new Form and do as addnewevent...
+    objUser=users.get_current_user()
+    if not objUser:
+        return HttpResponseRedirect('/')
+    objVolunteer=flowBase.getVolunteer(objUser)
+    if not objVolunteer:
+        return HttpResponseRedirect('/')
+    objNpo=flowBase.getNpoByUser(objUser)
+    if not objNpo:
+        return HttpResponseRedirect('/')
+    
     if request.method != 'POST':
         return HttpResponseRedirect('/npo/')
     
@@ -79,22 +90,12 @@ def processEditEvent(request):
             
             if('' == modEventEntity.summary):
                 modEventEntity.summary=None
-                           
-            # Save into datastore based on submit type
-            if('send' == submitType):
-                modEventEntity.status = 'approved'
-                modEventEntity.approved=True
-                modEventEntity.approved_time=datetime.now()
-            
-            if('save' == submitType):
-                modEventEntity.status = 'new application'
-                modEventEntity.approved=False
-                modEventEntity.approved_time=None
 
-            # Save into database
-            modEventEntity.put() 
+            modEventEntity.status = 'new application'
+            modEventEntity.put()
+            if('send' == submitType):
+                return render_to_response('event/event-sms-1.html', {'event_key':modEventEntity.key(),'phone_number':objVolunteer.cellphone_no, 'base': flowBase.getBase(request)})
             return HttpResponseRedirect('/npo/listEvent')
-    
     else:
         eventKey = request.POST['event_key']
         eventProfile=db.get(db.Key(eventKey))

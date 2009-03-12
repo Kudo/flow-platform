@@ -2,7 +2,7 @@ import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import TemplateDoesNotExist
-from google.appengine.ext.db import djangoforms
+from google.appengine.api import users
 from django import newforms as forms
 from google.appengine.ext import db
 from db import ddl
@@ -25,9 +25,17 @@ dicRule = {'new application'        :{'modify':'','recruit':'disabled','validate
            }
 
 def mainPage(request):
-    # Retrieve Events from Database
-    # Todo: must select data according to NPO id
-    query = db.GqlQuery("SELECT * FROM EventProfile")
+    objUser=users.get_current_user()
+    if not objUser:
+        return HttpResponseRedirect('/')
+    objVolunteer=flowBase.getVolunteer(objUser)
+    if not objVolunteer:
+        return HttpResponseRedirect('/')
+    objNpo=flowBase.getNpoByUser(objUser)
+    if not objNpo:
+        return HttpResponseRedirect('/')
+    
+    query = db.GqlQuery("SELECT * FROM EventProfile WHERE npo_profile_ref = :1",objNpo)
     results = query.fetch(100)
     return render_to_response(r'event/event-admin-list.html', {'lstActivityList' : actionCheck(results), 'base': flowBase.getBase(request)})
 

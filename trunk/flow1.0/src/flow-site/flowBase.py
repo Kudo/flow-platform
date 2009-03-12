@@ -49,6 +49,10 @@ def getNpo(id=None):
         return None
     return db.GqlQuery('SELECT * FROM NpoProfile WHERE id = :1', id).get()
 
+def getNpoByUser(user):
+    npo = db.GqlQuery('SELECT * FROM NpoProfile WHERE google_acct = :1', user).get()
+    return npo
+
 def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
     data = {}
     if not volunteer:
