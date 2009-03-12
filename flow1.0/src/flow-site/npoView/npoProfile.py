@@ -22,7 +22,7 @@ def edit(request):
     if request.method == 'POST':
         npo_id = cgi.escape(request.GET['npo_id'])
         if 'cancel' in request.POST:
-            return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id)
+            return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id, {'base':flowBase.getBase(request, 'npo')})
         npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', 'NPO:0').get()
         npoProfile.npo_name = request.POST['txtGroupName']
         npoProfile.founder = request.POST['txtFounder']
@@ -35,7 +35,7 @@ def edit(request):
         npoProfile.bank_acct_no = request.POST['txtTransferAccountNo']
         npoProfile.bank_acct_name = request.POST['txtTransferAccountTitle']
         npoProfile.put()
-        return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id)
+        return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id, {'base':flowBase.getBase(request, 'npo')})
     else:
         if 'npo_id' not in request.GET:
             return HttpResponseRedirect('/')
@@ -55,6 +55,7 @@ def edit(request):
                 'numOfMembers': numOfMembers,
                 'leftMembersRow1': row1,
                 'leftMembersRow2': row2,
+                'base':flowBase.getBase(request, 'npo')
          }
         response = render_to_response('npo/manage_edit_info.html', template_values)
         return response    
@@ -98,6 +99,7 @@ def memberList(request):
         'numOfMembers': numOfMembers,
         'leftMembersRow1': row1,
         'leftMembersRow2': row2,
+        'base':flowBase.getBase(request, 'npo')
     }
     response = render_to_response('npo/npo_volunteers.html', template_values)
     return response
@@ -208,6 +210,7 @@ def showInfo(request):
             'npoContact': npoProfile.contacts2npo,
             'fixedPhone': fixedPhone,
             'faxPhone': faxPhone,
+            'base':flowBase.getBase(request, 'npo')
      }
     response = render_to_response('npo/npo_info.html', template_values)
     return response

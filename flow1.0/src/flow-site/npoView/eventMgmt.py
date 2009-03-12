@@ -37,7 +37,7 @@ def mainPage(request):
     
     query = db.GqlQuery("SELECT * FROM EventProfile WHERE npo_profile_ref = :1",objNpo)
     results = query.fetch(100)
-    return render_to_response(r'event/event-admin-list.html', {'lstActivityList' : actionCheck(results), 'base': flowBase.getBase(request)})
+    return render_to_response(r'event/event-admin-list.html', {'lstActivityList' : actionCheck(results), 'base': flowBase.getBase(request, 'npo'), 'page': 'event'})
 
 def actionCheck(lstEvent):
     '''
@@ -59,7 +59,8 @@ def showCancelEvent(request):
     event=db.get(db.Key(strEventKey))
     dic ={'event_key':strEventKey,
           'form': CancelEventForm(),
-          'base': flowBase.getBase(request),
+          'base': flowBase.getBase(request, 'npo'),
+          'page': 'event',
           'event': event}
     return render_to_response(r'event/event-admin-cancel.html', dic)
 
@@ -85,7 +86,8 @@ def handleCancelEvent(request):
     else:
         dic ={'event_key':strEventKey,
               'form': form,
-              'base': flowBase.getBase(request),
+              'base': flowBase.getBase(request, 'npo'),
+              'page': 'event',
               'event': event}
         return render_to_response(r'event/event-admin-cancel.html', dic)
     

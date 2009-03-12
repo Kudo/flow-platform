@@ -1,0 +1,19 @@
+<div class="new-top-bar-container">
+    <div class="new-top-bar npo">
+        <img src="/static/images/angle.gif">
+        <ul>
+            <li>
+                <a {% ifequal page 'home' %} class="selected" {% endifequal %}href="npo_home.html?npo_id={{npoProfile.npo_id}}">NPO 管理首頁</a>
+            </li>
+            <li>
+                <a {% ifequal page 'event' %} class="selected" {% endifequal %}href="../listEvent/?npo_id={{npoProfile.npo_id}}">活動管理</a>
+            </li>
+            <li>
+                <a {% ifequal page 'administrator' %} class="selected" {% endifequal %}href="../">設定管理員</a>
+            </li>
+            <li>
+                <a {% ifequal page 'news' %} class="selected" {% endifequal %}href="../">新聞管理</a>
+            </li>
+        </ul>
+    </div>
+</div>
