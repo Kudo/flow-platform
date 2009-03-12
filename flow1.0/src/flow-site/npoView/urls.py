@@ -6,6 +6,8 @@ urlpatterns = patterns('npoView',
     # event
     (r'^editEvent/?$', 'editEvent.processEditEvent'),
     (r'^addEvent/?$', 'addEvent.processAddEvent'),
+    (r'^authEvent/?$', 'authenticateEvent.submitAuthToken'),
+    (r'^handleAuthEvent/?$', 'authenticateEvent.handleEventAuth'),
     (r'^listEvent/?$', 'eventMgmt.mainPage'),
     (r'^cancelEvent/?$', 'eventMgmt.showCancelEvent'),
     (r'^handleCancelEvent/?$', 'eventMgmt.handleCancelEvent'),
