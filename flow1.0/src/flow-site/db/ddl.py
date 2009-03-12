@@ -736,7 +736,7 @@ class VolunteerProfile(FlowDdlModel):
     expertise            = db.StringListProperty()          # required
     sex                  = db.CategoryProperty(required=True, choices=set(["Male", "Female"]))
     phone_no             = db.PhoneNumberProperty(required=True)
-    cellphone_no         = db.PhoneNumberProperty()
+    cellphone_no         = db.PhoneNumberProperty(required=True)
     hide_cellphone       = db.BooleanProperty()             # default to False
     resident_country     = db.StringProperty(required=True) # the constraint must be enforced by program logic
     resident_postal      = db.StringProperty(required=True)
