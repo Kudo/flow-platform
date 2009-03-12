@@ -258,3 +258,8 @@ html[xmlns] .clearfix {
 .left-column form .content dt {
 	line-height: 20px;
 }
+
+/* form */
+.left-column form li {
+    clear: left;
+}

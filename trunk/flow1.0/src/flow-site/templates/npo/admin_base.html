@@ -1,0 +1,44 @@
+{% extends "twocolumn_base.html" %}
+
+{### header ###}
+
+{% block twocolumnExtraHeader %}
+
+    <link href="/static/css/npo.css" rel="stylesheet" type="text/css" />
+
+    {% block npoExtraHeader %}
+        {### this block can be replaced by children template with css / script definition ###}
+        <!-- block profileExtraHeader here -->
+    {% endblock npoExtraHeader %}
+
+{% endblock twocolumnExtraHeader %}
+
+{### splashPage ###}
+
+{% block splashPage %}
+    {% include "splashbox_search.html" %}
+{% endblock splashPage %}
+
+
+{### topBar ###}
+{% block topBar %}
+    {% include "npo/admin_topbar.html" %}
+{% endblock topBar %}
+
+{### sidebar ###}
+
+{% block twocolumnSidebar %}
+
+{% include "npo/profile_leftcolumn.html" %}
+
+{% endblock twocolumnSidebar %}
+
+{### content ###}
+
+{% block twocolumnContent %}
+    {% block npoContent %}
+        {### this block can be replaced by children template with actual profile content ###}
+        block npoContent here
+    {% endblock npoContent %}
+
+{% endblock twocolumnContent %}
