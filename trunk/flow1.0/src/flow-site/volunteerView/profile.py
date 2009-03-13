@@ -102,9 +102,9 @@ class VolunteerProfileForm(djangoforms.ModelForm):
     im_type                     = forms.ChoiceField(required=False, choices=choices)
     im_account                  = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'size': '30'}))
 
-    phone1                      = forms.CharField(required=False, min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
-    phone2                      = forms.CharField(required=False, min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
-    phone3                      = forms.CharField(required=False, min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
+    phone1                      = forms.CharField(min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
+    phone2                      = forms.CharField(min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
+    phone3                      = forms.CharField(min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
 
     blog                        = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'size': '50'}))
 
@@ -115,7 +115,7 @@ class VolunteerProfileForm(djangoforms.ModelForm):
     class Meta:
         model = VolunteerProfile
         fields = ['volunteer_first_name', 'volunteer_last_name', 'sex', 'resident_city', 'logo', 'school', 'organization', 'title',
-                  'cellphone_no', 'blog', 'expertise', 'brief_intro',
+                  'blog', 'expertise', 'brief_intro',
                  ]
 
     def clean_birthyear(self):
@@ -213,10 +213,8 @@ def edit(request):
             isWarning = u'請檢查是否有資料輸入錯誤。'
         else:
             cleaned_data = form._cleaned_data()
-            if cleaned_data['phone1'] and cleaned_data['phone2'] and cleaned_data['phone3']:
-                cellphone_no = '%s-%s-%s' % (cleaned_data['phone1'], cleaned_data['phone2'], cleaned_data['phone3'])
-            else:
-                cellphone_no = None
+            cellphone_no = '%s-%s-%s' % (cleaned_data['phone1'], cleaned_data['phone2'], cleaned_data['phone3'])
+
             resident_city = db.GqlQuery('SELECT * From CountryCity WHERE city_en = :1', cleaned_data['resident_city']).get().city_tc
 
             user.update_time                 = datetime.datetime.utcnow()
