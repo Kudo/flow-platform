@@ -16,8 +16,8 @@ dicRule = {'new application'        :{'modify':'',        'recruit':'disabled','
            'authenticated'          :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':''},
            'registrating'           :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':''},
            'recruiting'             :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':''},
-           'registration closed'    :{'modify':'disabled','recruit':'disabled','validate':''        ,'close':'disabled','cancel':'disabled'},
-           'on-going'               :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':'disabled'},
+           'registration closed'    :{'modify':'disabled','recruit':'disabled','validate':''        ,'close':'disabled','cancel':''},
+           'on-going'               :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':'disabled'},
            'filling polls'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
            'activity closed'        :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
            'case-closed reporting'  :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':''        ,'cancel':'disabled'},
@@ -26,11 +26,11 @@ dicRule = {'new application'        :{'modify':'',        'recruit':'disabled','
            }
 
 dicStatusName={
-    "new application":u'新發起',
+    "new application":u'暫存',
     "approved":u'核准',
     "announced":u'發佈',
-    "authenticating":u'驗證中',
-    "authenticated":u'通過驗證',
+    "authenticating":u'未送審',
+    "authenticated":u'送審中',
     "registrating":u'開放登記',
     "recruiting":u'招募中',
     "registration closed":u'結束登記',
@@ -38,7 +38,7 @@ dicStatusName={
     "filling polls":u'填寫問卷',
     "activity closed":u'活動結束',
     "case-closed reporting":u'結案報告',
-    "cancelled":u'取消',
+    "cancelled":u'已取消',
     "abusive usage":u'不當使用',
     }
 
@@ -93,7 +93,7 @@ def handleCancelEvent(request):
     if event.npo_profile_ref.id!=objNpo.id:
         return HttpResponseRedirect('/')
 
-    if 'btnSubmit' in request.POST:
+    if 'submitType' in request.POST:
         form = CancelEventForm(data = request.POST)
         if form.is_valid():
             event.status='cancelled'

@@ -31,7 +31,9 @@ class NewEventForm(djangoforms.ModelForm):
     
    
     class Meta:
-        event_fields = ['event_name', 'description', 'start_time', 'end_time','reg_start_time','reg_end_time', 'event_region', 'event_hours', 'event_target', 'tag', 'objective', 'summary', 'expense','registration_fee','attachment_links_show','event_zip','event_field','category']
+        event_fields = ['event_name', 'description', 'start_time', 'end_time','reg_start_time','reg_end_time',
+                        'event_region', 'event_hours', 'event_target', 'tag', 'objective', 'summary', 'expense',
+                        'registration_fee','attachment_links_show','event_zip','event_field','category']
         volunteer_fileds = ['sex','max_age', 'min_age','volunteer_req','expertise_req','join_flow_plan']
         event_feedback_fileds = ['event_album_link','event_video_link','event_blog_link','sentiments']
         model = ddl.EventProfile
@@ -60,17 +62,17 @@ def processAddEvent(request):
         
         if form.is_valid():
             # Create New Activity Instance  
-            questionnaire_template_ref = ddl.QuestionnaireTemplate.all().get()
+            #questionnaire_template_ref = ddl.QuestionnaireTemplate.all().get()
             volunteer_profile_ref = ddl.VolunteerProfile.all().get()               
             
             form.clean_data['npo_profile_ref']=objNpo
             form.clean_data['volunteer_profile_ref']=volunteer_profile_ref
-            form.clean_data['questionnaire_template_ref']=questionnaire_template_ref
+            #form.clean_data['questionnaire_template_ref']=questionnaire_template_ref
             
             form.clean_data['status']='new application'
             form.clean_data['create_time']=datetime.now()
             form.clean_data['update_time']=datetime.now()
-            form.clean_data['questionnaire_template_id']=11111 # There is no questionnaire_template_ref.id (based on ddl.py) ??
+            #form.clean_data['questionnaire_template_id']=11111 # There is no questionnaire_template_ref.id (based on ddl.py) ??
             form.clean_data['attachment_links']=[db.Link(form.clean_data['attachment_links_show'])]
             form.clean_data['npo_event_rating']=0
             form.clean_data['event_rating']=0
@@ -92,7 +94,7 @@ def processAddEvent(request):
         # Save into datastore based on submit type
             if('send' == submitType):
                 dic={'event_key':newEventEntity.key(),
-                 'phone_number':objVolunteer.cellphone_no,
+                 'phone_number':''.join(objVolunteer.cellphone_no.split('-')),
                  'base': flowBase.getBase(request, 'npo'),
                  'page': 'event'}
                 return render_to_response('event/event-sms-1.html', dic)

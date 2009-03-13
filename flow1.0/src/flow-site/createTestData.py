@@ -49,7 +49,7 @@ def createQuestionnaireTemplate():
     template.put()
     return template
 
-def createEventProfile(npo, volunteer, template):
+def createEventProfile(npo, volunteer):
     now   = datetime.datetime.now()
     start = datetime.datetime.fromtimestamp(time.time()+86400*10)
     end = datetime.datetime.fromtimestamp(time.time()+86400*15)
@@ -57,14 +57,14 @@ def createEventProfile(npo, volunteer, template):
                          volunteer_profile_ref=volunteer, event_region=[u'南投'], event_zip=["104"], event_hours=10,
                          event_target=['social worker'], event_field=['social activity'], category='Social',
                          start_time=start, end_time=end, reg_start_time=start, reg_end_time=end, objective='orcas',
-                         status="approved", max_age=99, min_age=9, questionnaire_template_ref=template, event_rating=75, npo_event_rating=80,
+                         status="approved", max_age=99, min_age=9, event_rating=75, npo_event_rating=80,
                          create_time=now, update_time=now, summary='Good Job!',volunteer_req=10)
     event.approved=True
     event.approved_time=datetime.datetime.now()
     event.put()
     return event
 
-def createEventProfile2(npo, volunteer, template, strEvent_name, strStatus):
+def createEventProfile2(npo, volunteer, strEvent_name, strStatus):
     if strStatus=='activity closed':
         now = datetime.datetime.fromtimestamp(time.time()-86400*20)
         start = datetime.datetime.fromtimestamp(time.time()-86400*15)
@@ -78,7 +78,7 @@ def createEventProfile2(npo, volunteer, template, strEvent_name, strStatus):
                          volunteer_profile_ref=volunteer, event_region=['Taipei'], event_zip=["104"], event_hours=10,
                          event_target=['social worker'], event_field=['social activity'], category='Social',
                          start_time=start, end_time=end, reg_start_time=start, reg_end_time=end, objective='orcas',
-                         status=strStatus, max_age=99, min_age=9, questionnaire_template_ref=template, event_rating=75, npo_event_rating=80,
+                         status=strStatus, max_age=99, min_age=9, event_rating=75, npo_event_rating=80,
                          create_time=now, update_time=now, summary='Good Job!',volunteer_req=5)
     if strStatus=="new application":
         event.approved=True
@@ -102,13 +102,12 @@ def create():
     volunteer = createVolunteerProfile(user)
     npo = createNpoProfile(user)
     
-    template = createQuestionnaireTemplate()
-    event = createEventProfile(npo, volunteer, template)
-    event = createEventProfile2(npo, volunteer, template, u"招募中的活動", "recruiting" )
-    event = createEventProfile2(npo, volunteer, template, u"蓋高速公路", "new application" )
-    event = createEventProfile2(npo, volunteer, template, u"打螞蟻", "activity closed" )
-    event = createEventProfile2(npo, volunteer, template, u"殺蟑螂", "activity closed" )
-    event = createEventProfile2(npo, volunteer, template, u"毒老鼠", "activity closed" )
+    event = createEventProfile(npo, volunteer)
+    event = createEventProfile2(npo, volunteer, u"招募中的活動", "recruiting" )
+    event = createEventProfile2(npo, volunteer, u"蓋高速公路", "new application" )
+    event = createEventProfile2(npo, volunteer, u"打螞蟻", "activity closed" )
+    event = createEventProfile2(npo, volunteer, u"殺蟑螂", "activity closed" )
+    event = createEventProfile2(npo, volunteer, u"毒老鼠", "activity closed" )
     
 def createFromGae(request):
     from django.http import HttpResponse

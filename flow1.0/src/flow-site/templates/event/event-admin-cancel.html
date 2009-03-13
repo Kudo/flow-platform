@@ -41,6 +41,7 @@ function disableButton(form) {
 	        {% endif %}
 				</div>
 				<input type="hidden" name="event_key" value="{{ event_key }}">
+				<input type="hidden" name="submitType" value="cancel">
 				<input type="button" value="確定送出" name="btnSubmit" onClick="submitForm('cancelEvent');">
 				<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';">
 		</form>

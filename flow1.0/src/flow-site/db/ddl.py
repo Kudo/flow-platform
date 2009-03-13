@@ -892,8 +892,8 @@ class EventProfile(FlowDdlModel):
     volunteer_shortage         = db.IntegerProperty()         # default to volunteer_req
     join_flow_plan             = db.BooleanProperty()         # default to True
     # Note that in the schema we have "QUESTIONNAIRE_ID", but it is more efficient to implement in the following way:
-    questionnaire_template_ref = db.ReferenceProperty(required=True, reference_class=QuestionnaireTemplate)
-    questionnaire_template_id  = db.IntegerProperty()         # auto-generated from questionnaire_template_ref.id
+    #questionnaire_template_ref = db.ReferenceProperty(required=True, reference_class=QuestionnaireTemplate)
+    #questionnaire_template_id  = db.IntegerProperty()         # auto-generated from questionnaire_template_ref.id
     sentiments                 = db.StringProperty(multiline=True)
     event_rating               = db.RatingProperty(required=True)
     npo_event_rating           = db.RatingProperty(required=True)
@@ -943,7 +943,7 @@ class EventProfile(FlowDdlModel):
             self.npo_id                    = self.npo_profile_ref.npo_id
             self.volunteer_profile_id      = self.volunteer_profile_ref.id
             self.originator                = self.volunteer_profile_ref.volunteer_id
-            self.questionnaire_template_id = self.questionnaire_template_ref.id
+            #self.questionnaire_template_id = self.questionnaire_template_ref.id
             self.event_id='%010d'%int(self.id)
 
     @classmethod
