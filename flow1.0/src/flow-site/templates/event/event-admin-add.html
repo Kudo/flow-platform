@@ -147,7 +147,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>活動內容</font></td>
+				<td>活動內容{% if form.summary.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.summary }} 
 				{% if form.summary.errors %}    
         {% for error in form.summary.errors %}
@@ -174,7 +174,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>費用金額</td>
+				<td>費用金額{% if form.expense.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>新台幣{{ form.expense }} 
 				元 {% if form.expense.errors %}    
         {% for error in form.expense.errors %}
@@ -183,7 +183,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>報名費</td>
+				<td>報名費{% if form.registration_fee.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>新台幣{{ form.registration_fee }} 
 				元 {% if form.registration_fee.errors %}    
         {% for error in form.registration_fee.errors %}
@@ -192,7 +192,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>	
 			<tr>
-				<td>活動企劃書位址</td>
+				<td>活動企劃書位址{% if form.attachment_links_show.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.attachment_links_show }} 
 				{% if form.attachment_links_show.errors %}    
         {% for error in form.attachment_links_show.errors %}
@@ -201,7 +201,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>標籤(關鍵字)</td>
+				<td>標籤(關鍵字){% if form.tag.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.tag }} 
 				{% if form.tag.errors %}    
         {% for error in form.tag.errors %}
@@ -210,7 +210,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>		
 			<tr>
-				<td>活動相簿連結</font></td>
+				<td>活動相簿連結{% if form.event_album_link.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.event_album_link }} 
 				{% if form.event_album_link.errors %}    
         {% for error in form.event_album_link.errors %}
@@ -219,7 +219,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>	
 			<tr>
-				<td>活動影片連結</font></td>
+				<td>活動影片連結{% if form.event_video_link.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.event_video_link }} 
 				{% if form.event_video_link.errors %}    
         {% for error in form.event_video_link.errors %}
@@ -228,7 +228,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>	
 			<tr>
-				<td>活動 BLOG 連結</font></td>
+				<td>活動 BLOG 連結{% if form.event_blog_link.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.event_blog_link }} 
 				{% if form.event_blog_link.errors %}    
         {% for error in form.event_blog_link.errors %}
@@ -237,7 +237,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>	
 			<tr>
-				<td>NPO 心得</font></td>
+				<td>NPO 心得{% if form.sentiments.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.sentiments }} 
 				{% if form.sentiments.errors %}    
         {% for error in form.sentiments.errors %}
