@@ -17,7 +17,7 @@ def volunteerShow(request):
         strEventKey = request.POST['event_key']
     except KeyError:
         # Redirect to login page
-        return HttpResponseRedirect('/npo/listEvent')
+        return HttpResponseRedirect('listEvent')
     event=db.get(db.Key(strEventKey))
     # Retrieve data with given eventID and status
     query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'new registration')
@@ -26,8 +26,9 @@ def volunteerShow(request):
     result2 = query.fetch(100)
     dicData={'lstVolunteer' : addName(result1),
              'lstApproved' : addName(result2),
-             'base':flowBase.getBase(request),
-             'event':event
+             'base':flowBase.getBase(request,'npo'),
+             'event':event,
+             'page':'event'
              }
     return render_to_response(r'event/event-admin-validate.html', dicData)
 

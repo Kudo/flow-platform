@@ -107,7 +107,7 @@ def create():
     event = createEventProfile2(npo, volunteer, template, u"招募中的活動", "recruiting" )
     event = createEventProfile2(npo, volunteer, template, u"蓋高速公路", "new application" )
     event = createEventProfile2(npo, volunteer, template, u"打螞蟻", "activity closed" )
-    event = createEventProfile2(npo, volunteer, template, u"殺蟑螂", "case-closed reporting" )
+    event = createEventProfile2(npo, volunteer, template, u"殺蟑螂", "activity closed" )
     event = createEventProfile2(npo, volunteer, template, u"毒老鼠", "activity closed" )
     
 def createFromGae(request):

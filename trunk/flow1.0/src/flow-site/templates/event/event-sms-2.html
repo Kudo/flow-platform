@@ -1,14 +1,15 @@
-{% extends "event/base.html" %}
+{### % extends "event/base.html" % ###}
+{% extends "npo/admin_base.html" %}
 
 {### header ###}
-{% block activityExtraHeader %}
-	<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
-{% endblock %}
+{% block npoExtraHeader %}
+
+{% endblock npoExtraHeader %}
 
 
 {### content ###}
 
-{% block activityContent %}
+{% block npoContent %}
 <SCRIPT language="JavaScript">  
 function submitForm(url)
   { 
@@ -52,10 +53,11 @@ function disableButton(form) {
 			<input type="hidden" name="event_key" value="{{ event_key }}">
 			<li class="buttons section">
 				<input id="submit" class="btTxt" type="submit" value="完成" onClick="submitForm('handleAuthEvent');"/>
+				<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';">
 			</li>
 		</ul>
 		{{auth_token}}
 	</form>
 	
 
-{% endblock activityContent %}
+{% endblock npoContent %}

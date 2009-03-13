@@ -94,8 +94,13 @@ def processEditEvent(request):
             modEventEntity.status = 'new application'
             modEventEntity.put()
             if('send' == submitType):
-                return render_to_response('event/event-sms-1.html', {'event_key':modEventEntity.key(),'phone_number':objVolunteer.cellphone_no, 'base': flowBase.getBase(request)})
-            return HttpResponseRedirect('/npo/listEvent')
+                dic={'event_key':modEventEntity.key(),
+                     'phone_number':objVolunteer.cellphone_no,
+                     'base': flowBase.getBase(request,'npo'),
+                     'page': 'event'
+                     }
+                return render_to_response('event/event-sms-1.html', dic)
+            return HttpResponseRedirect('listEvent')
     else:
         eventKey = request.POST['event_key']
         eventProfile=db.get(db.Key(eventKey))
@@ -104,6 +109,8 @@ def processEditEvent(request):
             raise db.BadQueryError()
         
         form = NewEventForm(instance = eventProfile)
-
-    return render_to_response('event/event-admin-edit.html', {'form':form, 'event_key':eventKey, 'base':flowBase.getBase(request)})
+    dic={'form':form, 'event_key':eventKey,
+         'base':flowBase.getBase(request,'npo'),
+         'page': 'event'}
+    return render_to_response('event/event-admin-edit.html', dic)
     

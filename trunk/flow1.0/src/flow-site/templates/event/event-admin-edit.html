@@ -1,10 +1,15 @@
-﻿{% extends "event/base.html" %}
+﻿{### % extends "event/base.html" % ###}
+{% extends "npo/admin_base.html" %}
 
 {### header ###}
+{% block npoExtraHeader %}
+
+{% endblock npoExtraHeader %}
+
 
 {### content ###}
 
-{% block activityContent %}
+{% block npoContent %}
 <SCRIPT language="JavaScript">  
 // onload function
 $(document).ready(function() {
@@ -325,8 +330,8 @@ function disableButton(form) {
 		<input type="hidden" name="event_key" value="{{ event_key }}">
 		<p><input type="button" value="送審" name="btnSubmit" onClick="submitForm('editEvent','send');">
 			<input type="button" value="暫存" name="btnSave" onClick="submitForm('editEvent','save');">
-			<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='.';"><br>
+			<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';"><br>
 		</p>
 	</form>
 
-{% endblock activityContent %}
+{% endblock npoContent %}

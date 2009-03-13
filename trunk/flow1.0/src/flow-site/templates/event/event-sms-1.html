@@ -1,14 +1,14 @@
-{% extends "event/base.html" %}
+{### % extends "event/base.html" % ###}
+{% extends "npo/admin_base.html" %}
 
 {### header ###}
-{% block activityExtraHeader %}
-	<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
-{% endblock %}
+{% block npoExtraHeader %}
 
+{% endblock npoExtraHeader %}
 
 {### content ###}
 
-{% block activityContent %}
+{% block npoContent %}
 <SCRIPT language="JavaScript">  
 function submitForm(url)
   { 
@@ -30,7 +30,7 @@ function disableButton(form) {
 	<form class="flow-form" action="" name="myForm" method="POST">
 		<ul>
 			<li class="section first">
-				<div>您已經將活動基本資料填妥，按下[下一步]按鈕之後，系統將會發出一通含有驗證碼的簡訊至您的手機。</div>
+				<div>您的活動基本資料已經儲存成功，按下[下一步]按鈕之後，系統將會發出一通含有驗證碼的簡訊至您的手機。</div>
 			</li>
 				<label class="desc">	
 				您目前登記的手機號碼為 <label>{{phone_number}}</lable>
@@ -67,9 +67,10 @@ function disableButton(form) {
 				<input type="hidden" name="event_key" value="{{ event_key }}">
 				<input type="hidden" name="phone_number" value="{{phone_number}}">
 				<input id="submit" class="btTxt" type="submit" value="下一步" name="btnSubmit" onClick="submitForm('authEvent');"/>
+				<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';"><br>
 			</li>
 		</ul>
 	</form>
 	
 
-{% endblock activityContent %}
+{% endblock npoContent %}
