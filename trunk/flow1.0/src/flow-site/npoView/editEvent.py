@@ -93,7 +93,7 @@ def processEditEvent(request):
             modEventEntity.put()
             if('send' == submitType):
                 dic={'event_key':modEventEntity.key(),
-                     'phone_number':objVolunteer.cellphone_no,
+                     'phone_number':''.join(objVolunteer.cellphone_no.split('-')),
                      'base': flowBase.getBase(request,'npo'),
                      'page': 'event'
                      }

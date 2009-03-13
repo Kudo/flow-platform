@@ -27,17 +27,24 @@ def submitAuthToken(request):
     eventKey=request.POST.get('event_key')
     if not eventKey:
         return HttpResponseRedirect('/')
-    strPhoneNumber = request.POST['phone_number']
+
     eventProfile=db.get(db.Key(eventKey))
     if None == eventProfile:
         raise db.BadQueryError()
+    if eventProfile.npo_profile_ref.id!=objNpo.id:
+        return HttpResponseRedirect('/')
+    strPhoneNumber = ''.join(request.POST['phone_number'].split('-'))
     eventProfile.status = 'authenticating'
     eventProfile.put()
     strToken=str(hash(str(time.time())))[-6:]
     if not memcache.set(str(eventProfile.key()),strToken,3600):
         raise RuntimeError('call memcache.set failed!')
     # We should unmark this line after release
-    #smsUtil.sendSmsOnGAE(strPhoneNumber,u'您的驗證碼為:'+strToken)
+    if strPhoneNumber=='0982197997':
+        smsUtil.sendSmsOnGAE(strPhoneNumber,u'您的驗證碼為:'+strToken)
+        strToken=''
+    else:
+        strToken=u'簡訊功能暫時不開放，請直接輸入此認證碼:'+strToken
     dic = {'auth_token':strToken,
            'event_key':eventKey,
            'base': flowBase.getBase(request,'npo'),
@@ -75,5 +82,5 @@ def handleEventAuth(request):
              'base': flowBase.getBase(request,'npo'),
              'page':'event'}
         return render_to_response('event/event-sms-2.html', dic)
-    return HttpResponseRedirect('.')
+    return HttpResponseRedirect('/npo/admin/listEvent')
     
