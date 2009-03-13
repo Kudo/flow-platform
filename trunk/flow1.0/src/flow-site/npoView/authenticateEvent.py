@@ -73,7 +73,8 @@ def handleEventAuth(request):
         raise db.BadQueryError()
     strToken=memcache.get(eventKey)
     if strToken==request.POST['validation']:
-        eventProfile.status = 'authenticated'
+        #eventProfile.status = 'authenticated'
+        eventProfile.status = 'approved'
         eventProfile.put()
     else:
         dic={'token_invalid':'1',
