@@ -1,5 +1,5 @@
 #-*- coding: cp950 -*-
-import sys,cgi,re,time,os,logging,datetime
+import sys,cgi,re,time,os,datetime
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import TemplateDoesNotExist
@@ -124,18 +124,23 @@ def showEvent(request):
         return render_to_response(r'event/event-info-noapply.html', {'event' : dicData, 'base': flowBase.getBase(request, 'event')})
 
 def applyEvent(request):
-    objUser=users.get_current_user()
-    if not objUser:
-        eventKey=request.POST.get('event_id')
-        return HttpResponseRedirect(users.create_login_url(cgi.escape(request.path+'?event_id=%s'%eventKey)))
-    objUser=flowBase.getVolunteer(objUser)
-    if not objUser:
-        return HttpResponseRedirect('/volunteer/register/')
     eventKey=request.POST.get('event_id')
     if not eventKey or eventKey=='None':
         eventKey=request.GET.get('event_id')
     if not eventKey or eventKey=='None':
         return HttpResponseRedirect('/event/')
+
+    objUser=users.get_current_user()
+    if not objUser:
+        return HttpResponseRedirect(users.create_login_url(cgi.escape(request.path+'?event_id=%s'%eventKey)))
+    objUser=flowBase.getVolunteer(objUser)
+    if not objUser:
+        template_values = {
+            'base': flowBase.getBase(request, 'event'),
+            'redirectURI': cgi.escape(request.path+'?event_id=%s'%eventKey),
+            'loginSuccess': False,
+        }
+        return render_to_response('loginProxy.html', template_values)
     event=db.get(db.Key(eventKey))
     
     dicData={"event_name": event.event_name,
@@ -290,21 +295,17 @@ def applyYes(request):
                     "update_time": event.update_time.strftime('%Y-%m-%d %H:%M')
                 }
 
-# Getting current user currently  hardcoded as volunteer_id = "trend@flow.org"
     objUser=users.get_current_user()
     if not objUser:
         return HttpResponseRedirect('/event/')
     intVolunteerEventItems = db.GqlQuery('select * from VolunteerEvent where volunteer_id = :1 and event_profile_ref = :2', objUser, event).count()
-    logging.info("Volunteer %d got!", intVolunteerEventItems)
     if intVolunteerEventItems > 0:
         return HttpResponse(u'本帳號 %s 已經有報名[%s]了,所以無法再加入!<br><a href="/event/">返回</a>' % (objUser,event.event_name) )
-
         
 # Following part will trying insert the record, if cannot find any account in the list
     userSet = db.GqlQuery('select * from VolunteerProfile where volunteer_id = :1', objUser)
     event.registered_count = event.registered_count + 1
     count = 0
-    logging.info("The Volunteer is : " + str(userSet[0].volunteer_id))
     dicUserData={   "volunteer_id" : objUser,
                     "id_no" : userSet[0].id_no,
                     "volunteer_last_name" : userSet[0].volunteer_last_name,
@@ -393,10 +394,9 @@ def EmptyApply(request):
         event.registered_count=0
         #event.registered_volunteer=[]
         event.put()
-        logging.info('event information cleaned...')
+
     VolunteerEvent = db.GqlQuery("select * from VolunteerEvent")
     for item in VolunteerEvent:
-        logging.info('VolunteerEvent record deleted!...')
         item.delete()
     return HttpResponse(u'已刪除VolunteerEvent所有資料,與清除EventProfile相對應欄位')
 

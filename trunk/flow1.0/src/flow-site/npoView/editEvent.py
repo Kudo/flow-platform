@@ -63,20 +63,18 @@ def processEditEvent(request):
     
     if request.method != 'POST':
         return HttpResponseRedirect('/npo/')
+
+    eventKey = request.POST['event_key']
+    eventProfile=db.get(db.Key(eventKey))
+    if None == eventProfile:
+        raise db.BadQueryError()
+    if eventProfile.npo_profile_ref.id!=objNpo.id:
+        return HttpResponseRedirect('/')
     
-    if request.POST.has_key('submitType'):           
-    
+    if 'submitType' in request.POST:
         submitType = request.POST['submitType']
-    
         if not submitType:
             return HttpResponseRedirect('/npo/')
-
-        eventKey = request.POST['event_key']
-        eventProfile=db.get(db.Key(eventKey))
-        
-        if None == eventProfile:
-            raise db.BadQueryError()
-        
         form = NewEventForm(data = request.POST , instance = eventProfile)
         if form.is_valid():
             modEventEntity = form.save(commit=False)
@@ -102,12 +100,6 @@ def processEditEvent(request):
                 return render_to_response('event/event-sms-1.html', dic)
             return HttpResponseRedirect('listEvent')
     else:
-        eventKey = request.POST['event_key']
-        eventProfile=db.get(db.Key(eventKey))
-        
-        if None == eventProfile:
-            raise db.BadQueryError()
-        
         form = NewEventForm(instance = eventProfile)
     dic={'form':form, 'event_key':eventKey,
          'base':flowBase.getBase(request,'npo'),

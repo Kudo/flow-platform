@@ -78,41 +78,42 @@ def actionCheck(lstEvent):
 class CancelEventForm(forms.Form):
     reason = forms.CharField(widget=forms.Textarea(attrs={'rows':'10', 'cols':'50','class':'field textarea medium'}))
     
+def handleCancelEvent(request):
+    objUser=users.get_current_user()
+    if not objUser:
+        return HttpResponseRedirect('/')
+    objNpo=flowBase.getNpoByUser(objUser)
+    if not objNpo:
+        return HttpResponseRedirect('/')
 
-def showCancelEvent(request):
     strEventKey=request.POST.get('event_key')
+    if not strEventKey:
+        return HttpResponseRedirect('/')
     event=db.get(db.Key(strEventKey))
+    if event.npo_profile_ref.id!=objNpo.id:
+        return HttpResponseRedirect('/')
+
+    if 'btnSubmit' in request.POST:
+        form = CancelEventForm(data = request.POST)
+        if form.is_valid():
+            event.status='cancelled'
+            event.put()
+            cancelDate=datetime.date.today()
+            objRecSet = db.GqlQuery('select * from VolunteerEvent where event_profile_ref = :1', event)
+            for objRec in objRecSet.fetch(100):
+                objRec.status="cancelled"
+                objRec.cancelled=True
+                objRec.cancel_date=cancelDate
+                objRec.cancel_reason=form['reason'].data
+                objRec.put()
+                # Todo: send email to regitered use
+            return HttpResponseRedirect('listEvent')
+    else:
+        form = CancelEventForm()
     dic ={'event_key':strEventKey,
-          'form': CancelEventForm(),
+          'form': form,
           'base': flowBase.getBase(request, 'npo'),
           'page': 'event',
           'event': event}
     return render_to_response(r'event/event-admin-cancel.html', dic)
-
-def handleCancelEvent(request):
-    strEventKey=request.POST.get('event_key')
-    if not strEventKey:
-        return HttpResponseRedirect('listEvent')
-    event=db.get(db.Key(strEventKey))
-    form = CancelEventForm(data = request.POST)
-    if form.is_valid():
-        event.status='cancelled'
-        event.put()
-        cancelDate=datetime.date.today()
-        objRecSet = db.GqlQuery('select * from VolunteerEvent where event_profile_ref = :1', event)
-        for objRec in objRecSet.fetch(100):
-            objRec.status="cancelled"
-            objRec.cancelled=True
-            objRec.cancel_date=cancelDate
-            objRec.cancel_reason=form['reason'].data
-            objRec.put()
-            # Todo: send email to regitered use
-        return HttpResponseRedirect('listEvent')
-    else:
-        dic ={'event_key':strEventKey,
-              'form': form,
-              'base': flowBase.getBase(request, 'npo'),
-              'page': 'event',
-              'event': event}
-        return render_to_response(r'event/event-admin-cancel.html', dic)
     
