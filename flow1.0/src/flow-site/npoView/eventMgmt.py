@@ -1,3 +1,4 @@
+# -*- coding: big5 -*-
 import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -8,21 +9,38 @@ from google.appengine.ext import db
 from db import ddl
 import flowBase
 
-dicRule = {'new application'        :{'modify':'','recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
-           'approved'               :{'modify':'disabled','recruit':'','validate':'disabled','close':'disabled','cancel':''},
+dicRule = {'new application'        :{'modify':'',        'recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
+           'approved'               :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':''},
            'announced'              :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
-           'authenticating'         :{'modify':'','recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
-           'authenticated'          :{'modify':'disabled','recruit':'','validate':'disabled','close':'disabled','cancel':''},
-           'registrating'           :{'modify':'disabled','recruit':'','validate':'','close':'disabled','cancel':''},
-           'recruiting'             :{'modify':'disabled','recruit':'','validate':'','close':'disabled','cancel':''},
-           'registration closed'    :{'modify':'disabled','recruit':'disabled','validate':'','close':'disabled','cancel':'disabled'},
-           'on-going'               :{'modify':'disabled','recruit':'','validate':'','close':'disabled','cancel':'disabled'},
+           'authenticating'         :{'modify':'',        'recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
+           'authenticated'          :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':''},
+           'registrating'           :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':''},
+           'recruiting'             :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':''},
+           'registration closed'    :{'modify':'disabled','recruit':'disabled','validate':''        ,'close':'disabled','cancel':'disabled'},
+           'on-going'               :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':'disabled'},
            'filling polls'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
            'activity closed'        :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
-           'case-closed reporting'  :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'','cancel':'disabled'},
+           'case-closed reporting'  :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':''        ,'cancel':'disabled'},
            'cancelled'              :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
            'abusive usage'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'}
            }
+
+dicStatusName={
+    "new application":u'新發起',
+    "approved":u'核准',
+    "announced":u'發佈',
+    "authenticating":u'驗證中',
+    "authenticated":u'通過驗證',
+    "registrating":u'開放登記',
+    "recruiting":u'招募中',
+    "registration closed":u'結束登記',
+    "on-going":u'活動進行中',
+    "filling polls":u'填寫問卷',
+    "activity closed":u'活動結束',
+    "case-closed reporting":u'結案報告',
+    "cancelled":u'取消',
+    "abusive usage":u'不當使用',
+    }
 
 def mainPage(request):
     objUser=users.get_current_user()
@@ -37,7 +55,10 @@ def mainPage(request):
     
     query = db.GqlQuery("SELECT * FROM EventProfile WHERE npo_profile_ref = :1",objNpo)
     results = query.fetch(100)
-    return render_to_response(r'event/event-admin-list.html', {'lstActivityList' : actionCheck(results), 'base': flowBase.getBase(request, 'npo'), 'page': 'event'})
+    dic={'lstEvent' : actionCheck(results),
+         'base': flowBase.getBase(request, 'npo'),
+         'page': 'event'}
+    return render_to_response(r'event/event-admin-list.html', dic)
 
 def actionCheck(lstEvent):
     '''
@@ -47,7 +68,11 @@ def actionCheck(lstEvent):
     lstActList = []
     
     for event in lstEvent:
-        lstActList.append({"event_key":str(event.key()),"name":event.event_name,"status":event.status,"dicPerm":dicRule[event.status]})
+        dic={"event_key":str(event.key()),
+             "name":event.event_name,
+             "status":dicStatusName[event.status],
+             "dicPerm":dicRule[event.status]}
+        lstActList.append(dic)
     return lstActList
 
 class CancelEventForm(forms.Form):
@@ -67,7 +92,7 @@ def showCancelEvent(request):
 def handleCancelEvent(request):
     strEventKey=request.POST.get('event_key')
     if not strEventKey:
-        return HttpResponseRedirect('/npo/listEvent')
+        return HttpResponseRedirect('listEvent')
     event=db.get(db.Key(strEventKey))
     form = CancelEventForm(data = request.POST)
     if form.is_valid():
@@ -82,7 +107,7 @@ def handleCancelEvent(request):
             objRec.cancel_reason=form['reason'].data
             objRec.put()
             # Todo: send email to regitered use
-        return HttpResponseRedirect('/npo/listEvent')
+        return HttpResponseRedirect('listEvent')
     else:
         dic ={'event_key':strEventKey,
               'form': form,

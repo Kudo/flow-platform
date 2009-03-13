@@ -38,7 +38,12 @@ def submitAuthToken(request):
         raise RuntimeError('call memcache.set failed!')
     # We should unmark this line after release
     #smsUtil.sendSmsOnGAE(strPhoneNumber,u'您的驗證碼為:'+strToken)
-    return render_to_response('event/event-sms-2.html', {'auth_token':strToken,'event_key':eventKey,'base': flowBase.getBase(request)})
+    dic = {'auth_token':strToken,
+           'event_key':eventKey,
+           'base': flowBase.getBase(request,'npo'),
+           'page':'event',
+           }
+    return render_to_response('event/event-sms-2.html', dic)
 
 def handleEventAuth(request):
     objUser=users.get_current_user()
@@ -64,6 +69,11 @@ def handleEventAuth(request):
         eventProfile.status = 'authenticated'
         eventProfile.put()
     else:
-        return render_to_response('event/event-sms-2.html', {'token_invalid':'1','auth_token':strToken,'event_key':eventKey,'base': flowBase.getBase(request)})
+        dic={'token_invalid':'1',
+             'auth_token':strToken,
+             'event_key':eventKey,
+             'base': flowBase.getBase(request,'npo'),
+             'page':'event'}
+        return render_to_response('event/event-sms-2.html', dic)
     return HttpResponseRedirect('.')
     

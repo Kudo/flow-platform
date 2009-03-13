@@ -91,14 +91,18 @@ def processAddEvent(request):
                        
         # Save into datastore based on submit type
             if('send' == submitType):
-                return render_to_response('event/event-sms-1.html', {'event_key':newEventEntity.key(),'phone_number':objVolunteer.cellphone_no, 'base': flowBase.getBase(request)})
+                dic={'event_key':newEventEntity.key(),
+                 'phone_number':objVolunteer.cellphone_no,
+                 'base': flowBase.getBase(request, 'npo'),
+                 'page': 'event'}
+                return render_to_response('event/event-sms-1.html', dic)
             else:
-                return HttpResponseRedirect('/npo/')
+                return HttpResponseRedirect('listEvent')
     else:
         form = NewEventForm()
         
     
-    return render_to_response('event/event-admin-add.html', {'form': form, 'base': flowBase.getBase(request)})
+    return render_to_response('event/event-admin-add.html', {'form': form, 'base': flowBase.getBase(request,'npo'),'page': 'event'})
 
 
 # submit event to invest

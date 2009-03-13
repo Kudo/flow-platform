@@ -1,10 +1,17 @@
-﻿{% extends "event/base.html" %}
+﻿{### % extends "event/base.html" % ###}
+{% extends "npo/admin_base.html" %}
 
 {### header ###}
-{% block activityExtraHeader %}
+{% block npoExtraHeader %}
+
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
 
 <script type="text/javascript">
-<!--
+
 function setButtonsEnabled() 
 {
 	$('#move-all-to-approved').attr('disabled', (0 == $('#pool option:not(.default)').length) ? true : false);
@@ -47,17 +54,28 @@ function moveToPool(moveAll)
 $(function() {
 	checkIfSelectIsEmpty();
 });
--->
+
+function submitForm(url)
+  { 
+    disableButton(document.myForm);
+  	document.myForm.action = url; 
+  	document.myForm.submit(); 
+  } 
+function disableButton(form) {
+  if (document.getElementById) {
+   for (var i = 0; i < form.length; i++) {
+     if (form.elements[i].type.toLowerCase() == "button")
+       form.elements[i].disabled = true;
+     }
+  }
+  return true;
+}
+
 </script>
-
-{% endblock activityExtraHeader %}
-{### content ###}
-
-{% block activityContent %}
 
 	<div id="activity-cancel">
 		<h3 id="page-title">志工審核</h3>
-		<form class="flow-form" method="POST" action="/npo/eventAdminValidateSubmit/">
+		<form class="flow-form" method="POST" name="myForm" action="/npo/eventAdminValidateSubmit/">
 			<ul>
 				<li class="section first">
 					<h3>請選擇參與活動的志工</h3>
@@ -106,12 +124,12 @@ $(function() {
 				</li>
 				
 				<li class="section buttons">
-						<input type="button" class="btTxt" value="取消" name="btnCancel">
-						<input type="submit" class="btTxt" value="確定送出" name="btnSubmit">
+					<input type="submit" class="btTxt" value="確定送出" name="btnSubmit">
+					<input type="button" class="btTxt" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';">	
 				</li>
 			</ul>
 		</form>
 		
 	</div> <!-- #activity-cancel -->
 
-{% endblock activityContent %}
+{% endblock npoContent %}

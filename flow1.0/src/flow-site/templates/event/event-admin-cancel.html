@@ -1,6 +1,14 @@
-﻿{% extends "event/base.html" %}
+﻿{### % extends "event/base.html" % ###}
+{% extends "npo/admin_base.html" %}
 
-{% block activityContent %}
+{### header ###}
+{% block npoExtraHeader %}
+
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
 <SCRIPT language="JavaScript">  
 function submitForm(url)
   { 
@@ -34,8 +42,8 @@ function disableButton(form) {
 				</div>
 				<input type="hidden" name="event_key" value="{{ event_key }}">
 				<input type="button" value="確定送出" name="btnSubmit" onClick="submitForm('handleCancelEvent');">
-				<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='.';">
+				<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';">
 		</form>
 		
 	</div> <!-- #activity-cancel -->
-{% endblock activityContent %}
+{% endblock npoContent %}

@@ -3,17 +3,17 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('npoView',   
     (r'^/?$',                       'npoList.show'),
     (r'^search/?$',                 'search.show'),
-    # event
-    (r'^editEvent/?$', 'editEvent.processEditEvent'),
-    (r'^addEvent/?$', 'addEvent.processAddEvent'),
-    (r'^authEvent/?$', 'authenticateEvent.submitAuthToken'),
-    (r'^handleAuthEvent/?$', 'authenticateEvent.handleEventAuth'),
-    (r'^listEvent/?$', 'eventMgmt.mainPage'),
-    (r'^cancelEvent/?$', 'eventMgmt.showCancelEvent'),
-    (r'^handleCancelEvent/?$', 'eventMgmt.handleCancelEvent'),
-    (r'^selectVolunteer/?$', 'eventAdminValidate.volunteerShow'),
     # admin
     (r'^admin/?$', 'admin.mainPage'),
+    # admin event management
+    (r'^admin/editEvent/?$', 'editEvent.processEditEvent'),
+    (r'^admin/addEvent/?$', 'addEvent.processAddEvent'),
+    (r'^admin/authEvent/?$', 'authenticateEvent.submitAuthToken'),
+    (r'^admin/handleAuthEvent/?$', 'authenticateEvent.handleEventAuth'),
+    (r'^admin/listEvent/?$', 'eventMgmt.mainPage'),
+    (r'^admin/cancelEvent/?$', 'eventMgmt.showCancelEvent'),
+    (r'^admin/handleCancelEvent/?$', 'eventMgmt.handleCancelEvent'),
+    (r'^admin/selectVolunteer/?$', 'eventAdminValidate.volunteerShow'),
     # register
     (r'^register/?$',               'register.step1'),
     (r'^register/step2/?$',         'register.step2'),
