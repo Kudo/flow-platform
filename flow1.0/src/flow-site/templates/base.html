@@ -23,13 +23,17 @@
 	    	<div class="header-bar">
 	            <div id="login-box">
 	                <ul class="top-horizontal-menu">
+	                	{% if base.user %}
+	                		<li><span class="people">{{ base.user }}&nbsp;</span></li>
+	                		<li><a href="/logout?redirect={{ base.full_path }}">登出</a></li>
+	                	{% else %}
+	                		<li><a href="/login?redirect={{ base.full_path }}">登入</a></li>
+	                	{% endif %}
 										{% if base.volunteer %}
-										  <li><a href="/logout?redirect={{ base.full_path }}">登出</a></li>
 	                    <li><a href="/volunteer/profile/">我的履歷表</a></li>
 										{% else %}
-										  <li><a href="/login?redirect={{ base.full_path }}">登入</a></li>
-										{% endif %}
-										  <li><a href="/volunteer/register/">註冊</a></li>
+											<li><a href="/volunteer/register/">註冊</a></li>
+										{% endif %}										  
 	                    <li><a>Help</a></li>
 	                </ul>
 	            </div>

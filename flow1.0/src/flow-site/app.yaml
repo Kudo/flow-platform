@@ -1,4 +1,4 @@
-application: flow-0001
+application: flowstaging
 version: 1
 runtime: python
 api_version: 1
