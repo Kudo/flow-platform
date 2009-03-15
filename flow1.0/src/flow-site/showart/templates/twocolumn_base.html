@@ -14,9 +14,15 @@
 
 {### content ###}
 
+{% block topBar %}
+		{### The Top Bar goes here ###}
+{% endblock topBar %}
+
 {% block mainContent %}
-	    	<div class="left-column-container">
-	        	<div class="left-column">
+	
+	
+	    	<div class="right-column-container">
+	        	<div class="right-column">
 		        	
 
 	{% block twocolumnSidebar %}
@@ -24,16 +30,16 @@
 		block twocolumnSidebar here
 	{% endblock twocolumnSidebar %}
 
-	            </div> <!-- .left-column -->
-	        </div> <!-- left-column-container -->
-	        <div class="right-column-container">
-	        	<div class="right-column">
+	            </div> <!-- .right-column -->
+	        </div> <!-- .right-column-container -->
+	        <div class="left-column-container">
+	        	<div class="left-column">
 
 	{% block twocolumnContent %}
 		{### this block can be replaced by children template with actual content ###}
 		block twocolumnContent here
 	{% endblock twocolumnContent %}
 
-		        </div> <!-- .right-column -->
-	        </div> <!-- .right-column-container -->
+		        </div> <!-- .left-column -->
+	        </div> <!-- .left-column-container -->
 {% endblock mainContent %}

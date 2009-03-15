@@ -5,6 +5,10 @@
 <title>{% if pageTitle %}{{ pageTitle }} - {% endif %}若水公益交換平台</title>
 <link href="/static/css/reset.css" rel="stylesheet" type="text/css" />
 <link href="/static/css/global.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/splash_search.js"></script>
+<script type="text/javascript" src="/static/js/global.js"></script>
+
 
 {% block extraHeader %}
 	{### this block can be replaced by children template with css / script definition ###}
@@ -34,6 +38,7 @@
 	        <div id="splash-box">
 				{% block splashPage %}
 					{### this block contains the splashPage to include, ex: include "splashbox.html" ###}
+					{% include "splashbox_search.html" %}
 				{% endblock splashPage %}
 
 				
@@ -48,6 +53,10 @@
 	            </ul>
 	        </div>
 	    </div><!-- .header -->
+{% block topBar %}
+	{### this block is for top bar ###}
+{% endblock topBar %}
+
 	    <div class="main-content">
 	    
 {% block mainContent %}
