@@ -1,27 +1,44 @@
 .activity-lists {
 	clear: both;
-	width: 750px;
+	width: 100%;
 	
 }
 #new-activities {
 	float: left;
-	width: 360px;
-	margin-right: 30px;
+	width: 49%;
+/*	margin-right: 30px;*/
 }
 
 #closing-activities {
 	float: right;
-	width: 360px;
+	width: 49%;
 }
 
 #completed-activities,
 #detailed-activities {
-	width: 750px;
+	width: 100%;
 	padding-top: 10px;
 }
 
+/* .activity-info-item */
 .activity-lists .activity-info-item {
+	padding-bottom: 12px;
 }
+
+.activity-lists .activity-info-item h3 {
+	font-size: 16px;
+	font-weight: normal;
+	margin-bottom: 2px;
+}
+
+.activity-lists .activity-info-item .info-desc {
+	color: #666;
+	font-size: 14px;
+	border-bottom: dotted #999 1px;
+	margin-bottom: 4px;
+}
+
+/* end of .activity-info-item */
 
 .with-lack-people-num {
 	padding-left: 45px;
@@ -74,7 +91,7 @@
 }
 
 #activity-info {
-	padding-left: 50px;
+	padding: 0 50px;
 }
 
 #activity-info-head .title {
