@@ -179,6 +179,7 @@ html[xmlns] .clearfix {
 /* ----- new-volunteers ----- */
 #new-volunteers .content {
 	padding-left: 0px !important;
+	padding-right: 0px !important;
 }
 
 #new-volunteers .head-names, #new-volunteers .volunteer-infos {
