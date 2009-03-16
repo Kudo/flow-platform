@@ -17,12 +17,8 @@ def cleanAll(request):
     response = HttpResponse(mimetype="text/plain; charset=utf-8")
     models = ddl.__all__
     models.append('Counter')
-    try:
-        for model in models:
-            cleanModel(model)
-    except:
-        response.write('cleanAll 失敗 (%s)' % str(sys.exc_info()))
-        return response
+    for model in models:
+        cleanModel(model)
 
     response.write('cleanAll 成功!!!')
     return response

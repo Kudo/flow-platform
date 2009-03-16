@@ -397,14 +397,15 @@ class ModelCount(db.Model):
         return ctr.count
 
     @staticmethod
-    def _doDecrement(key):
+    def _doDecrement(obj):
         """
         Decrement the count by 1. User should not directly call this method.
         """
         ctr=ModelCount.get_by_key_name(obj.__class__.__name__)
         if not ctr:
             ctr=ModelCount(key_name=obj.__class__.__name__,className=obj.__class__.__name__, count=1)
-        ctr.count -= 1
+        if ctr.count>0:
+            ctr.count -= 1
         ctr.put()
         return ctr.count
 
