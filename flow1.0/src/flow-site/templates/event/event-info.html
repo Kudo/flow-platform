@@ -25,17 +25,16 @@ function disableButton(form) {
 }
   </SCRIPT>
 
-
-    <h3 id="page-title">{{event.event_name|escape}}</h3>
-	<div id="activity-info">
-		<!--{% include "event/event-info-header.html" %}-->
+<div id="activity-info">
 		<div class="activity-info-content">
 			<div class="content-block">
-            <form  method="POST" name="myForm" action="">
-                        <input type="hidden" name="event_id" value="{{ event.id_key }}">
-                        <input type="button" value="我要報名" name="btnApply" onClick="submitForm('applyEvent');">
-				        <input type="button" value="轉寄朋友" name="btnMailToFriend" onClick="submitForm('mailToFriend');">
-            </form>
+      	<form  method="POST" name="myForm" action="">
+        	<input type="hidden" name="event_key" value="{{ event_key|escape }}">
+        	{% ifequal event.status "recruiting" %}                
+          <input type="button" value="我要報名" name="btnApply" onClick="submitForm('applyEvent');">
+          {% endifequal %}
+				  <input type="button" value="轉寄朋友" name="btnMailToFriend" onClick="submitForm('mailToFriend');">
+        </form>
 			</div> <!-- .content-block -->
 		</div> <!-- .activity-info-content -->
 		{% include "event/event-info-basic.html" %}

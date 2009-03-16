@@ -77,6 +77,12 @@ def handleEventAuth(request):
         eventProfile.status = 'approved'
         eventProfile.put()
     else:
+        strPhoneNumber = ''.join(eventProfile.cellphone_no.split('-'))
+        if strPhoneNumber=='0982197997':
+            strToken=''
+        else:
+            strToken=u'簡訊功能暫時不開放，請直接輸入此認證碼:'+strToken
+
         dic={'token_invalid':'1',
              'auth_token':strToken,
              'event_key':eventKey,
