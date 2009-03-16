@@ -62,23 +62,19 @@ def processAddEvent(request):
         
         if form.is_valid():
             # Create New Activity Instance  
-            #questionnaire_template_ref = ddl.QuestionnaireTemplate.all().get()
-            volunteer_profile_ref = ddl.VolunteerProfile.all().get()               
-            
             form.clean_data['npo_profile_ref']=objNpo
-            form.clean_data['volunteer_profile_ref']=volunteer_profile_ref
-            #form.clean_data['questionnaire_template_ref']=questionnaire_template_ref
+            form.clean_data['volunteer_profile_ref']=objVolunteer
+            #form.clean_data['questionnaire_template_ref']=
             
             form.clean_data['status']='new application'
             form.clean_data['create_time']=datetime.now()
             form.clean_data['update_time']=datetime.now()
-            #form.clean_data['questionnaire_template_id']=11111 # There is no questionnaire_template_ref.id (based on ddl.py) ??
+            #form.clean_data['questionnaire_template_id']=
             form.clean_data['attachment_links']=[db.Link(form.clean_data['attachment_links_show'])]
             form.clean_data['npo_event_rating']=0
             form.clean_data['event_rating']=0
             
             newEventEntity = form.save(commit=False)
-            
             # Check if some filed may become None due to no input
             if(None == newEventEntity.registration_fee):
                 newEventEntity.registration_fee=0
