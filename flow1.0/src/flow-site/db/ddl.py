@@ -173,36 +173,19 @@ class Counter(db.Model):
     counter   = db.IntegerProperty(required=True)
 
     @staticmethod
-    def init(obj):
-        """
-        Start a new counter singleton. User should not directly call this method.
-        """
-        ctr = Counter(className=obj.__class__.__name__, counter=1)
-        ctr.put()
-        return ctr.counter
-
-    @staticmethod
-    def increment(key):
-        """
-        Increment the singleton by 1. User should not directly call this method.
-        """
-        ctr = db.get(key)
-        ctr.counter += 1
-        ctr.put()
-        return ctr.counter
-
-    @staticmethod
     def next(obj):
         """
         Obtain the next available counter (started from 0). Sample usages:
             Counter.next(obj) # the formal way
             counter[obj]      # the syntatical-sugar way
         """
-        acc = Counter.gql("WHERE className=:1", obj.__class__.__name__).get()
-        if acc == None:
-            return db.run_in_transaction(Counter.init, obj)
+        objCounter =  Counter.get_by_key_name(obj.__class__.__name__)
+        if not objCounter:
+            objCounter=Counter(key_name=obj.__class__.__name__,className=obj.__class__.__name__,counter=1)
         else:
-            return db.run_in_transaction(Counter.increment, acc.key())
+            objCounter.counter+=1
+        objCounter.put()
+        return objCounter.counter
 
     def __getitem__(self, obj):
         """
@@ -211,7 +194,7 @@ class Counter(db.Model):
         which is slightly more readable (and less typing effort) than this:
             Counter.next(obj)
         """
-        return Counter.next(obj)
+        return db.run_in_transaction(Counter.next,obj)
 
 counter = Counter(className="Counter", counter=1)
 
@@ -302,7 +285,7 @@ class FlowDdlModel(db.Model):
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity and "id" not in kargs:
             kargs["id"] = counter[self]
-        self.isInit = True
+            self.isInit = True
         db.Model.__init__(self, parent, key_name, app, _from_entity, **kargs)
 
     def __str__(self):
@@ -397,16 +380,18 @@ class ModelCount(db.Model):
         """
         Start a ModelCount entity. User should not directly call this method.
         """
-        ctr = ModelCount(className=obj.__class__.__name__, count=1)
+        ctr = ModelCount(key_name=obj.__class__.__name__,className=obj.__class__.__name__, count=1)
         ctr.put()
         return ctr.count
 
     @staticmethod
-    def _doIncrement(key):
+    def _doIncrement(obj):
         """
         Increment the count by 1. User should not directly call this method.
         """
-        ctr = db.get(key)
+        ctr=ModelCount.get_by_key_name(obj.__class__.__name__)
+        if not ctr:
+            ctr=ModelCount(key_name=obj.__class__.__name__,className=obj.__class__.__name__, count=0)
         ctr.count += 1
         ctr.put()
         return ctr.count
@@ -416,7 +401,9 @@ class ModelCount(db.Model):
         """
         Decrement the count by 1. User should not directly call this method.
         """
-        ctr = db.get(key)
+        ctr=ModelCount.get_by_key_name(obj.__class__.__name__)
+        if not ctr:
+            ctr=ModelCount(key_name=obj.__class__.__name__,className=obj.__class__.__name__, count=1)
         ctr.count -= 1
         ctr.put()
         return ctr.count
@@ -426,29 +413,21 @@ class ModelCount(db.Model):
         """
         Increment the count by 1.
         """
-        acc = ModelCount.gql("WHERE className=:1", obj.__class__.__name__).get()
-        if acc == None:
-            return db.run_in_transaction(ModelCount._init, obj)
-        else:
-            return db.run_in_transaction(ModelCount._doIncrement, acc.key())
+        return db.run_in_transaction(ModelCount._doIncrement, obj)
 
     @staticmethod
     def decrement(obj):
         """
-        Increment the count by 1.
+        Decrement the count by 1.
         """
-        acc = ModelCount.gql("WHERE className=:1", obj.__class__.__name__).get()
-        if acc == None:
-            return db.run_in_transaction(ModelCount._init, obj)
-        else:
-            return db.run_in_transaction(ModelCount._doDecrement, acc.key())
+        return db.run_in_transaction(ModelCount._doDecrement, obj)
 
     @staticmethod
     def getCount(modelClass, limit=None):
         """
         Get the entity count of obj class 
         """
-        acc = ModelCount.gql("WHERE className=:1", modelClass.__name__).get()
+        acc = ModelCount.get_by_key_name(modelClass.__name__)
         if acc is not None:
             if limit and acc.count > limit:
                 return limit
@@ -870,9 +849,7 @@ class EventProfile(FlowDdlModel):
     summary                    = db.StringProperty(multiline=True)
     expense                    = db.IntegerProperty()         # default to 0
     registration_fee           = db.IntegerProperty()         # default to 0
-    registered_volunteer       = db.ListProperty(users.User)  # required, must be enforced by program logic
     registered_count           = db.IntegerProperty()         # auto-generated from len(registered_volunteer)
-    approved_volunteer         = db.ListProperty(users.User)  # required, must be enforced by program logic
     approved_count             = db.IntegerProperty()         # auto-generated from len(approved_volunteer)
     status                     = db.StringProperty(required=True, choices=set(["new application", "approved", "announced", "authenticating", "authenticated",
                                                                                "registrating", "recruiting", "registration closed", "on-going",
@@ -962,6 +939,19 @@ class EventProfile(FlowDdlModel):
         writeln(event)
         return event
 
+
+    @staticmethod
+    def _registerUser(key):
+        objEventProfile=EventProfile.get(key)
+        objEventProfile.registered_count = objEventProfile.registered_count+1
+        objEventProfile.put()
+    
+    def registerUser(self,objVolunteer):
+        objVolunteerEvent = VolunteerEvent(volunteer_profile_ref=objVolunteer,
+                                               event_profile_ref=self)
+        objVolunteerEvent.put()
+        db.run_in_transaction(self._registerUser, self.key())
+
 # end class EventProfile
 
 
@@ -976,25 +966,27 @@ class VolunteerEvent(FlowDdlModel):
     volunteer_id           = db.UserProperty()                # auto-generated from volunteer_profile_ref.volunteer_id
     event_id               = db.StringProperty()              # auto-generated from event_profile_ref.event_id
     registered_time        = db.DateTimeProperty(required=True)
-    approved_time          = db.DateTimeProperty(required=True)
+    approved_time          = db.DateTimeProperty()
     sentiments             = db.StringProperty(multiline=True)
     status                 = db.StringProperty(required=True, choices=set(["new registration", "approving", "approved", "approval failed", "involving",
                                                                            "partial involve", "closed", "cancelled", "abusive usage"]))
     event_pic_link         = db.LinkProperty()
     event_video_link       = db.LinkProperty()
     event_blog_link        = db.LinkProperty()
-    finished_event_hours   = db.IntegerProperty(required=True, validator=vaNonnegative)
-    volunteer_event_rating = db.RatingProperty(required=True) # range=[0..100]
-    event_rating           = db.RatingProperty(required=True) # range=[0..100]
-    npo_event_rating       = db.RatingProperty(required=True) # range=[0..100]
+    finished_event_hours   = db.IntegerProperty(validator=vaNonnegative)
+    volunteer_event_rating = db.RatingProperty() # range=[0..100]
+    event_rating           = db.RatingProperty() # range=[0..100]
+    npo_event_rating       = db.RatingProperty() # range=[0..100]
     cancelled              = db.BooleanProperty()             # default to False
     cancel_date            = db.DateProperty()                # required if cancelled is True
     cancel_reason          = db.StringProperty(multiline=True)
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity:
-            if "cancelled" not in kargs:
-                kargs["cancelled"] = False
+            kargs.setdefault('status','new registration')
+            kargs.setdefault('registered_time',datetime.datetime.utcnow())
+            kargs.setdefault('finished_event_hours',0)
+            kargs.setdefault("cancelled",False)
             if kargs["cancelled"] and "cancel_date" not in kargs:
                 raise db.BadValueError("Property cancel_date is required if property cancelled is True")
 
