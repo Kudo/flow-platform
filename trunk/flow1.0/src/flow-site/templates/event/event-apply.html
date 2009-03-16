@@ -27,24 +27,16 @@ function disableButton(form) {
 }
   </SCRIPT>
 
-
-
-	<div id="activity-info">
-		<div class="activity-info-content">
-			<div class="content-block">
-			</div> <!-- .content-block -->
-		</div> <!-- .activity-info-content -->
-		{% include "event/event-info-basic.html" %}
 		<div class="activity-info-content">
 			<div class="content-block" id="activity-apply-block">
 				<h6>請問是否加入此活動?</h6>
-            <form  method="POST" name="myForm" action="">
-                <input type="hidden" name="event_id" value="{{ event_id }}">
+         <form  method="POST" name="myForm" action="">
+                <input type="hidden" name="event_key" value="{{ event_key }}">
                 <input type="button" value="是" name="btnYes" onClick="submitForm('applyYes');">
-				<input type="button" value="否" name="btnNo" onClick="submitForm('applyNo');">
-            </form>
+								<input type="button" value="否" name="btnNo" onClick="submitForm('applyNo');">
+         </form>
 			</div> <!-- .content-block -->
 		</div> <!-- .activity-info-content -->
-	</div> <!-- #activity-info -->
+		{% include "event/event-info-basic.html" %}
 
 {% endblock activityContent %}
