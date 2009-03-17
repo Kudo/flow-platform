@@ -50,6 +50,94 @@ function disableButton(form) {
                 </div>
 			</div> <!-- .content-block -->
 		</div> <!-- .activity-info-content -->
+		
+		<div class="content-block">
+			<div class="title">
+				<img src="/static/images/titlebar-left.jpg" class="left">
+				<img src="/static/images/titlebar-right.jpg" class="right">
+				<div class="right-links">
+		    		<a href="#">看更多</a>
+		    	</div>
+				<h3>我的照片</h3>
+				
+			</div>
+				
+			<div class="content">
+				<div class="photo-block clearfix">
+				    {% for photo in photoFeeds %}
+				    <div class="photo-item"><a href="{{ photo.link.1.href }}"><img class="img75" src="{{ photo.media.thumbnail.0.url }}"/></a></div>
+				    {% endfor %}
+				</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="content-block">
+			<div class="title">
+				<img src="/static/images/titlebar-left.jpg" class="left">
+				<img src="/static/images/titlebar-right.jpg" class="right">
+				<div class="right-links">
+		    		<a href="#">看更多</a>
+		    	</div>
+				<h3>我的影音</h3>
+			</div>
+				
+			<div class="content">
+				<div class="video-block">
+					<div class="video-item">
+						<div class="video-content">
+						    <object width="290" height="234">
+							<param name="movie" value="{{ video.media.content.0.url }}"></param>
+							<param name="allowFullScreen" value="true"></param>
+							<param name="allowscriptaccess" value="always"></param>
+							<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234"></embed>
+						    </object>
+						</div>
+					</div>
+				</div>
+	    	</div>
+	    </div>
+	    
+	    <div class="content-block no-padding-bottom">
+			<div class="title">
+				<img src="/static/images/titlebar-left.jpg" class="left">
+				<img src="/static/images/titlebar-right.jpg" class="right">
+				<div class="right-links">
+		    		<a href="#">看更多</a>
+		    	</div>
+				<h3>我們的部落格</h3>
+			</div>
+			<div class="content">
+				<div class="article-block">
+					<div class="article-item">
+						<div class="article-author-img">
+							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
+						</div>
+						<div class="article-info">
+							<div class="article-title">歡喜做、甘願受</div>
+							<div class="article-date">2008 年 9 月 3 日</div>
+						</div>
+					</div>
+					<div class="article-item">
+						<div class="article-author-img">
+							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
+						</div>
+						<div class="article-info">
+							<div class="article-title">歡喜做、甘願受</div>
+							<div class="article-date">2008 年 9 月 3 日</div>
+						</div>
+					</div>
+					<div class="article-item">
+						<div class="article-author-img">
+							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
+						</div>
+						<div class="article-info">
+							<div class="article-title">歡喜做、甘願受</div>
+							<div class="article-date">2008 年 9 月 3 日</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div> <!-- #activity-info -->
 
 {% endblock activityContent %}
