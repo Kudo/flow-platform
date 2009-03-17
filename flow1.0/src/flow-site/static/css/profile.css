@@ -127,3 +127,10 @@ dl.activity-dl dd {
 .form-block dd#profession td {
 	width: 150px;
 }
+
+#feedPreview {
+    text-align: center;
+    border-top: solid 1px;
+    padding-top: 15px;
+    margin-bottom: 5px;
+};

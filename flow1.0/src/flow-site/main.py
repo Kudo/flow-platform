@@ -7,13 +7,6 @@ from google.appengine.ext.webapp import util
 from django.conf import settings
 settings._target = None
 
-# Force sys.path to have our own directory first, in case we want to import
-# from it.
-
-abspath = os.path.abspath(os.path.dirname(__file__))
-sys.path.insert(0, abspath)
-sys.path.insert(0, abspath+r'/lib')
-
 if os.name == 'nt':
     os.unlink = lambda: None
     
@@ -40,6 +33,10 @@ django.dispatch.dispatcher.disconnect(
 def main():
     # Create a Django application for WSGI.
     application = django.core.handlers.wsgi.WSGIHandler()
+
+    for sysPath in settings.EXTRA_PATHS:
+        if sysPath not in sys.path:
+            sys.path.insert(0, sysPath)
 
     # Run the WSGI CGI handler with that application.
     util.run_wsgi_app(application)

@@ -63,7 +63,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 import os
-ROOT_PATH = os.path.dirname(__file__)
+ROOT_PATH = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -87,4 +87,8 @@ INSTALLED_APPS = (
 APPEND_SLASH = False
 
 JQUERY_URI = 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'
-JQUERY_UI_URI = '/static/js/jquery-ui-1.6rc6.min.js'
+JQUERY_UI_URI = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/jquery-ui.min.js'
+
+EXTRA_PATHS = [
+        os.path.join(ROOT_PATH, 'lib'),
+]
