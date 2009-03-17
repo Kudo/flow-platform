@@ -5,35 +5,68 @@
 
 {% block activityContent %}
 
-<SCRIPT language="JavaScript">  
+<link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
+<script type="text/javascript">
+{% ifequal event.status "recruiting" %}                
+    $(document).ready(function() {
+	    var registerObj = $("#register");
+	    registerObj.click(function(e) {
+		e.preventDefault();
+		var registerBoxObj = $("#registerBox");
+		registerBoxObj.show().dialog({
+			  bgiframe: true,
+			  modal: true,
+		    resizable:  false,
+		    close: function(e, ui) { registerBoxObj.hide().dialog('destroy'); },
+		    buttons: { "確定": function() { submitForm('applyEvent');}}
+		});
+	    });
+    });
+{% endifequal %}
   
   function submitForm(url)
   { 
-    disableButton(document.myForm);
- 	document.myForm.action = url; 
+ 	  document.myForm.action = url; 
   	document.myForm.submit(); 
-  	
   } 
-function disableButton(form) {
-  if (document.getElementById) {
-   for (var i = 0; i < form.length; i++) {
-     if (form.elements[i].type.toLowerCase() == "button")
-       form.elements[i].disabled = true;
-     }
-  }
-  return true;
-}
-  </SCRIPT>
+</SCRIPT>
+
+{% if alertMsg %}
+		<script type="text/javascript">
+			$(function() {
+				$("#dialog").dialog({
+					bgiframe: true,
+					modal: true,
+					buttons: { "確定": function() {
+						window.location = "/event/viewEvent?id={{event_key|escape}}";
+						}}
+				});
+			});
+			</script>	
+		<div id="dialog" title="訊息" style="display: none;">
+			<p>
+				{{alertMsg}}
+			</p>
+		</div>
+{% endif %}
 
 <div id="activity-info">
 		<div class="activity-info-content">
 			<div class="content-block">
       	<form  method="POST" name="myForm" action="">
         	<input type="hidden" name="event_key" value="{{ event_key|escape }}">
-        	{% ifequal event.status "recruiting" %}                
-          <input type="button" value="我要報名" name="btnApply" onClick="submitForm('applyEvent');">
+        	{% ifequal event.status "recruiting" %}                         
+				    <input id="register" class="field button" type="button" value="我要報名" />
+						<div id="registerBox" title="報名" style="display: none;">
+							<p>
+								請問是否報名參加此活動?
+							</p>
+						</div>
           {% endifequal %}
+          <!--
 				  <input type="button" value="轉寄朋友" name="btnMailToFriend" onClick="submitForm('mailToFriend');">
+				  -->
         </form>
 			</div> <!-- .content-block -->
 		</div> <!-- .activity-info-content -->
@@ -85,12 +118,14 @@ function disableButton(form) {
 				<div class="video-block">
 					<div class="video-item">
 						<div class="video-content">
+							{% if video %}
 						    <object width="290" height="234">
 							<param name="movie" value="{{ video.media.content.0.url }}"></param>
 							<param name="allowFullScreen" value="true"></param>
 							<param name="allowscriptaccess" value="always"></param>
 							<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234"></embed>
 						    </object>
+						  {% endif %}
 						</div>
 					</div>
 				</div>

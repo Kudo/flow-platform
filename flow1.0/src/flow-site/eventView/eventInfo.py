@@ -26,7 +26,6 @@ def applyEvent(request):
     eventKey=request.POST.get('event_key')
     if not eventKey or eventKey=='None':
         return HttpResponseRedirect('/')
-
     event=db.get(db.Key(eventKey))
     if not event:
         return HttpResponseRedirect('/')
@@ -42,45 +41,23 @@ def applyEvent(request):
             'loginSuccess': False,
         }
         return render_to_response('loginProxy.html', template_values)
-    intVolunteerNeeded = event.volunteer_req - event.approved_count
-    dicData={'event' : event,
-             'base': flowBase.getBase(request, 'event'),
-             'needed': str(intVolunteerNeeded),
-             'event_key': str(eventKey)}
-    return render_to_response(r'event/event-apply.html', dicData)
-
-def mailToFriend(request):
-    eventKey=request.POST.get('event_key')
-    #return HttpResponse(str(eventKey))
-    event=db.get(db.Key(eventKey))
-    return HttpResponse(u'本功能將會把活動 [' + event.event_name + u'] 的資訊發信給你的朋友,但是目前還沒有建置!')
-    
-def applyYes(request):
-    # choose I want to apply , there will be:
-    # (1) trying select whether current user existed in VolunteerEvent table, if existed will return some information
-    # (2) if not existed, then add the use, and then add registered_count 1, and registered_volunteer list will be added as well.
-    eventKey=request.POST.get('event_key')
-    if not eventKey or eventKey=='None':
-        return HttpResponseRedirect('/')
-    event=db.get(db.Key(eventKey))
-    if not event:
-        return HttpResponseRedirect('/')
-    objVolunteer=flowBase.getVolunteer()
-    if not objVolunteer:
-        return HttpResponseRedirect('/')
     
     intVolunteerEventItems = db.GqlQuery('select * from VolunteerEvent where volunteer_profile_ref = :1 and event_profile_ref = :2', objVolunteer, event).count()
     if intVolunteerEventItems > 0:
-        return HttpResponse(u'本帳號 %s 已經有報名[%s]了,所以無法再加入!<br><a href="/event/">返回</a>' % (objVolunteer.volunteer_id,event.event_name) )
-        
-    event.registerUser(objVolunteer)
-    return HttpResponse(u'志工 [%s] 已報名 [%s] 成功!<br><a href="/event/">返回</a>' % (objVolunteer.volunteer_id, event.event_name))
+        strAlert=u'此活動您已經報名了'
+    else:
+        event.registerUser(objVolunteer)
+        strAlert=u'報名成功 '
+
+    dicData={'event': event,
+             'event_key':event.key(),
+             'base': flowBase.getBase(request, 'event'),
+             'needed': str(event.volunteer_req - event.approved_count),
+             'alertMsg':strAlert}
+    return render_to_response(r'event/event-info.html',dicData)
                     
-def applyNo(request):
-    return HttpResponseRedirect('/event/')
 
 def EmptyApply(request):
-
     eventKey=request.POST.get('event_id')
     #return HttpResponse(str(eventKey))
     EventProfile = db.GqlQuery('select * from EventProfile')
