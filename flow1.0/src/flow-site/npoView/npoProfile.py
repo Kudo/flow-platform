@@ -13,52 +13,104 @@ from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from google.appengine.api import users
 from db.ddl import NpoProfile
-from db.ddl import VolunteerProfile
 from db.ddl import NpoContact
 from db.ddl import NpoPhone
 import flowBase
+try:
+    from django import newforms as forms
+except ImportError:
+    from django import forms
+from google.appengine.ext.db import djangoforms
+
+class NpoProfileForm(djangoforms.ModelForm):
+    txtFounder                    = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    textareaIntro                 = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'field textarea medium', 'cols': '50', 'rows': '10'}))
+
+#    class Meta:
+#        model = NpoProfile
+#        fields = [
+##                  'volunteer_first_name', 'volunteer_last_name', 'sex', 'resident_city', 'logo', 'school', 'organization', 'title',
+##                  'cellphone_no', 'blog', 'expertise',
+#                  'brief_intro',
+#                 ]
 
 def edit(request):
     if request.method == 'POST':
         npo_id = cgi.escape(request.GET['npo_id'])
         if 'cancel' in request.POST:
-            return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id, {'base':flowBase.getBase(request, 'npo')})
-        npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', 'NPO:0').get()
-        npoProfile.npo_name = request.POST['txtGroupName']
-        npoProfile.founder = request.POST['txtFounder']
-#        npoProfile.brief_intro = request.POST['textareaIntro']
-#        npoProfile.founding_date = request.POST['txtFoundDate']
-        npoProfile.authority = request.POST['txtApproveGov']
-#        npoProfile.service_region[1] = request.POST['txtServiceArea']
-#        npoProfile.service_target[1] = request.POST['txtServiceTarget']
-#        npoProfile.service_field[1] = request.POST['txtServiceItem']
-        npoProfile.bank_acct_no = request.POST['txtTransferAccountNo']
-        npoProfile.bank_acct_name = request.POST['txtTransferAccountTitle']
-        npoProfile.put()
-        return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id, {'base':flowBase.getBase(request, 'npo')})
-    else:
-        if 'npo_id' not in request.GET:
-            return HttpResponseRedirect('/')
-        else:
-            npo_id = cgi.escape(request.GET['npo_id'])
+            return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id)
         
-        npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
-  
-        numOfMembers = 0
-        row1 = []
-        row2 = []
-        leftColumn(npoProfile, numOfMembers, row1, row2)
-  
-        template_values = {
-                'path': request.path,
-                'npoProfile': npoProfile,
-                'numOfMembers': numOfMembers,
-                'leftMembersRow1': row1,
-                'leftMembersRow2': row2,
-                'base':flowBase.getBase(request, 'npo')
-         }
-        response = render_to_response('npo/manage_edit_info.html', template_values)
-        return response    
+        form = NpoProfileForm(data=request.POST)
+        if form.is_valid():
+            npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
+            npoProfile.npo_name = request.POST['txtGroupName']
+            npoProfile.founder = form.clean_data['txtFounder']
+            npoProfile.brief_intro = form.clean_data['textareaIntro']
+            npoProfile.website = request.POST['txtHomePage']
+            npoProfile.authority = request.POST['txtApproveGov']
+            del npoProfile.service_region[0]
+            npoProfile.service_region.insert(0, request.POST['txtServiceArea'])
+            del npoProfile.service_target[0]
+            npoProfile.service_target.insert(0, request.POST['txtServiceTarget'])
+            del npoProfile.service_field[0]
+            npoProfile.service_field.insert(0, request.POST['txtServiceItem'])
+            npoProfile.bank_acct_no = request.POST['txtTransferAccountNo']
+            npoProfile.bank_acct_name = request.POST['txtTransferAccountTitle']
+            npoProfileKey = npoProfile.put()
+            npoContact = NpoContact.all().filter('npo_profile_ref =', npoProfileKey).get()
+            if (npoContact != None):
+                npoContact.contact_name = request.POST['txtContact']
+                npoContact.put()
+                
+            npoPhoneFixed = db.GqlQuery('SELECT * FROM NpoPhone WHERE npo_profile_ref = :1 AND phone_type = :2', npoProfileKey, 'Fixed').get()
+            if (npoPhoneFixed == None):
+                npoPhoneFixed = NpoPhone(npo_profile_ref=npoProfileKey, phone_type="Fixed", phone_no=u"02-xxxxxxxx")
+            npoPhoneFixed.phone_no = request.POST['txtPhone']
+            npoPhoneFixed.put()
+            
+            npoPhoneFax = db.GqlQuery('SELECT * FROM NpoPhone WHERE npo_profile_ref = :1 AND phone_type = :2', npoProfileKey, 'Fax').get()
+            if (npoPhoneFax == None):
+                npoPhoneFax = NpoPhone(npo_profile_ref=npoProfileKey, phone_type="Fax", phone_no=u"02-xxxxxxxx")
+            npoPhoneFax.phone_no = request.POST['txtFax']
+            npoPhoneFax.put()
+            
+            return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id)
+      
+#    else:
+    if 'npo_id' not in request.GET:
+        return HttpResponseRedirect('/')
+    else:
+        npo_id = cgi.escape(request.GET['npo_id'])
+       
+    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
+    
+    fixedPhone = ""
+    faxPhone = ""
+    for phone in npoProfile.phones2npo:
+        if (phone.phone_type == "Fixed"):
+            fixedPhone = phone.phone_no
+        if (phone.phone_type == "Fax"):
+            faxPhone = phone.phone_no
+        
+    npoContact = ""        
+    for contact in npoProfile.contacts2npo:
+        if (contact.contact_name != ""):
+            npoContact = contact
+            break
+        
+    template_values = {
+           'path': request.path,
+           'npoProfile': npoProfile,
+           'npoContact': npoContact,
+           'fixedPhone': fixedPhone,
+           'faxPhone': faxPhone,
+           'service_region': npoProfile.service_region[0],
+           'service_target': npoProfile.service_target[0],
+           'service_field': npoProfile.service_field[0],
+           'base':flowBase.getBase(request, 'npo')
+    }
+    response = render_to_response('npo/manage_edit_info.html', template_values)
+    return response    
 
 def memberList(request):
     if 'npo_id' not in request.GET:
@@ -210,6 +262,9 @@ def showInfo(request):
             'npoContact': npoProfile.contacts2npo,
             'fixedPhone': fixedPhone,
             'faxPhone': faxPhone,
+            'service_region': npoProfile.service_region[0],
+            'service_target': npoProfile.service_target[0],
+            'service_field': npoProfile.service_field[0],
             'base':flowBase.getBase(request, 'npo')
      }
     response = render_to_response('npo/npo_info.html', template_values)
