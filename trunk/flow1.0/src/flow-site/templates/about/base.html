@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{### header ###}
+
+{% block extraHeader %}
+	
+	{% block activityExtraHeader %}
+		{### this block can be replaced by children template with css / script definition ###}
+		<!-- block registerExtraHeader here -->
+	{% endblock activityExtraHeader %}
+
+{% endblock extraHeader %}
+
+{### content ###}
+
+{% block mainContent %}
+<div style="margin-left: 50px; margin-right: 50px">
+	{% block aboutContent %}
+		{### this block can be replaced by children template with activity main content ###}
+		block aboutContent here
+	{% endblock aboutContent %}
+</div>
+{% endblock mainContent %}
