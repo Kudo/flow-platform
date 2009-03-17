@@ -63,6 +63,7 @@ def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
     data['birthday']        = volunteer.date_birth.strftime('%Y 年 %m 月 %d 日')
     data['resident']        = volunteer.resident_city
     data['logo']            = volunteer.logo
+    data['feedUri']         = volunteer.saved_feed_link or ''
     #data['friendCount']     = len(volunteer.friends)
     data['npoCount']        = len(volunteer.npo_profile_ref)
 

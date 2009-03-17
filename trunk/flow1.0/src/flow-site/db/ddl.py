@@ -42,6 +42,8 @@
 #                                    simplify require-constraint by removing redundant ones
 # 2009/02/21, Kudo Chien:            Add ModelCount class for solving the count() limitation in GAE.
 # 2009/03/05, Kudo Chien:            Fix bug of ModelCount
+# 2009/03/15, Chien-Chih Lo:         Refactoring Counter and ModelCount class using get_by_key_name() instead of Gql()
+# 2009/03/17, Kudo Chien:            Adjust article_link, video_link, and blog_link
 #
 #
 # *** REMARKS ***
@@ -477,9 +479,11 @@ class NpoProfile(FlowDdlModel):
     logo                   = db.LinkProperty()
     website                = db.LinkProperty()
     blog                   = db.LinkProperty()
-    photo_link             = db.StringListProperty(db.Link)
-    video_link             = db.StringListProperty(db.Link)
-    article_link           = db.StringListProperty(db.Link)
+    saved_picasa_link      = db.LinkProperty()
+    saved_feed_link        = db.LinkProperty()
+    photo_link             = db.StringListProperty()
+    video_link             = db.StringListProperty()
+    article_link           = db.StringListProperty()
     country                = db.StringProperty(required=True)            # the constraint must be enforced by program logic
     postal                 = db.StringProperty(required=True)
     state                  = db.StringProperty(required=True)            # the constraint must be enforced by program logic
@@ -730,9 +734,11 @@ class VolunteerProfile(FlowDdlModel):
     blog                 = db.LinkProperty()
     brief_intro          = db.TextProperty()
     logo                 = db.LinkProperty()
-    photo_link           = db.StringListProperty(db.Link)
-    video_link           = db.StringListProperty(db.Link)
-    article_link         = db.StringListProperty(db.Link)
+    saved_picasa_link    = db.LinkProperty()
+    saved_feed_link      = db.LinkProperty()
+    photo_link           = db.StringListProperty()
+    video_link           = db.StringListProperty()
+    article_link         = db.StringListProperty()
     prefer_region        = db.StringListProperty()          # required
     prefer_zip           = db.StringListProperty()          # required
     prefer_target        = db.StringListProperty()          # required
@@ -875,9 +881,11 @@ class EventProfile(FlowDdlModel):
     sentiments                 = db.StringProperty(multiline=True)
     event_rating               = db.RatingProperty(required=True)
     npo_event_rating           = db.RatingProperty(required=True)
-    event_album_link           = db.LinkProperty()
-    event_video_link           = db.LinkProperty()
-    event_blog_link            = db.LinkProperty()
+    saved_picasa_link          = db.LinkProperty()
+    saved_feed_link            = db.LinkProperty()
+    photo_link                 = db.StringListProperty()
+    video_link                 = db.StringListProperty()
+    article_link               = db.StringListProperty()
     create_time                = db.DateTimeProperty(required=True)
     update_time                = db.DateTimeProperty(required=True)
 

@@ -11,3 +11,8 @@ urlpatterns = patterns('unitTest',
     # Clean Data
     (r'^cleanData/all/?$',                      'cleanData.cleanAll'),
 )
+
+urlpatterns += patterns('',
+    # feedDiscovery
+    (r'^feedDiscover/?$',                       'feedDiscover.unitTest'),
+)

@@ -6,6 +6,9 @@
 
 	{### this block can put additional css / script definition to head tag ###}
 	<!-- block profileExtraHeader here -->
+<link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
+<script type="text/javascript" src="/static/js/space.js"></script>
 {% endblock profileExtraHeader %}
 
 {### content ###}
@@ -99,7 +102,8 @@
 										<param name="movie" value="{{ video.media.content.0.url }}"></param>
 										<param name="allowFullScreen" value="true"></param>
 										<param name="allowscriptaccess" value="always"></param>
-										<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234"></embed>
+										<param name="wmode" value="transparent"></param>
+										<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234" wmode="transparent"></embed>
 									    </object>
 									</div>
 									<div class="video-info">於 {{ videoDate.year }} 年 {{ videoDate.month }} 月 {{ videoDate.day }} 日 新增</div>
@@ -112,16 +116,33 @@
 							<img src="/static/images/titlebar-left.jpg" class="left">
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							<div class="right-links">
-					    		<a href="#">新增文章</a> | <a href="#">觀看所有文章</a>
+							    {% if isSelf %}
+							    <a id="createFeedItem" href="#">新增文章</a> | 
+							    {% endif %}
+							    <a href="/volunteer/space/article/?volunteer_id={{ volunteerBase.volunteer_id }}">觀看所有文章</a>
 					    	</div>
 							<h3>我的部落格</h3>
 						</div>
 						<div class="content">
 							<div class="article-block">
-							    {% for feed in blogFeeds %}
-							    <div class="article-title-item"><a href="{{ feed.link.4.href }}">{{ feed.title.text }}</a></div>
+							    {% for entry in articleList %}
+							    <div class="article-title-item"><a href="{{ entry.1 }}">{{ entry.0 }}</a></div>
 							    {% endfor %}
 							</div>
 						</div>
 			    	</div>
+				<div id="createFeedBox" style="display: none;" title="新增文章">
+				    <form action="#" method="get">
+					<dl>
+					    <dt>部落格網址/RSS:</dt>
+					    <dd>
+					    <input type="text" name="feedUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
+					    <input type="button" id="feedUriSave" name="feedUriSave" value="記住這個網址" />
+					    <input type="button" id="feedUriParse" name="feedUriParse" value="預覽文章" />
+					    </dd>
+					</dl>
+					<div id="feedPreview">
+					</div>
+				    </form>
+				</div>
 {% endblock %}
