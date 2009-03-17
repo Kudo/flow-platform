@@ -1,0 +1,21 @@
+{% extends "registration/base.html" %}
+
+{% block registerContent %}
+	<h2>註冊帳號</h2>
+	<div class="tip">
+		<div class="red">
+			若水志工交換平台目前是與 Google 帳號結合，您必須要有 Google 帳號才能註冊本平台
+		</div>
+		若是沒有，您可以註冊 Google 帳號，並不需要收取任何費用
+	</div>
+	<div class="number-sign">1</div>
+	<div class="step-main">
+		<p>
+		請問您是否有 Google 帳號?
+		</p>
+		<form action="">
+			<input type="submit" value="是，我要登入" name="logingaccount">
+			<input type="submit" value="否，我要註冊一個 Google 帳號" name="registergaccount">
+		</form>
+	</div>
+{% endblock %}

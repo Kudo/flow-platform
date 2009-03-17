@@ -1,0 +1,104 @@
+{% extends "npo/base.html" %}
+
+{### header ###}
+
+{% block npoExtraHeader %}
+	<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/space.css" rel="stylesheet" type="text/css" />
+	{### this block can put additional css / script definition to head tag ###}
+	<!-- block profileExtraHeader here -->
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
+			    	<h3 id="page-title">新增文章</h3>
+			    	<div class="content-block">
+			    		<form class="flow-form" action="">
+			    			<ul>
+			    				<li class="section first">
+									<h3>Blogger 上的文章</h3>
+									<div>您可以直接勾選 Blogger 上您的文章</div>
+								</li>
+								<li>
+									<div class="column">
+										<input name="article1" id="article1" class="field checkbox" type="checkbox">
+										<label class="choice" for="article1">
+											FreeBSD 上的 Gearmand
+										</label>
+									</div>
+									<div class="indent">
+										<label class="desc">預覽: </label>
+										<label class="preview">前陣子提到了「用 C 改寫後的 Gearman」，在當時還是 0.1 版，現在已經 0.2 版了。花了一些時間把他 submit 到 ports tree 裡面，現在可以在 ports 裡的 devel/gearmand 裝起來，然後在 /etc/rc.conf 裡設定：...
+										</label>
+									</div>
+								</li>
+								
+								<li>
+									<div class="column">
+										<input name="article2" id="article2" class="field checkbox" type="checkbox">
+										<label class="choice" for="article2">
+											FreeBSD 上 PHP5 的 pecl-APC 效能
+										</label>
+									</div>
+									<div class="indent">
+										<label class="desc">預覽: </label>
+										<label class="preview">環境是單顆 E5405 的機器，上面的作業系統是 FreeBSD 7.1，應用程式的部份是 apache 2.2 (worker) + mod_fastcgi 2.4.6 + PHP 5.2.8 + APC 3.0.19。...
+										</label>
+									</div>
+								</li>
+								
+								
+								<li class="section">
+									<h3>自行輸入</h3>
+									<div>自行在下方網址列輸入文章網址</div>
+								</li>
+								<li>
+									<label class="desc">
+										文章一
+									</label>
+									<div>
+										<input id="name" class="field text large" type="text" name="url1" maxlength="255" value="http://" />
+									</div>
+								</li>
+								<li>
+									<label class="desc">
+										文章二
+									</label>
+									<div>
+										<input id="name" class="field text large" type="text" name="url2" maxlength="255" value="http://" />
+									</div>
+								</li>
+								<li>
+									<label class="desc">
+										文章三
+									</label>
+									<div>
+										<input id="name" class="field text large" type="text" name="url3" maxlength="255" value="http://" />
+									</div>
+								</li>
+								<li>
+									<label class="desc">
+										文章四
+									</label>
+									<div>
+										<input id="name" class="field text large" type="text" name="url4" maxlength="255" value="http://" />
+									</div>
+								</li>
+								<li>
+									<label class="desc">
+										文章五
+									</label>
+									<div>
+										<input id="name" class="field text large" type="text" name="url5" maxlength="255" value="http://" />
+									</div>
+								</li>
+								
+								<li class="buttons section">
+									<input id="cancel" class="btTxt" type="button" value="取消" />
+									<input id="submit" class="btTxt" type="submit" value="確定加入" />
+								</li>
+							</ul>
+			    		</form>
+			    	</div>
+{% endblock %}
