@@ -78,7 +78,7 @@ dl.activity-dl dd {
 }
 
 .activity-item {
-	height-80px;
+	height: 80px;
 	width: 720px;
 }
 
@@ -147,7 +147,7 @@ dl.portofolio-block dd {
 	width: 240px;
 	height: 50px;
 	float: left;
-	overflow: block;
+	overflow: auto;
 }
 
 div.article-block .article-info {
