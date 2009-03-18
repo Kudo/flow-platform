@@ -127,7 +127,7 @@
 							<img src="/static/images/titlebar-left.jpg" class="left">
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							<div class="right-links">
-					    		<a href="#">看更多</a>
+							<a href="/volunteer/space/video/?volunteer_id={{ volunteerBase.volunteer_id }}">看更多</a>
 					    	</div>
 							<h3>我的影音</h3>
 						</div>
@@ -135,6 +135,7 @@
 						<div class="content">
 							<div class="video-block">
 								<div class="video-item">
+								    {% if video %}
 									<div class="video-content">
 									    <object width="290" height="234">
 										<param name="movie" value="{{ video.media.content.0.url }}"></param>
@@ -143,6 +144,7 @@
 										<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234"></embed>
 									    </object>
 									</div>
+								    {% endif %}
 								</div>
 							</div>
 				    	</div>
@@ -153,39 +155,16 @@
 							<img src="/static/images/titlebar-left.jpg" class="left">
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							<div class="right-links">
-					    		<a href="#">看更多</a>
+							<a href="/volunteer/space/article/?volunteer_id={{ volunteerBase.volunteer_id }}">看更多</a>
 					    	</div>
 							<h3>我們的部落格</h3>
 						</div>
 						<div class="content">
 							<div class="article-block">
-								<div class="article-item">
-									<div class="article-author-img">
-										<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-									</div>
-									<div class="article-info">
-										<div class="article-title">歡喜做、甘願受</div>
-										<div class="article-date">2008 年 9 月 3 日</div>
-									</div>
+							    {% for entry in articleList %}
+								<div class="article-item"><a href="{{ entry.1 }}">{{ entry.0 }}</a></div>
 								</div>
-								<div class="article-item">
-									<div class="article-author-img">
-										<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-									</div>
-									<div class="article-info">
-										<div class="article-title">歡喜做、甘願受</div>
-										<div class="article-date">2008 年 9 月 3 日</div>
-									</div>
-								</div>
-								<div class="article-item">
-									<div class="article-author-img">
-										<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-									</div>
-									<div class="article-info">
-										<div class="article-title">歡喜做、甘願受</div>
-										<div class="article-date">2008 年 9 月 3 日</div>
-									</div>
-								</div>
+							    {% endfor %}
 							</div>
 						</div>
 					</div>
@@ -227,6 +206,7 @@
 								<span class="caption">我的影音</span>
 							</div>
 							<div class="video-block">
+							    {% if video %}
 								<div class="video-item">
 									<div class="video-content">
 									    <object width="290" height="234">
@@ -237,46 +217,23 @@
 									    </object>
 									</div>
 								</div>
+							    {% endif %}
 							</div>
 					    	<div class="right-links">
-					    		<a href="#">看更多</a>
+						    <a href="/volunteer/space/video/?volunteer_id={{ volunteerBase.volunteer_id }}">看更多</a>
 					    	</div>
 				    	</div>
 				    	<div class="content-block">
 							<div class="block-caption">
-								<span class="caption">我的部落格</span>
+								<span class="caption">我的文章</span>
 							</div>
 							<div class="article-block">
-								<div class="article-item">
-									<div class="article-author-img">
-										<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-									</div>
-									<div class="article-info">
-										<div class="article-title">歡喜做、甘願受</div>
-										<div class="article-date">2008 年 9 月 3 日</div>
-									</div>
-								</div>
-								<div class="article-item">
-									<div class="article-author-img">
-										<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-									</div>
-									<div class="article-info">
-										<div class="article-title">歡喜做、甘願受</div>
-										<div class="article-date">2008 年 9 月 3 日</div>
-									</div>
-								</div>
-								<div class="article-item">
-									<div class="article-author-img">
-										<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-									</div>
-									<div class="article-info">
-										<div class="article-title">歡喜做、甘願受</div>
-										<div class="article-date">2008 年 9 月 3 日</div>
-									</div>
-								</div>
+							    {% for entry in articleList %}
+								<div class="article-title-item"><a href="{{ entry.1 }}">{{ entry.0 }}</a></div>
+							    {% endfor %}
 							</div>
 					    	<div class="right-links clearfix">
-					    		<a href="#">看更多</a>
+						    <a href="/volunteer/space/article/?volunteer_id={{ volunteerBase.volunteer_id }}">看更多</a>
 					    	</div>
 				    	</div>
 					</div>

@@ -8,8 +8,9 @@ urlpatterns = patterns('unitTest',
     (r'^countryCity/createTestData/?$',         'country.create'),
     (r'^createTestData/?$',                     'createTestData.showCreateTestData'),
     (r'^createTestData/kudo/?$',                'kudo.create'),
-    # Clean Data
-    (r'^cleanData/all/?$',                      'cleanData.cleanAll'),
+    # Utils
+    (r'^cleanData/all/?$',                      'utils.cleanAll'),
+    (r'^resetModelCount/?$',                    'utils.resetModelCount'),
 )
 
 urlpatterns += patterns('',
