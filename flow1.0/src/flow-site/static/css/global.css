@@ -1107,6 +1107,44 @@ div.topbar li {
 	clear: none;
 }
 
+/* About Page */
+.static {
+	margin: 20px 80px;
+}
+
+.static .block {
+	padding-bottom: 25px;
+}
+
+
+.static h3 {
+	font-size: 17px;
+	font-weight: bold;
+	color: #36C;
+	border-bottom: dotted #999 1px;
+}
+
+.static .content {
+	color: #414141;
+	font-size: 15px;
+	margin-left: 3.2em;
+	line-height: 1.4em;
+}
+
+.static .content p {
+	padding-bottom: 1.2em;
+}
+
+.static li {
+	line-height: 1.4em;
+}
+
+ul.abc {
+	list-style-type: upper-alpha;
+	margin-top: 10px;
+	padding-left: 25px;
+}
+
 /* clearfix */
 .clearfix:after {
 	content:".";
