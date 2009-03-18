@@ -7,7 +7,7 @@ s* {
 body {
 	/* font-family: Arial, Helvetica, sans-serif; */
 	font-size: 14px;
-	text-algin: center;
+	text-align: center;
 	background-color: #cdcdcd;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
@@ -930,7 +930,7 @@ div.article-block .article-info {
 	width: 240px;
 	height: 70px;
 	margin-left: 70px;
-	overflow: block;
+	overflow: auto;
 }
 
 div.article-block .article-title {
