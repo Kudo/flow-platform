@@ -21,7 +21,6 @@
 
 {### topBar ###}
 {% block topBar %}
-	{% include "volunteer/topbar.html" %}
 {% endblock topBar %}
 
 
@@ -37,6 +36,8 @@
 
 {% block twocolumnContent %}
 
+	<h3 id="volunteer-name">{{ volunteerBase.name|escape }}</h3>
+	{% include "volunteer/topbar.html" %}
 	
 	{% block profileContent %}
 		{### this block can be replaced by children template with actual profile content ###}
