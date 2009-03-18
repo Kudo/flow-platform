@@ -27,5 +27,5 @@ def sendSmsOnGAE(strPhoneNumber,objUniContent):
              }
     strRequest=strUrl+'?'+urllib.urlencode(dicData)
     resp=fetch(strRequest)
-    logging.debug(resp.content)
+    logging.info(resp.content)
     return resp.content

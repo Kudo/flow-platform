@@ -1,7 +1,7 @@
 # coding=big5
-import time, re
+import time, re ,urllib
 from datetime import datetime
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponseServerError,HttpResponseForbidden
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from google.appengine.api import users,memcache
@@ -10,82 +10,92 @@ from db import ddl
 from google.appengine.ext.db import djangoforms
 import flowBase,smsUtil
 
-def submitAuthToken(request):
-    objUser=users.get_current_user()
-    if not objUser:
-        return HttpResponseRedirect('/')
-    objVolunteer=flowBase.getVolunteer(objUser)
-    if not objVolunteer:
-        return HttpResponseRedirect('/')
-    objNpo=flowBase.getNpoByUser(objUser)
-    if not objNpo:
-        return HttpResponseRedirect('/')
+lstAcceptNumber=['0982197997']
     
-    if request.method != 'POST':
-        return HttpResponseRedirect('/')
-    
-    eventKey=request.POST.get('event_key')
-    if not eventKey:
-        return HttpResponseRedirect('/')
 
-    eventProfile=db.get(db.Key(eventKey))
-    if None == eventProfile:
-        raise db.BadQueryError()
+def submitAuthToken(request):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+    if not objNpo:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
+    if request.method=='GET':
+        if 'event_key' not in request.GET:
+            return HttpResponseForbidden(u'錯誤的操作流程')
+        strEventKey=request.GET['event_key']
+        dic={'event_key':strEventKey,
+         'phone_number':request.GET.get('p') or ''.join(objVolunteer.cellphone_no.split('-')),
+         'base': flowBase.getBase(request, 'npo'),
+         'page': 'event',
+         'alertMsg':request.GET.get('m','')}
+        return render_to_response('event/event-sms-1.html', dic)
+    
+    if 'event_key' not in request.POST:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+    strEventKey=request.POST['event_key']
+    eventProfile=db.get(db.Key(strEventKey))
+    if not eventProfile:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+    
     if eventProfile.npo_profile_ref.id!=objNpo.id:
-        return HttpResponseRedirect('/')
-    strPhoneNumber = ''.join(request.POST['phone_number'].split('-'))
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
+    strPhoneNumber = request.POST['phone_number']
+    if not strPhoneNumber.isdigit() or len(strPhoneNumber)!=10:
+        dic={'m':u'手機格式錯誤','event_key':strEventKey,'p':strPhoneNumber}
+        return HttpResponseRedirect('authEvent1?%s'%(urllib.urlencode(dic)))
+
     eventProfile.status = 'authenticating'
     eventProfile.put()
-    strToken=str(hash(str(time.time())))[-6:]
-    if not memcache.set(str(eventProfile.key()),strToken,3600):
-        raise RuntimeError('call memcache.set failed!')
-    # We should unmark this line after release
-    if strPhoneNumber=='0982197997':
-        smsUtil.sendSmsOnGAE(strPhoneNumber,u'您的驗證碼為:'+strToken)
-        strToken=''
+    if not memcache.get(strEventKey):
+        strAuthToken=str(hash(str(time.time())))[-6:]
+        if not memcache.set(strEventKey,strAuthToken,1800):
+            return HttpResponseServerError('call memcache.set() failed!')
+        if strPhoneNumber in lstAcceptNumber:
+            smsUtil.sendSmsOnGAE(strPhoneNumber,u'您的驗證碼為:'+strAuthToken)
     else:
-        strToken=u'簡訊功能暫時不開放，請直接輸入此認證碼:'+strToken
-    dic = {'auth_token':strToken,
-           'event_key':eventKey,
-           'base': flowBase.getBase(request,'npo'),
-           'page':'event',
-           }
-    return render_to_response('event/event-sms-2.html', dic)
+        strAuthToken=memcache.get(strEventKey)
+    dic={'event_key':strEventKey,'p':strPhoneNumber}
+    return HttpResponseRedirect('authEvent3?%s'%(urllib.urlencode(dic)))
 
 def handleEventAuth(request):
-    objUser=users.get_current_user()
-    if not objUser:
-        return HttpResponseRedirect('/')
-    objVolunteer=flowBase.getVolunteer(objUser)
-    if not objVolunteer:
-        return HttpResponseRedirect('/')
-    objNpo=flowBase.getNpoByUser(objUser)
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        return HttpResponseRedirect('/')
-    if request.method != 'POST':
-        return HttpResponseRedirect('/')
-    eventKey=request.POST.get('event_key')
-    if not eventKey:
-        return HttpResponseRedirect('/')
+        return HttpResponseForbidden(u'錯誤的操作流程')
 
-    eventProfile=db.get(db.Key(eventKey))
-    if None == eventProfile:
-        raise db.BadQueryError()
-    strToken=memcache.get(eventKey)
-    if strToken==request.POST['validation']:
+    if request.method=='GET':
+        strEventKey=request.GET['event_key']
+        strPhoneNumber=request.GET['p']
+        strComment=''
+        if strPhoneNumber not in lstAcceptNumber:
+            strToken=memcache.get(strEventKey)
+            strComment=u'簡訊驗證目前僅開放給 %s 使用，請直接輸入 %s 即可通過驗證'%(','.join(lstAcceptNumber),strToken)
+        dic = {'debug_comment':strComment,
+               'event_key':strEventKey,
+               'base': flowBase.getBase(request,'npo'),
+               'page':'event',
+               }
+        return render_to_response('event/event-sms-2.html', dic)
+        
+    if 'event_key' not in request.POST:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+    strEventKey=request.POST['event_key']
+    eventProfile=db.get(db.Key(strEventKey))
+    if not eventProfile:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+    
+    if eventProfile.npo_profile_ref.id!=objNpo.id:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
+    strToken=memcache.get(strEventKey)
+    if strToken and strToken==request.POST['validation']:
         #eventProfile.status = 'authenticated'
         eventProfile.status = 'approved'
         eventProfile.put()
     else:
-        strPhoneNumber = ''.join(eventProfile.cellphone_no.split('-'))
-        if strPhoneNumber=='0982197997':
-            strToken=''
-        else:
-            strToken=u'簡訊功能暫時不開放，請直接輸入此認證碼:'+strToken
-
         dic={'token_invalid':'1',
-             'auth_token':strToken,
-             'event_key':eventKey,
+             'validation':request.POST['validation'],
+             'debug_comment':request.POST.get('debug_comment',''),
+             'event_key':strEventKey,
              'base': flowBase.getBase(request,'npo'),
              'page':'event'}
         return render_to_response('event/event-sms-2.html', dic)

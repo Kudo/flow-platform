@@ -47,16 +47,19 @@ function disableButton(form) {
         {% endif %}
 				
 				<div class="column">
-					<input id="validation" class="field text" name="validation" maxlength="10" size="10" />
+					<input id="validation" class="field text" value="{{validation|escape}}" name="validation" maxlength="10" size="10" />
 				</div>
 			</li>
-			<input type="hidden" name="event_key" value="{{ event_key }}">
+			<input type="hidden" name="event_key" value="{{ event_key|escape }}">
+			{% if debug_comment %}
+			<input type="hidden" name="debug_comment" value="{{ debug_comment|escape }}">
+			{% endif %}
 			<li class="buttons section">
-				<input id="submit" class="btTxt" type="submit" value="完成" onClick="submitForm('handleAuthEvent');"/>
+				<input class="btTxt" type="button" value="完成" onClick="submitForm('authEvent3');"/>
 				<input type="button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';">
 			</li>
 		</ul>
-		{{auth_token}}
+		{{debug_comment|escape}}
 	</form>
 	
 
