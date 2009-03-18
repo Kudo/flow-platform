@@ -29,13 +29,13 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
             return HttpResponseRedirect('/')
     else:
         userID = cgi.escape(request.GET['volunteer_id'])
-        '''
+
         # marked by camge
         # Does google account must be xxxx@gmail.com ???
         if userID.find('@gmail.com') == -1:
             userID += '@gmail.com'
             userID = users.User(userID)
-        '''
+
     # Picasa Web
     picasaUser = 'ckchien'
     service = gdata.photos.service.PhotosService()

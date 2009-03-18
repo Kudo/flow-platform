@@ -1004,6 +1004,7 @@ div.new-top-bar-container {
 	position:relative;
 	top: -8px;
 	border-bottom: 1px #333 solid;
+	margin-bottom: 15px;
 }
 div.new-top-bar {
 	position: relative;
