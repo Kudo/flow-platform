@@ -1,6 +1,6 @@
 # -*- coding: big5 -*-
 import datetime
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponseForbidden
 from django.shortcuts import render_to_response
 from django.template import TemplateDoesNotExist
 from google.appengine.api import users
@@ -43,17 +43,12 @@ dicStatusName={
     }
 
 def mainPage(request):
-    objUser=users.get_current_user()
-    if not objUser:
-        return HttpResponseRedirect('/')
-    objVolunteer=flowBase.getVolunteer(objUser)
-    if not objVolunteer:
-        return HttpResponseRedirect('/')
-    objNpo=flowBase.getNpoByUser(objUser)
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        return HttpResponseRedirect('/')
+        return HttpResponseForbidden(u'錯誤的操作流程')
     
     query = db.GqlQuery("SELECT * FROM EventProfile WHERE npo_profile_ref = :1",objNpo)
+    # Todo: should handle more than 100 condition
     results = query.fetch(100)
     dic={'lstEvent' : actionCheck(results),
          'base': flowBase.getBase(request, 'npo'),
@@ -79,19 +74,16 @@ class CancelEventForm(forms.Form):
     reason = forms.CharField(widget=forms.Textarea(attrs={'rows':'10', 'cols':'50','class':'field textarea medium'}))
     
 def handleCancelEvent(request):
-    objUser=users.get_current_user()
-    if not objUser:
-        return HttpResponseRedirect('/')
-    objNpo=flowBase.getNpoByUser(objUser)
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        return HttpResponseRedirect('/')
+        return HttpResponseForbidden(u'錯誤的操作流程')
 
     strEventKey=request.POST.get('event_key')
     if not strEventKey:
-        return HttpResponseRedirect('/')
+        return HttpResponseForbidden(u'錯誤的操作流程')
     event=db.get(db.Key(strEventKey))
     if event.npo_profile_ref.id!=objNpo.id:
-        return HttpResponseRedirect('/')
+        return HttpResponseForbidden(u'錯誤的操作流程')
 
     if 'submitType' in request.POST:
         form = CancelEventForm(data = request.POST)
