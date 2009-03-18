@@ -557,6 +557,25 @@ div.no-padding-bottom {
 /* div.left-column */ div.content-block div.article-title-item {
 	padding-bottom: 3px;
 }
+
+/* --- Content Block NPO --- */
+div.content-block div.content div.nporow {
+/*	clear: left;*/
+}
+
+div.content-block div.content div.nporow div.item:first-child {
+	padding-left: 0px;
+	border-left: none !important;
+}
+
+div.content-block div.content div.nporow div.item {
+	float: left;
+	width: 150px;
+	padding-left: 8px;
+	border-left: dotted #999 1px;
+}
+/* --- End of Content Block NPO --- */
+
 /* ----- End of Content Block ----- */
 
 /* ----- Full Page list classes ----- */
@@ -1143,6 +1162,36 @@ ul.abc {
 	list-style-type: upper-alpha;
 	margin-top: 10px;
 	padding-left: 25px;
+}
+
+/* space */
+table.space {
+	padding: 3px;
+}
+
+table.space tr:first-child {
+	border-top: none !important;
+}
+
+table.space tr {
+	border-top: dotted #999 1px;
+}
+
+table.space td {
+	margin: 3px;
+	padding: 3px;
+	line-height: 1.4em;
+	text-align: left;
+}
+
+table.space td.checkbox {
+	width: 30px;
+	text-align: center;
+}
+
+table.space td.title a {
+	text-decoration: underline;
+	font-weight: bold;
 }
 
 /* clearfix */

@@ -11,7 +11,7 @@ $(document).ready(function() {
     $("#createVideoBox").show().dialog({
       modal: true,
       width: 500,
-      height: 500,
+      height: 580,
       close: function(e, ui) { contentObj.hide(); $(this).hide().dialog('destroy'); },
       buttons: { 
         "送出": function() {
@@ -97,11 +97,11 @@ $(document).ready(function() {
         previewObj.empty();
         if (data.statusCode >= 200 && data.statusCode < 300)
         {
-          content = '<table border="1">\n';
+          content = '<table class="space">\n';
           $.each(data.entryList, function(i, entry) {
-            content += '<tr><td>' + '<input type="checkbox" name="itemList" value="'+ entry.title + ',http://' + entry.uri + '" /></td>\n';
-            content += '<td><a style="text-decoration: underline;" href="' + entry.uri + '">' + entry.title + '</a></td>\n';
-            content += '<td>' + entry.summary + '</td>\n';
+            content += '<tr><td class="checkbox">' + '<input type="checkbox" name="itemList" value="'+ entry.title + ',http://' + entry.uri + '" /></td>\n';
+            content += '<td class="title"><a href="' + entry.uri + '">' + entry.title + '</a></td>\n';
+            content += '<td class="summary">' + entry.summary + '</td>\n';
             content += '</tr>\n';
           });
           content += '</table>\n';
