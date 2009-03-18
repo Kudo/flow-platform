@@ -56,7 +56,7 @@ class CsrfMemcacheMiddleware(object):
             csrf_token = _make_token(session_id)
             # check incoming token
             try:
-                request_csrf_token = request.POST['csrfmiddlewaretoken']
+                request_csrf_token = request.POST['xToken']
             except KeyError:
                 return HttpResponseForbidden(_ERROR_MSG)
             
@@ -84,13 +84,13 @@ class CsrfMemcacheMiddleware(object):
                 response['Content-Type'].split(';')[0] in _HTML_TYPES:
             
             # ensure we don't add the 'id' attribute twice (HTML validity)
-            idattributes = itertools.chain(("id='csrfmiddlewaretoken'",), 
+            idattributes = itertools.chain(("id='xToken'",), 
                                             itertools.repeat(''))
             def add_csrf_field(match):
                 """Returns the matched <form> tag plus the added <input> element"""
                 return match.group() + "<div style='display:none;'>" + \
                 "<input type='hidden' " + idattributes.next() + \
-                " name='csrfmiddlewaretoken' value='" + csrf_token + \
+                " name='xToken' value='" + csrf_token + \
                 "' /></div>"
 
             # Modify any POST forms

@@ -15,12 +15,12 @@
 
 {% block profileContent %}
 
-				<h3 id="page-title">{{ volunteerBase.volunteer_id }} 的文章列表
+				<h3 id="page-title">{{ volunteerBase.volunteer_id }} 的影音列表
 				    {% if isSelf %}
-				    | <a id="createFeedItem" href="#">新增文章</a>
+				    | <a id="createVideoItem" href="#">新增影音</a>
 				    {% endif %}
 				</h3>
-				<div class="list-title">共有 {{ count }} 篇文章, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 筆</div>
+				<div class="list-title">共有 {{ count }} 筆, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 筆</div>
 						<div class="right-links">
 							<div class="pager ptop">
 							    {% ifnotequal prevIndex None %}
@@ -43,18 +43,26 @@
 						<div class="fullpage-list">
 						    {% for entry in entryList %}
 						    {% ifequal entry firstEntry %}
-							<div class="item volunteer top-line">
+							<div class="item volunteer top-line" style="height: 200px">
 						    {% else %}
-							<div class="item volunteer top-line">
+							<div class="item volunteer top-line" style="height: 200px">
 						    {% endifequal %}
 						    	<div class="actions">
 							    {% if isSelf %}
-							    <a class="delItem" href="/volunteer/space/article/delete?itemId={{ forloop.counter }}&token={{ base.token }}">刪除</a>
+							    <a class="delItem" href="/volunteer/space/video/delete?itemId={{ forloop.counter }}&token={{ base.token }}">刪除</a>
 							    {% endif %}
 							</div>
-								<div class="name">
-								    <a target="_blank" href="{{ entry.1 }}">{{ entry.0 }}</a>
-								</div>
+							<div class="video-title">{{ entry.title.text }}</div>
+							<div class="video-content">
+							    <object width="180" height="150">
+								<param name="movie" value="{{ entry.media.content.0.url }}"></param>
+								<param name="allowFullScreen" value="true"></param>
+								<param name="allowscriptaccess" value="always"></param>
+								<param name="wmode" value="transparent"></param>
+								<embed src="{{ entry.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="180" height="150" wmode="transparent"></embed>
+							    </object>
+							</div>
+							<div class="video-info">於 {{ entry.videoDate.year }} 年 {{ entry.videoDate.month }} 月 {{ entry.videoDate.day }} 日 發表</div>
 							</div>
 						    {% endfor %}
 						</div>
@@ -77,18 +85,28 @@
 							    {% endif %}
 							</div>
 						</div>
-				<div id="createFeedBox" style="display: none;" title="新增文章">
+				<div id="createVideoBox" style="display: none;" title="新增影音">
 				    <form action="#" method="get">
 					<dl>
-					    <dt>部落格網址/RSS:</dt>
+					    <dt>Youtube 影音網址:</dt>
 					    <dd>
-					    <input type="text" name="feedUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
-					    <input type="button" id="feedUriSave" name="feedUriSave" value="記住這個網址" />
-					    <input type="button" id="feedUriParse" name="feedUriParse" value="預覽文章" />
+					    <input type="text" name="videoUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
 					    <input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
 					    </dd>
 					</dl>
-					<div id="feedPreview">
+					<div id="videoPreview">
+					    <div class="video-title"></div>
+					    <div class="video-item" style="display: none;">
+						<div class="video-content">
+						    <object width="290" height="234">
+							<param name="movie" value=""></param>
+							<param name="allowFullScreen" value="true"></param>
+							<param name="allowscriptaccess" value="always"></param>
+							<param name="wmode" value="transparent"></param>
+							<embed src="" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234" wmode="transparent"></embed>
+						    </object>
+						</div>
+					    </div>
 					</div>
 				    </form>
 				</div>

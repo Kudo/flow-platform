@@ -18,8 +18,7 @@ displayPageCount = 5
 displayExpertiseCount = 5
 
 def show(request):
-    #count = VolunteerProfile.all().totalCount()
-    count = VolunteerProfile.all().count()
+    count = VolunteerProfile.all().totalCount()
     startIndex = 0
     if 'start' in request.GET:
         startIndex = int(request.GET['start'])

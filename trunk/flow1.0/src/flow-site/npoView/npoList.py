@@ -18,8 +18,7 @@ displayNpoEventCount = 2
 diffDaysLimit = 14
 
 def show(request):
-    #count = NpoProfile.all().totalCount()
-    count = NpoProfile.all().count()
+    count = NpoProfile.all().totalCount()
     startIndex = 0
     if 'start' in request.GET:
         startIndex = int(request.GET['start'])

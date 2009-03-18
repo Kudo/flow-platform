@@ -13,9 +13,13 @@ import atom.url
 import gdata.alt.appengine
 import gdata.photos, gdata.photos.service
 import gdata.youtube, gdata.youtube.service
-import gdata.blogger, gdata.blogger.service
 import flowBase
 from db.ddl import VolunteerProfile, VolunteerIm, NpoProfile
+
+displayNpoCount = 2
+displayNpoEventCount = 2
+diffDaysLimit = 14
+displayArticleCount = 10
 
 def show(request, displayPhotoCount=8, displayBlogCount=6):
     if 'volunteer_id' not in request.GET:
@@ -37,29 +41,19 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
     #photoFeeds.reverse()
     #photos = service.SearchUserPhotos(query='若水', user='ckchien').entry
 
-    # Youtube
-    vid = 'kt3JvQHQF-c'
-    service = gdata.youtube.service.YouTubeService()
-    gdata.alt.appengine.run_on_appengine(service)
-    video = service.GetYouTubeVideoEntry(video_id=vid)
-    #return HttpResponse(video, mimetype="text/xml")
-
-    # Blogger
-    blogID = 22301408
-    service = gdata.blogger.service.BloggerService()
-    gdata.alt.appengine.run_on_appengine(service)
-    query = gdata.blogger.service.BlogPostQuery(blog_id=blogID)
-    query.max_results = displayBlogCount
-    blogFeeds = service.Get(query.ToUri())
-    #return HttpResponse(blogFeeds.entry[0], mimetype="text/plain")
-
     user = flowBase.getVolunteer(userID)
     if not user:
         return HttpResponseRedirect('/')
 
-    displayNpoCount = 2
-    displayNpoEventCount = 2
-    diffDaysLimit = 14
+    # Youtube
+    video = None
+    videoDate = None
+    if len(user.video_link) > 0:
+        vid = user.video_link[0]
+        service = gdata.youtube.service.YouTubeService()
+        gdata.alt.appengine.run_on_appengine(service)
+        video = service.GetYouTubeVideoEntry(video_id=vid)
+
     now = datetime.datetime.now()
     npoList = [NpoProfile.get(user.npo_profile_ref[i]) for i in range(displayNpoCount) if i < len(user.npo_profile_ref)]
     for npo in npoList:
@@ -84,6 +78,7 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
             'video':                    video,
             'npoList':                  npoList,
             'npoFirst':                 npoList[0] if len(npoList) > 0 else None,
+            'articleList':              [obj.rsplit(u',http://', 1) for obj in user.article_link][:displayArticleCount],
     }
     response = render_to_response('volunteer/profile_home.html', template_values)
 

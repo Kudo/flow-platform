@@ -18,5 +18,5 @@ urlpatterns = patterns('',
     (r'^loginProxy/?$',                             'flowBase.loginProxy'),
     (r'^logout/?$',                                 'flowBase.logout'),
     (r'^showart/',                                  include('showart.urls')),
-    (r'^feedParser/?$',                             'feedParser.get'),
+    (r'^utils/',                                    include('utils.urls')),
 )
