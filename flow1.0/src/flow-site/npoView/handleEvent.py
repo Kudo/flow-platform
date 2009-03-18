@@ -100,11 +100,7 @@ def processAddEvent(request):
                        
         # Save into datastore based on submit type
             if('send' == submitType):
-                dic={'event_key':newEventEntity.key(),
-                 'phone_number':''.join(objVolunteer.cellphone_no.split('-')),
-                 'base': flowBase.getBase(request, 'npo'),
-                 'page': 'event'}
-                return render_to_response('event/event-sms-1.html', dic)
+                return HttpResponseRedirect('authEvent1?event_key=%s'%newEventEntity.key())
             else:
                 return HttpResponseRedirect('listEvent')
     else:
@@ -154,12 +150,7 @@ def processEditEvent(request):
             modEventEntity.status = 'new application'
             modEventEntity.put()
             if('send' == submitType):
-                dic={'event_key':modEventEntity.key(),
-                     'phone_number':''.join(objVolunteer.cellphone_no.split('-')),
-                     'base': flowBase.getBase(request,'npo'),
-                     'page': 'event'
-                     }
-                return render_to_response('event/event-sms-1.html', dic)
+                return HttpResponseRedirect('authEvent1?event_key=%s'%modEventEntity.key())
             return HttpResponseRedirect('listEvent')
     else:
         form = NewEventForm(instance = eventProfile)
