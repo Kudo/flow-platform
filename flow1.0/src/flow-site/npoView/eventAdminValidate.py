@@ -1,5 +1,6 @@
+# -*- coding: big5 -*-
 import datetime
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect,HttpResponseForbidden
 from django.shortcuts import render_to_response
 from django.template import TemplateDoesNotExist
 from google.appengine.ext import db
@@ -13,12 +14,20 @@ class volForm(forms.Form):
 
 # Check to see if eventID is given. Direct to error page if not.
 def volunteerShow(request):
-    try:
-        strEventKey = request.POST['event_key']
-    except KeyError:
-        # Redirect to login page
-        return HttpResponseRedirect('listEvent')
-    event=db.get(db.Key(strEventKey))
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+    if not objNpo:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
+    if request.method != 'POST' or 'event_key' not in request.POST:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
+    eventKey = request.POST['event_key']
+    event=db.get(db.Key(eventKey))
+    if None == event:
+        return HttpResponseForbidden(u'資料不存在! key:%s'%eventKey)
+    if event.npo_profile_ref.id!=objNpo.id:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
     # Retrieve data with given eventID and status
     query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'new registration')
     result1 = query.fetch(100)

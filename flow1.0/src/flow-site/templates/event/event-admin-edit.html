@@ -4,6 +4,11 @@
 {### header ###}
 {% block npoExtraHeader %}
 
+<link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/clockpick.1.2.5.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/static/js/jquery.clockpick.1.2.5.min.js"></script>
+<script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
+
 {% endblock npoExtraHeader %}
 
 
@@ -16,7 +21,25 @@ $(document).ready(function() {
 	$('#mainForm :text').addClass('text');
 	$('#mainForm :textarea').addClass('textarea');
 	$('#mainForm :select').addClass('select');
+
+	$('.datePicker').datepicker({
+			showOn: 'both', 
+			buttonImage: '/static/images/jquery-ui/calendar.gif', 
+			buttonImageOnly: true,
+			dateFormat: 'yy-mm-dd',
+			minDate: 1,
+			monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+			dayNamesMin: ['日', '一', '二', '三', '四', '五', '六']
+	});
+
+	$('.timePicker').clockpick({
+		starthour : 0,
+		endhour : 23,
+		showminutes : true,
+		military : true
+	});
 });
+
 
 function submitForm(url , submitType)
   { 
@@ -35,7 +58,7 @@ function disableButton(form) {
   }
   return true;
 }
-  </SCRIPT>
+</SCRIPT>
 
 	<h3 id="page-title">編輯活動</h3>
 	
@@ -204,7 +227,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>標籤(關鍵字)</font></td>
+				<td>標籤(關鍵字){% if form.tag.field.required %}<span class="req">*</span>{% endif %}</font></td>
 				<td>{{ form.tag }} 
 				{% if form.tag.errors %}    
         {% for error in form.tag.errors %}
@@ -213,41 +236,14 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>		
 			<tr>
-				<td>活動相簿連結</font></td>
-				<td>{{ form.event_album_link }} 
-				{% if form.event_album_link.errors %}    
-        {% for error in form.event_album_link.errors %}
+				<td>是否參與若水公益創新計畫{% if form.join_flow_plan.field.required %}<span class="req">*</span>{% endif %}</td>
+				<td>{{ form.join_flow_plan }}  
+				{% if form.join_flow_plan.errors %}    
+        {% for error in form.join_flow_plan.errors %}
         <font color="#FF0000">{{ error|escape }}</font>
         {% endfor %}
         {% endif %}</td>
-			</tr>	
-			<tr>
-				<td>活動影片連結</font></td>
-				<td>{{ form.event_video_link }} 
-				{% if form.event_video_link.errors %}    
-        {% for error in form.event_video_link.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>	
-			<tr>
-				<td>活動 BLOG 連結</font></td>
-				<td>{{ form.event_blog_link }} 
-				{% if form.event_blog_link.errors %}    
-        {% for error in form.event_blog_link.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>	
-			<tr>
-				<td>NPO 心得</font></td>
-				<td>{{ form.sentiments }} 
-				{% if form.sentiments.errors %}    
-        {% for error in form.sentiments.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>	
+			</tr>			
 		</table>		
 		  <br>
 		  <hr>
@@ -264,17 +260,16 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>最大年齡</td>
-				<td>{{ form.max_age }}  
-				{% if form.max_age.errors %}    
-        {% for error in form.max_age.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-        <td>最小年齡</td>
-				<td>{{ form.min_age }}  
+				<td>年齡限制{% if form.max_age.field.required %}<span class="req">*</span>{% endif %}</td>
+				<td>{{ form.min_age }}歲
 				{% if form.min_age.errors %}    
         {% for error in form.min_age.errors %}
+        <font color="#FF0000">{{ error|escape }}</font>
+        {% endfor %}
+        {% endif %}
+        至 {{ form.max_age }}歲
+				{% if form.max_age.errors %}    
+        {% for error in form.max_age.errors %}
         <font color="#FF0000">{{ error|escape }}</font>
         {% endfor %}
         {% endif %}</td>
@@ -289,7 +284,7 @@ function disableButton(form) {
         {% endif %}</td>
 			</tr>
 			<tr>
-				<td>活動所需專長</td>
+				<td>活動所需專長{% if form.expertise_req.field.required %}<span class="req">*</span>{% endif %}</td>
 				<td>{{ form.expertise_req }}  
 				{% if form.expertise_req.errors %}    
         {% for error in form.expertise_req.errors %}
@@ -297,15 +292,6 @@ function disableButton(form) {
         {% endfor %}
         {% endif %}</td>
 			</tr>
-			<tr>
-				<td>是否參與若水公益創新計畫{% if form.join_flow_plan.field.required %}<span class="req">*</span>{% endif %}</td>
-				<td>{{ form.join_flow_plan }}  
-				{% if form.join_flow_plan.errors %}    
-        {% for error in form.join_flow_plan.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>			
 		</table>
     <hr>
     <!--

@@ -6,11 +6,11 @@ urlpatterns = patterns('npoView',
     # admin
     (r'^admin/?$', 'admin.mainPage'),
     # admin event management
-    (r'^admin/editEvent/?$', 'editEvent.processEditEvent'),
-    (r'^admin/addEvent/?$', 'addEvent.processAddEvent'),
+    (r'^admin/listEvent/?$', 'eventMgmt.mainPage'),
+    (r'^admin/editEvent/?$', 'handleEvent.processEditEvent'),
+    (r'^admin/addEvent/?$', 'handleEvent.processAddEvent'),
     (r'^admin/authEvent/?$', 'authenticateEvent.submitAuthToken'),
     (r'^admin/handleAuthEvent/?$', 'authenticateEvent.handleEventAuth'),
-    (r'^admin/listEvent/?$', 'eventMgmt.mainPage'),
     (r'^admin/cancelEvent/?$', 'eventMgmt.handleCancelEvent'),
     (r'^admin/selectVolunteer/?$', 'eventAdminValidate.volunteerShow'),
     # register

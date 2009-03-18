@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import cgi
+import cgi,logging
 import md5
-from google.appengine.api import users
+from google.appengine.api import users,memcache
 from google.appengine.ext import db
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -42,7 +42,14 @@ def getVolunteer(volunteer_id=users.get_current_user()):
         return None
     if isinstance(volunteer_id, (str, unicode)):
         volunteer_id = users.User(volunteer_id)
-    return db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', volunteer_id).get()
+    objVolunteer=memcache.get('%s/volunteer'%volunteer_id)
+    if objVolunteer:
+        return objVolunteer
+    else:
+        objVolunteer = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', volunteer_id).get()
+        if objVolunteer:
+            memcache.add('%s/volunteer'%volunteer_id,objVolunteer,3600)
+        return objVolunteer
 
 def getNpo(id=None):
     if not id:
@@ -50,8 +57,14 @@ def getNpo(id=None):
     return db.GqlQuery('SELECT * FROM NpoProfile WHERE id = :1', id).get()
 
 def getNpoByUser(user):
-    npo = db.GqlQuery('SELECT * FROM NpoProfile WHERE google_acct = :1', user).get()
-    return npo
+    npo=memcache.get('%s/npo'%user)
+    if npo:
+        return npo
+    else:
+        npo = db.GqlQuery('SELECT * FROM NpoProfile WHERE google_acct = :1', user).get()
+        if npo:
+            memcache.add('%s/npo'%user,npo,3600)
+        return npo
 
 def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
     data = {}
@@ -99,7 +112,8 @@ def loginProxy(request):
     else:
         redirectURI = '/'
 
-    if getVolunteer(base['user']):
+    objVolunteer = getVolunteer(base['user'])
+    if objVolunteer:
         loginSuccess = True
     else:
         loginSuccess = False
@@ -112,6 +126,10 @@ def loginProxy(request):
     return render_to_response('loginProxy.html', template_values)
 
 def logout(request):
+    objUser = users.get_current_user()
+    if objUser:
+        memcache.delete('%s/npo'%objUser)
+        memcache.delete('%s/volunteer'%objUser)
     if 'redirect' in request.GET:
         return HttpResponseRedirect(users.create_logout_url(cgi.escape(request.GET['redirect'])))
     else:
@@ -121,7 +139,26 @@ def getProfessionList():
 	return proflist.getProfessionList()
 
 def getRegion(getProperty=False):
-    regions = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
+    regions=memcache.get('getRegion')
+    if not regions:
+        regions = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
+        if regions:
+            memcache.add('getRegion',regions,3600)
     if getProperty:
         return regions
     return [region.city_tc for region in regions]
+
+def verifyNpo(request):
+    objUser=users.get_current_user()
+    if not objUser:
+        logging.critical('invalid request from %s for %s',request.META.get('REMOTE_ADDR'),request.path)
+        return (None,None,None)
+    objVolunteer=getVolunteer(objUser)
+    if not objVolunteer:
+        logging.critical('invalid request from %s[%s] for %s',objUser,request.META.get('REMOTE_ADDR'),request.path)
+        return (objUser,None,None)
+    objNpo=getNpoByUser(objUser)
+    if not objNpo:
+        logging.critical('invalid request from %s[%s] for %s',objUser,request.META.get('REMOTE_ADDR'),request.path)
+        return (objUser,objVolunteer,None)
+    return (objUser,objVolunteer,objNpo)
