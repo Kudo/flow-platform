@@ -7,6 +7,7 @@
 	{### this block can put additional css / script definition to head tag ###}
 	<!-- block profileExtraHeader here -->
 <link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
 <script type="text/javascript" src="/static/js/space.js"></script>
 {% endblock profileExtraHeader %}
@@ -137,43 +138,60 @@
 						</div>
 			    	</div>
 				<div id="createVideoBox" style="display: none;" title="新增影音">
-				    <form action="#" method="get">
-					<dl>
-					    <dt>Youtube 影音網址:</dt>
-					    <dd>
-					    <input type="text" name="videoUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
-					    <input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
-					    </dd>
-					</dl>
-					<div id="videoPreview">
-					    <div class="video-title"></div>
-					    <div class="video-item" style="display: none;">
-						<div class="video-content">
-						    <object width="290" height="234">
-							<param name="movie" value=""></param>
-							<param name="allowFullScreen" value="true"></param>
-							<param name="allowscriptaccess" value="always"></param>
-							<param name="wmode" value="transparent"></param>
-							<embed src="" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234" wmode="transparent"></embed>
-						    </object>
-						</div>
-					    </div>
-					</div>
+				    <form class="flow-form" action="#" method="get">
+				    	<ul>
+				    		<li>
+				    			<label class="desc">
+				    				Youtube 影音網址
+				    			</label>
+				    			<div>
+				    				<input class="text large field" type="text" name="videoUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
+				    				<input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
+				    			</div>
+				    		</li>
+				    	
+				    
+				    		<li>
+								<div id="videoPreview">
+								    <div class="video-title"></div>
+								    <div class="video-item" style="display: none;">
+									<div class="video-content">
+									    <object width="425" height="344">
+										<param name="movie" value=""></param>
+										<param name="allowFullScreen" value="true"></param>
+										<param name="allowscriptaccess" value="always"></param>
+										<param name="wmode" value="transparent"></param>
+										<embed src="" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344" wmode="transparent"></embed>
+									    </object>
+									</div>
+								    </div>
+								</div>
+							</li>
+						</ul>
 				    </form>
 				</div>
 				<div id="createFeedBox" style="display: none;" title="新增文章">
-				    <form action="#" method="get">
-					<dl>
-					    <dt>部落格網址/RSS:</dt>
-					    <dd>
-					    <input type="text" name="feedUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
-					    <input type="button" id="feedUriSave" name="feedUriSave" value="記住這個網址" />
-					    <input type="button" id="feedUriParse" name="feedUriParse" value="預覽文章" />
-					    <input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
-					    </dd>
-					</dl>
-					<div id="feedPreview">
+				    <form class="flow-form" action="#" method="get">
+				    	<ul>
+				    		<li>
+				    			<label class="desc">
+				    				部落格網址 / RSS
+				    			</label>
+				    			<div>
+				    				<input class="field large text" type="text" name="feedUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
+				    			</div>
+				    			<div>
+				    				<input type="button" id="feedUriSave" name="feedUriSave" value="記住這個網址" />
+					    			<input type="button" id="feedUriParse" name="feedUriParse" value="預覽文章" />
+					    			<input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
+					    		</div>
+				    		</li>
+				    	
+				    	</ul>
+				    <div id="feedPreview">
 					</div>
-				    </form>
+					</form>
+					
+				    
 				</div>
 {% endblock %}

@@ -130,7 +130,6 @@ dl.activity-dl dd {
 
 #feedPreview {
     text-align: center;
-    border-top: solid 1px;
-    padding-top: 15px;
+    border-top: dotted #999 1px;
     margin-bottom: 5px;
 };
