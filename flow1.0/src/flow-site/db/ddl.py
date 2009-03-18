@@ -44,6 +44,8 @@
 # 2009/03/05, Kudo Chien:            Fix bug of ModelCount
 # 2009/03/15, Chien-Chih Lo:         Refactoring Counter and ModelCount class using get_by_key_name() instead of Gql()
 # 2009/03/17, Kudo Chien:            Adjust article_link, video_link, and blog_link
+# 2009/03/18, Kudo Chien:            Improve ModelCount performance by sharding counter and memcache.
+#                                    Ref: http://code.google.com/intl/zh-TW/appengine/articles/sharding_counters.html
 #
 #
 # *** REMARKS ***
@@ -106,9 +108,11 @@ import datetime
 import cgi
 import re
 import string
+import random
 from google.appengine.ext import db
 from google.appengine.api import users
 from google.appengine.ext import webapp
+from google.appengine.api import memcache
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 """
@@ -177,17 +181,19 @@ class Counter(db.Model):
     @staticmethod
     def next(obj):
         """
-        Obtain the next available counter (started from 0). Sample usages:
+        Obtain the next available counter (started from 1). Sample usages:
             Counter.next(obj) # the formal way
             counter[obj]      # the syntatical-sugar way
         """
-        objCounter =  Counter.get_by_key_name(obj.__class__.__name__)
-        if not objCounter:
-            objCounter=Counter(key_name=obj.__class__.__name__,className=obj.__class__.__name__,counter=1)
-        else:
-            objCounter.counter+=1
-        objCounter.put()
-        return objCounter.counter
+        def txn():
+            objCounter = Counter.get_by_key_name(obj.__class__.__name__)
+            if not objCounter:
+                objCounter = Counter(key_name=obj.__class__.__name__, className=obj.__class__.__name__, counter=1)
+            else:
+                objCounter.counter += 1
+            objCounter.put()
+            return objCounter.counter
+        return db.run_in_transaction(txn)
 
     def __getitem__(self, obj):
         """
@@ -196,7 +202,7 @@ class Counter(db.Model):
         which is slightly more readable (and less typing effort) than this:
             Counter.next(obj)
         """
-        return db.run_in_transaction(Counter.next,obj)
+        return Counter.next(obj)
 
 counter = Counter(className="Counter", counter=1)
 
@@ -370,73 +376,83 @@ class FlowDdlModel(db.Model):
 #----------------------------------------------------------
 """
 
+class ModelCountShardConfig(db.Model):
+    """Tracks the number of shards for each named counter."""
+    className   = db.StringProperty(required=True)
+    shardCount  = db.IntegerProperty(required=True, default=20)
+
+    @staticmethod
+    def incrShard(className, count):
+        config = ModelCountShardConfig.get_or_insert(className, className=className)
+        def txn():
+            if config.shardCount < count:
+                config.shardCount = count
+                config.put()
+        db.run_in_transaction(txn)
+
+
 class ModelCount(db.Model):
     """
     The Model count class.
     """
     className = db.StringProperty(required=True)
-    count     = db.IntegerProperty(required=True)
-
-    @staticmethod
-    def _init(obj):
-        """
-        Start a ModelCount entity. User should not directly call this method.
-        """
-        ctr = ModelCount(key_name=obj.__class__.__name__,className=obj.__class__.__name__, count=1)
-        ctr.put()
-        return ctr.count
-
-    @staticmethod
-    def _doIncrement(obj):
-        """
-        Increment the count by 1. User should not directly call this method.
-        """
-        ctr=ModelCount.get_by_key_name(obj.__class__.__name__)
-        if not ctr:
-            ctr=ModelCount(key_name=obj.__class__.__name__,className=obj.__class__.__name__, count=0)
-        ctr.count += 1
-        ctr.put()
-        return ctr.count
-
-    @staticmethod
-    def _doDecrement(obj):
-        """
-        Decrement the count by 1. User should not directly call this method.
-        """
-        ctr=ModelCount.get_by_key_name(obj.__class__.__name__)
-        if not ctr:
-            ctr=ModelCount(key_name=obj.__class__.__name__,className=obj.__class__.__name__, count=1)
-        if ctr.count>0:
-            ctr.count -= 1
-        ctr.put()
-        return ctr.count
+    count     = db.IntegerProperty(required=True, default=0)
 
     @staticmethod
     def increment(obj):
         """
         Increment the count by 1.
         """
-        return db.run_in_transaction(ModelCount._doIncrement, obj)
+        config = ModelCountShardConfig.get_or_insert(obj.__class__.__name__, className=obj.__class__.__name__)
+        def txn():
+            index = random.randint(0, config.shardCount - 1)
+            shardName = obj.__class__.__name__ + str(index)
+            entity = ModelCount.get_by_key_name(shardName)
+            if entity is None:
+                entity = ModelCount(key_name=shardName, className=obj.__class__.__name__)
+            entity.count += 1
+            entity.put()
+        db.run_in_transaction(txn)
+        memcache.incr('Count_' + obj.__class__.__name__)
 
     @staticmethod
     def decrement(obj):
         """
         Decrement the count by 1.
         """
-        return db.run_in_transaction(ModelCount._doDecrement, obj)
+        config = ModelCountShardConfig.get_or_insert(obj.__class__.__name__, className=obj.__class__.__name__)
+        def txn():
+            index = random.randint(0, config.shardCount - 1)
+            shardName = obj.__class__.__name__ + str(index)
+            entity = ModelCount.get_by_key_name(shardName)
+            if entity is None:
+                entity = ModelCount(key_name=shardName, className=obj.__class__.__name__)
+            entity.count -= 1
+            entity.put()
+        db.run_in_transaction(txn)
+        memcache.decr('Count_' + obj.__class__.__name__)
 
     @staticmethod
-    def getCount(modelClass, limit=None):
+    def getCount(obj, limit=None):
         """
         Get the entity count of obj class 
         """
-        acc = ModelCount.get_by_key_name(modelClass.__name__)
-        if acc is not None:
-            if limit and acc.count > limit:
-                return limit
-            return acc.count
-        else:
-            return 0
+        cacheName = 'Count_' + obj.__name__
+        count = memcache.get(cacheName)
+        if count is not None:
+            return count
+        count = 0
+        for entity in ModelCount.all().filter('className = ', obj.__name__):
+            count += entity.count
+        #config = ModelCountShardConfig.get_or_insert(obj.__name__, className=obj.__name__)
+        #keyNames = [obj.__name__ + str(i) for i in range(config.shardCount)]
+        #for entity in ModelCount.get_by_key_name(keyNames):
+        #    if entity:
+        #        count += entity.count
+        if limit and count > limit:
+            count = limit
+        memcache.add(cacheName, count)
+        return count
 
     @classmethod
     def unitTest(cls):
@@ -789,7 +805,7 @@ class VolunteerProfile(FlowDdlModel):
         volunteer = VolunteerProfile(volunteer_id=user, id_no="A123456789", volunteer_last_name="Doe", volunteer_first_name="Jane", gmail=user.email(),
                                      date_birth=datetime.date(1970, 2, 1), expertise=["PR"], sex="Female", phone_no="02-1234-5678", resident_country="ROC",
                                      resident_postal="104", resident_state="Taiwan", resident_city="Taipei", resident_district="Shilin",
-                                     prefer_region=[], prefer_zip=[], prefer_target=[], prefer_field=[], prefer_group=[],
+                                     prefer_region=[], prefer_zip=[], prefer_target=[], prefer_field=[], prefer_group=[], cellphone_no="0912-345678",
                                      create_time=now, update_time=now, volunteer_rating=80, status="normal" , search_text=u"測試中文字 test. ngram 屋啦啦 中英文English")
 
         volunteer.put()
