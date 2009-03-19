@@ -19,4 +19,5 @@ urlpatterns = patterns('',
     (r'^logout/?$',                                 'flowBase.logout'),
     (r'^showart/',                                  include('showart.urls')),
     (r'^utils/',                                    include('utils.urls')),
+    (r'^admin/?',                                   include('adminView.urls')),
 )
