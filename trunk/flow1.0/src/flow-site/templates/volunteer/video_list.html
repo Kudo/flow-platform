@@ -15,11 +15,13 @@
 
 {% block profileContent %}
 
-				<h3 id="page-title">{{ volunteerBase.volunteer_id }} 的影音列表
-				    {% if isSelf %}
-				    | <a id="createVideoItem" href="#">新增影音</a>
-				    {% endif %}
+				<h3 id="page-title" class="subbar">影音列表
 				</h3>
+                {% if isSelf %}
+                <div class="action">
+				    <a id="createVideoItem" href="#">新增影音</a>
+                </div>
+                {% endif %}
 				<div class="list-title">共有 {{ count }} 筆, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 筆</div>
 						<div class="right-links">
 							<div class="pager ptop">
@@ -43,9 +45,9 @@
 						<div class="fullpage-list">
 						    {% for entry in entryList %}
 						    {% ifequal entry firstEntry %}
-							<div class="item volunteer top-line" style="height: 200px">
+							<div class="item video top-line">
 						    {% else %}
-							<div class="item volunteer top-line" style="height: 200px">
+							<div class="item video top-line">
 						    {% endifequal %}
 						    	<div class="actions">
 							    {% if isSelf %}
@@ -54,12 +56,12 @@
 							</div>
 							<div class="video-title">{{ entry.title.text }}</div>
 							<div class="video-content">
-							    <object width="180" height="150">
+							    <object width="320" height="265">
 								<param name="movie" value="{{ entry.media.content.0.url }}"></param>
 								<param name="allowFullScreen" value="true"></param>
 								<param name="allowscriptaccess" value="always"></param>
 								<param name="wmode" value="transparent"></param>
-								<embed src="{{ entry.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="180" height="150" wmode="transparent"></embed>
+								<embed src="{{ entry.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="320" height="265" wmode="transparent"></embed>
 							    </object>
 							</div>
 							<div class="video-info">於 {{ entry.videoDate.year }} 年 {{ entry.videoDate.month }} 月 {{ entry.videoDate.day }} 日 發表</div>

@@ -155,8 +155,16 @@ input.medium, select.medium {
 	width: 40%;
 }
 
-input.large, select.large, textarea.textarea {
+input.large, select.large {
 	width: 60%;
+}
+
+textarea.textarea {
+    width: 80%;
+}
+
+input.extralarge, select.extralarge {
+    width: 95%;
 }
 
 textarea.small {

@@ -15,11 +15,12 @@
 
 {% block profileContent %}
 
-				<h3 id="page-title">{{ volunteerBase.volunteer_id }} 的文章列表
-				    {% if isSelf %}
-				    | <a id="createFeedItem" href="#">新增文章</a>
-				    {% endif %}
-				</h3>
+				<h3 id="page-title" class="subbar">部落格文章列表</h3>
+                {% if isSelf %}
+                <div class="action">
+                    <a id="createFeedItem" href="#">新增文章</a>
+                </div>
+                {% endif %}
 				<div class="list-title">共有 {{ count }} 篇文章, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 筆</div>
 						<div class="right-links">
 							<div class="pager ptop">

@@ -151,6 +151,7 @@ def videoShow(request, displayCount=5):
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
             'pageList':                 pageList,
             'currentPage':              currentPage,
+            'page':                     'space',
     }
 
     return render_to_response('volunteer/video_list.html', template_values)
@@ -250,6 +251,7 @@ def articleShow(request):
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
             'pageList':                 pageList,
             'currentPage':              currentPage,
+            'page':                     'space',
     }
 
     return render_to_response('volunteer/article_list.html', template_values)
