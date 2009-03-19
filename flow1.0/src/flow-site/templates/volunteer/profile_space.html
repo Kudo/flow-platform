@@ -103,12 +103,12 @@
 								    {% if video %}
 								    <div class="video-title">{{ video.title.text }}</div>
 									<div class="video-content">
-									    <object width="290" height="234">
+									    <object width="480" height="385">
 										<param name="movie" value="{{ video.media.content.0.url }}"></param>
 										<param name="allowFullScreen" value="true"></param>
 										<param name="allowscriptaccess" value="always"></param>
 										<param name="wmode" value="transparent"></param>
-										<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234" wmode="transparent"></embed>
+										<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385" wmode="transparent"></embed>
 									    </object>
 									</div>
 									<div class="video-info">於 {{ videoDate.year }} 年 {{ videoDate.month }} 月 {{ videoDate.day }} 日 發表</div>
@@ -145,7 +145,7 @@
 				    				Youtube 影音網址
 				    			</label>
 				    			<div>
-				    				<input class="text large field" type="text" name="videoUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
+				    				<input class="text extralarge field" type="text" name="videoUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
 				    				<input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
 				    			</div>
 				    		</li>
@@ -170,7 +170,7 @@
 						</ul>
 				    </form>
 				</div>
-				<div id="createFeedBox" style="display: none;" title="新增文章">
+				<div id="createFeedBox" style="display: none; text-align: left;" title="新增文章">
 				    <form class="flow-form" action="#" method="get">
 				    	<ul>
 				    		<li>
@@ -178,7 +178,7 @@
 				    				部落格網址 / RSS
 				    			</label>
 				    			<div>
-				    				<input class="field large text" type="text" name="feedUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
+				    				<input class="field extralarge text" type="text" name="feedUri" maxlength="100" size="50" value="{{ volunteerBase.feedUri }}" />
 				    			</div>
 				    			<div>
 				    				<input type="button" id="feedUriSave" name="feedUriSave" value="記住這個網址" />
@@ -188,7 +188,7 @@
 				    		</li>
 				    	
 				    	</ul>
-				    <div id="feedPreview">
+				    	<div id="feedPreview">
 					</div>
 					</form>
 					

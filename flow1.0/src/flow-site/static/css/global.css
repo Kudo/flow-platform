@@ -7,7 +7,7 @@ s* {
 body {
 	/* font-family: Arial, Helvetica, sans-serif; */
 	font-size: 14px;
-	text-align: center;
+	text-align: left;
 	background-color: #cdcdcd;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
@@ -595,6 +595,11 @@ div.fullpage-list {
 	border-left-color: #666;
 }
 
+/* exception */
+div.left-column div.fullpage-list {
+    clear: left !important;
+}
+
 div.fullpage-list .top-line {
 	border-top: 1px #AAA solid;
 }
@@ -602,6 +607,11 @@ div.fullpage-list .top-line {
 div.fullpage-list .item {
 	padding: 0 0 8px;
 	clear: both;
+}
+
+/* exception */
+div.left-column div.fullpage-list .item {
+    clear: none !important;
 }
 
 /* Volunteer related */
@@ -640,6 +650,14 @@ div.fullpage-list .npo .activities .date {
 }
 
 /* End of NPO related */
+
+
+/* VIDEO related */
+div.fullpage-list .video {
+    height: 330px;
+}
+/* END of VIDEO related */
+
 div.fullpage-list .image {
 	width: 60px;
 	float: left;
@@ -990,13 +1008,14 @@ div.album-block .album-item .album-thumb-img {
 	padding: 3px;
 }
 
-div.video-block .video-item .video-title {
-	font-weight: bold;
-	font-size: 14px;
+div.video-block .video-item .video-title, .item .video-title {
+	/* font-weight: bold; */
+	font-size: 16px;
+    margin-bottom: 5px;
 }
 
-div.video-block .video-item .video-info {
-	color: #999;
+div.video-block .video-item .video-info, .item .video-info {
+	color: #333;
 }
 
 /* topbar */
