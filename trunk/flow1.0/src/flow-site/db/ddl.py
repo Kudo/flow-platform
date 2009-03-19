@@ -1456,6 +1456,13 @@ class Expertise(FlowDdlModel):
         
 # end class Expertise
 
+class SiteAdmin(FlowDdlModel):
+    """
+    SITEADMIN
+    """
+    account   = db.UserProperty(required=True)
+
+# end class SiteAdmin
 
 """
 #----------------------------------------------------------
