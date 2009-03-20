@@ -1,0 +1,74 @@
+{% extends "admin/base.html" %}
+
+{### header ###}
+
+{### content ###}
+
+{% block adminContent %}
+
+	<h3 id="page-title">NPO履歷表管理</h3>
+	
+	<!--form method="POST" action=""-->
+		<table border="1" width="80%" cellspacing="0" cellpadding="0" id="tblActivity">
+			<tr>
+				<td>NPO名稱</td>
+				<td>狀態</td>
+				<td>&nbsp;</td>
+			</tr>
+
+      {% for profile in pageNav.RecordList %}
+			<tr>
+        <form method="POST" action="/admin/npo/changeStatus">
+
+				<td><a href="/npo/npo_home.html?npo_id={{ profile.npo_id }}" target="_profile">{{ profile.npo_name }} {{ profile.status }}</a></td>
+				<td>
+        {% ifequal profile.status "new application"      %}新申請{% endifequal %}
+        {% ifequal profile.status "approving"            %}審核中{% endifequal %}
+        {% ifequal profile.status "approved"             %}已審核{% endifequal %}
+        {% ifequal profile.status "approval failed"      %}審核不通過{% endifequal %}
+        {% ifequal profile.status "authenticating"       %}認證中{% endifequal %}
+        {% ifequal profile.status "authenticated"        %}已認證{% endifequal %}
+        {% ifequal profile.status "authenticatin failed" %}認證失敗{% endifequal %}
+        {% ifequal profile.status "normal"               %}啟用{% endifequal %}
+        {% ifequal profile.status "revoked"              %}已撤銷{% endifequal %}
+        {% ifequal profile.status "abusive usage"        %}遭濫用{% endifequal %}
+        {% ifequal profile.status "terminated"           %}已終結{% endifequal %}
+        </td>
+				<td>
+					<input type="hidden" name="page"   value="{{ pageNav.PageNo }}"/>
+					<input type="hidden" name="npo_id" value="{{ profile.key }}"/>
+					<input type="hidden" name="status" value=""/>
+
+					<input type="button" value="啟用"{% ifnotequal profile.status "authenticated" %} disabled="disabled"{% endifnotequal %} onclick="this.form.status.value = 'normal'; this.form.submit()">
+					<input type="button" value="警告"{% ifnotequal profile.status "normal"        %} disabled="disabled"{% endifnotequal %} onclick="if (confirm('確定警告？')) {this.form.status.value = 'abusive usage'; this.form.submit();}">
+					<input type="button" value="下架"{% ifnotequal profile.status "abusive usage" %} disabled="disabled"{% endifnotequal %} onclick="if (confirm('確定下架？')) {this.form.status.value = 'terminated'; this.form.submit();}">
+					<input type="button" value="恢復"{% ifnotequal profile.status "terminated"    %}
+					                                 {% ifnotequal profile.status "abusive usage" %} 
+					                                 {% ifnotequal profile.status "revoked"       %} disabled="disabled"{% endifnotequal %}
+					                                 																																		{% endifnotequal %}
+					                                 																																		{% endifnotequal %} onclick="if (confirm('確定恢復？')) {this.form.status.value = 'normal'; this.form.submit();}">
+				</td>
+				</form>
+			</tr>
+      {% endfor %}
+
+		</table>
+		<span>
+			{% ifnotequal pageNav.PageNo 1 %}
+			  <a href="{{ pageNav.PageUri }}?page={{ pageNav.PageNo|add:"-1" }}">&lt;&lt;&nbsp;</a>
+			{% endifnotequal %}
+			{% ifequal pageNav.PageNo 1 %}
+			  &lt;&lt;&nbsp;
+			{% endifequal %}
+			第 {{ pageNav.PageNo }}/{{ pageNav.PageTotal }} 頁 &nbsp;-&nbsp;
+			顯示第 {{ pageNav.RecordBegin }} 至 {{ pageNav.RecordEnd }} 筆紀錄，共有 {{ pageNav.RecordTotal }} 筆 &nbsp;
+			{% ifnotequal pageNav.PageNo pageNav.PageTotal %}
+			<a href="{{ pageNav.PageUri }}?page={{ pageNav.PageNo|add:"1" }}">&gt;&gt;</a>
+			{% endifnotequal %}
+			{% ifequal pageNav.PageNo pageNav.PageTotal %}
+			  &gt;&gt;
+			{% endifequal %}
+		</span>
+	<!--/form-->
+
+{% endblock adminContent %}
