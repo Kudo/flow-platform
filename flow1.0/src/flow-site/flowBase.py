@@ -42,14 +42,8 @@ def getVolunteer(volunteer_id=users.get_current_user()):
         return None
     if isinstance(volunteer_id, (str, unicode)):
         volunteer_id = users.User(volunteer_id)
-    objVolunteer=memcache.get('%s/volunteer'%volunteer_id)
-    if objVolunteer:
-        return objVolunteer
-    else:
-        objVolunteer = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', volunteer_id).get()
-        if objVolunteer:
-            memcache.add('%s/volunteer'%volunteer_id,objVolunteer,3600)
-        return objVolunteer
+    objVolunteer = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', volunteer_id).get()
+    return objVolunteer
 
 def getNpo(id=None):
     if not id:
@@ -57,14 +51,8 @@ def getNpo(id=None):
     return db.GqlQuery('SELECT * FROM NpoProfile WHERE id = :1', id).get()
 
 def getNpoByUser(user):
-    npo=memcache.get('%s/npo'%user)
-    if npo:
-        return npo
-    else:
-        npo = db.GqlQuery('SELECT * FROM NpoProfile WHERE google_acct = :1', user).get()
-        if npo:
-            memcache.add('%s/npo'%user,npo,3600)
-        return npo
+    npo = db.GqlQuery('SELECT * FROM NpoProfile WHERE google_acct = :1', user).get()
+    return npo
 
 def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
     data = {}
@@ -143,7 +131,7 @@ def getRegion(getProperty=False):
     if not regions:
         regions = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
         if regions:
-            memcache.add('getRegion',regions,3600)
+            memcache.add('getRegion',regions,300)
     if getProperty:
         return regions
     return [region.city_tc for region in regions]

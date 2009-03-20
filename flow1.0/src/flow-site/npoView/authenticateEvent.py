@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from google.appengine.api import users,memcache
 from django import newforms as forms
+from django.core import exceptions
 from db import ddl
 from google.appengine.ext.db import djangoforms
 import flowBase,smsUtil
@@ -16,11 +17,11 @@ lstAcceptNumber=['0982197997']
 def submitAuthToken(request):
     objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise exceptions.PermissionDenied()
 
     if request.method=='GET':
         if 'event_key' not in request.GET:
-            return HttpResponseForbidden(u'錯誤的操作流程')
+            raise RuntimeError('event_key not defined')
         strEventKey=request.GET['event_key']
         dic={'event_key':strEventKey,
          'phone_number':request.GET.get('p') or ''.join(objVolunteer.cellphone_no.split('-')),
@@ -30,14 +31,14 @@ def submitAuthToken(request):
         return render_to_response('event/event-sms-1.html', dic)
     
     if 'event_key' not in request.POST:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise RuntimeError('event_key not defined')
     strEventKey=request.POST['event_key']
     eventProfile=db.get(db.Key(strEventKey))
     if not eventProfile:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise RuntimeError('db key not found %s'%strEventKey)
     
     if eventProfile.npo_profile_ref.id!=objNpo.id:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise RuntimeError('NPO not match!')
 
     strPhoneNumber = request.POST['phone_number']
     if not strPhoneNumber.isdigit() or len(strPhoneNumber)!=10:
@@ -77,14 +78,14 @@ def handleEventAuth(request):
         return render_to_response('event/event-sms-2.html', dic)
         
     if 'event_key' not in request.POST:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise RuntimeError('event_key not defined')
     strEventKey=request.POST['event_key']
     eventProfile=db.get(db.Key(strEventKey))
     if not eventProfile:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise RuntimeError('db key not found %s'%strEventKey)
     
     if eventProfile.npo_profile_ref.id!=objNpo.id:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise RuntimeError('NPO not match!')
 
     strToken=memcache.get(strEventKey)
     if strToken and strToken==request.POST['validation']:
