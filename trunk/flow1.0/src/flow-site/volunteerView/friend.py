@@ -47,7 +47,7 @@ def delete(request):
 
 def show(request):
     base = flowBase.getBase(request)
-    volunteer = base['volunteer']
+    volunteer = flowBase.getVolunteer(base['user'])
     if not volunteer:
         return HttpResponseRedirect('/')
 

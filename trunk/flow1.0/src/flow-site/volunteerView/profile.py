@@ -181,7 +181,7 @@ def show(request):
 
 def edit(request):
     base = flowBase.getBase(request, 'volunteer')
-    user = base['volunteer']
+    user = flowBase.getVolunteer(base['user'])
     if not user:
         return HttpResponseRedirect('/')
 

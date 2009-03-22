@@ -171,7 +171,7 @@ def step3(request):
     base = flowBase.getBase(request)
     if not base['user']:
         return HttpResponseRedirect('/volunteer/register/')
-    if base['volunteer']:
+    if flowBase.getVolunteer(base['user']):
         return HttpResponseRedirect('/logout?redirect=/volunteer/register/step2/?registered=True')
     isWarning = None
     if request.method != 'POST':
