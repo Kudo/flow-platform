@@ -23,7 +23,7 @@ def getBase(request, category = 'homepage'):
     data['path']            = request.path
     data['full_path']       = request.get_full_path()
     data['user']            = users.get_current_user()
-    data['volunteer']       = getVolunteer(data['user'])
+    data['volunteer_id']    = getVolunteerID(data['user'])
     data['noLogo']          = '/static/images/head_blue50.jpg'
     data['proflist']        = getProfessionList()
     data['region']          = getRegion()
@@ -42,8 +42,20 @@ def getVolunteer(volunteer_id=users.get_current_user()):
         return None
     if isinstance(volunteer_id, (str, unicode)):
         volunteer_id = users.User(volunteer_id)
-    objVolunteer = db.GqlQuery('SELECT * FROM VolunteerProfile WHERE volunteer_id = :1', volunteer_id).get()
-    return objVolunteer
+    return VolunteerProfile.get_by_key_name(str(volunteer_id))
+
+def getVolunteerID(volunteer_id=users.get_current_user()):
+    if not volunteer_id:
+        return None
+    if isinstance(volunteer_id, (str, unicode)):
+        volunteer_id = users.User(volunteer_id)
+    if memcache.get('LoginCache/volunteer_id/%s' % volunteer_id):
+        return volunteer_id
+    elif VolunteerProfile.get_by_key_name(str(volunteer_id)):
+        memcache.add('LoginCache/volunteer_id/%s' % volunteer_id, '1', 3600)
+        return volunteer_id
+    else:
+        return None
 
 def getNpo(id=None):
     if not id:
@@ -116,8 +128,7 @@ def loginProxy(request):
 def logout(request):
     objUser = users.get_current_user()
     if objUser:
-        memcache.delete('%s/npo'%objUser)
-        memcache.delete('%s/volunteer'%objUser)
+        memcache.delete('LoginCache/volunteer_id/%s' % objUser)
     if 'redirect' in request.GET:
         return HttpResponseRedirect(users.create_logout_url(cgi.escape(request.GET['redirect'])))
     else:

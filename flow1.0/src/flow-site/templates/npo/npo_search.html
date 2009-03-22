@@ -14,20 +14,8 @@
 
 			    	<div class="content-block">
 				    	<h3 id="page-title">NPO 搜尋</h3>
-					<div class="list-title">共找到 {{ count }} 個NPO, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 位</div>
-						<div class="right-links">
-							<div class="pager">
-							    {% ifnotequal prevIndex None %}
-							    <a href="{{ base.path }}?{% if prevIndex %}start={{ prevIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}">上一頁</a>
-							    {% endifnotequal %}
-							    {% for page in pageList %}
-							    <a href="{{ base.path }}?{% if page.startIndex %}start={{ page.startIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
-							    {% endfor %}
-							    {% if nextIndex %}
-							    <a href="{{ base.path }}?start={{ nextIndex }}&{% if queryString %}{{ queryString }}{% endif %}">下一頁</a>
-							    {% endif %}
-							</div>
-						</div>
+					<div class="list-title">共找到 {{ pageSet.count }} 個NPO, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 位</div>
+					{% include "paging.html" %}
 						<div class="npo-list">
 						    {% for entry in entryList %}
 						    {% ifequal entry firstEntry %}
@@ -64,18 +52,6 @@
 							</div>
 						    {% endfor %}
 						</div>
-						<div class="right-links">
-							<div class="pager">
-							    {% ifnotequal prevIndex None %}
-							    <a href="{{ base.path }}?{% if prevIndex %}start={{ prevIndex }}{% endif %}&{% if queryString %}{{ queryString }}{% endif %}">上一頁</a>
-							    {% endifnotequal %}
-							    {% for page in pageList %}
-							    <a href="{{ base.path }}?{% if page.startIndex %}start={{ page.startIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
-							    {% endfor %}
-							    {% if nextIndex %}
-							    <a href="{{ base.path }}?start={{ nextIndex }}&{% if queryString %}{{ queryString }}{% endif %}">下一頁</a>
-							    {% endif %}
-							</div>
-						</div>
+					{% include "paging.html" %}
 					</div>
 {% endblock %}

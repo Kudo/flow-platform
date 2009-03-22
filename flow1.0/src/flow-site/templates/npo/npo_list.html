@@ -14,26 +14,8 @@
 
 			    	<div class="content-block">
 				    	<h3 id="page-title">NPO列表</h3>
-					<div class="list-title">共有 {{ count }} 個NPO, 顯示第 {{ startIndex|add:"1" }} 至 {{ endIndex|add:"1" }} 位</div>
-						<div class="right-links">
-							<div class="pager ptop">
-							    {% ifnotequal prevIndex None %}
-							    <span class="prev">
-							    	<a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
-							    </span>
-							    {% endifnotequal %}
-							    {% for page in pageList %}
-							    <span class="item">
-							    	<a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
-							    </span>
-							    {% endfor %}
-							    {% if nextIndex %}
-							    <span class="next">
-							    	<a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
-							    </span>
-							    {% endif %}
-							</div>
-						</div>
+					<div class="list-title">共有 {{ pageSet.count }} 個NPO, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 位</div>
+					{% include "paging.html" %}
 						<div class="fullpage-list">
 						    {% for entry in entryList %}
 						    {% ifequal entry firstEntry %}
@@ -81,24 +63,6 @@
 							</div>
 						    {% endfor %}
 						</div>
-						<div class="right-links">
-							<div class="pager pbottom">
-							    {% ifnotequal prevIndex None %}
-							    <span class="prev">
-							    	<a href="{{ base.path }}{% if prevIndex %}?start={{ prevIndex }}{% endif %}">上一頁</a>
-							    </span>
-							    {% endifnotequal %}
-							    {% for page in pageList %}
-							    <span class="item">
-							    	<a href="{{ base.path }}{% if page.startIndex %}?start={{ page.startIndex }}{% endif %}"{% ifequal page.index currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
-							    </span>
-							    {% endfor %}
-							    {% if nextIndex %}
-							    <span class="next">
-							    	<a href="{{ base.path }}?start={{ nextIndex }}">下一頁</a>
-							    </span>
-							    {% endif %}
-							</div>
-						</div>
+					{% include "paging.html" %}
 					</div>
 {% endblock %}
