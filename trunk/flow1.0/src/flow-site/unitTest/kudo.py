@@ -21,7 +21,7 @@ def createNpoProfile():
 def createVolunteerProfile():
     now = datetime.datetime.now()
     user = users.User("ckchien@gmail.com")
-    volunteer = VolunteerProfile(volunteer_id=user, id_no="M123456789", volunteer_last_name="Chien", volunteer_first_name="Kudo", gmail=user.email(),
+    volunteer = VolunteerProfile(key_name=str(user), volunteer_id=user, id_no="M123456789", volunteer_last_name="Chien", volunteer_first_name="Kudo", gmail=user.email(),
                                  date_birth=datetime.date(1984, 6, 2), expertise=[u"Nothing"], sex="Male", phone_no="02-1234-5678", resident_country=u"中華民國",
                                  resident_postal="104", resident_state=u"台灣省", resident_city=u"臺北縣市", resident_district=u"大安區",
                                  prefer_region=[u'臺北', u'台中'], prefer_zip=[u'104'], prefer_target=[u'老弱婦孺'], prefer_field=[u'聊天'], prefer_group=[u'不拘'],

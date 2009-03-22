@@ -190,6 +190,7 @@ def step3(request):
                 cellphone_no = None
             resident_city = db.GqlQuery('SELECT * From CountryCity WHERE city_en = :1', cleaned_data['resident_city']).get().city_tc
             volunteerObj = VolunteerProfile(
+                    key_name                    = str(base['user']),
                     volunteer_id                = base['user'], 
                     gmail                       = base['user'].email(),
                     create_time                 = now,
