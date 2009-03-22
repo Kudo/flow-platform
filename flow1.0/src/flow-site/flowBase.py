@@ -101,7 +101,10 @@ def getNpoBase(npo):
 
 def login(request):
     if 'redirect' in request.GET:
-        return HttpResponseRedirect(users.create_login_url('/loginProxy?redirect=' + cgi.escape(request.GET['redirect'])))
+        if request.GET['redirect'] == '/volunteer/register/step3/':
+            return HttpResponseRedirect(users.create_login_url('/volunteer/register/step3'))
+        else:
+            return HttpResponseRedirect(users.create_login_url('/loginProxy?redirect=' + cgi.escape(request.GET['redirect'])))
     else:
         return HttpResponseRedirect(users.create_login_url('/loginProxy'))
 
