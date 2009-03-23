@@ -8,7 +8,13 @@ from django import newforms as forms
 from db import ddl
 from google.appengine.ext.db import djangoforms
 from common.widgets import FlowSplitDateTimeWidget
+from common.fields import FlowChoiceField
 import flowBase
+
+g_lstRegion=[(s,s) for s in flowBase.getRegion()]
+g_lstRegion.insert(0,('',u'請選擇...'))
+g_lstExpertise=[(s,s) for s in flowBase.getProfessionList()]
+g_lstExpertise.insert(0,('',u'請選擇...'))
 
 class NewEventForm(djangoforms.ModelForm):
     event_name = forms.CharField(widget=forms.TextInput(attrs={'size':'37'}))
@@ -17,23 +23,21 @@ class NewEventForm(djangoforms.ModelForm):
     end_time = forms.SplitDateTimeField(widget=FlowSplitDateTimeWidget())
     reg_start_time = forms.SplitDateTimeField(widget=FlowSplitDateTimeWidget())
     reg_end_time = forms.SplitDateTimeField(widget=FlowSplitDateTimeWidget())
-    event_region = forms.CharField(widget=forms.TextInput(attrs={'size':'59'}))
-    event_hours = forms.IntegerField(min_value=0,initial=1,widget=forms.TextInput(attrs={'size':'20'}))
-    event_target = forms.CharField(widget=forms.TextInput(attrs={'size':'38'}))    
-    objective = forms.CharField(widget=forms.TextInput(attrs={'size':'49'}))
+    event_region = FlowChoiceField(choices=g_lstRegion,widget=forms.Select())
+    event_hours = forms.IntegerField(min_value=0,initial=1,widget=forms.TextInput(attrs={'size':'5'}))
     summary = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'4', 'cols':'40'}))
-    expense = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'size':'20'}))
     registration_fee = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'size':'20'}))
     attachment_links_show = forms.URLField(required=False,initial='',widget=forms.TextInput(attrs={'size':'58'}))
     min_age = forms.IntegerField(min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
     max_age = forms.IntegerField(min_value=1,initial=99,widget=forms.TextInput(attrs={'size':'3'}))
     volunteer_req = forms.IntegerField(required=True,min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
-   
+    expertise_req = FlowChoiceField(choices=g_lstExpertise,widget=forms.Select())
+    sex = FlowChoiceField(choices=[('Both',u'皆可'),('Male',u'男'),('Female',u'女')],widget=forms.Select())
     class Meta:
         event_fields = ['event_name', 'description', 'start_time','end_time','reg_start_time','reg_end_time',
-                        'event_region', 'event_hours', 'event_target', 'tag', 'objective', 'summary', 'expense',
-                        'registration_fee','attachment_links_show','event_zip','event_field','category']
-        volunteer_fileds = ['sex','max_age', 'min_age','volunteer_req','expertise_req','join_flow_plan']
+                        'event_region', 'event_hours', 'tag', 'summary',
+                        'registration_fee','attachment_links_show']
+        volunteer_fileds = ['sex','max_age', 'min_age','volunteer_req','expertise_req']
         model = ddl.EventProfile
         fields = event_fields + volunteer_fileds
 
@@ -103,6 +107,7 @@ def processAddEvent(request):
                 return HttpResponseRedirect('authEvent1?event_key=%s'%newEventEntity.key())
             else:
                 return HttpResponseRedirect('listEvent')
+
     else:
         form = NewEventForm()
         

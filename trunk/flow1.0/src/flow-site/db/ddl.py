@@ -861,14 +861,14 @@ class EventProfile(FlowDdlModel):
     event_region               = db.StringListProperty()      # required
     event_zip                  = db.StringListProperty()      # required
     event_hours                = db.IntegerProperty()         # default to 0
-    event_target               = db.StringListProperty()      # required
-    event_field                = db.StringListProperty()      # required
-    category                   = db.CategoryProperty(required=True)
+    event_target               = db.StringListProperty()      
+    event_field                = db.StringListProperty()      
+    category                   = db.CategoryProperty()
     start_time                 = db.DateTimeProperty(required=True)
     end_time                   = db.DateTimeProperty(required=True)
     reg_start_time             = db.DateTimeProperty(required=True)
     reg_end_time               = db.DateTimeProperty(required=True)
-    objective                  = db.StringProperty(required=True, multiline=True)
+    objective                  = db.StringProperty(multiline=True)
     summary                    = db.StringProperty(multiline=True)
     expense                    = db.IntegerProperty()         # default to 0
     registration_fee           = db.IntegerProperty()         # default to 0
@@ -907,7 +907,7 @@ class EventProfile(FlowDdlModel):
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity:
-            require(kargs, "event_region", "event_zip", "event_target", "event_field", "max_age", "min_age")
+            require(kargs, "event_region", "max_age", "min_age")
             if "approved" not in kargs:
                 kargs["approved"] = False
             if kargs["approved"] and ("approved_time" not in kargs):
