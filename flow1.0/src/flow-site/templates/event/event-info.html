@@ -74,13 +74,27 @@
 		<div class="activity-info-content">
 			<div class="content-block">
 				<div class="title">
-                    <img src="/static/images/titlebar-left.jpg" class="left">
-                    <img src="/static/images/titlebar-right.jpg" class="right">
-                    <h3>活動企劃</h3>
-                </div>
-                <div class="content">
-				    <pre>{{event.summary|escape}}</pre>
-                </div>
+          <img src="/static/images/titlebar-left.jpg" class="left">
+          <img src="/static/images/titlebar-right.jpg" class="right">
+          <h3>活動相關網站 / 部落格</h3>
+        </div>
+        <div class="content">
+				  <pre>{{event.summary|escape}}</pre>
+
+					<div class="article-block">
+						<div class="article-item">
+							<div class="article-author-img">
+								<a href="#"><img width="55" src="/static/images/maki.png"/></a>
+							</div>
+							<div class="article-info">
+								<div class="article-title">歡喜做、甘願受</div>
+								<div class="article-date">2008 年 9 月 3 日</div>
+							</div>
+						</div><!--article-item -->
+					</div><!--article-block -->
+				</div><!--content -->
+                
+                
 			</div> <!-- .content-block -->
 		</div> <!-- .activity-info-content -->
 		
@@ -91,7 +105,7 @@
 				<div class="right-links">
 		    		<a href="#">看更多</a>
 		    	</div>
-				<h3>我的照片</h3>
+				<h3>活動照片</h3>
 				
 			</div>
 				
@@ -111,7 +125,7 @@
 				<div class="right-links">
 		    		<a href="#">看更多</a>
 		    	</div>
-				<h3>我的影音</h3>
+				<h3>活動影音</h3>
 			</div>
 				
 			<div class="content">
@@ -132,47 +146,6 @@
 	    	</div>
 	    </div>
 	    
-	    <div class="content-block no-padding-bottom">
-			<div class="title">
-				<img src="/static/images/titlebar-left.jpg" class="left">
-				<img src="/static/images/titlebar-right.jpg" class="right">
-				<div class="right-links">
-		    		<a href="#">看更多</a>
-		    	</div>
-				<h3>我們的部落格</h3>
-			</div>
-			<div class="content">
-				<div class="article-block">
-					<div class="article-item">
-						<div class="article-author-img">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-						</div>
-						<div class="article-info">
-							<div class="article-title">歡喜做、甘願受</div>
-							<div class="article-date">2008 年 9 月 3 日</div>
-						</div>
-					</div>
-					<div class="article-item">
-						<div class="article-author-img">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-						</div>
-						<div class="article-info">
-							<div class="article-title">歡喜做、甘願受</div>
-							<div class="article-date">2008 年 9 月 3 日</div>
-						</div>
-					</div>
-					<div class="article-item">
-						<div class="article-author-img">
-							<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-						</div>
-						<div class="article-info">
-							<div class="article-title">歡喜做、甘願受</div>
-							<div class="article-date">2008 年 9 月 3 日</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div> <!-- #activity-info -->
 
 {% endblock activityContent %}

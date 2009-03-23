@@ -58,7 +58,7 @@ def createEventProfile(npo, volunteer):
                          event_target=['social worker'], event_field=['social activity'], category='Social',
                          start_time=start, end_time=end, reg_start_time=start, reg_end_time=end, objective='orcas',
                          status="approved", max_age=99, min_age=9, event_rating=75, npo_event_rating=80,
-                         create_time=now, update_time=now, summary='Good Job!',volunteer_req=10)
+                         create_time=now, update_time=now, summary='Good Job!',volunteer_req=10,tag=[u'ºô­¶'])
     event.approved=True
     event.approved_time=datetime.datetime.now()
     event.put()
@@ -79,7 +79,7 @@ def createEventProfile2(npo, volunteer, strEvent_name, strStatus):
                          event_target=['social worker'], event_field=['social activity'], category='Social',
                          start_time=start, end_time=end, reg_start_time=start, reg_end_time=end, objective='orcas',
                          status=strStatus, max_age=99, min_age=9, event_rating=75, npo_event_rating=80,
-                         create_time=now, update_time=now, summary='Good Job!',volunteer_req=5)
+                         create_time=now, update_time=now, summary='Good Job!',volunteer_req=5,tag=[u'´ú¸Õ'])
     if strStatus=="new application":
         event.approved=True
         event.approved_time=datetime.datetime.fromtimestamp(time.time()-86400*19)

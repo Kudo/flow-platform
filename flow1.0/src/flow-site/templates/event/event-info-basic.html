@@ -15,23 +15,15 @@
 					<dd>{{event.npo_profile_ref.npo_name|escape}}</dd>
 					<dt>活動描述:</dt>
 	        <dd>{{event.description|escape}}</dd>
-					<dt>活動類型:</dt>
-					<dd>{{event.category|escape}}</dd>
           <dt>活動的開始/結束時間:</dt>
           <dd>{{event.start_time|date:"Y-m-d H:i"|escape}}&nbsp;~&nbsp;{{event.end_time|date:"Y-m-d H:i"|escape}}</dd>
-          <dt>登記的開始/結束時間:</dt>
+          <dt>報名開始/結束時間:</dt>
           <dd>{{event.reg_start_time|date:"Y-m-d H:i"|escape}}&nbsp;~&nbsp;{{event.reg_end_time|date:"Y-m-d H:i"|escape}}</dd>
 
 					<dt>活動地區:</dt>
 					<dd>{% for item in event.event_region%}{{item|escape}}{% endfor %}</dd>
 					<dt>公益時數:</dt>
 					<dd>{{event.event_hours|escape}} 小時</dd>
-					<dt>服務對象:</dt>
-					<dd>{% for item in event.event_target%}{{item|escape}}{% endfor %}</dd>
-					<dt>活動目的:</dt>
-					<dd>{{event.objective|escape}}</dd>
-
-
           <dt>報名費用:</dt>
           <dd>新台幣 {{event.registration_fee|escape}} 元整</dd>
           <dt>已報名人數/通過審核人數</dt>
