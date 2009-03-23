@@ -58,7 +58,7 @@
 						</div>
 						<div class="content">
 							<div class="head-names">
-								<!-- mark the fake volunteers when testing real data -->
+								<!-- mark the fake volunteers when testing real data
 								<div class="item-block head-name">
 									<div class="left-block head">
 										<img src="">
@@ -86,7 +86,7 @@
 										<label>台灣</label>
 									</div>
 								</div>
-								
+								-->
 								<!-- Make the recentMembers only contain 3 entries !!!!!!!! -->
 								{% for member in recentMembers %}
 								<div class="item-block head-name">
@@ -103,7 +103,7 @@
 							<div class="line">
 							</div>
 							<div class="volunteer-infos clearfix">
-								<!-- mark the fake volunteers when testing real data -->
+								<!-- mark the fake volunteers when testing real data
 								<div class="item-block index-value">
 									<div class="left-block index">
 										<ul>
@@ -146,20 +146,18 @@
 										</ul>
 									</div>
 								</div>
-								
+								-->
 								<!-- Make the recentMembers only contain 3 entries !!!!!!!! -->
 								{% for member in recentMembers %}
 								<div class="item-block index-value">
 									<div class="left-block index">
 										<ul>
 											<li>加入日期</li>
-											<li>服務時數</li>
 										</ul>
 									</div>
 									<div class="right-block value">
 										<ul>
 											<li>{{ member.create_time.date }}</li>
-											<li>{{ member.total_serv_hours }}</li>
 										</ul>
 									</div>
 								</div>
@@ -262,86 +260,5 @@
 							</div>
 						</div>
 					</div>
-					
-					<!--
-					<div class="two-column-content-block">
-				    	<div class="content-block">
-							<div class="block-caption">
-								<span class="caption">基本資料</span>
-							</div>
-							<dl class="info-block">
-								<dt>群組名稱</dt>
-								<dd> {{ npoProfile.npo_name }} </dd>
-								<dt>創辦人</dt>
-								<dd> {{ npoProfile.founder }} </dd>
-								<dt>平台上建立日期</dt>
-								<dd> {{ npoProfile.create_time.date }} </dd>
-								<dt>簡介</dt>
-								<dd>
-									{{ npoProfile.brief_intro }}
-								</dd>
-							</dl>
-					    	<div class="right-links">
-					    		<a href="npo_info.html?npo_id={{npoProfile.npo_id}}">檢視完整基本資料</a>
-					    	</div>
-						</div>
-				    	
-					</div>
-					
-					<div class="two-column-content-block">
-				    	<div class="content-block">
-							<div class="block-caption">
-								<span class="caption">活動統計</span>
-							</div>
-							<dl class="portofolio-block">
-								<dt>活動舉辦次數</dt>
-								<dd> {{ npoProfile.total_events }} </dd>
-							</dl>
-					    	<div class="right-links">
-					    		<a href="#">檢視完整活動列表</a>
-					    	</div>
-				    	</div>
-				    	<div class="content-block">
-							<div class="block-caption">
-								<span class="caption">最新加入志工</span>
-							</div>
-							
-							{% if latestMember %}
-							<div class="volunteer-block">
-								<div class="volunteer-image">
-									<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-								</div>
-								<div class="volunteer-info">
-									<div class="npo-title"><a href="#">{{ latestMember.volunteer_first_name }} {{ latestMember.volunteer_last_name }}</a></div>
-								</div>
-								<div class="volunteer-stats">
-									<div class="volunteer-location"><b>所在位置：</b>{{ latestMember.resident_city }}</div>
-									!--<div class="volunteer-service-hours"><b>服務小時：</b>{{ latestMember.total_serv_hours }}</div>--
-									<div class="volunteer-join"><b>加入日期：</b>{{ latestMember.create_time.date }}</div>
-								</div>
-							</div>
-							{% endif %}
-							
-							{% for member in recentMembers %}
-							<div class="volunteer-block top-line">
-								<div class="volunteer-image">
-									<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-								</div>
-								<div class="volunteer-info">
-									<div class="npo-title"><a href="#">{{ member.volunteer_first_name }} {{ member.volunteer_last_name }}</a></div>
-								</div>
-								<div class="volunteer-stats">
-									<div class="volunteer-location"><b>所在位置：</b>{{ member.resident_city }}</div>
-									!--<div class="volunteer-service-hours"><b>服務小時：</b>{{ member.total_serv_hours }}</div>--
-									<div class="volunteer-join"><b>加入日期：</b>{{ member.create_time.date }}</div>
-								</div>
-							</div>
-							{% endfor %}							
-							
-					    	<div class="right-links">
-					    		<a href="npo_volunteers.html?npo_id={{npoProfile.npo_id}}">檢視所有志工</a>
-					    	</div>
-				    	</div>
-					</div>-->
 {% endblock %}
 
