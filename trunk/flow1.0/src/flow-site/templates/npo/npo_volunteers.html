@@ -12,7 +12,7 @@
 
 {% block npoContent %}
 
-			    	<h3 id="page-title">志工列表</h3>
+			    	<h3 id="page-title" class="subbar">志工列表</h3>
 			    	<div class="list-title">共有{{numOfMembers}}位志工, 顯示第 1 至 10 位</div>
 					<div class="right-links">
 						<div class="pager">
@@ -65,7 +65,7 @@
 									<dt>所在位置：</dt>
 									<dd>{{ member.resident_city }}</dd>
 									<dt>專長：</dt>
-									<dd>(專長列表)</dd>
+									<dd>{{ firstMember.showExpertise }}</dd>
 									<dt>加入日期：</dt>
 									<dd>{{ member.create_time.date }}</dd>
 								</dl>
