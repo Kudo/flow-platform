@@ -24,43 +24,44 @@
 							<a href="#">下一頁</a>
 						</div>
 					</div>
-					<div class="volunteer-list">
+					<div class="fullpage-list">
 						{% if firstMember %}
-						<div class="volunteer-item first-item">
-							<div class="volunteer-img">
-								<img width="55" src="/static/images/maki.png"/>
+						<div class="item volunteer top-line">
+						    <div class="actions">
+							    <a href="/volunteer/home/?volunteer_id={{ firstMember.volunteer_id }}">移除這位志工</a>
 							</div>
-							<div class="volunteer-name">
-								<h6><a href="#">{{ firstMember.volunteer_first_name }} {{ firstMember.volunteer_last_name }}</a></h6>
+							<div class="image">
+								<a href="/volunteer/home/?volunteer_id={{ firstMember.volunteer_id }}"><img class="img55" src="{% if firstMember.logo %}{{ firstMember.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 							</div>
-							<div class="volunteer-desc">
-								<dl class="volunteer-desc-list">
-									<dt>所在位置：</dt>
+							<div class="name">
+								<a href="/volunteer/home/?volunteer_id={{ firstMember.volunteer_id }}">{{ firstMember.volunteer_first_name }} {{ firstMember.volunteer_last_name }}</a>
+							</div>
+							<div class="stats">
+								<dl>
+									<dt>位於:</dt>
 									<dd>{{ firstMember.resident_city }}</dd>
-									<!--
-									<dt>服務小時：</dt>
-									<dd>9527</dd>
-									-->
-									<dt>加入日期：</dt>
+									<dt>專長:</dt>
+									<dd>{{ firstMember.showExpertise }}</dd>
+									<dt>加入日期:</dt>
 									<dd>{{ firstMember.create_time.date }}</dd>
 								</dl>
-							</div>
-							<div class="volunteer-links">
-								<div class="remove-volunteer"><a href="#">移除這位志工</a></div>
 							</div>
 						</div>
 						{% endif %}
 						
 						{% for member in members %}
-						<div class="volunteer-item">
-							<div class="volunteer-img">
-								<img width="55" src="/static/images/maki.png"/>
+						<div class="item volunteer top-line">
+							<div class="actions">
+							    <a href="/volunteer/home/?volunteer_id={{ firstMember.volunteer_id }}">移除這位志工</a>
 							</div>
-							<div class="volunteer-name">
-								<h6><a href="#">{{ member.volunteer_first_name }} {{ member.volunteer_last_name }}</a></h6>
+							<div class="image">
+								<a href="/volunteer/home/?volunteer_id={{ member.volunteer_id }}"><img class="img55" src="{% if member.logo %}{{ member.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 							</div>
-							<div class="volunteer-desc">
-								<dl class="volunteer-desc-list">
+							<div class="name">
+								<a href="/volunteer/home/?volunteer_id={{ member.volunteer_id }}">{{ member.volunteer_first_name }} {{ member.volunteer_last_name }}</a>
+							</div>
+							<div class="stats">
+								<dl>
 									<dt>所在位置：</dt>
 									<dd>{{ member.resident_city }}</dd>
 									<dt>專長：</dt>
@@ -68,9 +69,6 @@
 									<dt>加入日期：</dt>
 									<dd>{{ member.create_time.date }}</dd>
 								</dl>
-							</div>
-							<div class="volunteer-links">
-								<div class="remove-volunteer"><a href="#">移除這位志工</a></div>
 							</div>
 						</div>
 						{% endfor %}
