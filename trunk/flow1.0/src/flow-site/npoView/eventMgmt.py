@@ -47,7 +47,7 @@ def mainPage(request):
     if not objNpo:
         return HttpResponseForbidden(u'錯誤的操作流程')
     
-    query = db.GqlQuery("SELECT * FROM EventProfile WHERE npo_profile_ref = :1",objNpo)
+    query = db.GqlQuery("SELECT * FROM EventProfile WHERE npo_profile_ref = :1 order by create_time desc",objNpo)
     # Todo: should handle more than 100 condition
     results = query.fetch(100)
     dic={'lstEvent' : actionCheck(results),
