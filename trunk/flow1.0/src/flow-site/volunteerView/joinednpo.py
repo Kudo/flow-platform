@@ -18,6 +18,7 @@ from db.ddl import VolunteerProfile, VolunteerIm, NpoProfile
 
 displayNpoCount = 10
 displayNpoEventCount = 3
+diffDaysLimit = 14
 
 def show(request, displayPhotoCount=8, displayBlogCount=6):
     if 'volunteer_id' not in request.GET:
