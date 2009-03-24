@@ -9,7 +9,7 @@
 			</li>
 			<!--<li class="grey">朋友</li>-->
 			<li>
-				加入的 NPO
+				<a {% ifequal page 'npo' %} class="selected" {% endifequal %}href="/volunteer/joinednpo/?volunteer_id={{ volunteerBase.volunteer_id }}">加入的公益團體</a>
 			</li>
 			<li>
 			<a {% ifequal page 'space' %} class="selected" {% endifequal %}href="/volunteer/space/?volunteer_id={{ volunteerBase.volunteer_id }}">公益分享</a>
