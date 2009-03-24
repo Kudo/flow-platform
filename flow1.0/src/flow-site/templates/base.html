@@ -31,7 +31,7 @@
 	                		<li><a href="/login?redirect={{ base.full_path }}">登入</a></li>
 											<li><a href="/volunteer/register/">註冊</a></li>
 										{% endif %}										  
-	                    <li><a>Help</a></li>
+	                    <li><a>求助</a></li>
 	                </ul>
 	            </div>
 	        </div> <!-- #login-box -->
@@ -46,10 +46,9 @@
 	        <div id="header-links" class="clearfix">
 	        	<ul class="top-horizontal-menu">
 	                <li {% if base.cat_homepage %} class="selected" {% endif %}><a href="/">首頁</a></li>
-	                <li {% if base.cat_event %} class="selected" {% endif %}><a href="/event/">活動</a></li>
-	                <li {% if base.cat_npo %} class="selected" {% endif %}><a href="/npo/">NPO</a></li>
-	                <li {% if base.cat_volunteer %} class="selected" {% endif %}><a href="/volunteer/">志工</a></li>
-	                <li {% if base.cat_calendar %} class="selected" {% endif %}><a>網站行事曆</a></li>
+	                <li {% if base.cat_event %} class="selected" {% endif %}><a href="/event/">公益活動</a></li>
+	                <li {% if base.cat_npo %} class="selected" {% endif %}><a href="/npo/">公益團體</a></li>
+	                <li {% if base.cat_volunteer %} class="selected" {% endif %}><a href="/volunteer/">志工臉譜</a></li>
 	            </ul>
 	        </div>
 	    </div><!-- .header -->
