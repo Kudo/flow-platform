@@ -15,6 +15,11 @@
 						    		<div class="link"><a href="/event/viewEvent?id={{event.event_key|escape }}">前往活動首頁</a></div>
 									<div class="link">加入活動</div>
 						    	</div>
+						    	
+						    	<div class="image">
+								    <img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}/static/images/01_cis.jpg{% endif %}" width="100" />
+								</div>
+						    	
 								<div class="name">
 								    <div class=""><a href="/event/viewEvent?id={{event.event_key|escape }}">{{ event.event_name|escape  }}</a></div>
 								</div>
