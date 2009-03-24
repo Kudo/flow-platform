@@ -61,176 +61,294 @@ $(function() {
 
 </SCRIPT>
 
-	<h3 id="page-title">新增活動</h3>
+	<h3 id="page-title" class="subbar">新增活動</h3>
 	
 	<form method="POST" name="myForm" id="mainForm" action="" class="flow-form">
-		<!--webbot bot="SaveResults" U-File="E:\Project\flow\documents\wf\KJ\_private\form_results.csv" S-Format="TEXT/CSV" S-Label-Fields="TRUE" -->
-		新增活動項目<br>
-		<br>
-		<font color="#FF0000">*</font>為必填欄位<br>
-		<br>		
-		<table border="0" width="75%" cellspacing="4" cellpadding="0" id="table1">
-		  <tr>		  		
-				<td width="140">活動名稱{% if form.event_name.field.required %}<span class="req">*</span>{% endif %}</td>
-				<td>{{ form.event_name }} 
-				{% if form.event_name.errors %}    
-        {% for error in form.event_name.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}
-        </td>
-			</tr>
-		  <tr>		  		
-				<td>活動描述{% if form.description.field.required %}<span class="req">*</span>{% endif %}</td>
-				<td>{{ form.description }} 
-				{% if form.description.errors %}    
-        {% for error in form.description.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}
-        </td>
-			</tr>
-			<tr>
-				<td>活動開始時間{% if form.start_time.field.required %}<span class="req">*</span>{% endif %}</td></td>
-				<td>{{ form.start_time }}
-				{% if form.start_time.errors %}    
-        {% for error in form.start_time.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td> 
-      </tr>
-      <tr>
-        <td>活動結束時間{% if form.end_time.field.required %}<span class="req">*</span>{% endif %}</td></td>
-        <td>{{ form.end_time }}
-				{% if form.end_time.errors %}    
-        {% for error in form.end_time.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>
-			<tr>
-				<td>報名開始時間{% if form.reg_start_time.field.required %}<span class="req">*</span>{% endif %}</td></td>
-				<td>{{ form.reg_start_time }} 
-				{% if form.reg_start_time.errors %}    
-        {% for error in form.reg_start_time.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td> 
-      </tr>
-      <tr>
-				<td>報名截止時間{% if form.reg_end_time.field.required %}<span class="req">*</span>{% endif %}</td></td>
-				<td>{{ form.reg_end_time }} 
-				{% if form.reg_end_time.errors %}    
-        {% for error in form.reg_end_time.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td> 
-      </tr>			
-			<tr>
-				<td>活動區域{% if form.event_region.field.required %}<span class="req">*</span>{% endif %}</td></td>
-				<td>{{ form.event_region }} 
-				{% if form.event_region.errors %}    
-        {% for error in form.event_region.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>
-			<tr>
-				<td>公益時數{% if form.event_hours.field.required %}<span class="req">*</span>{% endif %}</td></td>
-				<td>{{ form.event_hours }}小時           
-				{% if form.event_hours.errors %}    
-        {% for error in form.event_hours.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>
-			<tr>
-				<td>志工名額{% if form.volunteer_req.field.required %}<span class="req">*</span>{% endif %}</td></td>
-				<td>{{ form.volunteer_req }}人
-				{% if form.volunteer_req.errors %}    
-        {% for error in form.volunteer_req.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>
-			<tr>
-				<td>活動內容{% if form.summary.field.required %}<span class="req">*</span>{% endif %}</td>
-				<td>{{ form.summary }} 
-				{% if form.summary.errors %}    
-        {% for error in form.summary.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</textarea></td>
-			</tr>
-
-			<tr>
-				<td>報名費用{% if form.registration_fee.field.required %}<span class="req">*</span>{% endif %}</td>
-				<td>新台幣{{ form.registration_fee }} 
-				元 {% if form.registration_fee.errors %}    
-        {% for error in form.registration_fee.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>	
-			<tr>
-				<td>活動企劃書位址{% if form.attachment_links_show.field.required %}<span class="req">*</span>{% endif %}</td>
-				<td>{{ form.attachment_links_show }} 
-				{% if form.attachment_links_show.errors %}    
-        {% for error in form.attachment_links_show.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>
-			<tr>
-				<td>標籤(關鍵字){% if form.tag.field.required %}<span class="req">*</span>{% endif %}</td>
-				<td>{{ form.tag }} 
-				{% if form.tag.errors %}    
-        {% for error in form.tag.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>		
-		</table>		
-		  <br>
-		  <hr>
-		  志工條件<br>	　
-		  <br>			  
-		<table border="0" width="75%" cellspacing="0" cellpadding="0" id="table1">	  
-			<tr>
-				<td width="140">性別限制{% if form.sex.field.required %}<span class="req">*</span>{% endif %}</td></td>
-				<td>{{ form.sex }}  
-				{% if form.sex.errors %}    
-        {% for error in form.sex.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>
-			<tr>
-				<td>年齡限制{% if form.max_age.field.required %}<span class="req">*</span>{% endif %}</td>
-				<td>{{ form.min_age }}歲
-				{% if form.min_age.errors %}    
-        {% for error in form.min_age.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}
-        至 {{ form.max_age }}歲
-				{% if form.max_age.errors %}    
-        {% for error in form.max_age.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>
-			<tr>
-				<td>活動所需專長{% if form.expertise_req.field.required %}<span class="req">*</span>{% endif %}</td></td>
-				<td>{{ form.expertise_req }}  
-				{% if form.expertise_req.errors %}    
-        {% for error in form.expertise_req.errors %}
-        <font color="#FF0000">{{ error|escape }}</font>
-        {% endfor %}
-        {% endif %}</td>
-			</tr>
-		</table>
-    <hr>
+		<ul>
+			<li class="section">
+				<h3>新增活動項目</h3>
+				<div><span class="req">*</span> 為必填欄位</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					活動名稱
+					{% if form.event_name.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.event_name }}
+					{% if form.event_name.errors %}    
+			        {% for error in form.event_name.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					活動描述
+					{% if form.description.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.description }} 
+					{% if form.description.errors %}    
+			        {% for error in form.description.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					活動開始時間
+					{% if form.start_time.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.start_time }}
+					{% if form.start_time.errors %}    
+			        {% for error in form.start_time.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					活動結束時間
+					{% if form.end_time.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.end_time }}
+					{% if form.end_time.errors %}    
+			        {% for error in form.end_time.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					報名開始時間
+					{% if form.reg_start_time.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.reg_start_time }} 
+					{% if form.reg_start_time.errors %}    
+			        {% for error in form.reg_start_time.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					報名截止時間
+					{% if form.reg_end_time.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.reg_end_time }} 
+					{% if form.reg_end_time.errors %}    
+			        {% for error in form.reg_end_time.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					活動區域
+					{% if form.event_region.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.event_region }} 
+					{% if form.event_region.errors %}    
+			        {% for error in form.event_region.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					公益時數
+					{% if form.event_hours.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.event_hours }}
+					<label>
+						小時
+					</label>          
+					{% if form.event_hours.errors %}    
+			        {% for error in form.event_hours.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					志工名額
+					{% if form.volunteer_req.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.volunteer_req }}
+					<label>
+						人
+					</label>
+					{% if form.volunteer_req.errors %}    
+			        {% for error in form.volunteer_req.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					活動內容
+					{% if form.summary.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.summary }} 
+					{% if form.summary.errors %}    
+			        {% for error in form.summary.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					報名費用
+					{% if form.registration_fee.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.registration_fee }}
+					<label>
+						新台幣 (元)
+					</label> 
+					{% if form.registration_fee.errors %}    
+			        {% for error in form.registration_fee.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					活動企劃書位址
+					{% if form.attachment_links_show.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.attachment_links_show }} 
+					{% if form.attachment_links_show.errors %}    
+			        {% for error in form.attachment_links_show.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					標籤(關鍵字)
+					{% if form.tag.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.tag }} 
+					{% if form.tag.errors %}    
+			        {% for error in form.tag.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li class="section">
+				<h3>志工條件</h3>
+				<div></div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					性別限制
+					{% if form.sex.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.sex }}  
+					{% if form.sex.errors %}    
+			        {% for error in form.sex.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+					年齡限制
+					{% if form.max_age.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<span class="column">
+					{{ form.min_age }}
+					{% if form.min_age.errors %}    
+			        {% for error in form.min_age.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %} 
+					至
+					<label>
+						歲
+					</label>
+					
+				</span>
+				
+				<span class="column">
+					{{ form.max_age }}
+					{% if form.max_age.errors %}    
+			        {% for error in form.max_age.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+					<label>
+						歲
+					</label>
+					
+				</span>
+			</li>
+			
+			<li>
+				<label class="desc">
+					活動所需專長
+					{% if form.expertise_req.field.required %}<span class="req">*</span>{% endif %}
+				</label>
+				<div>
+					{{ form.expertise_req }}  
+					{% if form.expertise_req.errors %}    
+			        {% for error in form.expertise_req.errors %}
+			        <font color="#FF0000">{{ error|escape }}</font>
+			        {% endfor %}
+			        {% endif %}
+				</div>
+			</li>
+			
+			<li class="buttons section">
+				<input type="hidden" name="submitType" value="">
+				<input type="button" class="field button" value="送審" name="btnSubmit" onClick="submitForm('addEvent','send');">
+				<input type="button" class="field button" value="暫存" name="btnSave" onClick="submitForm('addEvent','save');">
+				<input type="button" class="field button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';"><br>
+			</li>
+		</ul>
     <!--
 		QA<input type="button" value="新增" name="btnNewQA"><br>
 			　<table border="1" width="100%" cellspacing="0" cellpadding="0" id="table3">
@@ -248,13 +366,6 @@ $(function() {
 					</tr>
 				</table>
 		-->
-				<p>
-			
-		<input type="hidden" name="submitType" value="">
-		<p><input type="button" class="field button" value="送審" name="btnSubmit" onClick="submitForm('addEvent','send');">
-			<input type="button" class="field button" value="暫存" name="btnSave" onClick="submitForm('addEvent','save');">
-			<input type="button" class="field button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';"><br>
-		</p>
 	</form>
 
 {% endblock npoContent %}
