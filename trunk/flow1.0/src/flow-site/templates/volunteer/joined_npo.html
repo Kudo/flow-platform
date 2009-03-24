@@ -1,0 +1,63 @@
+{% extends "volunteer/base.html" %}
+
+{### header ###}
+
+{% block profileExtraHeader %}
+
+	{### this block can put additional css / script definition to head tag ###}
+	<!-- block profileExtraHeader here -->
+{% endblock profileExtraHeader %}
+
+{### content ###}
+
+{% block profileContent %}
+
+			    	<div class="content-block">
+				    	<h3 id="page-title" class="subbar">加入的公益團體</h3>
+					
+						<div class="fullpage-list">
+						    {% for entry in npoList %}
+							<div class="item npo top-line clearfix">
+						    	<div class="actions">
+								    <div class="link"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">前往群組首頁</a></div>
+									<div class="link"><a href="#">加入群組</a></div>
+								</div>
+								<div class="image">
+								    <a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
+								</div>
+								<div class="name">
+								    <div class="npo-title"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">{{ entry.npo_name }}</a></div>
+								    <div class="npo-desc">{{ npo.brief_intro }}</div>
+								</div>
+								
+								<div class="stats">
+									<dl>
+										<dt>會員人數: </dt>
+										<dd>{{ entry.memberCount }} 名</dd>
+										<dt>服務區域: </dt>
+										<dd>{{ entry.region }} Taipei </dd>
+									</dl>
+								</div>
+								<div class="activities">
+									<div class="upcoming-activities">
+										{% if entry.eventList %}
+										<div class="label">接下來的活動:</div>
+
+										{% for event in entry.eventList %}
+										<div class="upcoming-activity">
+										    <div class="title"><a href="/event/viewEvent?id={{ event.key }}">{{ event.event_name }}</a></div>
+										    <div class="date">
+											{% if event.upcoming %}即將進行, 還有 {{ event.diffDays }} 天 {% endif %}
+											({{ event.start_time.month }} 月 {{ event.start_time.day }} 日)</div>
+										</div>
+										{% endfor %}
+										
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						    {% endfor %}
+						</div>
+					{% include "paging.html" %}
+					</div>
+{% endblock %}
