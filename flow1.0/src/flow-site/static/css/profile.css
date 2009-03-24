@@ -134,3 +134,7 @@ dl.activity-dl dd {
     border-top: dotted #999 1px;
     margin-bottom: 5px;
 };
+
+.error {
+	color: #FF0000;
+};

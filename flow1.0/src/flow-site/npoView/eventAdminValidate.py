@@ -8,10 +8,6 @@ from db import ddl
 from django import newforms as forms
 import flowBase
 
-# Form submit verification
-class volForm(forms.Form):
-    approved = forms.CharField(required=False) # Field required
-
 # Check to see if eventID is given. Direct to error page if not.
 def volunteerShow(request):
     objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
@@ -30,45 +26,64 @@ def volunteerShow(request):
 
     # Retrieve data with given eventID and status
     query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'new registration')
-    result1 = query.fetch(100)
+    result1 = query.fetch(1000)
     query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'approved')
-    result2 = query.fetch(100)
+    result2 = query.fetch(1000)
     dicData={'lstVolunteer' : addName(result1),
              'lstApproved' : addName(result2),
              'base':flowBase.getBase(request,'npo'),
              'event':event,
+             'event_key':event.key(),
              'page':'event'
              }
     return render_to_response(r'event/event-admin-validate.html', dicData)
 
 # append volunteer name from volunteer profile
 def addName(lstVolEvent):
-    '''
-    Match and added correct rule to each activity according its status.
-    @ return: active list with correct rule appended.
-    '''
-    # Retrieve all volunteer ID and put them in a list
     lstVolunteer=[]
     for volEvent in lstVolEvent:
-        objVolunteer = db.GqlQuery("SELECT * FROM VolunteerProfile WHERE volunteer_id = :1",volEvent.volunteer_id).get()
-        if objVolunteer:
-            lstVolunteer.append(objVolunteer)
-        else:
-            raise RuntimeError('%s does NOT exist!'%volEvent.volunteer_id)
+        objVolunteer = volEvent.volunteer_profile_ref
+        objVolunteer.age = (datetime.date.today() - objVolunteer.date_birth).days / 365
+        objVolunteer.dbKey = volEvent.key()
+        lstVolunteer.append(objVolunteer)
     return lstVolunteer
 
-def volSubmit(request):
-    if request.method == 'POST': # If the form has been submitted...
-        form = volForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
-            lstApprovedVol = form.cleaned_data['approved']
-            for approvedVol in lstApprovedVol:
-                vol = ddl.VolunteerEvent(status='approved',approved_time=datetime.datetime.utcnow(),
-                                                  volunteer_id=approvedVol.volunteer_id)
-                vol.put()
-            return HttpResponseRedirect(r'Apporved!!!') # Redirect after processed
-    else:
-        return render_to_response('SomeErrorLandingPage', {'form': form,})
+def approveVolunteer(request):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+    if not objNpo:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
+    if request.method != 'POST' or 'event_key' not in request.POST:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
+    eventKey = request.POST['event_key']
+    event=db.get(db.Key(eventKey))
+    if None == event:
+        return HttpResponseForbidden(u'資料不存在! key:%s'%eventKey)
+    if event.npo_profile_ref.id!=objNpo.id:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+    
+    # Process the data in form.cleaned_data
+    query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'approved')
+    lstPreApproved = query.fetch(1000)
+    if 'approved' not in request.POST:
+        return HttpResponseRedirect('listEvent')
+    lstApprovedVol = request.POST['approved']
+    if not isinstance(lstApprovedVol,list) or not isinstance(lstApprovedVol,tuple):
+        lstApprovedVol=[lstApprovedVol]
+    for volKey in lstApprovedVol:
+        vol=db.get(db.Key(volKey))
+        if vol in lstPreApproved:
+            lstPreApproved.remove(vol)
+            continue
+        vol.status='approved'
+        vol.approved_time=datetime.datetime.utcnow()
+        vol.put()
+    event.approved_count=len(lstApprovedVol)
+    event.volunteer_shortage=event.volunteer_req-event.approved_count
+    event.put()
+    for vol in lstPreApproved:
+        raise RuntimeError(vol)
+    return volunteerShow(request)
     
 

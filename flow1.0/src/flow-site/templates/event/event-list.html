@@ -18,7 +18,7 @@
 		            {% for event in event1 %}
 		            <div class="activity-info-item">
 		            	<h3><a href="viewEvent?id={{event.event_key|escape }}">{{ event.event_name|escape  }}</a></h3>
-		            	<div class="info-desc">{{ event.originator|escape  }} 於 {{ event.create_time|escape }} 發起</div>
+		            	<div class="info-desc">{{ event.originator|escape  }}</div>
 						<dl>
 							<dt>活動時間:</dt><dd>{{ event.start_time|escape  }}</dd>
 							<dt>活動地點:</dt><dd>{{ event.event_region|escape }}</dd>
@@ -48,7 +48,7 @@
 					</div>
 					<div class="activity-info-item with-lack-people-num">
 						<h3><a href="viewEvent?id={{event.event_key|escape }}">{{ event.event_name|escape }}</a></h3> 
-						<div class="info-desc">{{ event.originator|escape }} 於 {{ event.create_time|escape }} 發起</div>
+						<div class="info-desc">{{ event.originator|escape }}</div>
 						<dl>
 							<dt>活動時間:</dt><dd>{{ event.start_time|escape }}</dd>
 							<dt>活動地點:</dt><dd>{{ event.event_region|escape }}</dd>
@@ -75,7 +75,7 @@
 					{% for event in event3 %}
 					<div class="activity-info-item">
 						<h3><a href="viewEvent?id={{event.event_key|escape }}">{{ event.event_name|escape  }}</a></h3>
-						<div class="info-desc">{{ event.originator|escape  }} 於 {{ event.create_time|escape  }} 發起</div>
+						<div class="info-desc">{{ event.originator|escape  }}</div>
 						<dl>
 							<dt>活動時間:</dt><dd>{{ event.start_time|escape  }}</dd>
 							<dt>活動地點:</dt><dd>{{ event.event_region|escape  }}</dd>
