@@ -14,6 +14,7 @@ urlpatterns = patterns('npoView',
     (r'^admin/authEvent3/?$', 'authenticateEvent.handleEventAuth'),
     (r'^admin/cancelEvent/?$', 'eventMgmt.handleCancelEvent'),
     (r'^admin/selectVolunteer/?$', 'eventAdminValidate.volunteerShow'),
+    (r'^admin/approveVolunteer/?$', 'eventAdminValidate.approveVolunteer'),
     # register
     (r'^register/?$',               'register.step1'),
     (r'^register/step2/?$',         'register.step2'),

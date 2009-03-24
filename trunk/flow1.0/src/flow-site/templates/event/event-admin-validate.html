@@ -75,17 +75,20 @@ function disableButton(form) {
 
 	<div id="activity-cancel">
 		<h3 id="page-title">志工審核</h3>
-		<form class="flow-form" method="POST" name="myForm" action="/npo/eventAdminValidateSubmit/">
+		<form class="flow-form" method="POST" name="myForm" action="">
 			<ul>
 				<li class="section first">
-					<h3>請選擇參與活動的志工</h3>
+					<h3>請選擇參與[{{event.event_name}}]活動的志工</h3>
 				</li>
 				
 				<li>
 					<span class="column">
 						<select multiple id="pool" name="pool" class="select" size="8" onchange="javascript:setButtonsEnabled();">
 							{% for vol in lstVolunteer %}
-							<option value="{{vol.volunteer_id}}">{{vol.volunteer_first_name|escape}} {{vol.volunteer_last_name|escape}}</option>
+							<option value="{{vol.dbKey}}">
+								{{vol.volunteer_last_name|escape}}{{vol.volunteer_first_name|escape}} 
+								({% ifequal vol.sex "Male"%}男{% else %}女{% endifequal %},{{vol.age}})
+							</option>
 							{% endfor %}
 						</select>
 						<label>
@@ -114,7 +117,10 @@ function disableButton(form) {
 					<span class="column">
 						<select multiple id="approved" name="approved" class="select" size="8" onchange="javascript:setButtonsEnabled();">
 							{% for vol in lstApproved %}
-							<option value="{{vol.volunteer_id}}">{{vol.volunteer_first_name|escape}} {{vol.volunteer_last_name|escape}}</option>
+							<option value="{{vol.dbKey}}" DISABLED>
+								{{vol.volunteer_last_name|escape}}{{vol.volunteer_first_name|escape}} 
+								({% ifequal vol.sex "Male"%}男{% else %}女{% endifequal %},{{vol.age}})
+							</option>
 							{% endfor %}
 						</select>
 						<label>
@@ -124,7 +130,8 @@ function disableButton(form) {
 				</li>
 				
 				<li class="section buttons">
-					<input type="submit" class="btTxt" value="確定送出" name="btnSubmit">
+					<input type="hidden" name="event_key" value="{{event_key}}"/>
+					<input type="button" class="btTxt" value="確定送出" name="btnSubmit" onClick="submitForm('approveVolunteer');">
 					<input type="button" class="btTxt" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';">	
 				</li>
 			</ul>
