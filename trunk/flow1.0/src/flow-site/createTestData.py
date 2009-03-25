@@ -26,7 +26,7 @@ def createVolunteerProfile(user):
     now       = datetime.datetime.now()
     volunteer = ddl.VolunteerProfile(key_name=str(user), volunteer_id=user, id_no="A123456789", volunteer_last_name=u"林", volunteer_first_name=u"志玲", gmail=user.email(),
                                  date_birth=datetime.date(1970, 2, 1), expertise=['eat','drink','gambling'], sex="Female", phone_no="02-1234-5678",cellphone_no="0982-197-997", resident_country="ROC",
-                                 resident_postal="104", resident_state='tw', resident_city='tp', resident_district='SL',
+                                 resident_postal="104", resident_state='tw', resident_city=u'台北縣市', resident_district='SL',
                                  prefer_region=['taipei'], prefer_zip=['106'], prefer_target=['test'], prefer_field=['drive'], prefer_group=['trend'],
                                  create_time=now, update_time=now, volunteer_rating=80, status="normal")
     volunteer.put()
@@ -37,7 +37,7 @@ def createVolunteerProfile1():
     now       = datetime.datetime.now()
     volunteer = ddl.VolunteerProfile(key_name=str(user), volunteer_id=user, id_no="Q123456789", volunteer_last_name=u"羅", volunteer_first_name=u"健志", gmail=user.email(),
                                  date_birth=datetime.date(1980, 2, 1), expertise=['eat','drink','gambling'], sex="Male", phone_no="02-1234-5678",cellphone_no="0982-000-997", resident_country="ROC",
-                                 resident_postal="104", resident_state='tw', resident_city='tp', resident_district='SL',
+                                 resident_postal="104", resident_state='tw', resident_city=u'台北縣市', resident_district='SL',
                                  prefer_region=['taipei'], prefer_zip=['106'], prefer_target=['test'], prefer_field=['drive'], prefer_group=['trend'],
                                  create_time=now, update_time=now, volunteer_rating=80, status="normal")
     volunteer.put()
