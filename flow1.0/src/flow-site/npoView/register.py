@@ -63,7 +63,7 @@ class NpoProfileForm(djangoforms.ModelForm):
         self.cleaned_data = self._cleaned_data()
         data = self.cleaned_data['npo_name']
         if db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_name = :1', data).count() > 0:
-            raise forms.ValidationError(u'這個 NPO 名稱已經被註冊了，請試著以其他名稱註冊。')
+            raise forms.ValidationError(u'這個公益團體名稱已經被註冊了，請試著以其他名稱註冊。')
         return data
 
     class Meta:
@@ -77,9 +77,9 @@ def step1(request):
     isWarning = None
     user = users.get_current_user()
     if (not flowBase.getVolunteer(user)) or ('notMember' in request.GET):
-        isWarning = u'您尚未註冊至若水平台，請先點選右上角註冊後才能申請 NPO 喔。'
+        isWarning = u'您尚未註冊至若水平台，請先點選右上角註冊後才能申請註冊公益團體喔。'
     if db.GqlQuery('SELECT * From NpoProfile WHERE google_acct = :1', user).count() > 0:
-        pass            # 暫時不限制一個人可以申請幾個 NPO
+        pass            # 暫時不限制一個人可以申請幾個 公益團體
     if 'yes' in request.GET:
         return HttpResponseRedirect('/npo/register/step2/')
     if 'no' in request.GET:

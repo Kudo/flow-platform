@@ -13,8 +13,8 @@
 {% block mainContent %}
 
 			    	<div class="content-block">
-				    	<h3 id="page-title">NPO列表</h3>
-					<div class="list-title">共有 {{ pageSet.count }} 個NPO, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 位</div>
+				    	<h3 id="page-title">公益團體列表</h3>
+					<div class="list-title">共有 {{ pageSet.count }} 個公益團體, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 個</div>
 					{% include "paging.html" %}
 						<div class="fullpage-list">
 						    {% for entry in entryList %}
