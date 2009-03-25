@@ -17,7 +17,7 @@
 						    	</div>
 						    	
 						    	<div class="image">
-								    <img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}/static/images/01_cis.jpg{% endif %}" width="100" />
+								    <img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}{{ base.noLogo }}{% endif %}" />
 								</div>
 						    	
 								<div class="name">
