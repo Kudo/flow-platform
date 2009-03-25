@@ -22,6 +22,7 @@ urlpatterns = patterns('npoView',
     # profile
     (r'^npo_home.html$', 'npoProfile.showHome'),
     (r'^npo_info.html$', 'npoProfile.showInfo'),
+    (r'^listEvents/?$',  'npoProfile.showEvents'),
     (r'^manage_edit_info.html$', 'npoProfile.edit'),
     (r'^npo_volunteers.html$', 'npoProfile.memberList'),
 )

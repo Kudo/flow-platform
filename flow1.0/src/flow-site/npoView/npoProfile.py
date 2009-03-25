@@ -16,6 +16,7 @@ from db.ddl import NpoProfile
 from db.ddl import NpoContact
 from db.ddl import NpoPhone
 import flowBase
+from common import paging
 try:
     from django import newforms as forms
 except ImportError:
@@ -151,6 +152,7 @@ def memberList(request):
         'numOfMembers': numOfMembers,
         'leftMembersRow1': row1,
         'leftMembersRow2': row2,
+        'page': 'volunteers',
         'base':flowBase.getBase(request, 'npo')
     }
     response = render_to_response('npo/npo_volunteers.html', template_values)
@@ -240,6 +242,7 @@ def showHome(request):
             'leftMembersRow2': row2,
             'numOfMembers': len(members),
             'eventList': eventList,
+            'page': 'home',
             'base':flowBase.getBase(request, 'npo')
      }
     response = render_to_response('npo/npo_home.html', template_values)
@@ -269,9 +272,47 @@ def showInfo(request):
             'service_region': npoProfile.service_region[0],
             'service_target': npoProfile.service_target[0],
             'service_field': npoProfile.service_field[0],
+            'page': 'home',
             'base':flowBase.getBase(request, 'npo')
      }
     response = render_to_response('npo/npo_info.html', template_values)
+    return response
+
+displayCount = 10
+def showEvents(request):
+    if 'npo_id' not in request.GET:
+        return HttpResponseRedirect('/')
+    else:
+        npo_id = cgi.escape(request.GET['npo_id'])
+        
+    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
+    pageSet = paging.get(request.GET, npoProfile.event2npo.count(), displayCount=displayCount)
+    eventAll = npoProfile.event2npo.fetch(displayCount, pageSet['entryOffset'])
+    eventList = []
+    
+    for event in eventAll:   
+        eventList.append(
+         {'event_id':event.event_id,
+         'event_name':event.event_name,
+         'originator':event.npo_profile_ref.npo_name,
+         'create_time':event.create_time.strftime('%Y-%m-%d %H:%M'),
+         'start_time':event.start_time.strftime('%Y-%m-%d %H:%M'),
+         'event_region':u','.join(event.event_region),
+         'description':event.description,
+         'registered_count':event.registered_count,
+         'approved_count':event.approved_count,
+         'volunteer_shortage':event.volunteer_shortage,
+         'event_key':str(event.key())}
+         )
+        
+    template_values = {
+            'npoProfile': npoProfile,
+            'eventList': eventList,
+            'pageSet': pageSet,
+            'page': 'events',
+            'base':flowBase.getBase(request, 'npo')
+     }
+    response = render_to_response('npo/npo_events.html', template_values)
     return response
 
 def leftColumn(npoProfile, numOfMembers, row1, row2):
