@@ -158,3 +158,59 @@ div.article-block .article-info {
 .article-block .article-item {
 	height: 70px;
 }
+
+/* For the event in npo home.html */
+#event-container {
+
+}
+
+#event-container .event-item:first-child {
+	border-left-style: none !important;
+	padding-left: 0 !important;
+}
+
+#event-container .event-item {
+	border-left-style: dotted;
+	border-left-width: 1px;
+	border-left-color: #CCC;
+	padding: 0 5px 0px 5px;
+	margin-bottom: 10px;
+	/* display: inline-table; */
+	/* display: inline-table; */
+	float: left;
+	width: 155px;
+	height: 70px;
+}
+
+.event-item h1 {
+	font-size: 17px;
+}
+
+.event-item h2 {
+	font-size: 13px;
+	color: #666;
+	border: none !important;
+	margin-bottom: 0px;
+}
+
+.event-item div {
+	font-size: 13px;
+	color: #666;
+}
+
+.event-item img {
+	float: left;
+	padding-right: 0px;
+}
+
+.event-item p {
+	/*
+	border-top-width: 1px;
+	border-top-color: #666;
+	border-top-style: solid;
+	padding-top: 3px;*/
+	font-size: 14px !important;
+	padding-bottom: 0px !important;
+	color: #000;
+}
+/* end */

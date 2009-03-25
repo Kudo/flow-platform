@@ -50,8 +50,10 @@ def mainPage(request):
     query = db.GqlQuery("SELECT * FROM EventProfile WHERE npo_profile_ref = :1 order by create_time desc",objNpo)
     # Todo: should handle more than 100 condition
     results = query.fetch(100)
+    
     dic={'lstEvent' : actionCheck(results),
          'base': flowBase.getBase(request, 'npo'),
+         'npoProfile': objNpo,
          'page': 'event'}
     return render_to_response(r'event/event-admin-list.html', dic)
 
@@ -105,6 +107,7 @@ def handleCancelEvent(request):
     dic ={'event_key':strEventKey,
           'form': form,
           'base': flowBase.getBase(request, 'npo'),
+          'npoProfile': objNpo,
           'page': 'event',
           'event': event}
     return render_to_response(r'event/event-admin-cancel.html', dic)
