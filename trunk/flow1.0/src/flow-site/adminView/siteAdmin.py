@@ -7,7 +7,10 @@ from django.http import HttpResponseRedirect
 from google.appengine.ext import db
 from google.appengine.api import users
 from db import ddl
+from common import paging
 import flowBase
+
+displayCount = 20
 
 def adminAccountList(request, errorMessage=None):
     if not isSiteAdmin():
@@ -62,9 +65,14 @@ def npoList(request):
     if not isSiteAdmin():
         return HttpResponseRedirect(users.create_login_url(cgi.escape(request.path)))        
 
+    pageSet = paging.get(request.GET, ddl.NpoProfile.all().totalCount(), displayCount=displayCount)
+    entryList = db.GqlQuery('SELECT * FROM NpoProfile ORDER BY id').fetch(displayCount, pageSet['entryOffset'])
+        
     templateValue = {
-        "base":                    flowBase.getBase(request),
-        "pageNav":                 PageNavigation(ddl.NpoProfile.all(), request, '/admin/npo'),
+        "base":                    flowBase.getBase(request, 'npo'),
+        #"pageNav":                 PageNavigation(ddl.NpoProfile.all(), request, '/admin/npo'),
+        "pageSet":                  pageSet,
+        "entryList":                entryList,
     }
     return render_to_response(r'admin/admin-npo-list.html', templateValue)
 
@@ -88,9 +96,14 @@ def volunteerList(request):
     if not isSiteAdmin():
         return HttpResponseRedirect(users.create_login_url(cgi.escape(request.path)))        
 
+    pageSet = paging.get(request.GET, ddl.VolunteerProfile.all().totalCount(), displayCount=displayCount)
+    entryList = db.GqlQuery('SELECT * FROM VolunteerProfile ORDER BY id').fetch(displayCount, pageSet['entryOffset'])
+        
     templateValue = {
-        "base":                    flowBase.getBase(request),
-        "pageNav":                 PageNavigation(ddl.VolunteerProfile.all(), request, '/admin/volunteer'),
+        "base":                    flowBase.getBase(request, 'admin'),
+        #"pageNav":                 PageNavigation(ddl.VolunteerProfile.all(), request, '/admin/volunteer'),
+        "pageSet":                  pageSet,
+        "entryList":                entryList,
     }
 
     return render_to_response(r'admin/admin-volunteer-list.html', templateValue)
@@ -114,9 +127,14 @@ def eventList(request):
     if not isSiteAdmin():
         return HttpResponseRedirect(users.create_login_url(cgi.escape(request.path)))        
 
+    pageSet = paging.get(request.GET, ddl.EventProfile.all().totalCount(), displayCount=displayCount)
+    entryList = db.GqlQuery('SELECT * FROM EventProfile ORDER BY id').fetch(displayCount, pageSet['entryOffset'])
+        
     templateValue = {
-        "base":                    flowBase.getBase(request),
-        "pageNav":                 PageNavigation(ddl.EventProfile.all(), request, '/admin/event'),
+        "base":                    flowBase.getBase(request, 'admin'),
+        #"pageNav":                 PageNavigation(ddl.EventProfile.all(), request, '/admin/event'),
+        "pageSet":                  pageSet,
+        "entryList":                entryList,
     }
     return render_to_response(r'admin/admin-event-list.html', templateValue)
 

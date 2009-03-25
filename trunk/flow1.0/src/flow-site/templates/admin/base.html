@@ -3,6 +3,9 @@
 {### header ###}
 
 {% block extraHeader %}
+
+	<link href="/static/css/admin.css" rel="stylesheet" type="text/css" />
+	
 	{% block adminExtraHeader %}
 		{### this block can be replaced by children template with css / script definition ###}
 		<!-- block registerExtraHeader here -->
@@ -10,16 +13,12 @@
 
 {% endblock extraHeader %}
 
-{### splashPage ###}
-
-{% block splashPage %}
-	{% include "splashbox_search.html" %}
-{% endblock splashPage %}
-
 {### content ###}
 
 {% block mainContent %}
 
+	<h3 id="admin-title">若水志工媒合平台 管理介面</h3>
+	
 	{% include "admin/topbar.html" %}
 
 	{% block adminContent %}

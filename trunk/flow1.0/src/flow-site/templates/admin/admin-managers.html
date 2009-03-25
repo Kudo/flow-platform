@@ -15,57 +15,72 @@
 
 	<h3 id="page-title">官方帳號管理</h3>
 	
-	<div class="step-main">
-		<div class="flow-form">
-		<ul>
-			<li class="section">
-				<h3>邀請志工加入</h3>
-			</li>
-			<li>
-				<label class="desc">
-				輸入志工email:
-				</label>
-				<form method="post" action="{{ uriToAdd }}">
-					<span>
-						<input id="txtEmail" class="field text" name="email" />
-					</span>
-					<span>
-						<input id="btnInvite" class="btTxt" type="button" value="邀請加入" onclick="this.form.submit()"/>
-					</span>
-				  {% if errorMessage %}
-					<span style="background-color: red;">
-						{{ errorMessage }}
-					</span>
-					{% endif %}
-			  </form>
-			</li>
-
-			<li class="section">
-				<h3>管理員列表</h3>
-			</li>
-			
-			<div class="desc">
-				<label class="desc">目前登入為：{% firstof currentUser.email "無資料" %}</label>
-			</div>
-			
-			{% for admin in adminList %}
-      <li>
-      	<label class="desc">{{ admin.account.nickname }} ({{ admin.account.email }})</label>
-				<form method="post" action="{{ uriToRemove }}">
-				<div>
-						<input type="hidden" name="email" value="{{ admin.account.email|escape }}"/>
-						<input id="btnRemoveManager1" class="btTxt" type="button" value="移除此管理者"
-						{% ifequal admin.account.email currentUser.email %}
-						disabled="disabled"
-						{% endifequal %}
-						onclick="if (window.confirm('您確定要永久移除此管理員？')) this.form.submit();"/>
+	<div class="content-block">
+            <div class="title">
+                <img class="left" src="/static/images/titlebar-left.jpg"/>
+                <img class="right" src="/static/images/titlebar-right.jpg"/>
+                <h3>邀請志工加入</h3>
+            </div>
+            <div class="content">
+				<div class="step-main">
+					<div class="flow-form">
+						<ul>
+					        <li>
+								<label class="desc">
+								輸入志工email:
+								</label>
+								<form method="post" action="{{ uriToAdd }}">
+									<span>
+										<input id="txtEmail" class="field text" name="email" />
+									</span>
+									<span>
+										<input id="btnInvite" class="btTxt" type="button" value="邀請加入" onclick="this.form.submit()"/>
+									</span>
+								  {% if errorMessage %}
+									<span style="background-color: red;">
+										{{ errorMessage }}
+									</span>
+									{% endif %}
+				  			    </form>
+						    </li>
+					    </ul>
+				    </div>
 				</div>
-				</form>
-      </li>
-      {% endfor %}
+            </div>
+    </div>
 
-		</ul>
-	  </div>
-	</div>
+	<div class="content-block">
+            <div class="title">
+                <img class="left" src="/static/images/titlebar-left.jpg"/>
+                <img class="right" src="/static/images/titlebar-right.jpg"/>
+				<h3>管理員列表</h3>
+            </div>
+            <div class="content">
+				<div class="desc">
+					<label class="desc">目前登入為：{% firstof currentUser.email "無資料" %}</label>
+				</div>
+				<div class="step-main">
+					<div class="flow-form">
+						<ul>
+						{% for admin in adminList %}
+					        <li>
+						      	<label class="desc">{{ admin.account.nickname }} ({{ admin.account.email }})</label>
+										<form method="post" action="{{ uriToRemove }}">
+										<div>
+												<input type="hidden" name="email" value="{{ admin.account.email|escape }}"/>
+												<input id="btnRemoveManager1" class="btTxt" type="button" value="移除此管理者"
+												{% ifequal admin.account.email currentUser.email %}
+												disabled="disabled"
+												{% endifequal %}
+												onclick="if (window.confirm('您確定要永久移除此管理員？')) this.form.submit();"/>
+										</div>
+										</form>
+						    </li>
+					    {% endfor %}
+					    </ul>
+				    </div>
+				</div>
+            </div>
+    </div>
 
 {% endblock %}

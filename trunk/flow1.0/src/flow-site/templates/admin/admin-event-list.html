@@ -9,51 +9,60 @@
 	<h3 id="page-title">志工平台活動管理</h3>
 	
 	<form method="POST" action="">
-		<table border="1" width="80%" cellspacing="0" cellpadding="0" id="tblActivity">
-			<tr>
-				<td>活動名稱</td>
-				<td>發起NPO</td>
-				<td>狀態</td>
-				<td>&nbsp;</td>
-			</tr>
-			{% for profile in pageNav.RecordList %}
-			<tr>
-				<form method="POST" action="/admin/event/changeStatus">
+		<table class="admin-table" id="tblActivity">
+			<thead>
+				<tr>
+					<th class="name">活動名稱</th>
+					<th class="starter">發起NPO</th>
+					<th class="status">狀態</th>
+					<th class="actions">&nbsp;</th>
+				</tr>
+			</thead>
 
-				<td><a href="/event/viewEvent?id={{ profile.key }}" target="_profile">{{ profile.event_name }}</a></td>
-				<td>{{ profile.npo_profile_ref.npo_name }}</td>
-				<td>
-        {% ifequal profile.status "new application"       %}新申請{% endifequal %}
-        {% ifequal profile.status "approved"              %}已審核{% endifequal %}
-        {% ifequal profile.status "announced"             %}已公佈{% endifequal %}
-        {% ifequal profile.status "authenticating"        %}認證中{% endifequal %}
-        {% ifequal profile.status "authenticated"         %}已認證{% endifequal %}
-        {% ifequal profile.status "registrating"          %}註冊中{% endifequal %}
-        {% ifequal profile.status "recruiting"            %}招募中{% endifequal %}
-        {% ifequal profile.status "registration closed"   %}註冊結束{% endifequal %}
-        {% ifequal profile.status "on-going"              %}進行中{% endifequal %}
-        {% ifequal profile.status "filling polls"         %}等候問卷{% endifequal %}
-        {% ifequal profile.status "activity closed"       %}活動結束{% endifequal %}
-        {% ifequal profile.status "case-closed reporting" %}結束報告中{% endifequal %}
-        {% ifequal profile.status "cancelled"             %}活動取消{% endifequal %}
-        {% ifequal profile.status "abusive usage"         %}遭濫用{% endifequal %}
-        </td>
-				<td>
-					<input type="hidden" name="page"         value="{{ pageNav.PageNo }}"/>
-					<input type="hidden" name="event_id"     value="{{ profile.event_id }}"/>
-					<input type="hidden" name="status"       value=""/>
-
-					<input type="button" value="上架" {% ifnotequal profile.status "authenticated"   %} disabled="disabled"{% endifnotequal %} onclick="this.form.status.value = 'registrating'; this.form.submit()">
-					<input type="button" value="警告" {% ifequal    profile.status "abusive usage"   %} disabled="disabled"{% endifequal %} onclick="if (confirm('確定警告？'))       {this.form.status.value = 'abusive usage'; this.form.submit();}">
-					<input type="button" value="下架" onclick="if (confirm('確定下架並刪除？')) {this.form.status.value = '_REMOVE_'; this.form.submit();}">
-				</td>
-
-				</form>
-			</tr>
-			{% endfor %}
+			<tbody>	
+				{% for profile in entryList %}
+				<tr>
+					<form method="POST" action="/admin/event/changeStatus">
+	
+					<td><a href="/event/viewEvent?id={{ profile.key }}" target="_profile">{{ profile.event_name }}</a></td>
+					<td>{{ profile.npo_profile_ref.npo_name }}</td>
+					<td>
+	        {% ifequal profile.status "new application"       %}新申請{% endifequal %}
+	        {% ifequal profile.status "approved"              %}已審核{% endifequal %}
+	        {% ifequal profile.status "announced"             %}已公佈{% endifequal %}
+	        {% ifequal profile.status "authenticating"        %}認證中{% endifequal %}
+	        {% ifequal profile.status "authenticated"         %}已認證{% endifequal %}
+	        {% ifequal profile.status "registrating"          %}註冊中{% endifequal %}
+	        {% ifequal profile.status "recruiting"            %}招募中{% endifequal %}
+	        {% ifequal profile.status "registration closed"   %}註冊結束{% endifequal %}
+	        {% ifequal profile.status "on-going"              %}進行中{% endifequal %}
+	        {% ifequal profile.status "filling polls"         %}等候問卷{% endifequal %}
+	        {% ifequal profile.status "activity closed"       %}活動結束{% endifequal %}
+	        {% ifequal profile.status "case-closed reporting" %}結束報告中{% endifequal %}
+	        {% ifequal profile.status "cancelled"             %}活動取消{% endifequal %}
+	        {% ifequal profile.status "abusive usage"         %}遭濫用{% endifequal %}
+	        </td>
+					<td>
+						<input type="hidden" name="page"         value="{{ pageNav.PageNo }}"/>
+						<input type="hidden" name="event_id"     value="{{ profile.event_id }}"/>
+						<input type="hidden" name="status"       value=""/>
+	
+						<input type="button" value="上架" {% ifnotequal profile.status "authenticated"   %} disabled="disabled"{% endifnotequal %} onclick="this.form.status.value = 'registrating'; this.form.submit()">
+						<input type="button" value="警告" {% ifequal    profile.status "abusive usage"   %} disabled="disabled"{% endifequal %} onclick="if (confirm('確定警告？'))       {this.form.status.value = 'abusive usage'; this.form.submit();}">
+						<input type="button" value="下架" onclick="if (confirm('確定下架並刪除？')) {this.form.status.value = '_REMOVE_'; this.form.submit();}">
+					</td>
+	
+					</form>
+				</tr>
+				{% endfor %}
+			</tbody>
 
 		</table>
 
+		{% include "paging.html" %}
+
+		{% if false %}
+		{### old pager ###}
 		<span>
 			{% ifnotequal pageNav.PageNo 1 %}
 			  <a href="{{ pageNav.PageUri }}?page={{ pageNav.PageNo|add:"-1" }}">&lt;&lt;&nbsp;</a>
@@ -70,6 +79,7 @@
 			  &gt;&gt;
 			{% endifequal %}
 		</span>
+		{% endif %}
 
 	</form>
 
