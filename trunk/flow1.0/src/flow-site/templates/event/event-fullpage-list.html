@@ -32,6 +32,12 @@
 										<dd>{{ event.event_region|escape }}</dd>
 										<dt>活動說明: </dt>
 										<dd>{{ event.description|escape }}</dd>
+										<dt>已報名人數: </dt>
+										<dd>{{ event.registered_count }}</dd>
+										<dt>通過審核人數: </dt>
+										<dd>{{ event.approved_count }}</dd>
+										<dt>尚欠人數: </dt>
+										<dd>{{ event.volunteer_shortage }}</dd>
 									</dl>
 								</div>
 							</div>
