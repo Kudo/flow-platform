@@ -10,6 +10,7 @@ from django.utils import simplejson
 from google.appengine.ext import db
 from google.appengine.api import users
 import flowBase
+from common import paging
 from db.ddl import VolunteerProfile, VolunteerIm
 
 displayCount = 10
@@ -91,33 +92,7 @@ def videoShow(request, displayCount=5):
     if not user:
         return HttpResponseRedirect('/')
 
-    count = len(user.video_link)
-    startIndex = 0
-    if 'start' in request.GET:
-        startIndex = int(request.GET['start'])
-        if startIndex < 0 or startIndex >= count:
-            startIndex = 0
-    endIndex = startIndex + displayCount - 1
-    if endIndex >= count:
-        endIndex = count - 1
-
-    currentPage = startIndex / displayCount + 1
-    totalPage = (count - 1) / displayCount + 1
-
-    # Calculate the page list window
-    if totalPage < 1:
-        totalPage = 1
-    fromPage = currentPage -  (displayPageCount / 2)
-    if fromPage < 1:
-        fromPage = 1
-    endPage = fromPage + displayPageCount
-    while endPage > totalPage + 1:
-        fromPage -= 1
-        endPage -= 1
-    if fromPage < 1:
-        fromPage = 1
-    pageList = [{'index': i, 'startIndex': (i - 1) * displayCount} for i in range(fromPage, endPage)]
-    del fromPage, endPage
+    pageSet = paging.get(request.GET, len(user.video_link), displayCount=displayCount)
 
     from datetime import datetime
     import atom.url
@@ -126,7 +101,7 @@ def videoShow(request, displayCount=5):
     service = gdata.youtube.service.YouTubeService()
     gdata.alt.appengine.run_on_appengine(service)
 
-    vidList = user.video_link[startIndex:startIndex + displayCount]
+    vidList = user.video_link[pageSet['entryOffset']:pageSet['entryOffset'] + displayCount]
     entryList = []
     for vid in vidList:
         video = service.GetYouTubeVideoEntry(video_id=vid)
@@ -134,24 +109,15 @@ def videoShow(request, displayCount=5):
         video.videoDate = videoDate
         entryList.append(video)
 
-    # Special case, if count <= 0
-    if count <= 0:
-        startIndex = -1
-
     template_values = {
             'isSelf':                   isSelf,
             'base':                     flowBase.getBase(request, 'volunteer'),
             'volunteerBase':            flowBase.getVolunteerBase(user),
-            'count':                    count,
-            'startIndex':               startIndex,
-            'nextIndex':                startIndex + displayCount if currentPage < totalPage else None,
-            'prevIndex':                startIndex - displayCount if currentPage > 1 else None,
-            'endIndex':                 endIndex,
             'entryList':                entryList,
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
-            'pageList':                 pageList,
-            'currentPage':              currentPage,
             'page':                     'space',
+            'pageSet':                  pageSet,
+            'queryString':              'volunteer_id=%s' % (userID),
     }
 
     return render_to_response('volunteer/video_list.html', template_values)
@@ -205,53 +171,18 @@ def articleShow(request):
     if not user:
         return HttpResponseRedirect('/')
 
-    entryList = [obj.rsplit(u',http://', 1) for obj in user.article_link]
-    count = len(entryList)
-    startIndex = 0
-    if 'start' in request.GET:
-        startIndex = int(request.GET['start'])
-        if startIndex < 0 or startIndex >= count:
-            startIndex = 0
-    endIndex = startIndex + displayCount - 1
-    if endIndex >= count:
-        endIndex = count - 1
-
-    currentPage = startIndex / displayCount + 1
-    totalPage = (count - 1) / displayCount + 1
-
-    # Calculate the page list window
-    if totalPage < 1:
-        totalPage = 1
-    fromPage = currentPage -  (displayPageCount / 2)
-    if fromPage < 1:
-        fromPage = 1
-    endPage = fromPage + displayPageCount
-    while endPage > totalPage + 1:
-        fromPage -= 1
-        endPage -= 1
-    if fromPage < 1:
-        fromPage = 1
-    pageList = [{'index': i, 'startIndex': (i - 1) * displayCount} for i in range(fromPage, endPage)]
-    del fromPage, endPage
-
-    # Special case, if count <= 0
-    if count <= 0:
-        startIndex = -1
+    pageSet = paging.get(request.GET, len(user.article_link), displayCount=displayCount)
+    entryList = [obj.rsplit(u',http://', 1) for obj in user.article_link[pageSet['entryOffset']:pageSet['entryOffset'] + displayCount]]
 
     template_values = {
             'isSelf':                   isSelf,
             'base':                     flowBase.getBase(request, 'volunteer'),
             'volunteerBase':            flowBase.getVolunteerBase(user),
-            'count':                    count,
-            'startIndex':               startIndex,
-            'nextIndex':                startIndex + displayCount if currentPage < totalPage else None,
-            'prevIndex':                startIndex - displayCount if currentPage > 1 else None,
-            'endIndex':                 endIndex,
             'entryList':                entryList,
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
-            'pageList':                 pageList,
-            'currentPage':              currentPage,
             'page':                     'space',
+            'pageSet':                  pageSet,
+            'queryString':              'volunteer_id=%s' % (userID),
     }
 
     return render_to_response('volunteer/article_list.html', template_values)
