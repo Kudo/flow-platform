@@ -1,0 +1,55 @@
+{% extends "npo/base.html" %}
+
+{### header ###}
+
+{% block npoExtraHeader %}
+
+	{### this block can put additional css / script definition to head tag ###}
+	<!-- block npoExtraHeader here -->
+	
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
+
+			    <div class="content-block">
+				   	<h3 id="page-title" class="subbar">活動列表</h3>
+				   	<div class="action">
+				   		<a href="/npo/admin/addEvent/?npo_id={{npoProfile.npo_id}}">新增活動</a> | <a href="/npo/admin/listEvent/?npo_id={{npoProfile.npo_id}}">管理活動</a>
+				   	</div>
+					<div class="list-title">共有 {{ pageSet.count }} 個活動, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 個</div>
+					{% include "paging.html" %}
+						<div class="fullpage-list">
+						    {% for event in eventList %}
+						    <div class="item npo top-line clearfix">
+						    	<div class="actions">
+						    		<div class="link"><a href="/event/viewEvent?id={{event.event_key|escape }}">前往活動首頁</a></div>
+									<div class="link">加入活動</div>
+						    	</div>
+								<div class="name">
+								    <div class=""><a href="/event/viewEvent?id={{event.event_key|escape }}">{{ event.event_name|escape  }}</a></div>
+								</div>
+								
+								<div class="stats">
+									<dl>
+										<dt>活動時間: </dt>
+										<dd>{{ event.start_time|escape  }}</dd>
+										<dt>活動地點: </dt>
+										<dd>{{ event.event_region|escape }}</dd>
+										<dt>活動說明: </dt>
+										<dd>{{ event.description|escape }}</dd>
+										<dt>已報名人數: </dt>
+										<dd>{{ event.registered_count }}</dd>
+										<dt>通過審核人數: </dt>
+										<dd>{{ event.approved_count }}</dd>
+										<dt>尚欠人數: </dt>
+										<dd>{{ event.volunteer_shortage }}</dd>
+									</dl>
+								</div>
+							</div>
+						    {% endfor %}
+						</div>
+					{% include "paging.html" %}
+					</div>
+{% endblock %}

@@ -2,16 +2,14 @@
 	<div class="new-top-bar">
 		<ul>
 			<li>
-				<a class="selected" href="npo_home.html?npo_id={{npoProfile.npo_id}}">公益團體首頁</a>
+				<a {% ifequal page 'home' %} class="selected" {% endifequal %}href="/npo/npo_home.html?npo_id={{npoProfile.npo_id}}">公益團體首頁</a>
 			</li>
 			<li>
-				<a href="npo_volunteers.html?npo_id={{npoProfile.npo_id}}">我們的志工群</a>
+				<a {% ifequal page 'volunteers' %} class="selected" {% endifequal %}href="/npo/npo_volunteers.html?npo_id={{npoProfile.npo_id}}">我們的志工群</a>
 			</li>
+			<!-- <li>行事曆</li>-->
 			<li>
-				行事曆
-			</li>
-			<li>
-				公益活動
+				<a {% ifequal page 'events' %} class="selected" {% endifequal %}href="/npo/listEvents/?npo_id={{npoProfile.npo_id}}">公益活動</a>
 			</li>
 			<li>
 				公益分享
