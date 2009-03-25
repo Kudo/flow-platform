@@ -38,6 +38,11 @@ def volunteerShow(request):
              }
     return render_to_response(r'event/event-admin-validate.html', dicData)
 
+def fixedSizeStr(s,intSize):
+    if type(s)!=type(u''):
+        s=unicode(s,'utf-8')
+    return s[:intSize]+u'...'
+
 # append volunteer name from volunteer profile
 def addName(lstVolEvent):
     lstVolunteer=[]
@@ -45,6 +50,7 @@ def addName(lstVolEvent):
         objVolunteer = volEvent.volunteer_profile_ref
         objVolunteer.age = (datetime.date.today() - objVolunteer.date_birth).days / 365
         objVolunteer.dbKey = volEvent.key()
+        objVolunteer.expertiseSum=fixedSizeStr(u','.join(objVolunteer.expertise),6)
         lstVolunteer.append(objVolunteer)
     return lstVolunteer
 
