@@ -1,0 +1,20 @@
+						<div class="right-links">
+							<div class="pager ptop">
+							    {% ifnotequal pageSet.prevIndex None %}
+							    <span class="prev">
+							    <a href="{{ base.path }}?{% if pageSet.prevIndex %}start={{ pageSet.prevIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}">上一頁</a>
+							    </span>
+							    {% endifnotequal %}
+							    {% for page in pageSet.pageList %}
+							    <span class="item">
+							    <a href="{{ base.path }}?{% if page.startIndex %}start={{ page.startIndex }}&{% endif %}{% if queryString %}{{ queryString }}{% endif %}"{% ifequal page.index pageSet.currentPage %} class="current"{% endifequal %}>{{ page.index }}</a>
+							    </span>
+							    {% endfor %}
+							    {% if pageSet.nextIndex %}
+									<span class="next">
+							      <a href="{{ base.path }}?start={{ pageSet.nextIndex }}&{% if queryString %}{{ queryString }}{% endif %}">下一頁</a>
+									</span>
+							    {% endif %}
+							</div>
+						</div>
+
