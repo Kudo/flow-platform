@@ -20,7 +20,7 @@
 	            <div class="content">
 		            {% for event in event1 %}
 		            <div class="image">
-		            		<img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}/static/images/01_cis.jpg{% endif %}" width="100" />
+		            		<img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}{{ base.noLogo }}{% endif %}" />
 	            	</div>
 		            <div class="activity-info-item">
 		            	<h3><a href="viewEvent?id={{event.event_key|escape }}">{{ event.event_name|escape  }}</a></h3>
@@ -50,7 +50,7 @@
 			    <div class="content">
 					{% for event in event2 %}
 					<div class="image">
-		            		<img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}/static/images/01_cis.jpg{% endif %}" width="100" />
+		            		<img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}{{ base.noLogo }}{% endif %}" />
 	            	</div>
 					<div class="activity-info-item">
 						<h3><a href="viewEvent?id={{event.event_key|escape }}">{{ event.event_name|escape }}</a></h3> 
@@ -84,7 +84,7 @@
                 <div class="content">
 					{% for event in event3 %}
 					<div class="image">
-		            		<img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}/static/images/01_cis.jpg{% endif %}" width="100" />
+		            		<img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}{{ base.noLogo }}{% endif %}" />
 	            	</div>
 					<div class="activity-info-item">
 						<h3><a href="viewEvent?id={{event.event_key|escape }}">{{ event.event_name|escape  }}</a></h3>
