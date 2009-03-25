@@ -9,14 +9,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from google.appengine.api import users
-import atom.url
-import gdata.alt.appengine
-import gdata.photos, gdata.photos.service
-import gdata.youtube, gdata.youtube.service
 import flowBase
+from common import paging
 from db.ddl import VolunteerProfile, VolunteerIm, NpoProfile
 
-displayNpoCount = 10
+displayCount = 10
 displayNpoEventCount = 3
 diffDaysLimit = 14
 
@@ -42,7 +39,9 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
         return HttpResponseRedirect('/')
 
     now = datetime.datetime.now()
-    npoList = [NpoProfile.get(user.npo_profile_ref[i]) for i in range(displayNpoCount) if i < len(user.npo_profile_ref)]
+    npoCount = len(user.npo_profile_ref)
+    pageSet = paging.get(request.GET, npoCount, displayCount=displayCount)
+    npoList = [NpoProfile.get(user.npo_profile_ref[i]) for i in range(displayCount) if i < npoCount]
     for npo in npoList:
         npo.eventList = npo.event2npo.fetch(displayNpoEventCount)
         for event in npo.eventList:
@@ -50,6 +49,8 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
             event.upcoming = True if event.diffDays >= 0 and event.diffDays <= diffDaysLimit else False
             
         npo.memberCount = len(npo.members)
+        npo.region = u', '.join(npo.service_region)
+        npo.region = npo.region if len(npo.region) < 15 else npo.region[0:15] + u'...'
         if npo.brief_intro:
             npo.brief_intro = npo.brief_intro if len(npo.brief_intro) < 15 else npo.brief_intro[0:15] + u'...'
     
@@ -59,6 +60,8 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'page':                     'npo',
             'npoList':                  npoList,
+            'pageSet':                  pageSet,
+            'queryString':              'volunteer_id=%s' % (userID),
     }
     response = render_to_response('volunteer/joined_npo.html', template_values)
 
