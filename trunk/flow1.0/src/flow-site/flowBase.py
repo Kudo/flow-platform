@@ -8,7 +8,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from db import proflist
-from db import ddl
+#from db import ddl
 from db.ddl import *
 
 COOKIE_ID = 'ACSID'             # Borrow this from GAE
@@ -33,9 +33,14 @@ def getBase(request, category = 'homepage'):
     data['jQueryURI']       = settings.JQUERY_URI
     data['jQueryUI_URI']    = settings.JQUERY_UI_URI
     
+    '''
+    By tom_chen: it doesn't work, can somebody help me?
+    
+    data['admin']           = False
     if users.get_current_user():
-        if users.is_current_user_admin() or ddl.SiteAdmin.all().filter('account =', users.get_current_user()).count():
+        if users.is_current_user_admin() or SiteAdmin.all().filter('account =', users.get_current_user()).count():
             data['admin']       = True
+    '''
     
     # Added by Tom, workaround
     data['cat_' + category]          = True
