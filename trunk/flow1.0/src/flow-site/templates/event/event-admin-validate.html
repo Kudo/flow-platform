@@ -117,8 +117,7 @@ function disableButton(form) {
 						<select multiple id="approved" name="approved" class="select" size="8" onchange="javascript:setButtonsEnabled();">
 							{% for vol in lstApproved %}
 							<option value="{{vol.dbKey}}" DISABLED>
-								{{vol.volunteer_last_name|escape}}{{vol.volunteer_first_name|escape}} 
-								({% ifequal vol.sex "Male"%}男{% else %}女{% endifequal %},{{vol.age}})
+								{{vol.volunteer_last_name|escape}}{{vol.volunteer_first_name|escape}}|{% ifequal vol.sex "Male"%}男{% else %}女{% endifequal %}|{{vol.age}}|{{vol.resident_city|escape}}|{{vol.expertiseSum|escape}}
 							</option>
 							{% endfor %}
 						</select>
