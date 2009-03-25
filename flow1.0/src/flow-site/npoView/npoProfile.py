@@ -156,6 +156,8 @@ def memberList(request):
     response = render_to_response('npo/npo_volunteers.html', template_values)
     return response
 
+displayNpoEventCount = 2
+
 def showHome(request):
     if 'npo_id' not in request.GET:
         return HttpResponseRedirect('/')
@@ -187,6 +189,7 @@ def showHome(request):
 
     npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
     members = db.get(npoProfile.members)
+    eventList = npoProfile.event2npo.fetch(displayNpoEventCount)
     
 #    npoContact = NpoContact(npo_profile_ref = npoProfile,
 #                            contact_type = "Major",
@@ -236,6 +239,7 @@ def showHome(request):
             'leftMembersRow1': row1,
             'leftMembersRow2': row2,
             'numOfMembers': len(members),
+            'eventList': eventList,
             'base':flowBase.getBase(request, 'npo')
      }
     response = render_to_response('npo/npo_home.html', template_values)

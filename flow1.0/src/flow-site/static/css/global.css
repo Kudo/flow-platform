@@ -516,6 +516,7 @@ div.no-padding-bottom {
 
 /* div.left-column */ div.content-block {
 	padding-bottom: 25px;
+	clear: left;
 }
 /* div.left-column */ div.content-block > div.title {
 	background-image: url(/static/images/titlebar.gif);

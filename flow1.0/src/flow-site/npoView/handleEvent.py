@@ -113,6 +113,7 @@ def processAddEvent(request):
         
     dicData={'form': form,
              'base': flowBase.getBase(request,'npo'),
+             'npoProfile': objNpo,
              'page': 'event'}
     return render_to_response('event/event-admin-add.html', dicData)
 
@@ -161,6 +162,7 @@ def processEditEvent(request):
         form = NewEventForm(instance = eventProfile)
     dic={'form':form, 'event_key':eventKey,
          'base':flowBase.getBase(request,'npo'),
+         'npoProfile': objNpo,
          'page': 'event'}
     return render_to_response('event/event-admin-edit.html', dic)
     

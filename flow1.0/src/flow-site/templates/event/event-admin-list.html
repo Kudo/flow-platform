@@ -32,8 +32,8 @@ function disableButton(form) {
 }
   </SCRIPT>
 
-	<h3 id="page-title">活動管理</h3>
-		<form name="addEvtForm" action="addEvent" method="POST">
+	<h3 id="page-title" class="subbar">活動管理</h3>
+		<form name="addEvtForm" action="/npo/admin/addEvent" method="POST">
 		<input type="submit" value="新增活動" name="btnNewActivity"><br>
 		<br>
 	</form>
@@ -52,15 +52,15 @@ function disableButton(form) {
 				<td>{{ event.status|escape }}</td>
 				<td>
 				
-				<input {{event.dicPerm.modify}} type="button" value="修改" name="btnModify1" onClick="submitForm('editEvent','{{ event.event_key }}');">
+				<input {{event.dicPerm.modify}} type="button" value="修改" name="btnModify1" onClick="submitForm('/npo/admin/editEvent','{{ event.event_key }}');">
 				<!--
-				<input {{event.dicPerm.recruit}} type="button" value="召募" name="btnRecruit1" onClick="submitForm('recruitVolunteer','{{ event.event_key }}');">
+				<input {{event.dicPerm.recruit}} type="button" value="召募" name="btnRecruit1" onClick="submitForm('/npo/admin/recruitVolunteer','{{ event.event_key }}');">
 				-->
-				<input {{event.dicPerm.validate}} type="button" value="志工審核" name="btnVerify1" onClick="submitForm('selectVolunteer','{{ event.event_key }}');">
+				<input {{event.dicPerm.validate}} type="button" value="志工審核" name="btnVerify1" onClick="submitForm('/npo/admin/selectVolunteer','{{ event.event_key }}');">
 				<!--
-				<input {{event.dicPerm.close}} type="button" value="結案" name="btnClose1" onClick="submitForm('closeEvent','{{ event.event_key }}');">
+				<input {{event.dicPerm.close}} type="button" value="結案" name="btnClose1" onClick="submitForm('/npo/admin/closeEvent','{{ event.event_key }}');">
 				-->
-				<input {{event.dicPerm.cancel}} type="button" value="取消" name="btnCancel1" onClick="submitForm('cancelEvent','{{ event.event_key }}');"></td>
+				<input {{event.dicPerm.cancel}} type="button" value="取消" name="btnCancel1" onClick="submitForm('/npo/admin/cancelEvent','{{ event.event_key }}');"></td>
 			</tr>
 			
 			{% endfor %}
