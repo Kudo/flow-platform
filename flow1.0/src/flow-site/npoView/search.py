@@ -24,7 +24,7 @@ def show(request):
     queryStringList = []
     queryObj = NpoProfile.all()
     if searchVal['searchRegion']:
-        queryObj.filter('region = ', searchVal['searchRegion'])
+        queryObj.filter('service_region in ', [searchVal['searchRegion']])
         queryStringList.append(u'region=%s' % searchVal['searchRegion'])
 
     pageSet = paging.get(request.GET, queryObj.count(), displayCount=displayCount)
