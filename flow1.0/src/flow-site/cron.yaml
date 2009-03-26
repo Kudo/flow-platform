@@ -6,4 +6,8 @@ cron:
 
 - url: /cron/hourly/
   schedule: every 1 hours
-  description: every 1 hour cron job
+  description: hourly cron job
+
+- url: /cron/daily/
+  schedule: every 24 hours
+  description: daily cron job
