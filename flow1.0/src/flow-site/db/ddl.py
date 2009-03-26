@@ -123,7 +123,7 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 
 __all__ = ["CountryCity", "EventAnswer", "EventNews", "EventProfile", "EventQuestion", "EventQuestionnaire", "EventReport",
            "Expertise", "Field", "ImproperReport", "ModelCount", "NpoAdmin", "NpoContact", "NpoEmail", "NpoNews", "NpoPhone",
-           "NpoProfile", "QuestionnaireTemplate", "ReportTemplate", "Target", "VolunteerEmailBook", "VolunteerEvent",
+           "NpoProfile", "QuestionnaireTemplate", "ReportTemplate", "SiteAdmin", "Target", "VolunteerEmailBook", "VolunteerEvent",
            "VolunteerIm", "VolunteerLog", "VolunteerProfile"]
 
 """
