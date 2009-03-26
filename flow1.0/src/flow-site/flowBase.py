@@ -157,6 +157,16 @@ def getRegion():
         memcache.add('Region/Region', regions, 604800)
     return regions + getResident()
 
+def verifyVolunteer(request):
+    if 'volunteer_id' not in request.GET:
+        if users.get_current_user():
+            userObj = users.get_current_user()
+        else:
+            return None
+    else:
+        userObj = users.User(cgi.escape(request.GET['volunteer_id']))
+    return getVolunteer(userObj)
+
 def verifyNpo(request):
     objUser=users.get_current_user()
     if not objUser:

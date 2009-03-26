@@ -138,26 +138,15 @@ class VolunteerProfileForm(djangoforms.ModelForm):
 
 
 def show(request):
-    if 'volunteer_id' not in request.GET:
-        if users.get_current_user():
-            userID = users.get_current_user()
-            isSelf = True
-        else:
-            return HttpResponseRedirect('/')
-    else:
-        userID = cgi.escape(request.GET['volunteer_id'])
-        if userID.find('@gmail.com') == -1:
-            userID += '@gmail.com'
-            userID = users.User(userID)
-            isSelf = True if users.get_current_user() == userID else False
-
-    user = flowBase.getVolunteer(userID) 
+    user = flowBase.verifyVolunteer(request)
     if not user:
         return HttpResponseRedirect('/')
+
+    base = flowBase.getBase(request, 'volunteer')
     userIM = user.im2volunteer.get()
     template_values = {
-            'isSelf':                   isSelf,
-            'base':                     flowBase.getBase(request, 'volunteer'),
+            'isSelf':                   True if base['user'] == user.volunteer_id else False,
+            'base':                     base,
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'page':                     'profile',
             'sex':                      user.sex,
