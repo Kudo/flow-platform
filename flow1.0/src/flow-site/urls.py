@@ -20,4 +20,5 @@ urlpatterns = patterns('',
     (r'^showart/',                                  include('showart.urls')),
     (r'^utils/',                                    include('utils.urls')),
     (r'^admin/?',                                   include('adminView.urls')),
+    (r'^cron/',                                   include('cron.urls')),
 )
