@@ -1,0 +1,9 @@
+
+cron:
+- url: /cron/5m/
+  schedule: every 5 minutes
+  description: every 5 minuts cron job
+
+- url: /cron/hourly/
+  schedule: every 1 hours
+  description: every 1 hour cron job
