@@ -18,7 +18,7 @@ indexes:
 
 - kind: NpoProfile
   properties:
-  - name: region
+  - name: service_region
   - name: id
 
 - kind: EventProfile
