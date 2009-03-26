@@ -16,6 +16,7 @@ from db.ddl import NpoProfile
 from db.ddl import VolunteerProfile
 from db.ddl import NpoContact
 from db.ddl import NpoPhone
+from db.ddl import NpoAdmin
 import flowBase
 
 def mainPage(request):
@@ -62,3 +63,80 @@ def mainPage(request):
     }
     response = render_to_response('npo/admin_mainpage.html', template_values)
     return response
+
+def memberList(request, npoid, message=None):
+    npoProfile = NpoProfile.all().filter('npo_id = ', npoid).get()
+    if npoProfile:
+        
+        npoMembershipList = list()
+        for npoMember in npoProfile.members:
+            npoMembershipList.append({
+                'volunteer_profile': VolunteerProfile.get(npoMember), 
+                'isAdmin':           (npoProfile.admins2npo.filter('volunteer_id = ', VolunteerProfile.get(npoMember).volunteer_id).count())
+                })
+        
+        template_values = {
+            'npoProfile':   npoProfile,
+            'npoMembershipList': npoMembershipList,
+            'message':      message,
+            'page':         'members',
+            'base':         flowBase.getBase(request, 'npo')
+        }
+        return render_to_response('npo/manage_managers.html', template_values)
+    else:
+        return HttpResponseRedirect(users.create_login_url(cgi.escape(request.path)))        
+
+def manageMember(request, npoid):
+    message = None
+    npoProfile = NpoProfile.all().filter('npo_id = ', npoid).get()
+    if npoProfile:
+        volunteerid = None
+        if 'volunteer_id' in request.POST:
+            volunteerid = request.POST['volunteer_id']
+        if 'operation' in request.POST:
+            operation = request.POST['operation']
+            if operation == 'add':
+                #volunteerid is email address to the VolunteerProfile class
+                volunteerProfile = VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
+                if volunteerProfile:
+                    npoProfile.members.append(volunteerProfile.key()) #VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
+                    npoProfile.put()
+                else:
+                    message = volunteerid + ur' 不是一個有效的若水公益平台帳號，請檢查後重新輸入。'
+            elif operation == 'set_manager':
+                #volunteerid is email to the VolunteerProfile class
+                volunteerProfile = VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
+                if volunteerProfile and volunteerProfile.key() in npoProfile.members:
+                    npoManager = NpoAdmin(npo_profile_ref=npoProfile, admin_role="Main", volunteer_id=users.User(volunteerid))
+                    npoManager.put()
+                else:
+                    #unexpected operation, do nothing.
+                    pass
+            elif operation == 'unset_manager':
+                #volunteerid is email to the VolunteerProfile class
+                volunteerProfile = VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
+                if volunteerProfile and volunteerProfile.key() in npoProfile.members:
+                    npoManager = npoProfile.admins2npo.filter("volunteer_id =", volunteerProfile.volunteer_id).get()
+                    if npoManager:
+                        npoManager.delete()
+                else:
+                    #unexpected operation, do nothing.
+                    pass
+            elif operation == 'remove':
+                #volunteerid is email  to the NpoAdmin class
+                volunteerProfile = VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
+                if volunteerProfile and volunteerProfile.key() in npoProfile.members:
+                    npoManager = npoProfile.admins2npo.filter("volunteer_id =", volunteerProfile.volunteer_id).get()
+                    if npoManager:
+                        npoManager.delete()
+                    npoProfile.members.remove(volunteerProfile.key())
+                    npoProfile.put()
+                else:
+                    # unexpected operation. do nothing 
+                    pass
+        return memberList(request, npoid, message)
+    # invalid npoid, needing to loging as npoadmin, or other unexpected errors
+    else:
+        return HttpResponseRedirect(users.create_login_url(cgi.escape(request.path)))        
+
+  

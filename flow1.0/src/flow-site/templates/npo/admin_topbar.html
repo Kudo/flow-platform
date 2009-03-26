@@ -9,7 +9,7 @@
                 <a {% ifequal page 'event' %} class="selected" {% endifequal %}href="listEvent?npo_id={{npoProfile.npo_id}}">活動管理</a>
             </li>
             <li>
-                <a {% ifequal page 'administrator' %} class="selected" {% endifequal %}href="../">設定管理員</a>
+                <a {% ifequal page 'members' %} class="selected" {% endifequal %}href="/npo/{{ npoProfile.npo_id }}/admin/members">設定管理員</a>
             </li>
             <li>
                 <a {% ifequal page 'news' %} class="selected" {% endifequal %}href="../">新聞管理</a>
