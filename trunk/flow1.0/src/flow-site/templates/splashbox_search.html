@@ -18,7 +18,7 @@
 								<label for="region">居住地:</label>
 								<select name="region">
 									<option value="">任何地區</option>
-									{% for region in base.region %}
+									{% for region in base.resident %}
 									<option value="{{ region }}"{% ifequal searchVal.searchRegion region %} selected="selected"{% endifequal %}>{{ region }}</option>
 									{% endfor %}
 								</select>

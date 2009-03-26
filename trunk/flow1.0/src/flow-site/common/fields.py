@@ -8,7 +8,7 @@ class FlowChoiceField(fields.ChoiceField):
         value = fields.smart_unicode(value)
         if value == u'':
             return value
-        valid_values = [k for k, v in self.choices]
+        valid_values = set([k for k, v in self.choices])
         if value not in valid_values:
             raise fields.ValidationError(fields.gettext(u'Select a valid choice. That choice is not one of the available choices.'))
         return value

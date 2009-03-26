@@ -7,7 +7,7 @@ from google.appengine.ext import db
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from db import proflist
+from db import proflist, regionList
 from db.ddl import *
 
 COOKIE_ID = 'ACSID'             # Borrow this from GAE
@@ -26,6 +26,7 @@ def getBase(request, category = 'homepage'):
     data['volunteer_id']    = getVolunteerID(data['user'])
     data['noLogo']          = '/static/images/head_blue50.jpg'
     data['proflist']        = getProfessionList()
+    data['resident']        = getResident()
     data['region']          = getRegion()
     data['token']           = _make_token(request)
 
@@ -142,15 +143,19 @@ def logout(request):
 def getProfessionList():
 	return proflist.getProfessionList()
 
-def getRegion(getProperty=False):
-    regions=memcache.get('getRegion')
+def getResident():
+    regions = memcache.get('Region/Residient')
     if not regions:
-        regions = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
-        if regions:
-            memcache.add('getRegion',regions,300)
-    if getProperty:
-        return regions
-    return [region.city_tc for region in regions]
+        regions = regionList.getResidentList()
+        memcache.add('Region/Resident', regions, 604800)
+    return regions
+
+def getRegion():
+    regions = memcache.get('Region/Region')
+    if not regions:
+        regions = regionList.getRegionList()
+        memcache.add('Region/Region', regions, 604800)
+    return regions + getResident()
 
 def verifyNpo(request):
     objUser=users.get_current_user()
