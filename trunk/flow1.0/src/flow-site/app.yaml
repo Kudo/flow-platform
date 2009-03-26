@@ -15,5 +15,9 @@ handlers:
   script: main.py
   login: required
 
+- url: /npo/[^/]+/admin/?.*
+  script: main.py
+  login: required
+
 - url: /.*
   script: main.py
