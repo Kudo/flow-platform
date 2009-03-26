@@ -20,6 +20,7 @@ try:
 except ImportError:
     from django import forms
 from google.appengine.ext.db import djangoforms
+from common.fields import FlowChoiceField
 
 """
 # -------------------------------------------------------------
@@ -88,12 +89,8 @@ class VolunteerProfileForm(djangoforms.ModelForm):
     birthmonth                  = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'size': '2'}))
     birthday                    = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'size': '2'}))
 
-    choices = []
-    citys = flowBase.getRegion(getProperty=True)
-    for city in citys:
-        choices.append((city.city_en, city.city_tc))
-    del citys
-    resident_city               = forms.ChoiceField(choices=choices)
+    choices = [(region, region) for region in flowBase.getResident()]
+    resident_city               = FlowChoiceField(choices=choices)
 
     choices = (
             ('MSN',                     u'MSN 即時通訊'),
@@ -218,14 +215,12 @@ def edit(request):
             else:
                 cellphone_no = None
 
-            resident_city = db.GqlQuery('SELECT * From CountryCity WHERE city_en = :1', cleaned_data['resident_city']).get().city_tc
-
             user.update_time                 = datetime.datetime.utcnow()
             user.volunteer_first_name        = cleaned_data['volunteer_first_name']
             user.volunteer_last_name         = cleaned_data['volunteer_last_name']
             user.sex                         = cleaned_data['sex']
             user.date_birth                  = datetime.date(int(cleaned_data['birthyear']), int(cleaned_data['birthmonth']), int(cleaned_data['birthday']))
-            user.resident_city               = resident_city
+            user.resident_city               = cleaned_data['resident_city']
             user.logo                        = cleaned_data['logo'] or None
             user.school                      = cleaned_data['school']
             user.organization                = cleaned_data['organization']

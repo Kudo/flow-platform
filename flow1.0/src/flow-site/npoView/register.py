@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from google.appengine.api import users
 import flowBase
-from db.ddl import NpoProfile, NpoContact, NpoPhone, NpoEmail, NpoNews, NpoAdmin, CountryCity
+from db.ddl import NpoProfile, NpoContact, NpoPhone, NpoEmail, NpoNews, NpoAdmin
 from itertools import chain
 from django.conf import settings
 from google.appengine.ext.webapp import template
@@ -18,6 +18,7 @@ try:
 except ImportError:
     from django import forms
 from google.appengine.ext.db import djangoforms
+from common.fields import FlowChoiceField
 
 maxAdminCount = 10
 
@@ -31,12 +32,8 @@ class NpoProfileForm(djangoforms.ModelForm):
     brief_intro                 = forms.CharField(widget=forms.Textarea(attrs={'class': 'field textarea medium', 'cols': '50', 'rows': '10'}))
     logo                        = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text large'}))
 
-    choices = []
-    citys = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
-    for city in citys:
-        choices.append((city.city_en, city.city_tc))
-    del citys
-    service_region              = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
+    choices = [(region, region) for region in flowBase.getRegion()]
+    service_region              = FlowChoiceField(choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
 
     service_target              = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text medium'}))
     service_field               = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text medium'}))
@@ -116,7 +113,6 @@ def step3(request):
             import datetime
             now = datetime.datetime.utcnow()
             cleaned_data = form._cleaned_data()
-            service_region = db.GqlQuery('SELECT * From CountryCity WHERE city_en = :1', cleaned_data['service_region']).get().city_tc
             npoObj = NpoProfile(
                     google_acct                 = user.volunteer_id,
                     create_time                 = now,
@@ -128,7 +124,7 @@ def step3(request):
                     founder                     = cleaned_data['founder'],
                     brief_intro                 = cleaned_data['brief_intro'],
                     logo                        = cleaned_data['logo'] or None,
-                    service_region              = [service_region],
+                    service_region              = [cleaned_data['service_region']],
                     service_target              = [cleaned_data['service_target']],
                     service_field               = [cleaned_data['service_field']],
                     website                     = cleaned_data['website'] or None,
@@ -141,9 +137,9 @@ def step3(request):
                     state                       = u'Taiwan',
                     country                     = u'ROC',
                     postal                      = '???',
-                    city                        = service_region,
+                    city                        = cleaned_data['service_region'],
                     district                    = '???',
-                    tag                         = [cleaned_data['npo_name'], service_region],
+                    tag                         = [cleaned_data['npo_name'], cleaned_data['service_region']],
                     npo_rating                  = 0,
                     docs_link                   = ['???'],
             )

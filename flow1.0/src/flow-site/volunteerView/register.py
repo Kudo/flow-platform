@@ -10,7 +10,7 @@ from google.appengine.ext import db
 from google.appengine.api import users
 import flowBase
 from db import proflist
-from db.ddl import VolunteerProfile, VolunteerIm, CountryCity
+from db.ddl import VolunteerProfile, VolunteerIm
 from itertools import chain
 from django.conf import settings
 from google.appengine.ext.webapp import template
@@ -19,6 +19,7 @@ try:
 except ImportError:
     from django import forms
 from google.appengine.ext.db import djangoforms
+from common.fields import FlowChoiceField
 
 """
 # -------------------------------------------------------------
@@ -86,12 +87,8 @@ class VolunteerProfileForm(djangoforms.ModelForm):
     birthmonth                  = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
     birthday                    = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
 
-    choices = []
-    citys = db.GqlQuery('SELECT * FROM CountryCity WHERE state_en = :1', 'Taiwan').fetch(50)
-    for city in citys:
-        choices.append((city.city_en, city.city_tc))
-    del citys
-    resident_city               = forms.ChoiceField(choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
+    choices = [(region, region) for region in flowBase.getResident()]
+    resident_city               = FlowChoiceField(choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
 
     logo                        = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text large'}))
     school                      = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
@@ -188,7 +185,6 @@ def step3(request):
                 cellphone_no = '%s-%s-%s' % (cleaned_data['phone1'], cleaned_data['phone2'], cleaned_data['phone3'])
             else:
                 cellphone_no = None
-            resident_city = db.GqlQuery('SELECT * From CountryCity WHERE city_en = :1', cleaned_data['resident_city']).get().city_tc
             volunteerObj = VolunteerProfile(
                     key_name                    = str(base['user']),
                     volunteer_id                = base['user'], 
@@ -202,7 +198,7 @@ def step3(request):
                     volunteer_last_name         = cleaned_data['volunteer_last_name'], 
                     sex                         = cleaned_data['sex'],
                     date_birth                  = datetime.date(int(cleaned_data['birthyear']), int(cleaned_data['birthmonth']), int(cleaned_data['birthday'])),
-                    resident_city               = resident_city,
+                    resident_city               = cleaned_data['resident_city'],
                     logo                        = cleaned_data['logo'] or None,
                     school                      = cleaned_data['school'],
                     organization                = cleaned_data['organization'],
