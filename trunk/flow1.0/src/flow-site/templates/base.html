@@ -26,13 +26,13 @@
 										{% if base.volunteer_id %}
 	                		<li><span class="people">{{ base.user }}&nbsp;</span></li>
 	                		<li><a href="/logout?redirect={{ base.full_path }}">登出</a></li>
-	                    	<li><a href="/volunteer/profile/">我的履歷表</a></li>
+	                   	<li><a href="/volunteer/profile/">我的履歷表</a></li>
+										{% if base.isFlowAdmin %}
+											<li><a href="/admin/">管理介面</a></li>
+										{% endif %}
 										{% else %}
 	                		<li><a href="/login?redirect={{ base.full_path }}">登入</a></li>
 											<li><a href="/volunteer/register/">註冊</a></li>
-										{% if base.admin %}
-											<li><a href="/admin/">管理介面</a></li>
-										{% endif %}
 										{% endif %}										  
 	                    <li><a>說明</a></li>
 	                </ul>
