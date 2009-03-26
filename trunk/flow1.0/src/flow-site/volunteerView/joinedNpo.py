@@ -18,23 +18,7 @@ displayNpoEventCount = 3
 diffDaysLimit = 14
 
 def show(request, displayPhotoCount=8, displayBlogCount=6):
-    if 'volunteer_id' not in request.GET:
-        if users.get_current_user():
-            userID = users.get_current_user()
-        else:
-            return HttpResponseRedirect('/')
-    else:
-        userID = cgi.escape(request.GET['volunteer_id'])
-
-        '''
-        # marked by camge
-        # Does google account must be xxxx@gmail.com ???
-        if userID.find('@gmail.com') == -1:
-            userID += '@gmail.com'
-            userID = users.User(userID)
-        '''
-
-    user = flowBase.getVolunteer(userID)
+    user = flowBase.verifyVolunteer(request)
     if not user:
         return HttpResponseRedirect('/')
 
@@ -61,7 +45,7 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
             'page':                     'npo',
             'npoList':                  npoList,
             'pageSet':                  pageSet,
-            'queryString':              'volunteer_id=%s' % (userID),
+            'queryString':              'volunteer_id=%s' % (user.volunteer_id.email()),
     }
     response = render_to_response('volunteer/joined_npo.html', template_values)
 

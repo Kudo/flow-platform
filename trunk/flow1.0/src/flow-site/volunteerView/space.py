@@ -17,22 +17,11 @@ displayCount = 10
 displayPageCount = 5
 
 def show(request, displayAlbumCount=2, displayPhotoCount=5, displayArticleCount=5):
-    if 'volunteer_id' not in request.GET:
-        if users.get_current_user():
-            userID = users.get_current_user()
-            isSelf = True
-        else:
-            return HttpResponseRedirect('/')
-    else:
-        userID = cgi.escape(request.GET['volunteer_id'])
-        if userID.find('@gmail.com') == -1:
-            userID += '@gmail.com'
-            userID = users.User(userID)
-            isSelf = True if users.get_current_user() == userID else False
-
-    user = flowBase.getVolunteer(userID)
+    user = flowBase.verifyVolunteer(request)
     if not user:
         return HttpResponseRedirect('/')
+
+    base = flowBase.getBase(request, 'volunteer')
 
     from datetime import datetime
     import atom.url
@@ -61,8 +50,8 @@ def show(request, displayAlbumCount=2, displayPhotoCount=5, displayArticleCount=
         videoDate = datetime.strptime(video.published.text, '%Y-%m-%dT%H:%M:%S.000Z')
 
     template_values = {
-            'isSelf':                   isSelf,
-            'base':                     flowBase.getBase(request, 'volunteer'),
+            'isSelf':                   True if base['user'] == user.volunteer_id else False,
+            'base':                     base,
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'page':                     'space',
             'albums':                   albums,
@@ -75,23 +64,11 @@ def show(request, displayAlbumCount=2, displayPhotoCount=5, displayArticleCount=
     return response
 
 def videoShow(request, displayCount=5):
-    if 'volunteer_id' not in request.GET:
-        if users.get_current_user():
-            userID = users.get_current_user()
-            isSelf = True
-        else:
-            return HttpResponseRedirect('/')
-    else:
-        userID = cgi.escape(request.GET['volunteer_id'])
-        if userID.find('@gmail.com') == -1:
-            userID += '@gmail.com'
-            userID = users.User(userID)
-            isSelf = True if users.get_current_user() == userID else False
-
-    user = flowBase.getVolunteer(userID)
+    user = flowBase.verifyVolunteer(request)
     if not user:
         return HttpResponseRedirect('/')
 
+    base = flowBase.getBase(request, 'volunteer')
     pageSet = paging.get(request.GET, len(user.video_link), displayCount=displayCount)
 
     from datetime import datetime
@@ -110,14 +87,14 @@ def videoShow(request, displayCount=5):
         entryList.append(video)
 
     template_values = {
-            'isSelf':                   isSelf,
-            'base':                     flowBase.getBase(request, 'volunteer'),
+            'isSelf':                   True if base['user'] == user.volunteer_id else False,
+            'base':                     base,
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'entryList':                entryList,
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
             'page':                     'space',
             'pageSet':                  pageSet,
-            'queryString':              'volunteer_id=%s' % (userID),
+            'queryString':              'volunteer_id=%s' % (user.volunteer_id.email()),
     }
 
     return render_to_response('volunteer/video_list.html', template_values)
@@ -154,35 +131,23 @@ def videoDelete(request):
         return HttpResponse(simplejson.dumps({'statusCode': 404, 'reason': 'Unknown action'}), mimetype='application/json')
 
 def articleShow(request):
-    if 'volunteer_id' not in request.GET:
-        if users.get_current_user():
-            userID = users.get_current_user()
-            isSelf = True
-        else:
-            return HttpResponseRedirect('/')
-    else:
-        userID = cgi.escape(request.GET['volunteer_id'])
-        if userID.find('@gmail.com') == -1:
-            userID += '@gmail.com'
-            userID = users.User(userID)
-            isSelf = True if users.get_current_user() == userID else False
-
-    user = flowBase.getVolunteer(userID)
+    user = flowBase.verifyVolunteer(request)
     if not user:
         return HttpResponseRedirect('/')
 
+    base = flowBase.getBase(request, 'volunteer')
     pageSet = paging.get(request.GET, len(user.article_link), displayCount=displayCount)
     entryList = [obj.rsplit(u',http://', 1) for obj in user.article_link[pageSet['entryOffset']:pageSet['entryOffset'] + displayCount]]
 
     template_values = {
-            'isSelf':                   isSelf,
-            'base':                     flowBase.getBase(request, 'volunteer'),
+            'isSelf':                   True if base['user'] == user.volunteer_id else False,
+            'base':                     base,
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'entryList':                entryList,
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
             'page':                     'space',
             'pageSet':                  pageSet,
-            'queryString':              'volunteer_id=%s' % (userID),
+            'queryString':              'volunteer_id=%s' % (user.volunteer_id.email()),
     }
 
     return render_to_response('volunteer/article_list.html', template_values)
