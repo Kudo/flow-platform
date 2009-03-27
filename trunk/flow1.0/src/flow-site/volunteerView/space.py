@@ -57,7 +57,9 @@ def show(request, displayAlbumCount=2, displayPhotoCount=5, displayArticleCount=
             'albums':                   albums,
             'video':                    video,
             'videoDate':                videoDate,
+            'videoCount':               len(user.video_link),
             'articleList':              [obj.rsplit(u',http://', 1) for obj in user.article_link][:displayArticleCount],
+            'articleCount':             len(user.article_link),
     }
     response = render_to_response('volunteer/profile_space.html', template_values)
 
