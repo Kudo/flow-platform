@@ -6,6 +6,7 @@ import datetime
 from db.ddl import *
 from google.appengine.api import users
 from django.http import HttpResponse
+import flowBase
 
 def create(request):
     response = HttpResponse(mimetype="text/plain; charset=utf-8")
@@ -83,4 +84,46 @@ def bulkCreate(request):
         return response
 
     response.write('大量新增 VolunteerProfile 成功!!!')
+    return response
+
+def addVideo(count=1):
+    volunteer = flowBase.getVolunteer('ckchien@gmail.com')
+    if not volunteer:
+        return False
+    vid = 'lPKfnhrtPH0'
+    vidList = [vid for i in range(count)]
+    volunteer.video_link = vidList + volunteer.video_link
+    return volunteer.put()
+
+def addArticle(count=1):
+    volunteer = flowBase.getVolunteer('ckchien@gmail.com')
+    if not volunteer:
+        return False
+    entry = 'Google App Engine Blog,http://http://googleappengine.blogspot.com/2009/03/jaiku-moves-to-app-engine-new-article.html'
+    entryList = [entry for i in range(count)]
+    volunteer.article_link = entryList + volunteer.article_link
+    return volunteer.put()
+
+def spaceCreate(request):
+    response = HttpResponse(mimetype="text/plain; charset=utf-8")
+    try:
+        addVideo()
+        addArticle()
+    except:
+        response.write('新增失敗 (%s)' % str(sys.exc_info()))
+        return response
+
+    response.write('新增成功!!!')
+    return response
+
+def bulkSpaceCreate(request):
+    response = HttpResponse(mimetype="text/plain; charset=utf-8")
+    try:
+        addVideo(100)
+        addArticle(100)
+    except:
+        response.write('大量新增失敗 (%s)' % str(sys.exc_info()))
+        return response
+
+    response.write('大量新增成功!!!')
     return response
