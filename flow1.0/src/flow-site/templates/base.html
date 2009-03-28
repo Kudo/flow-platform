@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{% if pageTitle %}{{ pageTitle }} - {% endif %}若水志工媒合平台</title>
+<link href="/static/css/global2.css" rel="stylesheet" type="text/css" />
 <link href="/static/css/reset.css" rel="stylesheet" type="text/css" />
 <link href="/static/css/global.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{{ base.jQueryURI }}"></script>
@@ -16,69 +17,60 @@
 
 </head>
 <body>
-<div id="outer-page">
-	<div id="page">
-	<div id="nonfooter">
-		<div class="header">
-	    	<div class="header-bar">
-	            <div id="login-box">
-	                <ul class="top-horizontal-menu">
-										{% if base.volunteer_id %}
-	                		<li><span class="people">{{ base.user }}&nbsp;</span></li>
-	                		<li><a href="/logout?redirect={{ base.full_path }}">登出</a></li>
-	                   	<li><a href="/volunteer/profile/">我的履歷表</a></li>
-										{% if base.isFlowAdmin %}
-											<li><a href="/admin/">管理介面</a></li>
-										{% endif %}
-										{% else %}
-	                		<li><a href="/login?redirect={{ base.full_path }}">登入</a></li>
-											<li><a href="/volunteer/register/">註冊</a></li>
-										{% endif %}										  
-	                    <li><a>說明</a></li>
-	                </ul>
-	            </div>
-	        </div> <!-- #login-box -->
-	        <div id="splash-box">
-				{% block splashPage %}
-					{### this block contains the splashPage to include, ex: include "splashbox.html" ###}
-					{% include "splashbox_search.html" %}
-				{% endblock splashPage %}
-
-				
-	        </div>
-	        <div id="header-links" class="clearfix">
-	        	<ul class="top-horizontal-menu">
-	                <li {% if base.cat_homepage %} class="selected" {% endif %}><a href="/">首頁</a></li>
-	                <li {% if base.cat_event %} class="selected" {% endif %}><a href="/event/">公益活動</a></li>
-	                <li {% if base.cat_npo %} class="selected" {% endif %}><a href="/npo/">公益團體</a></li>
-	                <li {% if base.cat_volunteer %} class="selected" {% endif %}><a href="/volunteer/">志工臉譜</a></li>
-	            </ul>
-	        </div>
-	    </div><!-- .header -->
-{% block topBar %}
-	{### this block is for top bar ###}
-{% endblock topBar %}
-
-	    <div class="main-content">
-
-{% block mainContent %}
-	{### this block can be replaced by children template with actual main content ###}
-	block mainContent here
-{% endblock mainContent %}
-
-	    </div> <!-- .main-content -->
-    </div> <!-- #nonfooter -->
-    <div class="footer">
-    <div id="footer-menu">
-        <ul class="horizontal-menu">
-					<li><a href="/about/introduction.html">關於平台</a></li>
-					<li><a href="/about/legal.html">法律聲明</a></li>
-        </ul>
+<div id="Banner">
+    <div id="Top_Nav">
+    	{% if base.volunteer_id %}
+    		{{ base.user }} &nbsp; &nbsp;
+        {% endif %}
+        <a href="#" onClick="javascript:$('#Search').toggle('drop');" class="highlight">搜尋</a>
+        |
+        {% if base.volunteer_id %}
+	        <a href="/logout?redirect={{ base.full_path }}">登出</a>
+	        |
+	        <a href="/volunteer/profile/">我的履歷表</a>
+	        |
+        	{% if base.isFlowAdmin %}
+        		<a href="/admin/">管理介面</a>
+        		|
+        	{% endif %}
+        {% else %}
+        	<a href="/login?redirect={{ base.full_path }}">登入</a>
+        	|
+        	<a href="/volunteer/register/">註冊</a>
+        	|
+        {% endif %}
+        <a href="#">說明</a>
+        |
+        <a href="/">首頁</a>
     </div>
-    <p id="copyright">2009 © <img src="/static/images/small-logo.png" align="absmiddle"> 若水國際 All Rights Reserved</p>
-    </div>
-    </div>
+    <div id="Main_Nav">
+        <a href="/event/" class="nav_activities"></a>
+        <span class="nav_line"></span>
+        <a href="/npo/" class="nav_group"></a>
+        <span class="nav_line"></span>
+        <a href="/volunteer/" class="nav_people"></a>
+    </div> 
 </div>
-<div id="bottom-page"></div>
+
+<div id="Body_Wrap">
+    <div id="Body_Header"></div>
+	    <div id="Body_Content">
+	    {% block mainContent %}
+		{### this block can be replaced by children template with actual main content ###}
+		block mainContent here
+		{% endblock mainContent %}
+		</div>
+    <div class="clear_float"></div>   
+</div>
+
+<div id="Footer">
+  <p><a href="/about/introduction.html">關於平台</a></p>
+  <p><a href="/about/legal.html">法律聲明</a></p>
+  <p>2009 &copy; 若水國際 All Rights Reserved</p>
+</div>
+
+<div id="Search" style="display: none;">
+{% include "splashbox_search.html" %}
+</div>
 </body>
 </html>

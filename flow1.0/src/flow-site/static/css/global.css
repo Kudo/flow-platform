@@ -4,14 +4,6 @@ s* {
 
 /* elements */
 
-body {
-	/* font-family: Arial, Helvetica, sans-serif; */
-	font-size: 14px;
-	text-align: left;
-	background-color: #cdcdcd;
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-}
-
 td {
 	font-family: Arial, Helvetica, sans-serif;
 }
@@ -100,91 +92,6 @@ h6 {
     max-height: 75px;
 }
 
-
-/* header */
-.header {
-/*	height: 100px; */
-}
-
-/*
-.header:after {
-	content: '.';
-	visibility: hidden;
-	clear: both;
-}*/
-
-.header-bar {
-	height: 25px;
-	font-size: 13px;
-}
-
-
-
-#outer-page {
-	width: 880px;
-	margin: 0 auto;
-	background-attachment: scroll;
-	background-image: url(/static/images/page-bg.jpg);
-	background-repeat: repeat-y;	
-}
-
-#bottom-page {
-	width: 880px;
-	height: 20px;
-	margin: 0 auto;
-	background-attachment: scroll;
-	background-image: url(/static/images/page-bottom.jpg);	
-}
-
-#page {
-	width: 860px;
-	background-color: #FFF;
-	min-width: 860px;
-	margin: 0 auto;
-	text-align: left;
-}
-
-#header-links {
-	width: 860px;
-	height:33px;
-	padding-top: 4px;
-/*	padding-left: 10px; */
-	background-image: url(/static/images/bar-bg.jpg);
-	background-repeat: repeat-x;
-}
-
-#header-links .selected {
-	background-image: url(/static/images/selectedTab.gif);
-	padding: 2px 12px 3px;
-
-}
-
-#header-links li {
-	padding: 2px 0 3px;
-}
-
-#login-box {
-	float: right;
-	text-align: right;
-	padding-top: 2px;
-	width: auto;
-	display: block;
-}
-
-#site-logo {
-	padding: 5px;
-	padding-left: 10px;
-	padding-bottom: 0px;
-	width: 50px;
-	height: 50px;
-	float: left;
-}
-
-#site-title {
-	padding-top: 30px;
-	font-size: 12px;
-	font-weight: normal;
-}
 
 /* splashbox_search */
 #splash-box {
