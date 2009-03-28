@@ -22,6 +22,7 @@ def home(request):
         'region':           volunteerObj.resident_city,
         'showExpertise':    volunteerObj.showExpertise,
         'logo':             volunteerObj.logo,
+        'volunteer_id':     volunteerObj.volunteer_id,
     }
 
     tmpList = NpoProfile.all().order('-id').fetch(10)
@@ -32,6 +33,7 @@ def home(request):
         'name':             npoObj.npo_name,
         'region':           npoObj.service_region,
         'description':      npoObj.brief_intro,
+        'logo':             npoObj.logo,
     }
 
     del tmpList, count, randomIndex, volunteerObj, npoObj

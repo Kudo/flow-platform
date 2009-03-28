@@ -16,111 +16,78 @@
 
 {### splashPage ###}
 
-{% block splashPage %}
-	{% include "splashbox_search.html" %}
-{% endblock splashPage %}
-
 {### content ###}
 
 {% block mainContent %}
-	<div id="main-container">
-		<span id="main-picture">
-			<img src="/static/images/mainpic.jpg">
-		</span>
-		<span id="right-container">
-			<div id="volunteer" class="context">
-				<div class="title">
-					<a href="/volunteer/">志工</a>
-				</div>
-			</div>
-			<div id="npo" class="context">
-				<div class="title">
-					<a href="/npo/">公益團體</a>
-				</div>
-			</div>
-		</span>
-	</div>
-	<div id="bottom-container">
-		<div id="event" class="context">
-			<div class="title">
-				<a href="/event/">活動</a>
-			</div>
-			<div id="event-container">
-				<span class="event-item">
-					<img src="/static/images/E-0001c.jpg" width="32px">
-					<h1>
-						喝咖啡做公益
-					</h1>
-					<h2>
-						門諾基金會
-					</h2>
-					<div>
-						2009-03-10
-					</div>
-					<div>
-						未知的地點
-					</div>
-					<p>
-						在看不見的角落，有人正在等待我們伸出援手。...
-					</p>
-				</span>
-				<span class="event-item">
-					<h1>
-						招募中的活動
-					</h1>
-					<h2>
-						宅男激金會
-					</h2>
-					<div>
-						2009-03-12 12:26
-					</div>
-					<div>
-						Taipei
-					</div>
-				</span>
-				<span class="event-item">
-					<h1>
-						招募中的活動
-					</h1>
-					<h2>
-						宅男激金會
-					</h2>
-					<div>
-						2009-03-12 12:26
-					</div>
-					<div>
-						Taipei
-					</div>
-				</span>
-				<span class="event-item">
-					<h1>
-						招募中的活動
-					</h1>
-					<h2>
-						宅男激金會
-					</h2>
-					<div>
-						2009-03-12 12:26
-					</div>
-					<div>
-						Taipei
-					</div>
-				</span>
-				<span class="event-item">
-					<h1>
-						招募中的活動
-					</h1>
-					<h2>
-						宅男激金會
-					</h2>
-					<div>
-						2009-03-12 12:26
-					</div>
-					<div>
-						Taipei
-					</div>
-				</span>
-			</div>
-		</div>
-	</div>
+    <div id="Body_Top">
+        <div id="Main_Image">
+            <img src="/static/images/main_image.jpg" />
+        </div>
+        <div id="Body_Top_Right">
+        	<div class="top_block">
+	            <div class="top_title">
+	                <span class="page_title">志工臉譜</span>
+	                <a href="/volunteer/" class="more_link">More</a>
+	            </div>
+	            <div class="top_body">
+	                <div class="top_icon">
+	                	<img class="img75" src="{% if volunteer.logo %}{{ volunteer.logo }}{% else %}{{ base.noLogo }}{% endif %}" width="75"/>
+	                </div>
+	                <div class="top_desc">
+	                	<dl>
+	                		<dt>姓名</dt>
+	                		<dd>{{ volunteer.name }} </dd>
+	                		<dt>地區</dt>
+	                		<dd>{{ volunteer.region }}</dd>
+	                		<dt>專長</dt>
+	                		<dd>{{ volunteer.expertise }}</dd>
+	                	</dl>
+	                	<div class="more_info">
+	                    	<a href="/volunteer/home/?volunteer_id={{ volunteer.volunteer_id }}">詳細資料</a>
+	                   	</div>
+	                </div> 
+	            </div>
+	        </div>
+	        <div class="top_block">
+	            <div class="top_title">
+	                <span class="page_title">公益團體</span>
+	                <a href="/npo/" class="more_link">More</a>
+	            </div>
+	            <div class="top_body">
+	                <div class="top_icon">
+	                    <img class="img75" src="{% if npo.logo %}{{ npo.logo }}{% else %}{{ base.noLogo }}{% endif %}" width="75"/>
+	                </div>
+	                <div class="top_desc">
+	                	<dl>
+	                		<dt>名稱</dt>
+	                		<dd>{{ npo.name }}</dd>
+	                		<dt>簡介</dt>
+	                		<dd>{{ npo.description }}</dd>
+	                	</dl>
+	                	<div class="more_info">
+	                    	<a href="#">詳細資料</a>
+	                    </div>
+	                </div> 
+	            </div>
+	        </div>
+        </div>
+    </div> 
+    <div class="clear_float"></div>  
+    <div id="Body_Btm">
+        <div class="top_title">
+            <span class="page_title">公益活動</span>
+            <a href="/event/" class="more_link">More</a>
+        </div>
+        <ul class="top_activities">
+        	{% for event in eventList %}
+            <li class="with_sep_line">
+                <h2>{{ event.name }}</h2>
+                <p>{{ event.npoName }}</p>
+                <p>{{ event.startTime }}</p>
+                <p>{{ event.region }}</p>
+                <p class="act_desc">{{ event.description }} <a href="/event/viewEvent?id={{ event.eventKey }}">...</a></p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div> 
 {% endblock mainContent %}
