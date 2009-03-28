@@ -65,7 +65,7 @@
 	                		<dd>{{ npo.description }}</dd>
 	                	</dl>
 	                	<div class="more_info">
-	                    	<a href="#">詳細資料</a>
+	                    	<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">詳細資料</a>
 	                    </div>
 	                </div> 
 	            </div>
@@ -81,11 +81,14 @@
         <ul class="top_activities">
         	{% for event in eventList %}
             <li class="with_sep_line">
-                <h2>{{ event.name }}</h2>
-                <p>{{ event.npoName }}</p>
+                <h2><a href="/event/viewEvent?id={{ event.eventKey }}">{{ event.name }}</a></h2>
+                <p><a href="/npo/npo_home.html?npo_id={{ event.npo_id }}">{{ event.npoName }}</a></p>
                 <p>{{ event.startTime }}</p>
                 <p>{{ event.region }}</p>
-                <p class="act_desc">{{ event.description }} <a href="/event/viewEvent?id={{ event.eventKey }}">...</a></p>
+                <p class="act_desc">{{ event.description }}</p>
+                <span class="more_info">
+                	<a href="/event/viewEvent?id={{ event.eventKey }}">詳細資料</a>
+                </span>
             </li>
             {% endfor %}
         </ul>

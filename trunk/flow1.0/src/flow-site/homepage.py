@@ -33,6 +33,7 @@ def home(request):
         'name':             npoObj.npo_name,
         'region':           npoObj.service_region,
         'description':      npoObj.brief_intro,
+        'npo_id':           npoObj.npo_id,
         'logo':             npoObj.logo,
     }
 
@@ -45,6 +46,7 @@ def home(request):
                 'eventKey':     str(event.key()),
                 'name':         event.event_name,
                 'npoName':      event.npo_profile_ref.npo_name,
+                'npo_id':       event.npo_profile_ref.npo_id,
                 'region':       u','.join(event.event_region),
                 'startTime':    event.start_time.strftime('%Y-%m-%d %H:%M'),
                 'description':  event.description,
