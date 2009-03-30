@@ -149,6 +149,7 @@ def logout(request):
     objUser = users.get_current_user()
     if objUser:
         memcache.delete('LoginCache/volunteer_id/%s' % objUser)
+        memcache.delete('LoginCache/token/%s' % objUser)
     if 'redirect' in request.GET:
         return HttpResponseRedirect(users.create_logout_url(cgi.escape(request.GET['redirect'])))
     else:
