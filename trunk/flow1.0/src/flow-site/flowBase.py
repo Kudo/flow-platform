@@ -10,10 +10,18 @@ from django.shortcuts import render_to_response
 from db import proflist, regionList
 from db.ddl import *
 
-COOKIE_ID = 'ACSID'             # Borrow this from GAE
-def _make_token(request):
-    if COOKIE_ID in request.COOKIES:
-        return md5.new(settings.SECRET_KEY + request.COOKIES[COOKIE_ID]).hexdigest()
+def makeToken(request, volunteer_id):
+    COOKIE_ID_LIST = ['ACSID', 'dev_appserver_login']
+    if volunteer_id:
+        cacheName = 'LoginCache/token/%s' % volunteer_id
+        cacheObj = memcache.get(cacheName)
+        if cacheObj:
+            return cacheObj
+        for COOKIE_ID in COOKIE_ID_LIST:
+            if COOKIE_ID in request.COOKIES:
+                token = md5.new(settings.SECRET_KEY + request.COOKIES[COOKIE_ID]).hexdigest()
+                memcache.add(cacheName, token, 7200)
+                return token
     return ''
 
 def getBase(request, category = 'homepage'):
@@ -28,7 +36,7 @@ def getBase(request, category = 'homepage'):
     data['proflist']        = getProfessionList()
     data['resident']        = getResident()
     data['region']          = getRegion()
-    data['token']           = _make_token(request)
+    data['token']           = makeToken(request, data['volunteer_id'])
 
     data['jQueryURI']       = settings.JQUERY_URI
     data['jQueryUI_URI']    = settings.JQUERY_UI_URI
@@ -118,8 +126,7 @@ def loginProxy(request):
     else:
         redirectURI = '/'
 
-    objVolunteer = getVolunteer(base['user'])
-    if objVolunteer:
+    if getVolunteer(base['user']):
         loginSuccess = True
     else:
         loginSuccess = False
