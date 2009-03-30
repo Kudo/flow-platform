@@ -112,6 +112,8 @@
 									    </object>
 									</div>
 									<div class="video-info">於 {{ videoDate.year }} 年 {{ videoDate.month }} 月 {{ videoDate.day }} 日 發表</div>
+								    {% else %}
+								    	志工尚未加入任何影音。
 								    {% endif %}
 								</div>
 							</div>
@@ -131,9 +133,13 @@
 						</div>
 						<div class="content">
 							<div class="article-block">
+								{% if articleList %}
 							    {% for entry in articleList %}
 							    <div class="article-title-item"><a href="{{ entry.1 }}">{{ entry.0 }}</a></div>
 							    {% endfor %}
+							    {% else %}
+							    	志工尚未加入任何文章。
+							    {% endif %}
 							</div>
 						</div>
 			    	</div>
