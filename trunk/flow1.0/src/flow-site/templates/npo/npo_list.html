@@ -18,11 +18,7 @@
 					{% include "paging_top.html" %}
 						<div class="fullpage-list">
 						    {% for entry in entryList %}
-						    {% ifequal entry firstEntry %}
-							<div class="item npo top-line">
-						    {% else %}
-							<div class="item npo top-line clearfix">
-						    {% endifequal %}
+						    <div class="item npo top-line clearfix">
 						    	<div class="actions">
 						    		<div class="link"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">前往群組首頁</a></div>
 									<div class="link"><a href="#">加入群組</a></div>
