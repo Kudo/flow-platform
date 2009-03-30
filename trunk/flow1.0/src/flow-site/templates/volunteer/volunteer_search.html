@@ -44,7 +44,7 @@
 										<dd>{{ entry.showExpertise }}</dd>
 										<dt>所屬群組:</dt>
 										<dd>
-										{% for npo in entry.npolist %}
+										{% for npo in entry.npoList %}
 										<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">{{ npo.npo_name }}</a> 
 										{% endfor %}
 										
