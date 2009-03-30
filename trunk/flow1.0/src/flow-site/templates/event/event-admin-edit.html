@@ -343,8 +343,9 @@ function disableButton(form) {
 			
 			<li class="buttons section">
 				<input type="hidden" name="submitType" value="">
-				<input type="button" class="field button" value="送審" name="btnSubmit" onClick="submitForm('addEvent','send');">
-				<input type="button" class="field button" value="暫存" name="btnSave" onClick="submitForm('addEvent','save');">
+				<input type="hidden" name="event_key" value="{{ event_key }}">
+				<input type="button" class="field button" value="送審" name="btnSubmit" onClick="submitForm('/npo/admin/editEvent','send');">
+				<input type="button" class="field button" value="暫存" name="btnSave" onClick="submitForm('/npo/admin/editEvent','save');">
 				<input type="button" class="field button" value="取消" name="btnCancel" onClick="disableButton(document.myForm);window.location.href='listEvent';"><br>
 			</li>
 		</ul>

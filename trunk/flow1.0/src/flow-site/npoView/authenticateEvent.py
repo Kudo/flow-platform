@@ -24,10 +24,12 @@ def submitAuthToken(request):
             raise RuntimeError('event_key not defined')
         strEventKey=request.GET['event_key']
         dic={'event_key':strEventKey,
-         'phone_number':request.GET.get('p') or ''.join(objVolunteer.cellphone_no.split('-')),
+         'phone_number':request.GET.get('p',''),
          'base': flowBase.getBase(request, 'npo'),
          'page': 'event',
          'alertMsg':request.GET.get('m','')}
+        if objVolunteer.cellphone_no and not dic['phone_number']:
+            dic['phone_number']=''.join(objVolunteer.cellphone_no.split('-'))
         return render_to_response('event/event-sms-1.html', dic)
     
     if 'event_key' not in request.POST:
