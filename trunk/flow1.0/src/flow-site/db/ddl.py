@@ -370,14 +370,10 @@ class FlowDdlModel(db.Model):
 # end class FlowDdlModel
 
 
-"""
-#----------------------------------------------------------
-# Public classes, as declared by __all__.
-#----------------------------------------------------------
-"""
-
 class ModelCountShardConfig(db.Model):
-    """Tracks the number of shards for each named counter."""
+    """
+    Tracks the number of shards for each named counter.
+    """
     className   = db.StringProperty(required=True)
     shardCount  = db.IntegerProperty(required=True, default=20)
 
@@ -390,6 +386,14 @@ class ModelCountShardConfig(db.Model):
                 config.put()
         db.run_in_transaction(txn)
 
+# end class ModelCountShardConfig
+
+
+"""
+#----------------------------------------------------------
+# Public classes, as declared by __all__.
+#----------------------------------------------------------
+"""
 
 class ModelCount(db.Model):
     """
@@ -480,6 +484,7 @@ class ModelCount(db.Model):
         writeln("OK")
 
 # end class ModelCount
+
 
 class NpoProfile(FlowDdlModel):
     """
@@ -730,6 +735,7 @@ class VolunteerProfile(FlowDdlModel):
     valid_google_acct    = db.BooleanProperty()             # default to True
     volunteer_last_name  = db.StringProperty(required=True)
     volunteer_first_name = db.StringProperty(required=True)
+    nickname             = db.StringProperty(()
     gmail                = db.EmailProperty(required=True, validator=vaEmail)
     alternate_email      = db.EmailProperty(validator=vaEmail)
     date_birth           = db.DateProperty(required=True, validator=vaBirthDate)
