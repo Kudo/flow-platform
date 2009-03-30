@@ -83,6 +83,10 @@ class MyCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
 """
 
 class VolunteerProfileForm(djangoforms.ModelForm):
+    volunteer_first_name        = forms.CharField(max_length=20)
+    volunteer_last_name         = forms.CharField(max_length=20)
+    nickname                    = forms.CharField(max_length=50)
+
     sex                         = forms.ChoiceField(choices=(('Male', u'男性'), ('Female', u'女性')), widget=MyRadioSelect())
 
     birthyear                   = forms.CharField(min_length=4, max_length=4, widget=forms.TextInput(attrs={'size': '4'}))

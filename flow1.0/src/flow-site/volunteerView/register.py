@@ -79,9 +79,9 @@ class MyCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
 """
 
 class VolunteerProfileForm(djangoforms.ModelForm):
-    volunteer_first_name        = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
-    volunteer_last_name         = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
-    nickname                    = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
+    volunteer_first_name        = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'field text'}))
+    volunteer_last_name         = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'field text'}))
+    nickname                    = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'field text'}))
     sex                         = forms.ChoiceField(choices=(('Male', u'男性'), ('Female', u'女性')), widget=MyRadioSelect(attrs={'class': 'field radio'}))
 
     birthyear                   = forms.CharField(min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
