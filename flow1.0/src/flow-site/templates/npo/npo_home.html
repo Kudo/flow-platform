@@ -64,6 +64,7 @@
 						</div>
 						<div class="content">
 							<div id="event-container">
+							{% if eventList %}
 							{% for event in eventList %}
 								<span class="event-item">
 									<h1><a href="/event/viewEvent?id={{ event.key }}">{{ event.event_name }}</a></h1>
@@ -71,6 +72,9 @@
 									<p>{{event.description}}</p>
 								</span>
 							{% endfor %}
+							{% else %}
+							沒有任何舉辦的活動。
+							{% endif %}
 							</div>
 						</div>
 					</div>
@@ -86,37 +90,9 @@
 							<h3>最新加入志工</h3>
 							
 						</div>
-						<div class="content">
+						{% if recentMembers %}
+						<div class="content no-lr-paddings">
 							<div class="head-names">
-								<!-- mark the fake volunteers when testing real data
-								<div class="item-block head-name">
-									<div class="left-block head">
-										<img src="">
-									</div>
-									<div class="right-block name">
-										<h3>掘北真希</h3>
-										<label>日本</label>
-									</div>
-								</div>
-								<div class="item-block head-name">
-									<div class="left-block head">
-										<img src="">
-									</div>
-									<div class="right-block name">
-										<h3>陳湯姆</h3>
-										<label>台灣</label>
-									</div>
-								</div>
-								<div class="item-block head-name">
-									<div class="left-block head">
-										<img src="">
-									</div>
-									<div class="right-block name">
-										<h3>陳湯姆</h3>
-										<label>台灣</label>
-									</div>
-								</div>
-								-->
 								<!-- Make the recentMembers only contain 3 entries !!!!!!!! -->
 								{% for member in recentMembers %}
 								<div class="item-block head-name">
@@ -133,50 +109,6 @@
 							<div class="line">
 							</div>
 							<div class="volunteer-infos clearfix">
-								<!-- mark the fake volunteers when testing real data
-								<div class="item-block index-value">
-									<div class="left-block index">
-										<ul>
-											<li>加入日期</li>
-											<li>服務時數</li>
-										</ul>
-									</div>
-									<div class="right-block value">
-										<ul>
-											<li>2008 年 12 月 5 日</li>
-											<li>13 小時</li>
-										</ul>
-									</div>
-								</div>
-								<div class="item-block index-value">
-									<div class="left-block index">
-										<ul>
-											<li>加入日期</li>
-											<li>服務時數</li>
-										</ul>
-									</div>
-									<div class="right-block value">
-										<ul>
-											<li>2008 年 12 月 5 日</li>
-											<li>13 小時</li>
-										</ul>
-									</div>
-								</div>
-								<div class="item-block index-value">
-									<div class="left-block index">
-										<ul>
-											<li>加入日期</li>
-											<li>服務時數</li>
-										</ul>
-									</div>
-									<div class="right-block value">
-										<ul>
-											<li>2008 年 12 月 5 日</li>
-											<li>13 小時</li>
-										</ul>
-									</div>
-								</div>
-								-->
 								<!-- Make the recentMembers only contain 3 entries !!!!!!!! -->
 								{% for member in recentMembers %}
 								<div class="item-block index-value">
@@ -195,6 +127,12 @@
 								
 							</div><!-- volunteer-infos -->
 						</div>
+						{% else %}
+						<div class="content">
+							近期沒有新加入的志工。
+						</div>
+						{% endif %}
+						
 					</div>
 					
 					<div class="content-block">

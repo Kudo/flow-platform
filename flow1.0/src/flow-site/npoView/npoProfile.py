@@ -113,17 +113,21 @@ def edit(request):
     response = render_to_response('npo/manage_edit_info.html', template_values)
     return response    
 
+displayCount = 10
 def memberList(request):
     if 'npo_id' not in request.GET:
         return HttpResponseRedirect('/')
     else:
         npo_id = cgi.escape(request.GET['npo_id'])
-        
+    
     npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
+    
     members = db.get(npoProfile.members)
     numOfMembers = len(members)
+    pageSet = paging.get(request.GET, numOfMembers, displayCount=displayCount)
     
     # members showed in left column
+    '''
     leftMembers = members[:]
     row1 = []
     for i in range(0, 3):
@@ -138,20 +142,14 @@ def memberList(request):
             break
         row2.append(random.choice(leftMembers))
         leftMembers.remove(row2[i])
-
-    # prepare member list
-    firstMember = None
-    if (len(members) > 0):
-        firstMember = members[0]
-        del members[0]
-            
+        
+    '''
+    memberList = members[pageSet['entryOffset']:displayCount]
+    
     template_values = {
+        'pageSet': pageSet,
         'npoProfile': npoProfile,
-        'firstMember': firstMember,
-        'members': members,
-        'numOfMembers': numOfMembers,
-        'leftMembersRow1': row1,
-        'leftMembersRow2': row2,
+        'memberList': memberList,
         'page': 'volunteers',
         'base':flowBase.getBase(request, 'npo')
     }

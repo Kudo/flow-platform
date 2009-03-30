@@ -160,24 +160,24 @@ html[xmlns] .clearfix {
 	margin-bottom: 5px;
 }
 
-#info .left-box-body, #activity .left-box-body {
+#info .left-box-body, #activity .left-box-body, #admin .left-box-body {
 	padding-left: 2px;
 	text-align: left;
 }
 
-#info .left-box-body h4, #activity .left-box-body h4 {
+#info .left-box-body h4, #activity .left-box-body h4, #admin .left-box-body h4 {
 	font-size: 12px;
 	padding-top: 5px;
 	color: #718da3;
 }
 
-#info .left-box-body div, #activity .left-box-body div {
+#info .left-box-body div, #activity .left-box-body div, #admin .left-box-body div {
 	color: #000000;
 }
 
 
 /* ----- new-volunteers ----- */
-#new-volunteers .content {
+#new-volunteers .no-lr-paddings {
 	padding-left: 0px !important;
 	padding-right: 0px !important;
 }
