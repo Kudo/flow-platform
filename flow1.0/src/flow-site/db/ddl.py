@@ -735,7 +735,7 @@ class VolunteerProfile(FlowDdlModel):
     valid_google_acct    = db.BooleanProperty()             # default to True
     volunteer_last_name  = db.StringProperty(required=True)
     volunteer_first_name = db.StringProperty(required=True)
-    nickname             = db.StringProperty(()
+    nickname             = db.StringProperty()
     gmail                = db.EmailProperty(required=True, validator=vaEmail)
     alternate_email      = db.EmailProperty(validator=vaEmail)
     date_birth           = db.DateProperty(required=True, validator=vaBirthDate)

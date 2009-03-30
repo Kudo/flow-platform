@@ -7,10 +7,10 @@ against request forgeries from other sites.
 """
 from django.conf import settings
 from django.http import HttpResponseForbidden
-import md5
 import re
 import itertools
-from google.appengine.api import users
+from google.appengine.api import users, memcache
+import flowBase
 
 _ERROR_MSG = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><body><h1>403 Forbidden</h1><p>Cross Site Request Forgery detected. Request aborted.</p></body></html>'
 
@@ -18,11 +18,6 @@ _POST_FORM_RE = \
     re.compile(r'(<form\W[^>]*\bmethod=(\'|"|)POST(\'|"|)\b[^>]*>)', re.IGNORECASE)
     
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')    
-
-COOKIE_ID = 'ACSID'             # Borrow this from GAE
-
-def _make_token(session_id):
-    return md5.new(settings.SECRET_KEY + session_id).hexdigest()
 
 class CsrfMemcacheMiddleware(object):
     """Django middleware that adds protection against Cross Site
@@ -43,17 +38,12 @@ class CsrfMemcacheMiddleware(object):
     """
     
     def process_request(self, request):
-        user = users.get_current_user()
-        if not user:
-            return None
         if request.POST:
-            try:
-                session_id = request.COOKIES[COOKIE_ID]
-            except KeyError:
-                # No session, no check required
+            volunteer = flowBase.getVolunteer()
+            if not volunteer:
                 return None
 
-            csrf_token = _make_token(session_id)
+            csrf_token = flowBase.makeToken(request, volunteer.volunteer_id)
             # check incoming token
             try:
                 request_csrf_token = request.POST['xToken']
@@ -66,19 +56,10 @@ class CsrfMemcacheMiddleware(object):
         return None
 
     def process_response(self, request, response):
-        csrf_token = None
-        try:
-            cookie = response.cookies[COOKIE_ID]
-            csrf_token = _make_token(cookie.value)
-        except KeyError:
-            # No outgoing cookie to set session, but 
-            # a session might already exist.
-            try:
-                session_id = request.COOKIES[COOKIE_ID]
-                csrf_token = _make_token(session_id)
-            except KeyError:
-                # no incoming or outgoing cookie
-                pass
+        volunteer = flowBase.getVolunteer()
+        if not volunteer:
+            return None
+        csrf_token = flowBase.makeToken(request, volunteer.volunteer_id)
             
         if csrf_token is not None and \
                 response['Content-Type'].split(';')[0] in _HTML_TYPES:
