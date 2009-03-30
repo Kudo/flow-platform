@@ -13,7 +13,7 @@ def create(request):
     now       = datetime.datetime.utcnow()
     try:
         user = users.User("ckchien@gmail.com")
-        kudo = VolunteerProfile(key_name=str(user), volunteer_id=user, id_no="M123456789", volunteer_last_name="Chien", volunteer_first_name="Kudo", gmail=user.email(),
+        kudo = VolunteerProfile(key_name=str(user), volunteer_id=user, nickname=user.nickname(), id_no="M123456789", volunteer_last_name="Chien", volunteer_first_name="Kudo", gmail=user.email(),
                                      date_birth=datetime.date(1984, 6, 2), expertise=[u"家政"], sex="Male", phone_no="02-1234-5678", resident_country=u"中華民國",
                                      resident_postal="104", resident_state=u"台灣省", resident_city=u"臺北縣市", resident_district=u"大安區",
                                      prefer_region=[u'臺北', u'台中'], prefer_zip=[u'104'], prefer_target=[u'老弱婦孺'], prefer_field=[u'聊天'], prefer_group=[u'不拘'],
@@ -24,7 +24,7 @@ def create(request):
                                      )
 
         user = users.User("gina@gmail.com")
-        gina = VolunteerProfile(key_name=str(user), volunteer_id=user, id_no="M123456789", volunteer_last_name="Lin", volunteer_first_name="Gina", gmail=user.email(),
+        gina = VolunteerProfile(key_name=str(user), volunteer_id=user, nickname=user.nickname(), id_no="M123456789", volunteer_last_name="Lin", volunteer_first_name="Gina", gmail=user.email(),
                                      date_birth=datetime.date(1984, 6, 2), expertise=[u"護理", u"中國文學"], sex="Female", phone_no="02-1234-5678", resident_country=u"中華民國",
                                      resident_postal="104", resident_state=u"台灣省", resident_city=u"臺北縣市", resident_district=u"大安區",
                                      prefer_region=[u'臺北', u'台中'], prefer_zip=[u'104'], prefer_target=[u'老弱婦孺'], prefer_field=[u'聊天'], prefer_group=[u'不拘'],
@@ -35,7 +35,7 @@ def create(request):
                                      )
 
         user = users.User("root@gmail.com")
-        root = VolunteerProfile(key_name=str(user), volunteer_id=user, id_no="M123456789", volunteer_last_name="Root", volunteer_first_name="Charlie", gmail=user.email(),
+        root = VolunteerProfile(key_name=str(user), volunteer_id=user, nickname=user.nickname(), id_no="M123456789", volunteer_last_name="Root", volunteer_first_name="Charlie", gmail=user.email(),
                                      date_birth=datetime.date(1984, 6, 2), expertise=[u"資訊"], sex="Male", phone_no="02-1234-5678", resident_country=u"中華民國",
                                      resident_postal="104", resident_state=u"台灣省", resident_city=u"臺北縣市", resident_district=u"大安區",
                                      prefer_region=[u'臺北', u'台中'], prefer_zip=[u'104'], prefer_target=[u'老弱婦孺'], prefer_field=[u'聊天'], prefer_group=[u'不拘'],
@@ -68,7 +68,7 @@ def bulkCreate(request):
     try:
         for i in range(0, 100):
             user = users.User("ckchien" + str(i) + "@gmail.com")
-            volunteer = VolunteerProfile(key_name=str(user), volunteer_id=user, id_no="M123456789", volunteer_last_name="Chien", volunteer_first_name="Kudo", gmail=user.email(),
+            volunteer = VolunteerProfile(key_name=str(user), volunteer_id=user, nickname=user.nickname(), id_no="M123456789", volunteer_last_name="Chien", volunteer_first_name="Kudo", gmail=user.email(),
                                          date_birth=datetime.date(1984, 6, 2), expertise=[u"資訊"], sex="Male", phone_no="02-1234-5678", resident_country=u"中華民國",
                                          resident_postal="104", resident_state=u"台灣省", resident_city=u"臺北縣市", resident_district=u"大安區",
                                          prefer_region=[u'臺北', u'台中'], prefer_zip=[u'104'], prefer_target=[u'老弱婦孺'], prefer_field=[u'聊天'], prefer_group=[u'不拘'],
