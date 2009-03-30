@@ -243,8 +243,13 @@ A:hover.more_link
 	float: left;
 	margin: 0 9px;
 }
-.top_desc
+.top_desc DT
 {
+	font-size: 12px;
+}
+.top_desc DD
+{
+	font-size: 14px;
 }
 .top_desc .more_info, .top_activities .more_info
 {
