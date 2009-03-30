@@ -16,8 +16,8 @@ from db.ddl import VolunteerProfile, VolunteerIm
 displayCount = 10
 displayPageCount = 5
 
-def show(request, displayAlbumCount=2, displayPhotoCount=5, displayArticleCount=5):
-    user = flowBase.verifyVolunteer(request)
+def show(request, key, displayAlbumCount=2, displayPhotoCount=5, displayArticleCount=5):
+    user = flowBase.verifyVolunteer(request, key)
     if not user:
         return HttpResponseRedirect('/')
 
@@ -65,8 +65,8 @@ def show(request, displayAlbumCount=2, displayPhotoCount=5, displayArticleCount=
 
     return response
 
-def videoShow(request, displayCount=5):
-    user = flowBase.verifyVolunteer(request)
+def videoShow(request, key, displayCount=5):
+    user = flowBase.verifyVolunteer(request, key)
     if not user:
         return HttpResponseRedirect('/')
 
@@ -96,7 +96,6 @@ def videoShow(request, displayCount=5):
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
             'page':                     'space',
             'pageSet':                  pageSet,
-            'queryString':              'volunteer_id=%s' % (user.volunteer_id.email()),
     }
 
     return render_to_response('volunteer/video_list.html', template_values)
@@ -132,8 +131,8 @@ def videoDelete(request):
     else:
         return HttpResponse(simplejson.dumps({'statusCode': 404, 'reason': 'Unknown action'}), mimetype='application/json')
 
-def articleShow(request):
-    user = flowBase.verifyVolunteer(request)
+def articleShow(request, key):
+    user = flowBase.verifyVolunteer(request, key)
     if not user:
         return HttpResponseRedirect('/')
 
@@ -149,7 +148,6 @@ def articleShow(request):
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
             'page':                     'space',
             'pageSet':                  pageSet,
-            'queryString':              'volunteer_id=%s' % (user.volunteer_id.email()),
     }
 
     return render_to_response('volunteer/article_list.html', template_values)

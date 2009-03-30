@@ -2,17 +2,17 @@
 	<div class="new-top-bar">
 		<ul>
 			<li>
-				<a {% ifequal page 'home' %} class="selected" {% endifequal %}href="/volunteer/home/?volunteer_id={{ volunteerBase.volunteer_id }}">履歷首頁</a>
+				<a {% ifequal page 'home' %} class="selected" {% endifequal %}href="/volunteer/home/{{ volunteerBase.key }}">履歷首頁</a>
 			</li>
 			<li>
-				<a {% ifequal page 'profile' %} class="selected" {% endifequal %}href="/volunteer/profile?volunteer_id={{ volunteerBase.volunteer_id }}">基本資料</a>
+				<a {% ifequal page 'profile' %} class="selected" {% endifequal %}href="/volunteer/profile/{{ volunteerBase.key }}">基本資料</a>
 			</li>
 			<!--<li class="grey">朋友</li>-->
 			<li>
-				<a {% ifequal page 'npo' %} class="selected" {% endifequal %}href="/volunteer/joinedNpo/?volunteer_id={{ volunteerBase.volunteer_id }}">加入的公益團體</a>
+				<a {% ifequal page 'npo' %} class="selected" {% endifequal %}href="/volunteer/joinedNpo/{{ volunteerBase.key }}">加入的公益團體</a>
 			</li>
 			<li>
-			<a {% ifequal page 'space' %} class="selected" {% endifequal %}href="/volunteer/space/?volunteer_id={{ volunteerBase.volunteer_id }}">公益分享</a>
+			<a {% ifequal page 'space' %} class="selected" {% endifequal %}href="/volunteer/space/{{ volunteerBase.key }}">公益分享</a>
 			</li>
 		</ul>
 	</div>

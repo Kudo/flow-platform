@@ -55,6 +55,11 @@ def getVolunteer(volunteer_id=users.get_current_user()):
         volunteer_id = users.User(volunteer_id)
     return VolunteerProfile.get_by_key_name(str(volunteer_id))
 
+def getVolunteerByKey(key):
+    if not key:
+        return None
+    return VolunteerProfile.get(key)
+
 def getVolunteerID(volunteer_id=users.get_current_user()):
     if not volunteer_id:
         return None
@@ -82,8 +87,10 @@ def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
     if not volunteer:
         return data
 
+    data['key']             = volunteer.key()
     data['volunteer_id']    = volunteer.volunteer_id
-    data['name']            = u', '.join([volunteer.volunteer_first_name, volunteer.volunteer_last_name])
+    data['realname']        = u', '.join([volunteer.volunteer_last_name, volunteer.volunteer_first_name])
+    data['nickname']        = volunteer.nickname
     data['birthday']        = volunteer.date_birth.strftime('%Y 年 %m 月 %d 日')
     data['resident']        = volunteer.resident_city
     data['logo']            = volunteer.logo
@@ -164,15 +171,11 @@ def getRegion():
         memcache.add('Region/Region', regions, 604800)
     return regions + getResident()
 
-def verifyVolunteer(request):
-    if 'volunteer_id' not in request.GET:
-        if users.get_current_user():
-            userObj = users.get_current_user()
-        else:
-            return None
+def verifyVolunteer(request, key=None):
+    if not key:
+        return getVolunteer(users.get_current_user())
     else:
-        userObj = users.User(cgi.escape(request.GET['volunteer_id']))
-    return getVolunteer(userObj)
+        return getVolunteerByKey(key)
 
 def verifyNpo(request):
     objUser=users.get_current_user()

@@ -46,50 +46,10 @@
 						
 						<div class="content">
 							<dl>
-								<dt>姓名</dt>
-								<dd>{{ volunteerBase.name|escape }}</dd>
-								<dt>生日</dt>
-								<dd>{{ volunteerBase.birthday|escape }}</dd>
-								<dt>性別</dt>
-								<dd>{% ifequal sex "Female" %}女{% else %}男{% endifequal %}</dd>
-								<dt>所在地</dt>
+								<dt>暱稱</dt>
+								<dd>{{ volunteerBase.nickname|escape }}</dd>
+								<dt>居住地</dt>
 								<dd>{{ volunteerBase.resident|escape }}</dd>
-							</dl>
-						</div>
-					</div>
-			    	<div class="content-block">
-			    		<div class="title">
-							<img src="/static/images/titlebar-left.jpg" class="left">
-							<img src="/static/images/titlebar-right.jpg" class="right">
-							<h3>聯絡資訊</h3>
-						</div>
-						<div class="content">
-							<dl>
-								<dt>電子郵件信箱</dt>
-								<dd>{{ email|escape }}</dd>
-								<dt>即時通訊</dt>
-								<dd>{{ im|escape }}</dd>
-								<dt>手機號碼</dt>
-								<dd>{{ cellphone_no|escape }}</dd>
-								<dt>網頁/部落格</dt>
-								<dd>{% if blog %}<a href="{{ blog|escape }}" target="_blank">{{ blog|escape }}</a>{% else %}無{% endif %}</dd>
-							</dl>
-						</div>
-					</div>
-			    	<div class="content-block">
-			 	   		<div class="title">
-							<img src="/static/images/titlebar-left.jpg" class="left">
-							<img src="/static/images/titlebar-right.jpg" class="right">
-							<h3>學歷與工作</h3>
-						</div>
-						<div class="content">
-							<dl>
-								<dt>畢業學校</dt>
-								<dd>{{ school|escape }}</dd>
-								<dt>服務單位/公司</dt>
-								<dd>{{ organization|escape }}</dd>
-								<dt>職稱</dt>
-								<dd>{{ title|escape }}</dd>
 							</dl>
 						</div>
 					</div>

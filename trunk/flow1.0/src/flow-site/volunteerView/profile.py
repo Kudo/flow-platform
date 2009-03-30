@@ -111,7 +111,7 @@ class VolunteerProfileForm(djangoforms.ModelForm):
 
     class Meta:
         model = VolunteerProfile
-        fields = ['volunteer_first_name', 'volunteer_last_name', 'sex', 'resident_city', 'logo', 'school', 'organization', 'title',
+        fields = ['volunteer_first_name', 'volunteer_last_name', 'nickname', 'sex', 'resident_city', 'logo', 'school', 'organization', 'title',
                   'cellphone_no', 'blog', 'expertise', 'brief_intro',
                  ]
 
@@ -137,26 +137,17 @@ class VolunteerProfileForm(djangoforms.ModelForm):
         return data
 
 
-def show(request):
-    user = flowBase.verifyVolunteer(request)
+def show(request, key):
+    user = flowBase.verifyVolunteer(request, key)
     if not user:
         return HttpResponseRedirect('/')
 
     base = flowBase.getBase(request, 'volunteer')
-    userIM = user.im2volunteer.get()
     template_values = {
             'isSelf':                   True if base['user'] == user.volunteer_id else False,
             'base':                     base,
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'page':                     'profile',
-            'sex':                      user.sex,
-            'cellphone_no':             (user.cellphone_no or u'無'),
-            'blog':                     user.blog,
-            'email':                    re.sub('(.+)@(.+)', '\\1 (at) \\2', user.gmail),
-            'im':                       u'%s：%s' % ( userIM.im_type, userIM.im_account.address) if userIM else u'無',
-            'school':                   user.school or u'無',
-            'organization':             user.organization or u'無',
-            'title':                    user.title or u'無',
             'expertise':                u', '.join(user.expertise),
             'brief_intro':              user.brief_intro or u'無',
     }
@@ -207,6 +198,7 @@ def edit(request):
             user.update_time                 = datetime.datetime.utcnow()
             user.volunteer_first_name        = cleaned_data['volunteer_first_name']
             user.volunteer_last_name         = cleaned_data['volunteer_last_name']
+            user.nickname                    = cleaned_data['nickname']
             user.sex                         = cleaned_data['sex']
             user.date_birth                  = datetime.date(int(cleaned_data['birthyear']), int(cleaned_data['birthmonth']), int(cleaned_data['birthday']))
             user.resident_city               = cleaned_data['resident_city']

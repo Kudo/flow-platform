@@ -81,6 +81,7 @@ class MyCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
 class VolunteerProfileForm(djangoforms.ModelForm):
     volunteer_first_name        = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
     volunteer_last_name         = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
+    nickname                    = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text'}))
     sex                         = forms.ChoiceField(choices=(('Male', u'男性'), ('Female', u'女性')), widget=MyRadioSelect(attrs={'class': 'field radio'}))
 
     birthyear                   = forms.CharField(min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
@@ -94,7 +95,6 @@ class VolunteerProfileForm(djangoforms.ModelForm):
     school                      = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
     organization                = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
     title                       = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
-    alternate_email             = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'field text large', 'size': '50' }))
 
     choices = (
             ('MSN',                     u'MSN 即時通訊'),
@@ -115,8 +115,8 @@ class VolunteerProfileForm(djangoforms.ModelForm):
 
     class Meta:
         model = VolunteerProfile
-        fields = ['volunteer_first_name', 'volunteer_last_name', 'sex', 'resident_city', 'logo', 'school', 'organization', 'title',
-                  'alternate_email', 'cellphone_no', 'blog', 'expertise', 'brief_intro',
+        fields = ['volunteer_first_name', 'volunteer_last_name', 'nickname', 'sex', 'resident_city', 'logo', 'school', 'organization', 'title',
+                  'cellphone_no', 'blog', 'expertise', 'brief_intro',
                  ]
 
     def clean_birthyear(self):
@@ -192,10 +192,10 @@ def step3(request):
                     create_time                 = now,
                     update_time                 = now,
                     status                      = "normal",
-                    valid_google_acct           = True,
 
                     volunteer_first_name        = cleaned_data['volunteer_first_name'], 
                     volunteer_last_name         = cleaned_data['volunteer_last_name'], 
+                    nickname                    = cleaned_data['nickname'], 
                     sex                         = cleaned_data['sex'],
                     date_birth                  = datetime.date(int(cleaned_data['birthyear']), int(cleaned_data['birthmonth']), int(cleaned_data['birthday'])),
                     resident_city               = cleaned_data['resident_city'],
@@ -207,19 +207,6 @@ def step3(request):
                     blog                        = cleaned_data['blog'] or None,
                     expertise                   = cleaned_data['expertise'],
                     brief_intro                 = cleaned_data['brief_intro'],
-
-                    id_no                       = '???',
-                    resident_state              = u'Taiwan',
-                    resident_country            = u'ROC',
-                    resident_postal             = '???',
-                    resident_district           = '???',
-                    prefer_region               = [cleaned_data['resident_city']],
-                    prefer_zip                  = ['???'],
-                    prefer_target               = ['???'],
-                    prefer_field                = ['???'],
-                    prefer_group                = ['???'],
-                    volunteer_rating            = 0,
-                    phone_no                    = cellphone_no or '0000-0000',
             )
             volunteerObjKey = volunteerObj.put()
 

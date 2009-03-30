@@ -731,24 +731,24 @@ class VolunteerProfile(FlowDdlModel):
     VOLUNTEER_PROFILE
     """
     volunteer_id         = db.UserProperty(required=True)   # the constraint (UNIQUE) must be enforced by program logic
-    id_no                = db.StringProperty(required=True)
+    id_no                = db.StringProperty()
     valid_google_acct    = db.BooleanProperty()             # default to True
     volunteer_last_name  = db.StringProperty(required=True)
     volunteer_first_name = db.StringProperty(required=True)
     nickname             = db.StringProperty()
-    gmail                = db.EmailProperty(required=True, validator=vaEmail)
+    gmail                = db.EmailProperty(validator=vaEmail)
     alternate_email      = db.EmailProperty(validator=vaEmail)
     date_birth           = db.DateProperty(required=True, validator=vaBirthDate)
     expertise            = db.StringListProperty()          # required
     sex                  = db.CategoryProperty(required=True, choices=set(["Male", "Female"]))
-    phone_no             = db.PhoneNumberProperty(required=True)
+    phone_no             = db.PhoneNumberProperty()
     cellphone_no         = db.PhoneNumberProperty()
     hide_cellphone       = db.BooleanProperty()             # default to False
-    resident_country     = db.StringProperty(required=True) # the constraint must be enforced by program logic
-    resident_postal      = db.StringProperty(required=True)
-    resident_state       = db.StringProperty(required=True) # the constraint must be enforced by program logic
-    resident_city        = db.StringProperty(required=True) # the constraint must be enforced by program logic
-    resident_district    = db.StringProperty(required=True) # the constraint must be enforced by program logic
+    resident_country     = db.StringProperty()
+    resident_postal      = db.StringProperty()
+    resident_state       = db.StringProperty()
+    resident_city        = db.StringProperty(required=True)
+    resident_district    = db.StringProperty()
     tag                  = db.StringListProperty()
     school               = db.StringProperty()
     organization         = db.StringProperty()
@@ -761,18 +761,18 @@ class VolunteerProfile(FlowDdlModel):
     photo_link           = db.StringListProperty()
     video_link           = db.StringListProperty()
     article_link         = db.StringListProperty()
-    prefer_region        = db.StringListProperty()          # required
-    prefer_zip           = db.StringListProperty()          # required
-    prefer_target        = db.StringListProperty()          # required
-    prefer_field         = db.StringListProperty()          # required
-    prefer_group         = db.StringListProperty()          # required
+    prefer_region        = db.StringListProperty()
+    prefer_zip           = db.StringListProperty()
+    prefer_target        = db.StringListProperty()
+    prefer_field         = db.StringListProperty()
+    prefer_group         = db.StringListProperty()
     create_time          = db.DateTimeProperty(required=True)
     update_time          = db.DateTimeProperty(required=True)
     total_serv_hours     = db.IntegerProperty()             # default to 0
     total_reg_events     = db.IntegerProperty()             # default to 0
     total_serv_events    = db.IntegerProperty()             # default to 0
     total_sharing        = db.IntegerProperty()             # default to 0
-    volunteer_rating     = db.RatingProperty(required=True) # range=[0..100]
+    volunteer_rating     = db.RatingProperty()              # range=[0..100]
     medal                = db.StringListProperty()
     status               = db.StringProperty(required=True, choices=set(["new application", "authenticating", "authenticated", "authenticatin failed",
                                                                          "normal", "revoked", "abusive usage", "terminated"]))
@@ -784,7 +784,7 @@ class VolunteerProfile(FlowDdlModel):
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity:
-            require(kargs, "expertise", "prefer_region", "prefer_zip", "prefer_target", "prefer_field", "prefer_group")
+            require(kargs, "expertise")
             if "valid_google_acct" not in kargs:
                 kargs["valid_google_acct"] = True
             if "hide_cellphone" not in kargs:

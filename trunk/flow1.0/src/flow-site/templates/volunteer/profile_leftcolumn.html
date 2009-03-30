@@ -7,11 +7,11 @@
 						<div class="left-box-body">
 							<ul>
 								<li>
-									<a href="">建議活動給 {{ volunteerBase.volunteer_id }}</a>
+									<a href="">建議活動給 {{ volunteerBase.nickname|escape }}</a>
 								</li>
 								<!--
 								<li>
-								  <a href="/volunteer/friend/create/?volunteer_id={{ volunteerBase.volunteer_id }}&t={{ base.token }}">與 {{ volunteerBase.volunteer_id }} 成為好友</a>
+								  <a href="/volunteer/friend/create/{{ volunteerBase.key }}&xToken={{ base.token }}">與 {{ volunteerBase.nickname|escape }} 成為好友</a>
 								</li>
 								-->
 								<li>
@@ -28,15 +28,13 @@
 							志工資訊
 						</h3>
 						<div class="left-box-body">
-							<h4>性別</h4>
-							<div>{% ifequal sex "Female" %}女{% else %}男{% endifequal %}</div>
-							<h4>生日</h4>
-							<div>{{ volunteerBase.birthday|escape }}</div>
-							
-							<h4>目前所在城市</h4>
+							<h4>暱稱</h4>
+							<div>{{ volunteerBase.nickname|escape }}</div>
+
+							<h4>居住地</h4>
 							<div>{{ volunteerBase.resident|escape }}</div>
 							
-							<div class="right-links"><a href="/volunteer/profile/?volunteer_id={{ volunteerBase.volunteer_id }}">檢視詳細資料 >></a></div>
+							<div class="right-links"><a href="/volunteer/profile/{{ volunteerBase.key }}">檢視詳細資料 >></a></div>
 						</div>
 					</div>
 					

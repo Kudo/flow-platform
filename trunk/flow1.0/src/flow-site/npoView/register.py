@@ -190,7 +190,7 @@ def step3(request):
 
     template_values = {
             'base':                     flowBase.getBase(request),
-            'myRealName':               u', '.join([user.volunteer_first_name, user.volunteer_last_name]),
+            'myRealName':               u', '.join([user.volunteer_last_name, user.volunteer_first_name]),
             'isWarning':                isWarning,
             'form':                     form,
             'formAdminList':            [eval('form["adminaccount_%d"]' % (i)) for i in range(2, maxAdminCount + 1)],

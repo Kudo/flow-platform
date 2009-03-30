@@ -28,13 +28,13 @@
 						{% if firstMember %}
 						<div class="item volunteer top-line">
 						    <div class="actions">
-							    <a href="/volunteer/home/?volunteer_id={{ firstMember.volunteer_id }}">移除這位志工</a>
+							    <a href="/volunteer/home/{{ firstMember.key }}">移除這位志工</a>
 							</div>
 							<div class="image">
-								<a href="/volunteer/home/?volunteer_id={{ firstMember.volunteer_id }}"><img class="img55" src="{% if firstMember.logo %}{{ firstMember.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
+								<a href="/volunteer/home/{{ firstMember.key }}"><img class="img55" src="{% if firstMember.logo %}{{ firstMember.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 							</div>
 							<div class="name">
-								<a href="/volunteer/home/?volunteer_id={{ firstMember.volunteer_id }}">{{ firstMember.volunteer_first_name }} {{ firstMember.volunteer_last_name }}</a>
+								<a href="/volunteer/home/{{ firstMember.key }}">{{ firstMember.nickname }}</a>
 							</div>
 							<div class="stats">
 								<dl>
@@ -52,13 +52,13 @@
 						{% for member in members %}
 						<div class="item volunteer top-line">
 							<div class="actions">
-							    <a href="/volunteer/home/?volunteer_id={{ firstMember.volunteer_id }}">移除這位志工</a>
+							    <a href="/volunteer/home/{{ firstMember.key }}">移除這位志工</a>
 							</div>
 							<div class="image">
-								<a href="/volunteer/home/?volunteer_id={{ member.volunteer_id }}"><img class="img55" src="{% if member.logo %}{{ member.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
+								<a href="/volunteer/home/{{ member.key }}"><img class="img55" src="{% if member.logo %}{{ member.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 							</div>
 							<div class="name">
-								<a href="/volunteer/home/?volunteer_id={{ member.volunteer_id }}">{{ member.volunteer_first_name }} {{ member.volunteer_last_name }}</a>
+								<a href="/volunteer/home/{{ member.key }}">{{ member.nickname }}</a>
 							</div>
 							<div class="stats">
 								<dl>
