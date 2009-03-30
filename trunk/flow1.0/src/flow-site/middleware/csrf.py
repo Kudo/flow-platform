@@ -58,7 +58,7 @@ class CsrfMemcacheMiddleware(object):
     def process_response(self, request, response):
         volunteer = flowBase.getVolunteer()
         if not volunteer:
-            return None
+            return response
         csrf_token = flowBase.makeToken(request, volunteer.volunteer_id)
             
         if csrf_token is not None and \
