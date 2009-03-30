@@ -18,11 +18,11 @@ def home(request):
     if (len(volunteerObj.expertise) > displayExpertiseCount):
         volunteerObj.showExpertise += u', ...'
     volunteer = {
-        'name':             u', '.join([volunteerObj.volunteer_first_name, volunteerObj.volunteer_last_name]),
+        'nickname':         volunteerObj.nickname,
         'region':           volunteerObj.resident_city,
         'showExpertise':    volunteerObj.showExpertise,
         'logo':             volunteerObj.logo,
-        'volunteer_id':     volunteerObj.volunteer_id,
+        'key':              volunteerObj.key(),
     }
 
     tmpList = NpoProfile.all().order('-id').fetch(10)

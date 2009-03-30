@@ -17,7 +17,7 @@ displayCount = 10
 displayNpoEventCount = 3
 diffDaysLimit = 14
 
-def show(request, displayPhotoCount=8, displayBlogCount=6):
+def show(request, key, displayPhotoCount=8, displayBlogCount=6):
     user = flowBase.verifyVolunteer(request)
     if not user:
         return HttpResponseRedirect('/')
@@ -45,7 +45,6 @@ def show(request, displayPhotoCount=8, displayBlogCount=6):
             'page':                     'npo',
             'npoList':                  npoList,
             'pageSet':                  pageSet,
-            'queryString':              'volunteer_id=%s' % (user.volunteer_id.email()),
     }
     response = render_to_response('volunteer/joined_npo.html', template_values)
 

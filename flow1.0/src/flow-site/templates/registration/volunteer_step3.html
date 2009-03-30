@@ -43,26 +43,28 @@
 	    <form class="flow-form" action="{{ base.path|escape }}" method="post">
 		<ul>
 			<li class="section">
-				<h3>基本資料</h3>
-				<div>關於您的基本資料</div>
+				<h3>非公開資料</h3>
+				<div>本區資料除您參與活動的公益團體看得到以外，對外皆不公開</div>
 			</li>
+
 			<li>
 				<label class="desc">
 				姓 , 名
 					<span class="req"> * </span>
 				</label>
 				<div>
-				    {{ form.volunteer_first_name }}
-				    {% for error in form.volunteer_first_name.errors %}
-				    <span class="req">{{ error|escape }}</span>
-				    {% endfor %}
-				    ,
 				    {{ form.volunteer_last_name }}
 				    {% for error in form.volunteer_last_name.errors %}
 				    <span class="req">{{ error|escape }}</span>
 				    {% endfor %}
+				    ,
+				    {{ form.volunteer_first_name }}
+				    {% for error in form.volunteer_first_name.errors %}
+				    <span class="req">{{ error|escape }}</span>
+				    {% endfor %}
 				</div>
 			</li>
+
 			<li>
 				<label class="desc">
 				生日
@@ -91,8 +93,8 @@
 				    <span class="req">{{ error|escape }}</span>
 				    {% endfor %}
 				</span>
-
 			</li>
+
 			<li>
 				<label class="desc">
 				性別
@@ -105,34 +107,7 @@
 				    {% endfor %}
 				</div>
 			</li>
-			
-			<li>
-				<label class="desc">
-				居住地
-					<span class="req"> * </span>
-				</label>
-				<div class="column">
-				    {{ form.resident_city }}
-				    {% for error in form.resident_city.errors %}
-				    <span class="req">{{ error|escape }}</span>
-				    {% endfor %}
-				</div>
-			</li>
-			
-			<li>
-				<label class="desc">
-				大頭貼圖片網址
-				</label>
-				<div class="column">
-				    {{ form.logo }}
-				    <input id="preview" class="field button" type="button" value="預覽" />
-				    {% for error in form.logo.errors %}
-				    <span class="req">{{ error|escape }}</span>
-				    {% endfor %}
-				</div>
-				<div id="previewBox" style="display: none;" title="預覽"></div>
-			</li>
-			
+
 			<li>
 				<label class="desc">
 				就讀/畢業學校
@@ -169,25 +144,6 @@
 				</div>
 			</li>
 
-			<li class="section">
-				<h3>聯絡資訊</h3>
-				<div>一些關於您的聯絡資訊</div>
-			</li>
-			
-			<li>
-				<label class="desc">
-				電子郵件信箱
-					<span class="req"> * </span>
-				</label>
-				<div class="column">
-				    {{ form.alternate_email }}
-					<label class="req">電子郵件信箱事後無法更改</label>
-				    {% for error in form.alternate_email.errors %}
-				    <span class="req">{{ error|escape }}</span>
-				    {% endfor %}
-				</div>
-			</li>
-			
 			<li>
 				<label class="desc">
 				即時通訊
@@ -254,10 +210,50 @@
 				    {% endfor %}
 				</span>
 			</li>
-			
+
 			<li class="section">
-				<h3>個人專長</h3>
-				<div>關於您個人的專長</div>
+				<h3>公開資料</h3>
+				<div>一些關於您對外公開的基本資訊</div>
+			</li>
+			
+			<li>
+				<label class="desc">
+				暱稱
+					<span class="req"> * </span>
+				</label>
+				<div class="column">
+				    {{ form.nickname }}
+				    {% for error in form.nickname.errors %}
+				    <span class="req">{{ error|escape }}</span>
+				    {% endfor %}
+				</div>
+			</li>
+
+			<li>
+				<label class="desc">
+				大頭貼圖片網址
+				</label>
+				<div class="column">
+				    {{ form.logo }}
+				    <input id="preview" class="field button" type="button" value="預覽" />
+				    {% for error in form.logo.errors %}
+				    <span class="req">{{ error|escape }}</span>
+				    {% endfor %}
+				</div>
+				<div id="previewBox" style="display: none;" title="預覽"></div>
+			</li>
+
+			<li>
+				<label class="desc">
+				居住地
+					<span class="req"> * </span>
+				</label>
+				<div class="column">
+				    {{ form.resident_city }}
+				    {% for error in form.resident_city.errors %}
+				    <span class="req">{{ error|escape }}</span>
+				    {% endfor %}
+				</div>
 			</li>
 			
 			<li>
@@ -271,11 +267,6 @@
 				    <span class="req">{{ error|escape }}</span>
 				    {% endfor %}
 				</div>
-			</li>
-			
-			<li class="section">
-				<h3>自我簡介</h3>
-				<div>關於您個人的簡介資訊</div>
 			</li>
 			
 			<li>

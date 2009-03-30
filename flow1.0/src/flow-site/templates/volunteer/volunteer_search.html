@@ -25,15 +25,15 @@
 						    {% endifequal %}
 						    	<div class="actions">
 								    <!--   <a href="#">加入好友</a> -->
-								    <a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}">檢視檔案</a>
+								    <a href="/volunteer/home/{{ entry.key }}">檢視檔案</a>
 								</div>
 								
 								<div class="image">
-								    <a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
+								    <a href="/volunteer/home/{{ entry.key }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
 								
 								<div class="name">
-								    <a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}">{{ entry.volunteer_id }}</a>
+								    <a href="/volunteer/home/{{ entry.key }}">{{ entry.nickname }}</a>
 								</div>
 								
 								<div class="stats">
@@ -60,7 +60,7 @@
 								<!--
 								
 								<div class="volunteer-info">
-								    <div class="volunteer-title"><a href="/volunteer/home/?volunteer_id={{ entry.volunteer_id }}">{{ entry.volunteer_id }}</a></div>
+								    <div class="volunteer-title"><a href="/volunteer/home/{{ entry.key }}">{{ entry.nickname }}</a></div>
 								</div>
 								<div class="volunteer-stats">
 								    <div class="volunteer-location"><b>所在位置: </b>{{ entry.resident_city }}</div>

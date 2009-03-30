@@ -61,19 +61,19 @@
 							<div class="title">
 								<img src="/static/images/titlebar-left.jpg" class="left">
 								<img src="/static/images/titlebar-right.jpg" class="right">
-								<h3>基本資料</h3>
+								<h3>非公開資料</h3>
 							</div>
 							<div class="content">
 								<dl>
 									<dt>姓, 名</dt>
 									<dd>
-									{{ form.volunteer_first_name }}
-									{% for error in form.volunteer_first_name.errors %}
+									{{ form.volunteer_last_name }}
+									{% for error in form.volunteer_last_name.errors %}
 									<span class="error">{{ error|escape }}</span>
 									{% endfor %}
 									,
-									{{ form.volunteer_last_name }}
-									{% for error in form.volunteer_last_name.errors %}
+									{{ form.volunteer_first_name }}
+									{% for error in form.volunteer_first_name.errors %}
 									<span class="error">{{ error|escape }}</span>
 									{% endfor %}
 									</dd>
@@ -100,39 +100,6 @@
 									<span class="error">{{ error|escape }}</span>
 									{% endfor %}
 									</dd>
-									<dt>所在地</dt>
-									<dd>
-									{{ form.resident_city }}
-									{% for error in form.resident_city.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<dt>大頭貼圖片</dt>
-									<dd>
-									{{ form.logo }}
-									<input id="preview" class="field button" type="button" value="預覽" />
-									{% for error in form.logo.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<div id="previewBox" style="display: none;" title="預覽"></div>
-								</dl>
-							</div>
-						</div>
-				    	<div class="content-block form-block">
-							<div class="title">
-								<img src="/static/images/titlebar-left.jpg" class="left">
-								<img src="/static/images/titlebar-right.jpg" class="right">
-								<h3>聯絡資訊</h3>
-							</div>
-							<div class="content">
-								<dl>
-									<dt>電子郵件信箱</dt>
-									<dd>{{ email }}</dd>
-									{% for error in form.email.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-	
 									<dt>即時通訊</dt>
 									<dd>
 									{{ form.im_type }}
@@ -169,17 +136,6 @@
 									<span class="error">{{ error|escape }}</span>
 									{% endfor %}
 									</dd>
-								</dl>
-							</div>
-						</div>
-				    	<div class="content-block form-block">
-							<div class="title">
-								<img src="/static/images/titlebar-left.jpg" class="left">
-								<img src="/static/images/titlebar-right.jpg" class="right">
-								<h3>學歷與工作</h3>
-							</div>
-							<div class="content">
-								<dl>
 									<dt>就讀/畢業學校</dt>
 									<dd>
 									{{ form.school }}
@@ -208,26 +164,38 @@
 							<div class="title">
 								<img src="/static/images/titlebar-left.jpg" class="left">
 								<img src="/static/images/titlebar-right.jpg" class="right">
-								<h3>個人專長</h3>
+								<h3>公開資料</h3>
 							</div>
 							<div class="content">
 								<dl>
+									<dt>暱稱</dt>
+									<dd>
+									{{ form.nickname }}
+									{% for error in form.nickname.errors %}
+									<span class="error">{{ error|escape }}</span>
+									{% endfor %}
+									</dd>
+									<dt>大頭貼圖片</dt>
+									<dd>
+									{{ form.logo }}
+									<input id="preview" class="field button" type="button" value="預覽" />
+									{% for error in form.logo.errors %}
+									<span class="error">{{ error|escape }}</span>
+									{% endfor %}
+									</dd>
+									<div id="previewBox" style="display: none;" title="預覽"></div>
+									<dt>居住地</dt>
+									<dd>
+									{{ form.resident_city }}
+									{% for error in form.resident_city.errors %}
+									<span class="error">{{ error|escape }}</span>
+									{% endfor %}
+									</dd>
 									<dt>我的專長</dt>
 									<dd>{{ form.expertise }}</dd>
 									{% for error in form.expertise.errors %}
 									<span class="error">{{ error|escape }}</span>
 									{% endfor %}
-								</dl>
-							</div>
-						</div>
-				    	<div class="content-block form-block">
-							<div class="title">
-								<img src="/static/images/titlebar-left.jpg" class="left">
-								<img src="/static/images/titlebar-right.jpg" class="right">
-								<h3>自我簡介</h3>
-							</div>
-							<div class="content">
-								<dl>
 									<dt>自我簡介</dt>
 									<dd>{{ form.brief_intro }}</dd>
 									{% for error in form.brief_intro.errors %}

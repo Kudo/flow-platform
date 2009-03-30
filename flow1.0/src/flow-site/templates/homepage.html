@@ -36,14 +36,14 @@
 	                <div class="top_desc">
 	                	<dl>
 	                		<dt>姓名</dt>
-	                		<dd>{{ volunteer.name }} </dd>
+	                		<dd>{{ volunteer.nickname }} </dd>
 	                		<dt>地區</dt>
 	                		<dd>{{ volunteer.region }}</dd>
 	                		<dt>專長</dt>
-	                		<dd>{{ volunteer.expertise }}</dd>
+	                		<dd>{{ volunteer.showExpertise }}</dd>
 	                	</dl>
 	                	<div class="more_info">
-	                    	<a href="/volunteer/home/?volunteer_id={{ volunteer.volunteer_id }}">詳細資料</a>
+	                    	<a href="/volunteer/home/{{ volunteer.key }}">詳細資料</a>
 	                   	</div>
 	                </div> 
 	            </div>
