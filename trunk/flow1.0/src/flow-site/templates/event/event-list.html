@@ -18,6 +18,7 @@
                 </div>
                 
 	            <div class="content">
+	            	{% if event1 %}
 		            {% for event in event1 %}
 		            <div class="image">
 		            		<img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}{{ base.noLogo }}{% endif %}" />
@@ -32,6 +33,9 @@
 						</dl>
 					</div>
 		            {% endfor %}
+		            {% else %}
+		            	沒有任何新進活動。
+		            {% endif %}
 	            </div>
 			</div>
 		</div> <!-- #new-activities -->
@@ -48,6 +52,7 @@
                 </div>
 			
 			    <div class="content">
+			    	{% if event2 %}
 					{% for event in event2 %}
 					<div class="image">
 		            		<img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}{{ base.noLogo }}{% endif %}" />
@@ -63,6 +68,9 @@
 						</dl>
 					</div>
 					{% endfor %}
+					{% else %}
+						沒有任何即將額滿的活動。
+					{% endif %}
 				</div>
 			</div>
 		</div> <!-- #closing-activities -->
@@ -82,6 +90,7 @@
                 </div>
 
                 <div class="content">
+                	{% if event3 %}
 					{% for event in event3 %}
 					<div class="image">
 		            		<img class="img55" src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}{{ base.noLogo }}{% endif %}" />
@@ -96,6 +105,9 @@
 						</dl>
 					</div>
 					{% endfor %}
+					{% else %}
+						沒有任何已完成的活動。
+					{% endif %}
 				</div>
 			</div>
 		</div> <!-- #completed-activities -->

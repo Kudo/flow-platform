@@ -455,8 +455,10 @@ div.no-padding-bottom {
 /* div.left-column */ div.content-block div.right-links {
 	clear: none;
 	font-size: 13px;
-	padding-top: 2px;
-	padding-right: 2px;
+}
+
+div.content-block div.title div.right-links {
+	padding: 2px 2px 0 0;
 }
 
 /* div.left-column */ div.content-block div.npo-news {
@@ -936,6 +938,7 @@ div.new-top-bar-container {
 }
 div.new-top-bar {
 	position: relative;
+	left: 10px;
 }
 
 div.new-top-bar-container div.npo {

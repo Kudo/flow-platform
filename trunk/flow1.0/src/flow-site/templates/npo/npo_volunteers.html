@@ -13,46 +13,15 @@
 {% block npoContent %}
 
 			    	<h3 id="page-title" class="subbar">志工列表</h3>
-			    	<div class="list-title">共有{{numOfMembers}}位志工, 顯示第 1 至 10 位</div>
-					<div class="right-links">
-						<div class="pager">
-							<a href="#" class="current">1</a>
-							<a href="#">2</a>
-							<a href="#">3</a>
-							<a href="#">4</a>
-							<a href="#">5</a>
-							<a href="#">下一頁</a>
-						</div>
-					</div>
+			    	
+			    	{% if memberList %}
+			    	<div class="list-title">共有 {{ pageSet.count }} 位志工, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 位</div>
+					{% include "paging_top.html" %}
 					<div class="fullpage-list">
-						{% if firstMember %}
-						<div class="item volunteer top-line">
-						    <div class="actions">
-							    <a href="/volunteer/home/{{ firstMember.key }}">移除這位志工</a>
-							</div>
-							<div class="image">
-								<a href="/volunteer/home/{{ firstMember.key }}"><img class="img55" src="{% if firstMember.logo %}{{ firstMember.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
-							</div>
-							<div class="name">
-								<a href="/volunteer/home/{{ firstMember.key }}">{{ firstMember.nickname }}</a>
-							</div>
-							<div class="stats">
-								<dl>
-									<dt>位於:</dt>
-									<dd>{{ firstMember.resident_city }}</dd>
-									<dt>專長:</dt>
-									<dd>{{ firstMember.showExpertise }}</dd>
-									<dt>加入日期:</dt>
-									<dd>{{ firstMember.create_time.date }}</dd>
-								</dl>
-							</div>
-						</div>
-						{% endif %}
-						
-						{% for member in members %}
+						{% for member in memberList %}
 						<div class="item volunteer top-line">
 							<div class="actions">
-							    <a href="/volunteer/home/{{ firstMember.key }}">移除這位志工</a>
+							    <a href="/volunteer/home/{{ member.key }}">移除這位志工</a>
 							</div>
 							<div class="image">
 								<a href="/volunteer/home/{{ member.key }}"><img class="img55" src="{% if member.logo %}{{ member.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
@@ -65,7 +34,7 @@
 									<dt>所在位置：</dt>
 									<dd>{{ member.resident_city }}</dd>
 									<dt>專長：</dt>
-									<dd>{{ firstMember.showExpertise }}</dd>
+									<dd>{{ member.showExpertise }}</dd>
 									<dt>加入日期：</dt>
 									<dd>{{ member.create_time.date }}</dd>
 								</dl>
@@ -74,15 +43,9 @@
 						{% endfor %}
 					
 					</div> <!-- .volunteer-list -->	
-					<div class="right-links">
-						<div class="pager">
-							<a href="#" class="current">1</a>
-							<a href="#">2</a>
-							<a href="#">3</a>
-							<a href="#">4</a>
-							<a href="#">5</a>
-							<a href="#">下一頁</a>
-						</div>
-					</div>
+					{% include "paging_bottom.html" %}
+					{% else %}
+					<div class="fullpage-list">沒有任何志工。</div>
+					{% endif %}
 
 {% endblock %}

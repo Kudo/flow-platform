@@ -52,6 +52,7 @@
 {% endif %}
 
 <div id="activity-info">
+		<h3 id="page-title">{{event.event_name|escape}}</h3>
 		<div class="activity-info-content">
 			<div class="content-block">
       	<form  method="POST" name="myForm" action="">
@@ -71,6 +72,18 @@
 			</div> <!-- .content-block -->
 		</div> <!-- .activity-info-content -->
 		{% include "event/event-info-basic.html" %}
+		<div class="content-block">
+			<div class="title">
+				<img src="/static/images/titlebar-left.jpg" class="left">
+				<img src="/static/images/titlebar-right.jpg" class="right">
+				<h3>活動簡要說明</h3>
+				
+			</div>
+				
+			<div class="content">
+				<pre>{{event.summary|escape}}</pre>
+	    	</div>
+	    </div>
 		<div class="activity-info-content">
 			<div class="content-block">
 				<div class="title">
@@ -79,9 +92,7 @@
           <h3>活動相關網站 / 部落格</h3>
         </div>
         <div class="content">
-				  <pre>{{event.summary|escape}}</pre>
-
-					<div class="article-block">
+				  	<div class="article-block">
 						<div class="article-item">
 							<div class="article-author-img">
 								<a href="#"><img width="55" src="/static/images/maki.png"/></a>
@@ -111,9 +122,13 @@
 				
 			<div class="content">
 				<div class="photo-block clearfix">
+					{% if photoFeeds %}
 				    {% for photo in photoFeeds %}
 				    <div class="photo-item"><a href="{{ photo.link.1.href }}"><img class="img75" src="{{ photo.media.thumbnail.0.url }}"/></a></div>
 				    {% endfor %}
+				    {% else %}
+				    	沒有任何照片。
+				    {% endif %}
 				</div>
 	    	</div>
 	    </div>
@@ -139,7 +154,9 @@
 							<param name="allowscriptaccess" value="always"></param>
 							<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234"></embed>
 						    </object>
-						  {% endif %}
+						    {% else %}
+						    	沒有任何影音。
+						  	{% endif %}
 						</div>
 					</div>
 				</div>
