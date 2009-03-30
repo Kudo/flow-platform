@@ -24,22 +24,10 @@
 									{% endfor %}
 								</select>
 								<label for="expertise">專長:</label>
-								<select name="expertise_1">
+								<select name="expertise">
 									<option value="">任何專長</option>
 									{% for expertise in base.proflist %}
-									<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise_1 expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
-									{% endfor %}
-								</select>
-								<select name="expertise_2">
-									<option value="">---</option>
-									{% for expertise in base.proflist %}
-									<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise_2 expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
-									{% endfor %}
-								</select>
-								<select name="expertise_3">
-									<option value="">---</option>
-									{% for expertise in base.proflist %}
-									<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise_3 expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
+									<option value="{{ expertise }}"{% ifequal searchVal.searchExpertise expertise %} selected="selected"{% endifequal %}>{{ expertise }}</option>
 									{% endfor %}
 								</select>
 								<input type="submit" value="搜尋" />
