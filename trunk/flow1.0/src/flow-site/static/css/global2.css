@@ -33,6 +33,102 @@ body {
 {
 	color:#003366;
 }
+#Search_Wrap
+{
+	z-index: 1000px;
+	position: absolute;
+	width: 240px;
+	font-size: 12px;
+	color: #003366;
+	margin-left:1050px;
+	margin-top: 4px;
+}
+#Search_Wrap P.tab
+{
+	margin: 0px 0px 0px 40px;
+	padding: 0px;
+	width: 40px;
+	height: 20px;
+	background: url(../images/search_tab.png) no-repeat;
+	line-height:20px;
+	text-align: center;
+	font-size: 14px;
+}
+#Search_Body
+{
+	background: url(../images/search_bg.png);
+	padding:5px 10px;
+}
+#Search_Body IMG
+{
+	border:0px;
+}
+#Search_Type A.type, #Search_Type A.selected
+{
+	color: #003366;
+	text-decoration:none;
+	display:inline-block;
+	height:20px;
+	line-height:22px;
+	padding-right: 6px;
+}
+#Search_Type A.type SPAN, #Search_Type A.selected SPAN
+{
+	padding-left: 6px;
+	display:inline-block;
+	height:20px;
+	line-height:22px;
+	cursor:pointer;
+}
+#Search_Type A.type:hover
+{
+	background: url(../images/search_type_bg.png) right;
+}
+#Search_Type A.type:hover SPAN
+{
+	background: url(../images/search_type_bg.png) left;
+}
+#Search_Type A.selected
+{
+	background: url(../images/search_type_bg.png) right;
+}
+#Search_Type A.selected SPAN
+{
+	background: url(../images/search_type_bg.png) left;
+}
+#Search_Type A.close
+{
+	position: absolute;
+	right: 5px;
+}
+#Search_Activity, #Search_Volunteer, #Search_Group
+{
+	padding-top: 5px;
+	font-size: 11px;
+}
+#Search_Activity INPUT
+{
+	font-size: 12px;
+}
+#Search_Body P
+{
+	margin: 10px 0px 0px 0px;
+}
+#Search_Body UL
+{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+#Search_Body UL LI
+{
+	margin-bottom:0px;
+}
+#Search_Body .button
+{
+	text-align:right;
+
+}
 #Main_Nav
 {
 	margin-top:17px;

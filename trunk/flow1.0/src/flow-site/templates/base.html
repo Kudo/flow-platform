@@ -9,6 +9,8 @@
 <script type="text/javascript" src="{{ base.jQueryURI }}"></script>
 <script type="text/javascript" src="/static/js/splash_search.js"></script>
 <script type="text/javascript" src="/static/js/global.js"></script>
+<script type="text/javascript" src="/static/js/index.js" ></script> 
+
 
 {% block extraHeader %}
 	{### this block can be replaced by children template with css / script definition ###}
@@ -16,13 +18,95 @@
 {% endblock extraHeader %}
 
 </head>
-<body>
+<body onload="jsInit();">
+<div id="Search_Wrap">
+    <p class="tab">搜尋</p>
+    <div id="Search_Body">
+        <div id="Search_Type">
+            <a href="#" class="selected" onclick="jsSwitchType('Activity');" id="Type_Activity"><span>活動</span></a>
+            <a href="#" class="type" onclick="jsSwitchType('Volunteer');" id="Type_Volunteer"><span>志工</span></a>
+            <a href="#" class="type" onclick="jsSwitchType('Group');" id="Type_Group"><span>公益團體</span></a>
+            <a href="#" class="close" onclick="jsCloseSearchPanel()"><img src="/static/images/close_icon.png" /></a>
+        </div> 
+        <div id="Search_Activity">
+        	<form action="/activity/search/" method="GET">
+            	<div id="Keyword">關鍵字：<input type="text" size="18" /></div>
+            	<p>地區：</p>
+            	{% for region in base.resident %}
+            		<input type="radio" name="region" value="{{ region }}" id="event_{{ region }}"><label for="event_{{ region }}">{{ region }}</label><br>
+            	{% endfor %}
+            	<div class="button"><input type="image" src="/static/images/search_btn.png" value="搜尋" /></div>
+            </form>
+        </div>
+        <div id="Search_Volunteer">
+        	<form action="/volunteer/search/" method="GET">
+	            <p>居住地區：</p>
+	            {% for region in base.resident %}
+	            	<input type="radio" name="region" value="{{ region }}" id="region_{{ region }}"><label for="region_{{ region }}">{{ region }}</label><br>
+	            {% endfor %}
+	            <div class="button"><input type="image" src="/static/images/search_btn.png" value="搜尋" /></div>
+	        </form>
+            <p>專業領域：</p>
+            <ul>
+                <li>
+                    <input type="checkbox" />企業管理
+                    <input type="checkbox" />業務開發
+                    <input type="checkbox" />市場行銷
+                    <input type="checkbox" />財務會計
+                    <input type="checkbox" />傳播公關
+                    <input type="checkbox" />政經法律
+                    <input type="checkbox" />社會福利
+                    <input type="checkbox" />建築工程
+                    <input type="checkbox" />生化工程
+                    <input type="checkbox" />植物園藝
+                    <input type="checkbox" />醫療護理
+                    <input type="checkbox" />資訊網路
+                    <input type="checkbox" />電子機械
+                    <input type="checkbox" />攝影製片
+                    <input type="checkbox" />品牌設計
+                    <input type="checkbox" />餐旅觀光
+                    <input type="checkbox" />教育心理
+                    <input type="checkbox" />音樂戲劇
+                    <input type="checkbox" />表演藝術
+                    <input type="checkbox" />其他專長
+                </li>
+            </ul>
+            <p>語言專長：</p>
+            <ul>
+                <li>
+                    <input type="checkbox" />國語
+                    <input type="checkbox" />台語
+                    <input type="checkbox" />粵語
+                    <input type="checkbox" />客家語<br />
+                    <input type="checkbox" />越南語
+                    <input type="checkbox" />印尼語
+                    <input type="checkbox" />泰國語<br />
+                    <input type="checkbox" />馬來語
+                    <input type="checkbox" />英語
+                    <input type="checkbox" />日語
+                    <input type="checkbox" />韓語<br />
+                    <input type="checkbox" />其他
+                </li>
+            </ul>
+        </div>
+        <div id="Search_Group">
+            <p>服務地區：</p>
+            <form action="/npo/search/" method="GET">
+            {% for region in base.resident %}
+	            	<input type="radio" name="region" value="{{ region }}" id="npo_{{ region }}"><label for="npo_{{ region }}">{{ region }}</label><br>
+	            {% endfor %}
+	            <div class="button"><input type="image" src="/static/images/search_btn.png" value="搜尋" /></div>
+            </form>
+        </div>
+    </div> 
+</div>
 <div id="Banner">
     <div id="Top_Nav">
     	{% if base.volunteer_id %}
     		{{ base.nickname }} &nbsp; &nbsp;
         {% endif %}
-        <a href="#" onClick="javascript:$('#Search').toggle('drop');" class="highlight">搜尋</a>
+        <!-- <a href="#" onClick="javascript:$('#Search').toggle('drop');" class="highlight">搜尋</a>-->
+        <a href="#" onClick="jsShowSearchPanel();" class="highlight">搜尋</a>
         |
         {% if base.volunteer_id %}
 	        <a href="/logout?redirect={{ base.full_path }}">登出</a>
@@ -69,8 +153,5 @@
   <p>2009 &copy; 若水國際 All Rights Reserved</p>
 </div>
 
-<div id="Search" style="display: none;">
-{% include "splashbox_search.html" %}
-</div>
 </body>
 </html>
