@@ -21,6 +21,8 @@
                     <a id="createFeedItem" href="#">新增文章</a>
                 </div>
                 {% endif %}
+                
+                {% if entryList %}
 				<div class="list-title">共有 {{ pageSet.count }} 篇文章, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 筆</div>
 				{% include "paging_top.html" %}
 						<div class="fullpage-list">
@@ -41,7 +43,10 @@
 							</div>
 						    {% endfor %}
 						</div>
-						{% include "paging_bottom.html" %}
+				{% include "paging_bottom.html" %}
+				{% else %}
+				<div class="fullpage-list">志工尚未加入任何文章。</div>
+				{% endif %}
 				<div id="createFeedBox" style="display: none;" title="新增文章">
 				    <form action="#" method="get">
 					<dl>

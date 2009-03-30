@@ -14,8 +14,9 @@
 
 			    	<div class="content-block">
 				    	<h3 id="page-title" class="subbar">加入的公益團體</h3>
-					
+						{% if npoList %}
 						<div class="fullpage-list">
+							
 						    {% for entry in npoList %}
 							<div class="item npo top-line clearfix">
 						    	<div class="actions">
@@ -57,7 +58,11 @@
 								</div>
 							</div>
 						    {% endfor %}
+						    
 						</div>
 					{% include "paging_bottom.html" %}
+					{% else %}
+					   	<div class="fullpage-list">志工尚未加入任何公益團體。</div>
+				    {% endif %}
 					</div>
 {% endblock %}

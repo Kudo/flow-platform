@@ -18,7 +18,7 @@ displayNpoEventCount = 3
 diffDaysLimit = 14
 
 def show(request, key, displayPhotoCount=8, displayBlogCount=6):
-    user = flowBase.verifyVolunteer(request)
+    user = flowBase.verifyVolunteer(request, key)
     if not user:
         return HttpResponseRedirect('/')
 
