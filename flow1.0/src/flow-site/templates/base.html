@@ -29,8 +29,8 @@
             <a href="#" class="close" onclick="jsCloseSearchPanel()"><img src="/static/images/close_icon.png" /></a>
         </div> 
         <div id="Search_Activity">
-        	<form action="/activity/search/" method="GET">
-            	<div id="Keyword">關鍵字：<input type="text" size="18" /></div>
+        	<form action="/event/search/" method="GET">
+            	<div id="Keyword">關鍵字：<input type="text" name="tags" size="18" /></div>
             	<p>地區：</p>
             	{% for region in base.resident %}
             		<input type="radio" name="region" value="{{ region }}" id="event_{{ region }}"><label for="event_{{ region }}">{{ region }}</label><br>
