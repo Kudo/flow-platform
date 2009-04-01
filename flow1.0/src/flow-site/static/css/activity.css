@@ -23,6 +23,7 @@
 /* .activity-info-item */
 .activity-lists .activity-info-item {
 	padding-bottom: 12px;
+	padding-left: 60px;
 }
 
 .activity-lists .activity-info-item h3 {
@@ -37,6 +38,28 @@
 	border-bottom: dotted #999 1px;
 	margin-bottom: 4px;
 }
+
+.activity-lists .activity-info-item .lack-block {
+        margin-left: 20px;
+        color: #000;
+        float: right;
+/*      border: solid #666 2px;*/
+}
+
+.lack-block .lack {
+        color: #900;
+        font-weight: bold;
+}
+
+.activity-lists .image {
+        width: 60px;
+        float: left;
+}
+
+.activity-lists .content {
+        padding-left: 10px !important;
+}
+
 
 /* end of .activity-info-item */
 
