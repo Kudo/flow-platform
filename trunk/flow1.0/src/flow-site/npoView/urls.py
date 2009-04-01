@@ -27,4 +27,14 @@ urlpatterns = patterns('npoView',
     (r'^listEvents/?$',  'npoProfile.showEvents'),
     (r'^manage_edit_info.html$', 'npoProfile.edit'),
     (r'^npo_volunteers.html$', 'npoProfile.memberList'),
+    # space
+    (r'^(?P<npoid>[^/]+)/space/?$',                                 'space.show'),
+    (r'^(?P<npoid>[^/]+)/space/video/create/?$',                    'space.videoCreate'),
+    (r'^(?P<npoid>[^/]+)/space/video/delete/?$',                    'space.videoDelete'),
+    (r'^(?P<npoid>[^/]+)/space/video/?$',                           'space.videoShow'),
+    (r'^(?P<npoid>[^/]+)/space/article/create/?$',                  'space.articleCreate'),
+    (r'^(?P<npoid>[^/]+)/space/article/delete/?$',                  'space.articleDelete'),
+    (r'^(?P<npoid>[^/]+)/space/article/saveUri/?$',                 'space.feedUriSave'),
+    (r'^(?P<npoid>[^/]+)/space/article/?$',                         'space.articleShow'),
+
 )

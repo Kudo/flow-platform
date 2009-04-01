@@ -1,0 +1,65 @@
+{% extends "npo/base.html" %}
+
+{### header ###}
+
+{% block npoExtraHeader %}
+
+	{### this block can put additional css / script definition to head tag ###}
+	<!-- block npoExtraHeader here -->
+<link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
+<script type="text/javascript" src="/static/js/space.js"></script>
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
+
+				<h3 id="page-title" class="subbar">部落格文章列表</h3>
+                {% if isAdmin %}
+                <div class="action">
+                    <a id="createFeedItem" href="#">新增文章</a>
+                </div>
+                {% endif %}
+                
+                {% if entryList %}
+				<div class="list-title">共有 {{ pageSet.count }} 篇文章, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 筆</div>
+				{% include "paging_top.html" %}
+						<div class="fullpage-list">
+						    {% for entry in entryList %}
+						    {% ifequal entry firstEntry %}
+							<div class="item volunteer top-line">
+						    {% else %}
+							<div class="item volunteer top-line">
+						    {% endifequal %}
+						    	<div class="actions">
+							    {% if isAdmin %}
+							    <a class="delItem" href="/npo/{{ npoProfile.npo_id }}/space/article/delete?itemId={{ forloop.counter }}&xToken={{ base.token }}">刪除</a>
+							    {% endif %}
+							</div>
+								<div class="name">
+								    <a target="_blank" href="{{ entry.1 }}">{{ entry.0 }}</a>
+								</div>
+							</div>
+						    {% endfor %}
+						</div>
+				{% include "paging_bottom.html" %}
+				{% else %}
+				<div class="fullpage-list">公益團體尚未加入任何文章。</div>
+				{% endif %}
+				<div id="createFeedBox" style="display: none;" title="新增文章">
+				    <form action="#" method="get">
+					<dl>
+					    <dt>部落格網址/RSS:</dt>
+					    <dd>
+					    <input type="text" name="feedUri" maxlength="100" size="50" value="{{ feedUri }}" />
+					    <input type="button" id="feedUriSave" name="feedUriSave" value="記住這個網址" />
+					    <input type="button" id="feedUriParse" name="feedUriParse" value="預覽文章" />
+					    <input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
+					    </dd>
+					</dl>
+					<div id="feedPreview">
+					</div>
+				    </form>
+				</div>
+{% endblock %}

@@ -146,23 +146,9 @@
 						</div>
 						<div class="content">
 							<div class="photo-block clearfix">
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
-								<div class="photo-item"><a href="#"><img width="70" src="/static/images/maki.png"/></a></div>
+							    {% for photo in photoFeeds %}
+							    <div class="photo-item"><a href="{{ photo.link.1.href }}"><img class="img75" src="{{ photo.media.thumbnail.0.url }}"/></a></div>
+							    {% endfor %}
 							</div>
 						</div>
 					</div>
@@ -172,16 +158,25 @@
 							<img src="/static/images/titlebar-left.jpg" class="left">
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							<div class="right-links">
-					    		<a href="#">看更多</a>
+							    <a href="/npo/{{ npoProfile.npo_id }}/space/video/">看更多</a>
 					    	</div>
 							<h3>我們的影片</h3>
 						</div>
 						<div class="content">
 							<div class="video-block">
 								<div class="video-item">
+								    {% if video %}
 									<div class="video-content">
-										<img src="/static/images/u77.png"/>
+									    <object width="290" height="234">
+										<param name="movie" value="{{ video.media.content.0.url }}"></param>
+										<param name="allowFullScreen" value="true"></param>
+										<param name="allowscriptaccess" value="always"></param>
+										<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234"></embed>
+									    </object>
 									</div>
+									{% else %}
+									公益團體尚未加入任何影音。
+								    {% endif %}
 								</div>
 							</div>
 						</div>
@@ -192,39 +187,19 @@
 							<img src="/static/images/titlebar-left.jpg" class="left">
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							<div class="right-links">
-					    		<a href="#">看更多</a>
+							    <a href="/npo/{{ npoProfile.npo_id }}/space/article/">看更多</a>
 					    	</div>
 							<h3>我們的部落格</h3>
 						</div>
 						<div class="content">
 							<div class="article-block">
-								<div class="article-item">
-									<div class="article-author-img">
-										<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-									</div>
-									<div class="article-info">
-										<div class="article-title">歡喜做、甘願受</div>
-										<div class="article-date">2008 年 9 月 3 日</div>
-									</div>
-								</div>
-								<div class="article-item">
-									<div class="article-author-img">
-										<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-									</div>
-									<div class="article-info">
-										<div class="article-title">歡喜做、甘願受</div>
-										<div class="article-date">2008 年 9 月 3 日</div>
-									</div>
-								</div>
-								<div class="article-item">
-									<div class="article-author-img">
-										<a href="#"><img width="55" src="/static/images/maki.png"/></a>
-									</div>
-									<div class="article-info">
-										<div class="article-title">歡喜做、甘願受</div>
-										<div class="article-date">2008 年 9 月 3 日</div>
-									</div>
-								</div>
+								{% if articleList %}
+							    {% for entry in articleList %}
+								<div class="article-item"><a href="{{ entry.1 }}">{{ entry.0 }}</a></div>
+							    {% endfor %}
+							    {% else %}
+							    	公益團體尚未加入任何文章。
+							    {% endif %}
 							</div>
 						</div>
 					</div>

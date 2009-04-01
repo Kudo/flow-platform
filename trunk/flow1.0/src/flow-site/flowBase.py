@@ -75,10 +75,12 @@ def getVolunteerID(volunteer_id=users.get_current_user()):
     else:
         return None
 
-def getNpo(id=None):
-    if not id:
-        return None
-    return db.GqlQuery('SELECT * FROM NpoProfile WHERE id = :1', id).get()
+def getNpo(id=None, npo_id=None):
+    if id:
+        return NpoProfile.all().filter('id =', id).get()
+    if npo_id:
+        return NpoProfile.all().filter('npo_id =', npo_id).get()
+    return None
 
 def getNpoByUser(user):
     npo = db.GqlQuery('SELECT * FROM NpoProfile WHERE google_acct = :1', user).get()
@@ -134,6 +136,7 @@ def getNpoBase(npo):
     if not npo:
         return data
     data['npo_name']        = npo.npo_name
+    data['npo_id']          = npo.npo_id
 
     return data
 

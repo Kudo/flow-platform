@@ -1,0 +1,80 @@
+{% extends "npo/base.html" %}
+
+{### header ###}
+
+{% block npoExtraHeader %}
+
+	{### this block can put additional css / script definition to head tag ###}
+	<!-- block npoExtraHeader here -->
+<link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
+<script type="text/javascript" src="/static/js/space.js"></script>
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
+
+				<h3 id="page-title" class="subbar">影音列表
+				</h3>
+                {% if isAdmin %}
+                <div class="action">
+				    <a id="createVideoItem" href="#">新增影音</a>
+                </div>
+                {% endif %}
+                {% if entryList %}
+				<div class="list-title">共有 {{ pageSet.count }} 筆, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 筆</div>
+				{% include "paging_top.html" %}
+						<div class="fullpage-list">
+						    {% for entry in entryList %}
+						    <div class="item video top-line">
+						       	<div class="actions">
+							    {% if isAdmin %}
+							    <a class="delItem" href="/npo/{{ npoProfile.npo_id }}/space/video/delete?itemId={{ forloop.counter }}&xToken={{ base.token }}">刪除</a>
+							    {% endif %}
+							</div>
+							<div class="video-title">{{ entry.title.text }}</div>
+							<div class="video-content">
+							    <object width="320" height="265">
+								<param name="movie" value="{{ entry.media.content.0.url }}"></param>
+								<param name="allowFullScreen" value="true"></param>
+								<param name="allowscriptaccess" value="always"></param>
+								<param name="wmode" value="transparent"></param>
+								<embed src="{{ entry.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="320" height="265" wmode="transparent"></embed>
+							    </object>
+							</div>
+							<div class="video-info">於 {{ entry.videoDate.year }} 年 {{ entry.videoDate.month }} 月 {{ entry.videoDate.day }} 日 發表</div>
+							</div>
+						    {% endfor %}
+						</div>
+
+					{% include "paging_bottom.html" %}
+				{% else %}
+				<div class="fullpage-list">公益團體尚未加入任何影音。</div>
+				{% endif %}
+				<div id="createVideoBox" style="display: none;" title="新增影音">
+				    <form action="#" method="get">
+					<dl>
+					    <dt>Youtube 影音網址:</dt>
+					    <dd>
+					    <input type="text" name="videoUri" maxlength="100" size="50" value="" />
+					    <input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
+					    </dd>
+					</dl>
+					<div id="videoPreview">
+					    <div class="video-title"></div>
+					    <div class="video-item" style="display: none;">
+						<div class="video-content">
+						    <object width="290" height="234">
+							<param name="movie" value=""></param>
+							<param name="allowFullScreen" value="true"></param>
+							<param name="allowscriptaccess" value="always"></param>
+							<param name="wmode" value="transparent"></param>
+							<embed src="" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234" wmode="transparent"></embed>
+						    </object>
+						</div>
+					    </div>
+					</div>
+				    </form>
+				</div>
+{% endblock %}
