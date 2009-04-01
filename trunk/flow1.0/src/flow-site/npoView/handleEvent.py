@@ -7,14 +7,13 @@ from google.appengine.api import users
 from django import newforms as forms
 from db import ddl
 from google.appengine.ext.db import djangoforms
-from common.widgets import FlowSplitDateTimeWidget
+from common.widgets import FlowSplitDateTimeWidget,FlowCheckboxSelectMultiple
 from common.fields import FlowChoiceField
 import flowBase
 
 g_lstRegion=[(s,s) for s in flowBase.getRegion()]
 g_lstRegion.insert(0,('',u'請選擇...'))
-g_lstExpertise=[(s,s) for s in flowBase.getProfessionList()]
-g_lstExpertise.insert(0,('',u'請選擇...'))
+g_lstExpertise = [(s.encode('UTF-8'), s) for s in flowBase.getProfessionList()]
 
 class NewEventForm(djangoforms.ModelForm):
     event_name = forms.CharField(widget=forms.TextInput(attrs={'size':'37'}))
@@ -30,8 +29,10 @@ class NewEventForm(djangoforms.ModelForm):
     attachment_links_show = forms.URLField(required=False,initial='',widget=forms.TextInput(attrs={'size':'58'}))
     min_age = forms.IntegerField(min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
     max_age = forms.IntegerField(min_value=1,initial=99,widget=forms.TextInput(attrs={'size':'3'}))
-    volunteer_req = forms.IntegerField(required=True,min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
-    expertise_req = FlowChoiceField(choices=g_lstExpertise,widget=forms.Select())
+    volunteer_req = forms.IntegerField(min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
+    
+    expertise_req = forms.MultipleChoiceField(required=False,choices=g_lstExpertise, widget=FlowCheckboxSelectMultiple())
+
     sex = FlowChoiceField(choices=[('Both',u'皆可'),('Male',u'男'),('Female',u'女')],widget=forms.Select())
     class Meta:
         event_fields = ['event_name', 'description', 'start_time','end_time','reg_start_time','reg_end_time',
