@@ -72,7 +72,7 @@ def memberList(request, npoid, message=None):
         for npoMember in npoProfile.members:
             npoMembershipList.append({
                 'volunteer_profile': VolunteerProfile.get(npoMember), 
-                'isAdmin':           (npoProfile.admins2npo.filter('volunteer_id = ', VolunteerProfile.get(npoMember).volunteer_id).count())
+                'isAdmin':           (npoProfile.admins2npo.filter('volunteer_profile_ref = ', VolunteerProfile.get(npoMember)).count())
                 })
         
         template_values = {
@@ -107,7 +107,7 @@ def manageMember(request, npoid):
                 #volunteerid is email to the VolunteerProfile class
                 volunteerProfile = VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
                 if volunteerProfile and volunteerProfile.key() in npoProfile.members:
-                    npoManager = NpoAdmin(npo_profile_ref=npoProfile, admin_role="Main", volunteer_id=users.User(volunteerid))
+                    npoManager = NpoAdmin(npo_profile_ref=npoProfile, admin_role="Main", volunteer_profile_ref=volunteerProfile)
                     npoManager.put()
                 else:
                     #unexpected operation, do nothing.
@@ -116,7 +116,7 @@ def manageMember(request, npoid):
                 #volunteerid is email to the VolunteerProfile class
                 volunteerProfile = VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
                 if volunteerProfile and volunteerProfile.key() in npoProfile.members:
-                    npoManager = npoProfile.admins2npo.filter("volunteer_id =", volunteerProfile.volunteer_id).get()
+                    npoManager = npoProfile.admins2npo.filter("volunteer_profile_ref = ", volunteerProfile).get()
                     if npoManager:
                         npoManager.delete()
                 else:

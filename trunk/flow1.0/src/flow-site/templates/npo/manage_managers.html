@@ -48,7 +48,7 @@
 			<li>
 				<form method="POST" action="/npo/{{ npoProfile.npo_id }}/admin/members/manage">
 					<input type="hidden" name="operation"    value=""/>
-					<input type="hidden" name="volunteer_id" value="{{ member.volunteer_profile.volunteer_id|escape }}"/>
+					<input type="hidden" name="volunteer_id" value="{{ member.volunteer_profile.volunteer_id.email|escape }}"/>
 					<label class="desc">
 					{{ member.volunteer_profile.volunteer_last_name }}{{ member.volunteer_profile.volunteer_first_name }} ({{ member.volunteer_profile.gmail }})
 					{% if member.isAdmin %}&nbsp;-&nbsp;管理員{% endif %}

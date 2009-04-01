@@ -172,7 +172,7 @@ def step3(request):
                     personObj = NpoAdmin(
                             npo_profile_ref             = npoObjKey,
                             admin_role                  = 'Main',
-                            volunteer_id                = person.volunteer_id,
+                            volunteer_profile_ref       = person,
                     )
                     personObj.put()
 
