@@ -86,7 +86,7 @@ def create(request):
         npo.put()
         template = createQuestionnaireTemplate()
         event = createEventProfile(npo, volunteer, template)
-        event = createEventProfile2(npo, volunteer, template, str(int(time.time())), u"招募中的活動", "recruiting" )
+        event = createEventProfile2(npo, volunteer, template, str(int(time.time())), u"招募中的活動", "registrating" )
         event = createEventProfile2(npo, volunteer, template, str(int(time.time())), u"蓋高速公路", "activity closed" )
         event = createEventProfile2(npo, volunteer, template, str(int(time.time())), u"打螞蟻", "activity closed" )
         event = createEventProfile2(npo, volunteer, template, str(int(time.time())), u"殺蟑螂", "activity closed" )

@@ -103,7 +103,7 @@ def create():
     npo = createNpoProfile(user)
     
     event = createEventProfile(npo, volunteer)
-    event = createEventProfile2(npo, volunteer, u"招募中的活動", "recruiting" )
+    event = createEventProfile2(npo, volunteer, u"招募中的活動", "registrating" )
     event = createEventProfile2(npo, volunteer, u"蓋高速公路", "new application" )
     event = createEventProfile2(npo, volunteer, u"打螞蟻", "activity closed" )
     event = createEventProfile2(npo, volunteer, u"殺蟑螂", "activity closed" )
