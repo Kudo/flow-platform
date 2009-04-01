@@ -8,6 +8,7 @@ from django import newforms as forms
 from google.appengine.ext import db
 from db import ddl
 import flowBase
+from common import paging
 
 dicRule = {'new application'        :{'modify':'',        'recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
            'approved'               :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':''},
@@ -112,3 +113,34 @@ def handleCancelEvent(request):
           'event': event}
     return render_to_response(r'event/event-admin-cancel.html', dic)
     
+displayCount = 10
+def volunteerList(request):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+    if not objNpo:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
+    strEventKey=request.GET.get('event_key')
+    if not strEventKey:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+    event=db.get(db.Key(strEventKey))
+    if event.npo_profile_ref.id!=objNpo.id:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+    
+    query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'approved')
+    # approvedVolunteers = query.fetch(1000)
+    
+    pageSet = paging.get(request.GET, query.count(), displayCount=displayCount)
+    approvedVolunteers = query.fetch(displayCount, pageSet['entryOffset'])
+    
+    for volunteer in approvedVolunteers:
+        volunteer.volunteer_profile_ref.showExpertise = u', '.join(volunteer.volunteer_profile_ref.expertise)
+        
+    
+    dicData={'volunteers' : approvedVolunteers,
+             'base':flowBase.getBase(request,'npo'),
+             'event':event,
+             'event_key':event.key(),
+             'page':'event',
+             'pageSet':                  pageSet,
+             }
+    return render_to_response(r'event/event-admin-volunteer-list.html', dicData)
