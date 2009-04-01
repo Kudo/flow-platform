@@ -1,5 +1,6 @@
 # -*- coding: big5 -*-
 import datetime
+from itertools import chain
 from django import newforms as forms
 
 class TimeInput(forms.TextInput):
@@ -17,3 +18,29 @@ class FlowSplitDateTimeWidget(forms.SplitDateTimeWidget):
             dicTimeAttrs.update(attrs)
         widgets = (forms.TextInput(attrs=dicDateAttrs), TimeInput(attrs=dicTimeAttrs))
         super(forms.SplitDateTimeWidget, self).__init__(widgets, attrs)
+
+class FlowCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
+    displayRowCount = 4
+    def render(self, name, value, attrs=None, choices=()):
+        from django.utils.html import escape
+        if value is None: value = []
+        has_id = attrs and attrs.has_key('id')
+        final_attrs = self.build_attrs(attrs, name=name)
+        output = [u'<table>\n<tr>']
+        if isinstance(value, list):
+            str_values = set([forms.util.smart_unicode(v) for v in value]) # Normalize to strings.
+        else:
+            str_values = set([forms.util.smart_unicode(v) for v in value.split('\n')]) # Normalize to strings.
+        for i, (option_value, option_label) in enumerate(chain(self.choices, choices)):
+            # If an ID attribute was given, add a numeric index as a suffix,
+            # so that the checkboxes don't all have the same ID attribute.
+            if has_id:
+                final_attrs = dict(final_attrs, id='%s_%s' % (attrs['id'], i))
+            cb = forms.CheckboxInput(final_attrs, check_test=lambda value: value in str_values)
+            option_value = forms.util.smart_unicode(option_value)
+            rendered_cb = cb.render(name, option_value)
+            output.append(u'<td>%s %s</td>' % (rendered_cb, escape(forms.util.smart_unicode(option_label))))
+            if ((i + 1) % self.displayRowCount == 0):
+                output.append(u'</tr>\n<tr>')
+        output.append(u'</tr>\n</table>')
+        return u'\n'.join(output)        

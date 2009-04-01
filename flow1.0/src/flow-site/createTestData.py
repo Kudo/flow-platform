@@ -57,7 +57,7 @@ def createEventProfile(npo, volunteer):
     reg_end=datetime.datetime.fromtimestamp(time.time()+86400*5)
     event = ddl.EventProfile(event_name=u'大家一起做網頁', description='sea', npo_profile_ref=npo,
                          volunteer_profile_ref=volunteer, event_region=[u'臺北縣市'], event_hours=10,
-                         start_time=start, end_time=end, reg_start_time=reg_start, reg_end_time=reg_end, objective='orcas',
+                         start_time=start, end_time=end, reg_start_time=reg_start, reg_end_time=reg_end,
                          status="approved", max_age=99, min_age=9, event_rating=75, npo_event_rating=80,
                          create_time=now, update_time=now, summary='Good Job!',volunteer_req=10,tag=[u'網頁'])
     event.approved=True
@@ -76,8 +76,8 @@ def createEventProfile2(npo, volunteer, strEvent_name, strStatus):
         end = datetime.datetime.fromtimestamp(time.time()+86400*15)
         
     event = ddl.EventProfile(event_name=strEvent_name, description=u'測試', npo_profile_ref=npo,
-                         volunteer_profile_ref=volunteer, event_region=['Taipei'], event_hours=10,
-                         start_time=start, end_time=end, reg_start_time=now, reg_end_time=start, objective='orcas',
+                         volunteer_profile_ref=volunteer, event_region=[u'臺北縣市'], event_hours=10,
+                         start_time=start, end_time=end, reg_start_time=now, reg_end_time=start, 
                          status=strStatus, max_age=99, min_age=9, event_rating=75, npo_event_rating=80,
                          create_time=now, update_time=now, summary='Good Job!',volunteer_req=5,tag=[u'測試'])
     if strStatus!="new application":
@@ -104,6 +104,8 @@ def create():
     
     event = createEventProfile(npo, volunteer)
     event = createEventProfile2(npo, volunteer, u"招募中的活動", "registrating" )
+    event = createEventProfile2(npo, volunteer, u"種樹", "registrating" )
+    event = createEventProfile2(npo, volunteer, u"鑿井", "registrating" )
     event = createEventProfile2(npo, volunteer, u"蓋高速公路", "new application" )
     event = createEventProfile2(npo, volunteer, u"打螞蟻", "activity closed" )
     event = createEventProfile2(npo, volunteer, u"殺蟑螂", "activity closed" )
