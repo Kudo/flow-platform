@@ -140,31 +140,32 @@
     </div>
    	<script type="text/javascript">
    	<!--
+   	
 	// fix search bar position, code put here to immediate apply instead of waiting all loading operation complete
-	var right_px = 0;
-	if ($("#Search_Wrap").offset().left > 0) {
-		right_px = $("#Search_Wrap").offset().left;
-	} else {
-		right_px = - $("#Search_Wrap").position().left;
-	}
-	//alert("right_px="+right_px);
-	right_px -= $("#Search_Wrap").width();
-	//alert("right_px="+right_px+" (-"+$("#Search_Wrap").width()+")");
-	right_px -= $("#top-search-link").offset().left;
-	//alert("right_px="+right_px+" (-"+$("#top-search-link").offset().left+")");
-	if (jQuery.browser.msie) {
-		right_px -= 2;
-		//alert(jQuery.browser.version);
-		if (jQuery.browser.version == "6.0") {
-			right_px -= 26;
+	function position_search_bar()
+	{
+		$("#Search_Wrap").css('left', null);
+		var right_px = 0;
+		if ($("#Search_Wrap").offset().left > 0) {
+			right_px = $("#Search_Wrap").offset().left;
+		} else {
+			right_px = - $("#Search_Wrap").position().left;
 		}
-	} else if (jQuery.browser.safari) {
-		right_px += 14;
-	} else if (jQuery.browser.mozilla) {
-		right_px += 11;
+		//alert("right_px="+right_px);
+		right_px -= $("#top-search-link").offset().left;
+		//alert("right_px="+right_px+" (-"+$("#top-search-link").offset().left+")");
+		right_px += 46;
+		if (jQuery.browser.msie) {
+			right_px += -2;
+		} 	
+		//alert("right_px="+right_px);
+		$("#Search_Wrap").css('left', '-'+(right_px)+'px');
 	}
-	//alert("right_px="+right_px);
-	$("#Search_Wrap").css('right', (right_px)+'px');
+	
+	position_search_bar();
+	window.onresize = function() {
+		position_search_bar();
+	};
 	-->
    	</script>
     <div id="Main_Nav">
