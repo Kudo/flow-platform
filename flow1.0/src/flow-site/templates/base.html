@@ -114,7 +114,7 @@
 <div id="Banner">
     <div id="Top_Nav">
     	{% if base.volunteer_id %}
-    		{{ base.nickname }} &nbsp; &nbsp;
+    		{{ base.volunteer_id|escape }} |
         {% endif %}
         <!-- <a href="#" onClick="javascript:$('#Search').toggle('drop');" class="highlight">搜尋</a>-->
         <a id="top-search-link" href="javascript:;" onClick="jsShowSearchPanel();" class="highlight">搜尋</a>
