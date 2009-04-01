@@ -1,0 +1,55 @@
+﻿{### % extends "event/base.html" % ###}
+{% extends "npo/admin_base.html" %}
+
+{### header ###}
+{% block npoExtraHeader %}
+
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
+
+	<div class="content-block">
+		<h3 id="page-title" class="subbar">參與 {{event.event_name}} 活動的志工名單</h3>
+		
+					{% if volunteers %}
+					<div class="list-title">共有 {{ pageSet.count }} 位志工, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 位</div>
+					{% include "paging_top.html" %}
+						<div class="fullpage-list">
+						    {% for entry in volunteers %}
+							<div class="item npo top-line clearfix">
+						    	<div class="actions">
+								    <a href="/volunteer/home/{{ entry.volunteer_profile_ref.key }}">檢視檔案</a>
+								</div>
+								<div class="image">
+								    <a href="/volunteer/home/{{ entry.volunteer_profile_ref.key }}"><img class="img55" src="{% if entry.volunteer_profile_ref.logo %}{{ entry.volunteer_profile_ref.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
+								</div>
+								<div class="name">
+								    <a href="/volunteer/home/{{ entry.volunteer_profile_ref.key }}">{{ entry.volunteer_profile_ref.volunteer_last_name|escape }}, {{ entry.volunteer_profile_ref.volunteer_first_name|escape }}</a>
+								    ({{entry.volunteer_profile_ref.nickname}})
+								</div>
+								<div class="stats">
+									<dl>
+										<dt>性別:</dt>
+										<dd>{{ entry.volunteer_profile_ref.sex }}</dd>
+										<dt>專長:</dt>
+										<dd>{{ entry.volunteer_profile_ref.showExpertise }}</dd>
+										<dt>電子郵件:</dt>
+										<dd><a href="mailto:{{entry.volunteer_profile_ref.gmail}}">{{ entry.volunteer_profile_ref.gmail }}</a></dd>
+										<dt>生日:</dt>
+										<dd>{{ entry.volunteer_profile_ref.date_birth }}</dd>
+										<dt>電話號碼:</dt>
+										<dd>{{ entry.volunteer_profile_ref.cellphone_no }}</dd>
+									</dl>
+								</div>
+							</div>
+						    {% endfor %}
+						</div>
+					{% include "paging_bottom.html" %}
+					{% else %}
+					<div class="fullpage-list">這個活動目前沒有審核過的志工</div>
+					{% endif %}
+	</div> <!-- content-block -->
+
+{% endblock npoContent %}

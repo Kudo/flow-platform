@@ -60,7 +60,9 @@ function disableButton(form) {
 				<!--
 				<input {{event.dicPerm.close}} type="button" value="結案" name="btnClose1" onClick="submitForm('/npo/admin/closeEvent','{{ event.event_key }}');">
 				-->
-				<input {{event.dicPerm.cancel}} type="button" value="取消" name="btnCancel1" onClick="submitForm('/npo/admin/cancelEvent','{{ event.event_key }}');"></td>
+				<input {{event.dicPerm.cancel}} type="button" value="取消" name="btnCancel1" onClick="submitForm('/npo/admin/cancelEvent','{{ event.event_key }}');"> | 
+				<input type="button" value="志工列表" name="btnVolunteerList" onClick="submitForm('/npo/admin/volunteerList?event_key={{event.event_key}}','{{ event.event_key }}');">
+				</td>
 			</tr>
 			
 			{% endfor %}
