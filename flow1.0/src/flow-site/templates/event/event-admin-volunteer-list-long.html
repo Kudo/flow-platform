@@ -1,0 +1,50 @@
+﻿{### % extends "event/base.html" % ###}
+{% extends "npo/admin_base.html" %}
+
+{### header ###}
+{% block npoExtraHeader %}
+
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
+
+	<div class="content-block">
+		<h3 id="page-title" class="subbar">參與 {{event.event_name}} 活動的志工名單</h3>
+		
+					{% if volunteers %}
+					<div class="action">
+						<a href="mailto:{{maillist}}">寄信給所有志工</a>
+					</div>
+					<table style="padding: 2px; margin: 2px;" width="90%" border="1">
+						<tr>
+							<td>姓名</td>
+							<td>性別</td>
+							<td>信箱</td>
+							<td>電話號碼</td>
+						</tr>
+						{% for entry in volunteers %}
+						<tr>
+							<td>
+								<a href="/volunteer/home/{{ entry.volunteer_profile_ref.key }}">{{ entry.volunteer_profile_ref.volunteer_last_name|escape }}, {{ entry.volunteer_profile_ref.volunteer_first_name|escape }}</a>
+								    ({{entry.volunteer_profile_ref.nickname}})
+							</td>
+							<td>
+								{{ entry.volunteer_profile_ref.sex }}
+							</td>
+							<td>
+								<a href="mailto:{{entry.volunteer_profile_ref.gmail}}">{{ entry.volunteer_profile_ref.gmail }}</a>
+							</td>
+							<td>
+								{{ entry.volunteer_profile_ref.cellphone_no }}
+							</td>
+						</tr>
+						{% endfor %}
+					</table>
+					{% else %}
+					<div class="fullpage-list">這個活動目前沒有審核過的志工</div>
+					{% endif %}
+	</div> <!-- content-block -->
+
+{% endblock npoContent %}

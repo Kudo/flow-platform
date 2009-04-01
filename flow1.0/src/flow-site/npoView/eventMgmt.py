@@ -144,3 +144,32 @@ def volunteerList(request):
              'pageSet':                  pageSet,
              }
     return render_to_response(r'event/event-admin-volunteer-list.html', dicData)
+
+def volunteerListLong(request):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+    if not objNpo:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+
+    strEventKey=request.GET.get('event_key')
+    if not strEventKey:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+    event=db.get(db.Key(strEventKey))
+    if event.npo_profile_ref.id!=objNpo.id:
+        return HttpResponseForbidden(u'錯誤的操作流程')
+    
+    query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'approved')
+    approvedVolunteers = query.fetch(1000)
+    maillist = ''
+    
+    for volunteer in approvedVolunteers:
+        maillist += volunteer.volunteer_profile_ref.gmail + ';'
+        
+    
+    dicData={'volunteers' : approvedVolunteers,
+             'base':flowBase.getBase(request,'npo'),
+             'event':event,
+             'event_key':event.key(),
+             'page':'event',
+             'maillist': maillist,
+             }
+    return render_to_response(r'event/event-admin-volunteer-list-long.html', dicData)
