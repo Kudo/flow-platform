@@ -16,7 +16,7 @@ from db import ddl
 
 def createNpoProfile(user):
     now  = datetime.datetime.now()
-    npo  = ddl.NpoProfile(npo_name=u'宅男激金會', founder="John Doe", google_acct=user, country='ROC', postal="104", state='TW', city='tp',
+    npo  = ddl.NpoProfile(npo_name=u'宅男激金會', founder="John Doe", google_acct=user, country='ROC', postal="104", state='TW', city=u'臺北縣市',
                       district='NK', founding_date=datetime.date(1980, 1, 1), authority="GOV", tag=["wild lives", "marines"],
                       status="new application", docs_link=["Timbuck2"], npo_rating=1, create_time=now, update_time=now)
     npo.put()
@@ -26,7 +26,7 @@ def createVolunteerProfile(user):
     now       = datetime.datetime.now()
     volunteer = ddl.VolunteerProfile(key_name=str(user), volunteer_id=user, id_no="A123456789", volunteer_last_name=u"林", volunteer_first_name=u"志玲", gmail=user.email(),
                                  date_birth=datetime.date(1970, 2, 1), expertise=['eat','drink','gambling'], sex="Female", phone_no="02-1234-5678",cellphone_no="0982-197-997", resident_country="ROC",
-                                 resident_postal="104", resident_state='tw', resident_city=u'台北縣市', resident_district='SL',
+                                 resident_postal="104", resident_state='tw', resident_city=u'臺北縣市', resident_district='SL',
                                  prefer_region=['taipei'], prefer_zip=['106'], prefer_target=['test'], prefer_field=['drive'], prefer_group=['trend'],
                                  create_time=now, update_time=now, volunteer_rating=80, status="normal",nickname='trend')
     volunteer.put()
@@ -37,7 +37,7 @@ def createVolunteerProfile1():
     now       = datetime.datetime.now()
     volunteer = ddl.VolunteerProfile(key_name=str(user), volunteer_id=user, id_no="Q123456789", volunteer_last_name=u"羅", volunteer_first_name=u"健志", gmail=user.email(),
                                  date_birth=datetime.date(1980, 2, 1), expertise=['eat','drink','gambling'], sex="Male", phone_no="02-1234-5678",cellphone_no="0982-000-997", resident_country="ROC",
-                                 resident_postal="104", resident_state='tw', resident_city=u'台北縣市', resident_district='SL',
+                                 resident_postal="104", resident_state='tw', resident_city=u'臺北縣市', resident_district='SL',
                                  prefer_region=['taipei'], prefer_zip=['106'], prefer_target=['test'], prefer_field=['drive'], prefer_group=['trend'],
                                  create_time=now, update_time=now, volunteer_rating=80, status="normal",nickname='camge')
     volunteer.put()
@@ -52,11 +52,12 @@ def createQuestionnaireTemplate():
 def createEventProfile(npo, volunteer):
     now   = datetime.datetime.now()
     start = datetime.datetime.fromtimestamp(time.time()+86400*10)
-    end = datetime.datetime.fromtimestamp(time.time()+86400*15)
+    end = datetime.datetime.fromtimestamp(time.time()+86400*11)
+    reg_start=now
+    reg_end=datetime.datetime.fromtimestamp(time.time()+86400*5)
     event = ddl.EventProfile(event_name=u'大家一起做網頁', description='sea', npo_profile_ref=npo,
-                         volunteer_profile_ref=volunteer, event_region=[u'南投'], event_zip=["104"], event_hours=10,
-                         event_target=['social worker'], event_field=['social activity'], category='Social',
-                         start_time=start, end_time=end, reg_start_time=start, reg_end_time=end, objective='orcas',
+                         volunteer_profile_ref=volunteer, event_region=[u'臺北縣市'], event_hours=10,
+                         start_time=start, end_time=end, reg_start_time=reg_start, reg_end_time=reg_end, objective='orcas',
                          status="approved", max_age=99, min_age=9, event_rating=75, npo_event_rating=80,
                          create_time=now, update_time=now, summary='Good Job!',volunteer_req=10,tag=[u'網頁'])
     event.approved=True
@@ -75,12 +76,11 @@ def createEventProfile2(npo, volunteer, strEvent_name, strStatus):
         end = datetime.datetime.fromtimestamp(time.time()+86400*15)
         
     event = ddl.EventProfile(event_name=strEvent_name, description=u'測試', npo_profile_ref=npo,
-                         volunteer_profile_ref=volunteer, event_region=['Taipei'], event_zip=["104"], event_hours=10,
-                         event_target=['social worker'], event_field=['social activity'], category='Social',
-                         start_time=start, end_time=end, reg_start_time=start, reg_end_time=end, objective='orcas',
+                         volunteer_profile_ref=volunteer, event_region=['Taipei'], event_hours=10,
+                         start_time=start, end_time=end, reg_start_time=now, reg_end_time=start, objective='orcas',
                          status=strStatus, max_age=99, min_age=9, event_rating=75, npo_event_rating=80,
                          create_time=now, update_time=now, summary='Good Job!',volunteer_req=5,tag=[u'測試'])
-    if strStatus=="new application":
+    if strStatus!="new application":
         event.approved=True
         event.approved_time=datetime.datetime.fromtimestamp(time.time()-86400*19)
     event.put()

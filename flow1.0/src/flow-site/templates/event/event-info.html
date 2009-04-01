@@ -8,7 +8,7 @@
 <link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
 <script type="text/javascript">
-{% ifequal event.status "recruiting" %}                
+{% ifequal event.status "registrating" %}                
     $(document).ready(function() {
 	    var registerObj = $("#register");
 	    registerObj.click(function(e) {
@@ -57,7 +57,7 @@
 			<div class="content-block">
       	<form  method="POST" name="myForm" action="">
         	<input type="hidden" name="event_key" value="{{ event_key|escape }}">
-        	{% ifequal event.status "recruiting" %}                         
+        	{% ifequal event.status "registrating" %}                         
 				    <input id="register" class="field button" type="button" value="我要報名" />
 						<div id="registerBox" title="報名" style="display: none;">
 							<p>
