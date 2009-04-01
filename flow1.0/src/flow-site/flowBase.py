@@ -30,8 +30,12 @@ def getBase(request, category = 'homepage'):
         return data
     data['path']            = request.path
     data['full_path']       = request.get_full_path()
+
     data['user']            = users.get_current_user()
     data['volunteer_id']    = getVolunteerID(data['user'])
+    data['myNpoList']       = getNpoListByVolunteer(getVolunteer(data['user']))
+    data['isFlowAdmin']     = True if isFlowAdmin() else False
+
     data['noLogo']          = '/static/images/head_blue50.jpg'
     data['proflist']        = getProfessionList()
     data['resident']        = getResident()
@@ -40,9 +44,7 @@ def getBase(request, category = 'homepage'):
 
     data['jQueryURI']       = settings.JQUERY_URI
     data['jQueryUI_URI']    = settings.JQUERY_UI_URI
-    
-    data['isFlowAdmin']     = True if isFlowAdmin() else False
-    
+
     # Added by Tom, workaround
     data['cat_' + category]          = True
 
@@ -81,6 +83,24 @@ def getNpo(id=None):
 def getNpoByUser(user):
     npo = db.GqlQuery('SELECT * FROM NpoProfile WHERE google_acct = :1', user).get()
     return npo
+
+def getNpoListByVolunteer(volunteer):
+    """
+    Get NPO List for one user
+    return [{'npo_id': npo_id, 'npo_name': npo_name, 'isAdmin': True/False, 'key': __key__}]
+    """
+    if not volunteer:
+        return []
+    npoList = {}
+    for key in volunteer.npo_profile_ref:
+        npoObj = NpoProfile.get(key)
+        key = str(key)
+        npoList[key] = {'npo_id': npoObj.npo_id, 'npo_name': npoObj.npo_name, 'isAdmin': False, 'key': key}
+    for adminObj in volunteer.admins2volunteer.fetch(1000):
+        npoObj = adminObj.npo_profile_ref
+        npoKey = str(npoObj.key())
+        npoList[npoKey] = {'npo_id': npoObj.npo_id, 'npo_name': npoObj.npo_name, 'isAdmin': True, 'key': npoKey}
+    return list(npoList.values())
 
 def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):
     data = {}

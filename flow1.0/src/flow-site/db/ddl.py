@@ -697,35 +697,6 @@ class NpoPhone(FlowDdlModel):
 # end class NpoPhone
 
 
-class NpoAdmin(FlowDdlModel):
-    """
-    NPO_ADMIN
-    """
-    npo_profile_ref = db.ReferenceProperty(required=True, reference_class=NpoProfile, collection_name="admins2npo")
-    npo_profile_id  = db.IntegerProperty() # auto-generated from npo_profile_ref.id
-    admin_role      = db.StringProperty(required=True, choices=set(["Main", "Event", "Security", "Checker", "News"]))
-    volunteer_id    = db.UserProperty(required=True)
-
-    def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
-        FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
-
-        if not _from_entity:
-            self.npo_profile_id = self.npo_profile_ref.id
-
-    @classmethod
-    def unitTest(cls, npo):
-        startUnitTest("NpoAdmin.unitTest")
-
-        user  = users.User("john_doe@gmail.com")
-        admin = NpoAdmin(npo_profile_ref=npo, admin_role="Event", volunteer_id=user)
-
-        admin.put()
-        writeln(admin)
-        rollBack(admin)
-
-# end class NpoAdmin
-
-
 class VolunteerProfile(FlowDdlModel):
     """
     VOLUNTEER_PROFILE
@@ -1462,6 +1433,37 @@ class Expertise(FlowDdlModel):
         
 # end class Expertise
 
+
+class NpoAdmin(FlowDdlModel):
+    """
+    NPO_ADMIN
+    """
+    npo_profile_ref         = db.ReferenceProperty(required=True, reference_class=NpoProfile, collection_name="admins2npo")
+    npo_profile_id          = db.IntegerProperty() # auto-generated from npo_profile_ref.id
+    admin_role              = db.StringProperty(required=True, choices=set(["Main", "Event", "Security", "Checker", "News"]))
+    volunteer_profile_ref   = db.ReferenceProperty(required=True, reference_class=VolunteerProfile, collection_name="admins2volunteer")
+    volunteer_profile_id    = db.UserProperty() # auto-generated from volunteer_profile_ref.volunteer_id 
+
+    def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
+        FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
+
+        if not _from_entity:
+            self.npo_profile_id = self.npo_profile_ref.id
+            self.volunteer_profile_id = self.volunteer_profile_ref.volunteer_id
+
+    @classmethod
+    def unitTest(cls, npo, volunteer):
+        startUnitTest("NpoAdmin.unitTest")
+
+        admin = NpoAdmin(npo_profile_ref=npo, admin_role="Event", volunteer_profile_ref=volunteer)
+
+        admin.put()
+        writeln(admin)
+        rollBack(admin)
+
+# end class NpoAdmin
+
+
 class SiteAdmin(FlowDdlModel):
     """
     SITEADMIN
@@ -1527,7 +1529,7 @@ class DDL_UnitTest(webapp.RequestHandler):
             NpoEmail.unitTest(npo)
             NpoContact.unitTest(npo)
             NpoPhone.unitTest(npo)
-            NpoAdmin.unitTest(npo)
+            NpoAdmin.unitTest(npo, volunteer)
             VolunteerEvent.unitTest(volunteer, event)
             VolunteerEmailBook.unitTest(volunteer)
             VolunteerIm.unitTest(volunteer)
