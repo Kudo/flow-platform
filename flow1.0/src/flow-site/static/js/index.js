@@ -1,34 +1,29 @@
 ﻿// JScript File
-function jsInit(){
-    document.getElementById("Search_Wrap").style.display = "none";
-}
 function jsShowSearchPanel(){
-    document.getElementById("Search_Wrap").style.display = "block";
+	$("#Search_Wrap").show();
     jsSwitchType("Activity");
 }
 function jsCloseSearchPanel(){
-    document.getElementById("Search_Wrap").style.display = "none";
+	$("#Search_Wrap").hide();
 }
 function jsSwitchType(strType){
-    document.getElementById("Type_Activity").className = "type";
-    document.getElementById("Search_Activity").style.display = "none";
-    document.getElementById("Type_Volunteer").className = "type";
-    document.getElementById("Search_Volunteer").style.display = "none";
-    document.getElementById("Type_Group").className = "type"; 
-    document.getElementById("Search_Group").style.display = "none";     
+	$("#Type_Activity").show();
+
+	$(".types").removeClass("selected").addClass("type");
+	$(".searches").hide();
     switch (strType)
     { 
         case "Activity":
-            document.getElementById("Type_Activity").className = "selected";
-            document.getElementById("Search_Activity").style.display = "block";
+        	$("#Type_Activity").removeClass("type").addClass("selected");
+        	$("#Search_Activity").show();
             break;
         case "Volunteer":
-            document.getElementById("Type_Volunteer").className = "selected";
-            document.getElementById("Search_Volunteer").style.display = "block";
+        	$("#Type_Volunteer").removeClass("type").addClass("selected");
+        	$("#Search_Volunteer").show();
             break;
         case "Group":
-            document.getElementById("Type_Group").className = "selected"; 
-        document.getElementById("Search_Group").style.display = "block";   
+        	$("#Type_Group").removeClass("type").addClass("selected");
+        	$("#Search_Group").show();
             break;
     } 
 }

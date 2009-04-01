@@ -17,17 +17,17 @@
 {% endblock extraHeader %}
 
 </head>
-<body onload="jsInit();">
+<body>
 <div id="Search_Wrap" style="display: none;">
     <p class="tab"><span id="search-bar-link">搜尋</span></p>
     <div id="Search_Body">
         <div id="Search_Type">
-            <a href="#" class="selected" onclick="jsSwitchType('Activity');" id="Type_Activity"><span>活動</span></a>
-            <a href="#" class="type" onclick="jsSwitchType('Volunteer');" id="Type_Volunteer"><span>志工</span></a>
-            <a href="#" class="type" onclick="jsSwitchType('Group');" id="Type_Group"><span>公益團體</span></a>
-            <a href="#" class="close" onclick="jsCloseSearchPanel()"><img src="/static/images/close_icon.png" /></a>
+            <a href="javascript:;" class="types selected" onclick="jsSwitchType('Activity');" id="Type_Activity"><span>活動</span></a>
+            <a href="javascript:;" class="types type" onclick="jsSwitchType('Volunteer');" id="Type_Volunteer"><span>志工</span></a>
+            <a href="javascript:;" class="types type" onclick="jsSwitchType('Group');" id="Type_Group"><span>公益團體</span></a>
+            <a href="javascript:;" class="close" onclick="jsCloseSearchPanel()"><img src="/static/images/close_icon.png" /></a>
         </div> 
-        <div id="Search_Activity">
+        <div id="Search_Activity" class="searches">
         	<form action="/event/search/" method="GET">
             	<div id="Keyword">關鍵字：<input type="text" name="tags" size="18" /></div>
         		<div class="Search_Section">
@@ -41,7 +41,7 @@
             	<div class="button clear_float"><input type="image" src="/static/images/search_btn.png" value="搜尋" /></div>
             </form>
         </div>
-        <div id="Search_Volunteer">
+        <div id="Search_Volunteer" class="searches">
         	<form action="/volunteer/search/" method="GET">
         		<div class="Search_Section">
 		            <p class="clear_float">居住地區：</p>
@@ -96,7 +96,7 @@
 	            </ul>
 	        </div>
         </div>
-        <div id="Search_Group">
+        <div id="Search_Group" class="searches">
             <form action="/npo/search/" method="GET">
         		<div class="Search_Section">
 	            <p class="clear_float">服務地區：</p>
@@ -117,7 +117,7 @@
     		{{ base.nickname }} &nbsp; &nbsp;
         {% endif %}
         <!-- <a href="#" onClick="javascript:$('#Search').toggle('drop');" class="highlight">搜尋</a>-->
-        <a id="top-search-link" href="#" onClick="jsShowSearchPanel();" class="highlight">搜尋</a>
+        <a id="top-search-link" href="javascript:;" onClick="jsShowSearchPanel();" class="highlight">搜尋</a>
         |
         {% if base.volunteer_id %}
 	        <a href="/logout?redirect={{ base.full_path }}">登出</a>
