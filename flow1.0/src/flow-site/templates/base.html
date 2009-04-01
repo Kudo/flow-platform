@@ -147,14 +147,14 @@
 	} else {
 		right_px = - $("#Search_Wrap").position().left;
 	}
-	alert("right_px="+right_px);
+	//alert("right_px="+right_px);
 	right_px -= $("#Search_Wrap").width();
-	alert("right_px="+right_px+" (-"+$("#Search_Wrap").width()+")");
+	//alert("right_px="+right_px+" (-"+$("#Search_Wrap").width()+")");
 	right_px -= $("#top-search-link").offset().left;
-	alert("right_px="+right_px+" (-"+$("#top-search-link").offset().left+")");
+	//alert("right_px="+right_px+" (-"+$("#top-search-link").offset().left+")");
 	if (jQuery.browser.msie) {
 		right_px -= 2;
-		alert(jQuery.browser.version);
+		//alert(jQuery.browser.version);
 		if (jQuery.browser.version == "6.0") {
 			right_px -= 26;
 		}
@@ -163,7 +163,7 @@
 	} else if (jQuery.browser.mozilla) {
 		right_px += 11;
 	}
-	alert("right_px="+right_px);
+	//alert("right_px="+right_px);
 	$("#Search_Wrap").css('right', (right_px)+'px');
 	-->
    	</script>
