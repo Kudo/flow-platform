@@ -6,10 +6,11 @@
 					<div id="action" class="left-box">
 						<div class="left-box-body">
 							<ul>
-								<!--
+								{% if base.isNpoAdmin %}
 								<li>
-									<a href="/npo/admin/?npo_id={{npoProfile.npo_id}}">管理頁面</a>
-								</li>-->
+									<a href="/npo/{{npoProfile.npo_id}}/admin/">管理頁面</a>
+								</li>
+								{% endif %}
 								<li>
 									<a href="">加入此公益團體</a>
 								</li>
@@ -40,20 +41,6 @@
 							<div> {{ npoProfile.founder }} </div>
 							
 							<div class="right-links"><a href="/npo/npo_info.html?npo_id={{npoProfile.npo_id}}">檢視詳細資料 >></a></div>
-						</div>
-					</div>
-					<div id="admin" class="left-box">
-						<h3 class="left-box-header">
-							管理員資訊
-						</h3>
-						<div class="left-box-body">
-							<h4>管理員</h4>
-							<div>管理員一號</div>
-							
-							<h4>管理員</h4>
-							<div>管理員二號</div>
-							
-							<div class="right-links"><a href="/npo/{{npoProfile.npo_id}}/admin/members">編輯管理員 >></a></div>
 						</div>
 					</div>
 				</div><!-- boxes-left -->

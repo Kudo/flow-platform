@@ -4,7 +4,7 @@ urlpatterns = patterns('npoView',
     (r'^/?$',                       'npoList.show'),
     (r'^search/?$',                 'search.show'),
     # admin
-    (r'^admin/?$',                  'admin.mainPage'),
+    (r'^(?P<npoid>[^/]+)/admin/?$',                  'admin.mainPage'),
     # admin event management
     (r'^admin/listEvent/?$',        'eventMgmt.mainPage'),
     (r'^admin/editEvent/?$',        'handleEvent.processEditEvent'),

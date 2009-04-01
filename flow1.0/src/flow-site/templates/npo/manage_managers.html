@@ -12,60 +12,65 @@
 
 {% block npoContent %}
 
-	<h2>NPO志工與管理員管理</h2>
-	<div class="step-main">
-		<!--form class="flow-form" action=""-->
-		<div class="flow-form">
-		<ul>
-			<li class="section">
-				<h3>邀請志工加入</h3>
-			</li>
-			<li>
-				<form method="POST" action="/npo/{{ npoProfile.npo_id }}/admin/members/manage">
-					<input type="hidden" name="operation" value="add"/>
-					<label class="desc">
-					輸入志工email:
-					</label>
-					<span>
-						<input id="txtEmail" class="field text" name="volunteer_id" />
-					</span>
-					<span>
+	<h3 id="page-title" class="subbar">志工與管理員管理</h3>
+	<div class="content-block">
+		<div class="title">
+			<img class="left" src="/static/images/titlebar-left.jpg" />
+			<img class="right" src="/static/images/titlebar-right.jpg" />
+			<h3>邀請志工加入</h3>
+		</div>
+		<div class="content">
+			<form method="POST" action="/npo/{{npoProfile.npo_id}}/admin/members/manage" class="flow-form">
+				<ul>
+					<li>
+						<label class="desc">
+							輸入志工 Email
+						</label>
+						<div>
+							<input id="txtEmail" class="field text medium" name="volunteer_id" />
+						</div>
+						<input type="hidden" name="operation" value="add" />
+					</li>
+					<li class="buttons">
 						<input id="btnInvite" class="btTxt" type="submit" value="邀請加入"/>
-					</span>
-					{% if message %}
-					<span style="background-color:red">
-						{{ message }}
-					</span>
-					{% endif %}
-	  		</form>
-			</li>
-
-			<li class="section">
-				<h3>志工與管理員列表</h3>
-			</li>
+						{% if message %}
+						<div style="color:red; font-weight: bold;"> {{ message }} </div>
+						{% endif %}
+					</li>
+			</form>
+		</div>
+	</div>
 	
+	<div class="content-block">
+		<div class="title">
+			<img class="left" src="/static/images/titlebar-left.jpg" />
+			<img class="right" src="/static/images/titlebar-right.jpg" />
+			<h3>志工與管理員列表</h3>
+		</div>
+		<div class="content">
 			{% for member in npoMembershipList %}
-			<li>
-				<form method="POST" action="/npo/{{ npoProfile.npo_id }}/admin/members/manage">
+				<form method="POST" action="/npo/{{ npoProfile.npo_id }}/admin/members/manage" class="flow-form">
 					<input type="hidden" name="operation"    value=""/>
 					<input type="hidden" name="volunteer_id" value="{{ member.volunteer_profile.volunteer_id.email|escape }}"/>
-					<label class="desc">
-					{{ member.volunteer_profile.volunteer_last_name }}{{ member.volunteer_profile.volunteer_first_name }} ({{ member.volunteer_profile.gmail }})
-					{% if member.isAdmin %}&nbsp;-&nbsp;管理員{% endif %}
-					</label>
-					<div>
-						<input id="btnRemoveManager0" class="btTxt" type="submit" value="移除此志工"			onclick="if (window.confirm('確定要移除此志工？'))     {this.form.operation.value = 'remove'; this.form.submit();}"/>
-						{% if member.isAdmin %}
-						<input id="btnRemoveManager1" class="btTxt" type="submit" value="移除管理者資格"	onclick="if (window.confirm('確定要移除管理員資格？')) {this.form.operation.value = 'unset_manager'; this.form.submit();}"/>
-						{% else %}
-						<input id="btnRemoveManager1" class="btTxt" type="submit" value="賦予管理者資格"	onclick="if (window.confirm('確定要賦予管理員資格？')) {this.form.operation.value = 'set_manager'; this.form.submit();}"/>
-						{% endif %}
-					</div>
+					<ul>
+						<li>
+							<label class="desc">
+								{{ member.volunteer_profile.volunteer_last_name }}{{ member.volunteer_profile.volunteer_first_name }} ({{ member.volunteer_profile.gmail }})
+								{% if member.isAdmin %}&nbsp;-&nbsp;管理員{% endif %}
+							</label>
+							<span>
+								<input id="btnRemoveManager0" class="btTxt" type="submit" value="移除此志工"			onclick="if (window.confirm('確定要移除此志工？'))     {this.form.operation.value = 'remove'; this.form.submit();}"/>
+							</span>
+							<span>
+								<input id="btnRemoveManager1" class="btTxt" type="submit" value="移除管理者資格"	onclick="if (window.confirm('確定要移除管理員資格？')) {this.form.operation.value = 'unset_manager'; this.form.submit();}"/>
+							</span>
+							<span>
+								<input id="btnRemoveManager1" class="btTxt" type="submit" value="賦予管理者資格"	onclick="if (window.confirm('確定要賦予管理員資格？')) {this.form.operation.value = 'set_manager'; this.form.submit();}"/>
+							</span>
+						</li>
+					</ul>
 				</form>
-			</li>
 			{% endfor %}
-
-		</ul>
 		</div>
 	</div>
 
