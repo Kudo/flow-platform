@@ -217,3 +217,17 @@ def isFlowAdmin():
     if users.is_current_user_admin() or SiteAdmin.all().filter('account =', users.get_current_user()).get():
         return True
     return False
+
+def isNpoAdmin(volunteer=getVolunteer(users.get_current_user()), npo=None):
+    """
+    Given a volunteer, to check if he or she is a NPO admin.
+    if given npo as parameter, this function will check for specific NPO.
+    otherwise, it will check if the volunteer has a NPO admin role for any NPO.
+    """
+    if not volunteer:
+        return False
+    if npo.key() and npo.admins2npo.filter('volunteer_profile_ref = ', volunteer).count():
+        return True
+    elif not npo and volunteer.admins2volunteer.get():
+        return True
+    return False
