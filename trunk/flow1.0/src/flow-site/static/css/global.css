@@ -1,8 +1,16 @@
-* {
+s* {
 	
 }
 
 /* elements */
+
+body {
+	/* font-family: Arial, Helvetica, sans-serif; */
+	font-size: 14px;
+	text-align: left;
+	background-color: #cdcdcd;
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
 
 td {
 	font-family: Arial, Helvetica, sans-serif;
@@ -35,10 +43,13 @@ ul.top-horizontal-menu {
 }
 
 ul.top-horizontal-menu li {
+	/** remove for text vertical alignment issue
+	vertical-align:top;
 	float: left;
+	**********/
+	display:inline;
 	line-height: 20px;
 	margin-right:0.73em;
-	vertical-align:top;
 }
 
 ul.search-choice-menu {
@@ -82,16 +93,104 @@ h6 {
 .img35 {
     max-width: 35px;
     max-height: 35px;
+	_width:35px; /* for IE6 only*/
 }
 .img55 {
     max-width: 55px;
     max-height: 55px;
+	_width:55px; /* for IE6 only*/
 }
 .img75 {
     max-width: 75px;
     max-height: 75px;
+	_width:75px; /* for IE6 only*/
 }
 
+
+/* header */
+.header {
+/*	height: 100px; */
+}
+
+/*
+.header:after {
+	content: '.';
+	visibility: hidden;
+	clear: both;
+}*/
+
+.header-bar {
+	height: 25px;
+	font-size: 13px;
+}
+
+
+
+#outer-page {
+	width: 880px;
+	margin: 0 auto;
+	background-attachment: scroll;
+	background-image: url("../images/page-bg.jpg"/*tpa=http://flowstaging.appspot.com/static/images/page-bg.jpg*/);
+	background-repeat: repeat-y;	
+}
+
+#bottom-page {
+	width: 880px;
+	height: 20px;
+	margin: 0 auto;
+	background-attachment: scroll;
+	background-image: url("../images/page-bottom.jpg"/*tpa=http://flowstaging.appspot.com/static/images/page-bottom.jpg*/);	
+}
+
+#page {
+	width: 860px;
+	background-color: #FFF;
+	min-width: 860px;
+	margin: 0 auto;
+	text-align: left;
+}
+
+#header-links {
+	width: 860px;
+	height:33px;
+	padding-top: 4px;
+/*	padding-left: 10px; */
+	background-image: url("../images/bar-bg.jpg"/*tpa=http://flowstaging.appspot.com/static/images/bar-bg.jpg*/);
+	background-repeat: repeat-x;
+}
+
+#header-links .selected {
+	background-image: url("../images/selectedTab.gif"/*tpa=http://flowstaging.appspot.com/static/images/selectedTab.gif*/);
+	padding: 2px 12px 3px;
+
+}
+
+#header-links li {
+	padding: 2px 0 3px;
+}
+
+#login-box {
+	float: right;
+	text-align: right;
+	padding-top: 2px;
+	width: auto;
+	display: block;
+}
+
+#site-logo {
+	padding: 5px;
+	padding-left: 10px;
+	padding-bottom: 0px;
+	width: 50px;
+	height: 50px;
+	float: left;
+}
+
+#site-title {
+	padding-top: 30px;
+	font-size: 12px;
+	font-weight: normal;
+}
 
 /* splashbox_search */
 #splash-box {
@@ -260,7 +359,7 @@ h6 {
 }
 
 .block-caption {
-	background: url(/static/images/block-caption.png) repeat-x;
+	background: url("../images/block-caption.png"/*tpa=http://flowstaging.appspot.com/static/images/block-caption.png*/) repeat-x;
 	padding-bottom: 5px;
 }
 
@@ -317,7 +416,6 @@ h6 {
 }
 
 .pager {
-	float: right;
 	font-size: 13px;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
@@ -419,35 +517,34 @@ div.volunteer-block .volunteer-stats {
 
 /* ----- Content Block ----- */
 div.no-padding-bottom {
-/*	padding-bottom: 0px !important; */
+	padding-bottom: 0px !important;
 }
 
 /* div.left-column */ div.content-block {
 	padding-bottom: 25px;
-	clear: left;
 }
-/* div.left-column */ div.content-block > div.title {
-	background-image: url(/static/images/titlebar.gif);
+/* div.left-column */ div.content-block div.title {
+	background-image: url("../images/titlebar.gif"/*tpa=http://flowstaging.appspot.com/static/images/titlebar.gif*/);
 	height: 22px;
 	margin-bottom: 8px;
 }
 
-/* div.left-column */ div.content-block > div.title h3 {
+/* div.left-column */ div.content-block div.title h3 {
 	font-size: 14px;
 	padding-top: 2px;
 	padding-left: 10px;
 	color: #333;
 }
 
-/* div.left-column */ div.content-block > div.title img.left {
+/* div.left-column */ div.content-block div.title img.left {
 	float: left;
 }
 
-/* div.left-column */ div.content-block > div.title img.right {
+/* div.left-column */ div.content-block div.title img.right {
 	float: right;
 }
 
-/* div.left-column */ div.content-block > div.content {
+/* div.left-column */ div.content-block div.content {
 	padding-left: 25px;
 	padding-right: 15px;
 }
@@ -455,10 +552,8 @@ div.no-padding-bottom {
 /* div.left-column */ div.content-block div.right-links {
 	clear: none;
 	font-size: 13px;
-}
-
-div.content-block div.title div.right-links {
-	padding: 2px 2px 0 0;
+	padding-top: 2px;
+	padding-right: 2px;
 }
 
 /* div.left-column */ div.content-block div.npo-news {
@@ -543,17 +638,17 @@ div.fullpage-list .volunteer .npo-more {
 /* NPO related */
 div.fullpage-list .npo .activities {
 	border-left: dotted 1px #999;
-	margin-left: 470px;
-	padding-left: 20px;
+	margin-left: 370px;
+	zoom:1; /* Fix IE6 float bug */
 }
 
 div.fullpage-list .npo .activities .label {
-	position: relative;
-	left: -15px;
+	margin-left:5px;
 }
 
 div.fullpage-list .npo .activities .upcoming-activity {
 	padding-bottom: 5px;
+	margin-left:20px;
 }
 div.fullpage-list .npo .activities .date {
 	font-size: 12px;
@@ -931,14 +1026,13 @@ div.video-block .video-item .video-info, .item .video-info {
 
 /* topbar */
 div.new-top-bar-container {
-	position:relative;
-	top: -8px;
+	/*position:relative;
+	top: -8px;*/ /* Cause IE6 bug*/
 	border-bottom: 1px #333 solid;
 	margin-bottom: 15px;
 }
 div.new-top-bar {
-	position: relative;
-	left: 10px;
+	/*position: relative;*/ /* Cause IE6 bug*/
 }
 
 div.new-top-bar-container div.npo {
@@ -960,7 +1054,6 @@ div.new-top-bar ul {
 
 div.new-top-bar li {
 	display: inline;
-	
 	margin: 2px 8px 0 1px;
 }
 
