@@ -14,6 +14,9 @@
 		<h3 id="page-title" class="subbar">參與 {{event.event_name}} 活動的志工名單</h3>
 		
 					{% if volunteers %}
+					<div class="action">
+						<a href="/npo/admin/volunteerListLong/?event_key={{event.key}}">顯示整份名單</a>
+					</div>
 					<div class="list-title">共有 {{ pageSet.count }} 位志工, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 位</div>
 					{% include "paging_top.html" %}
 						<div class="fullpage-list">
