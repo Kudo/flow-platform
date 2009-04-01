@@ -156,6 +156,8 @@ def memberList(request):
     response = render_to_response('npo/npo_volunteers.html', template_values)
     return response
 
+displayPhotoCount = 8
+displayArticleCount = 10
 displayNpoEventCount = 2
 
 def showHome(request):
@@ -231,7 +233,29 @@ def showHome(request):
             break
         row2.append(random.choice(leftMembers))
         leftMembers.remove(row2[i])
-    
+
+    import atom.url
+    import gdata.alt.appengine
+    import gdata.photos, gdata.photos.service
+    import gdata.youtube, gdata.youtube.service
+
+    # Picasa Web
+    picasaUser = 'ckchien'
+    service = gdata.photos.service.PhotosService()
+    gdata.alt.appengine.run_on_appengine(service)
+    photoFeeds = service.GetUserFeed(user=picasaUser, kind='photo', limit=displayPhotoCount).entry
+    #photoFeeds.reverse()
+    #photos = service.SearchUserPhotos(query='若水', user='ckchien').entry
+
+    # Youtube
+    video = None
+    videoDate = None
+    if len(npoProfile.video_link) > 0:
+        vid = npoProfile.video_link[0]
+        service = gdata.youtube.service.YouTubeService()
+        gdata.alt.appengine.run_on_appengine(service)
+        video = service.GetYouTubeVideoEntry(video_id=vid)
+
     template_values = {
             'npoProfile': npoProfile,
             'recentMembers': recentMembers,
@@ -241,7 +265,11 @@ def showHome(request):
             'numOfMembers': len(members),
             'eventList': eventList,
             'page': 'home',
-            'base':flowBase.getBase(request, 'npo')
+            'base':flowBase.getBase(request, 'npo'),
+            'feedUri':                  npoProfile.saved_feed_link or '',
+            'photoFeeds':               photoFeeds,
+            'video':                    video,
+            'articleList':              [obj.rsplit(u',http://', 1) for obj in npoProfile.article_link][:displayArticleCount],
      }
     response = render_to_response('npo/npo_home.html', template_values)
     return response
@@ -262,6 +290,7 @@ def showInfo(request):
         if (phone.phone_type == "Fax"):
             faxPhone = phone.phone_no
 
+
     template_values = {
             'npoProfile': npoProfile,
             'npoContact': npoProfile.contacts2npo,
@@ -271,7 +300,7 @@ def showInfo(request):
             'service_target': npoProfile.service_target[0],
             'service_field': npoProfile.service_field[0],
             'page': 'home',
-            'base':flowBase.getBase(request, 'npo')
+            'base':flowBase.getBase(request, 'npo'),
      }
     response = render_to_response('npo/npo_info.html', template_values)
     return response

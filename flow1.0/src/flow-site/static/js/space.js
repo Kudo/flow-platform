@@ -1,7 +1,9 @@
 $(document).ready(function() {
   var category = 'event';
-  if (window.location.pathname.match(/^\/(volunteer|npo|event)\//))
+  if (window.location.pathname.match(/^\/(volunteer|npo|event)\/([^\/]+)?/))
     category = RegExp.$1;
+  if (category == 'npo')
+    category += '/' + RegExp.$2;
 
   // Create new video item
   $("#createVideoItem").click(function(e) {
