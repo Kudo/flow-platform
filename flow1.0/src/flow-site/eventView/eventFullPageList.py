@@ -15,11 +15,11 @@ def mainPage(request):
     if 'cat' not in request.GET:
         return HttpResponseRedirect('/event/')
     if request.GET['cat'] == '1':
-        pageSet = paging.get(request.GET, ddl.EventProfile.gql('where status in (:1,:2) ORDER BY create_time DESC','approved','recruiting').count(1000), displayCount=intEventDisplayCount)
-        eventAll = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY create_time DESC','approved','recruiting').fetch(intEventDisplayCount, pageSet['entryOffset'])
+        pageSet = paging.get(request.GET, ddl.EventProfile.gql('where status in (:1,:2,:3,:4) ORDER BY create_time DESC','approved','registrating','registration closed','on-going').count(1000), displayCount=intEventDisplayCount)
+        eventAll = ddl.EventProfile.gql('where status in (:1,:2,:3,:4) ORDER BY create_time DESC','approved','registrating','registration closed','on-going').fetch(intEventDisplayCount, pageSet['entryOffset'])
     elif request.GET['cat'] == '2':
-        pageSet = paging.get(request.GET, ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage ASC','approved','recruiting').count(1000), displayCount=intEventDisplayCount)
-        eventAll = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage ASC','approved','recruiting').fetch(intEventDisplayCount, pageSet['entryOffset'])
+        pageSet = paging.get(request.GET, ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage ASC','approved','registrating').count(1000), displayCount=intEventDisplayCount)
+        eventAll = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage ASC','approved','registrating').fetch(intEventDisplayCount, pageSet['entryOffset'])
     elif request.GET['cat'] == '3':
         pageSet = paging.get(request.GET, ddl.EventProfile.gql('where status in (:1) ORDER BY update_time DESC','activity closed').count(1000), displayCount=intEventDisplayCount)
         eventAll = ddl.EventProfile.gql('where status in (:1) ORDER BY update_time DESC','activity closed').fetch(intEventDisplayCount, pageSet['entryOffset'])

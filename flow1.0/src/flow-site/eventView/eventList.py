@@ -11,7 +11,7 @@ def mainPage(request):
         return HttpResponseRedirect('/event/')
     intEventDisplayCount=3
     now = datetime.datetime.now()
-    event1 = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY create_time DESC','approved','registrating').fetch(intEventDisplayCount)
+    event1 = ddl.EventProfile.gql('where status in (:1,:2,:3,:4) ORDER BY create_time DESC','approved','registrating','registration closed','on-going').fetch(intEventDisplayCount)
     event2 = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage ASC','approved','registrating').fetch(intEventDisplayCount)
     event3 = ddl.EventProfile.gql('where status in (:1) ORDER BY update_time DESC','activity closed').fetch(intEventDisplayCount)
     listActivityResult1 = []

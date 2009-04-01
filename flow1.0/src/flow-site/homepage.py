@@ -40,7 +40,7 @@ def home(request):
     del tmpList, count, randomIndex, volunteerObj, npoObj
 
     eventList = []
-    for event in EventProfile.all().filter('status in ', ['approved', 'recruiting']).order('-create_time').fetch(displayEventCount):
+    for event in EventProfile.all().filter('status in ', ['approved', 'registrating']).order('-create_time').fetch(displayEventCount):
         if event.start_time > now:
             eventList.append({
                 'eventKey':     str(event.key()),

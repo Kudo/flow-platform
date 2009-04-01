@@ -17,10 +17,10 @@ def updateEventStatus():
     results = db.GqlQuery("SELECT * FROM EventProfile WHERE status = :1 ",'registrating').fetch(1000)
     for event in results:
         if now > event.reg_end_time:
-            event.status='recruiting'
+            event.status='registration closed'
             event.put()
 
-    results = db.GqlQuery("SELECT * FROM EventProfile WHERE status = :1 ",'recruiting').fetch(1000)
+    results = db.GqlQuery("SELECT * FROM EventProfile WHERE status = :1 ",'registration closed').fetch(1000)
     for event in results:
         if now > event.start_time:
             event.status='on-going'
