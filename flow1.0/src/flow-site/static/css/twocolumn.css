@@ -257,12 +257,19 @@ html[xmlns] .clearfix {
 
 /* dt / dd */
 .left-column .content dt {
-	width: 8em;
-	color: #666;
+	/* width: 8em; */
+	float: none !important;
+	margin-bottom: 0 !important;
+	color: #AAA;
 }
 
 .left-column form .content dt {
 	line-height: 20px;
+}
+
+.left-column .content dd {
+	margin-left: 0;
+	margin-bottom: 6px;
 }
 
 /* form */

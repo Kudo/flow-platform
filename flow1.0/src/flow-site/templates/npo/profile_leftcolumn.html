@@ -6,9 +6,9 @@
 					<div id="action" class="left-box">
 						<div class="left-box-body">
 							<ul>
-								{% if base.isNpoAdmin %}
+								{% if npoBase.isNpoAdmin %}
 								<li>
-									<a href="/npo/{{npoProfile.npo_id}}/admin/">管理頁面</a>
+									<a href="/npo/{{npoBase.npo_id}}/admin/">管理頁面</a>
 								</li>
 								{% endif %}
 								<li>

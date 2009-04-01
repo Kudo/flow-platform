@@ -66,13 +66,19 @@ dl {
 }
 
 dt {
-	color: #999;
+	color: #AAA;
 	margin-right: 5px;
+	margin-bottom: 3px;
+/*	font-size: 90%; */
 	float: left;
+
 }
 
 dd {
 	margin-bottom: 3px;
+	color: #333;
+/*	font-size: 105%;
+	padding-left: 10px;*/
 }
 
 h6 {

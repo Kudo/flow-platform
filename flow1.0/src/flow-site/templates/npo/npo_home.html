@@ -19,9 +19,11 @@
 						<div class="title">
 							<img src="/static/images/titlebar-left.jpg" class="left">
 							<img src="/static/images/titlebar-right.jpg" class="right">
+							{% if npoBase.isNpoAdmin %}
 							<div class="right-links">
 					    		<a href="#">編輯</a>
 					    	</div>
+					    	{% endif %}
 							<h3>最新消息</h3>
 							
 						</div>
@@ -40,9 +42,11 @@
 						<div class="title">
 							<img src="/static/images/titlebar-left.jpg" class="left">
 							<img src="/static/images/titlebar-right.jpg" class="right">
+							{% if npoBase.isNpoAdmin %}
 							<div class="right-links">
 					    		<a href="/npo/manage_edit_info.html?npo_id={{npoProfile.npo_id}}">編輯</a>
 					    	</div>
+					    	{% endif %}
 							<h3>公益團體簡介</h3>
 							
 						</div>
@@ -57,7 +61,9 @@
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							<div class="right-links">
 								<a href="/npo/listEvents/?npo_id={{npoProfile.npo_id}}">觀看所有活動</a>
+								{% if npoBase.isNpoAdmin %}
 					    		| <a href="/npo/admin/addEvent/?npo_id={{npoProfile.npo_id}}">新增活動</a> | <a href="/npo/admin/listEvent/?npo_id={{npoProfile.npo_id}}">管理活動</a>
+					    		{% endif %}
 					    	</div>
 							<h3>舉辦的活動</h3>
 							

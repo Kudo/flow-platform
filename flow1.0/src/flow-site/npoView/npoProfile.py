@@ -108,7 +108,8 @@ def edit(request):
            'service_region': npoProfile.service_region[0],
            'service_target': npoProfile.service_target[0],
            'service_field': npoProfile.service_field[0],
-           'base':flowBase.getBase(request, 'npo')
+           'base':flowBase.getBase(request, 'npo'),
+           'npoBase': flowBase.getNpoBase(npoProfile),
     }
     response = render_to_response('npo/manage_edit_info.html', template_values)
     return response    
@@ -151,6 +152,7 @@ def memberList(request):
         'npoProfile': npoProfile,
         'memberList': memberList,
         'page': 'volunteers',
+        'npoBase': flowBase.getNpoBase(npoProfile),
         'base':flowBase.getBase(request, 'npo')
     }
     response = render_to_response('npo/npo_volunteers.html', template_values)
@@ -256,6 +258,7 @@ def showHome(request):
         gdata.alt.appengine.run_on_appengine(service)
         video = service.GetYouTubeVideoEntry(video_id=vid)
 
+    
     template_values = {
             'npoProfile': npoProfile,
             'recentMembers': recentMembers,
@@ -269,6 +272,7 @@ def showHome(request):
             'feedUri':                  npoProfile.saved_feed_link or '',
             'photoFeeds':               photoFeeds,
             'video':                    video,
+            'npoBase':                  flowBase.getNpoBase(npoProfile),
             'articleList':              [obj.rsplit(u',http://', 1) for obj in npoProfile.article_link][:displayArticleCount],
      }
     response = render_to_response('npo/npo_home.html', template_values)
@@ -301,6 +305,7 @@ def showInfo(request):
             'service_field': npoProfile.service_field[0],
             'page': 'home',
             'base':flowBase.getBase(request, 'npo'),
+            'npoBase': flowBase.getNpoBase(npoProfile),
      }
     response = render_to_response('npo/npo_info.html', template_values)
     return response
@@ -337,7 +342,8 @@ def showEvents(request):
             'eventList': eventList,
             'pageSet': pageSet,
             'page': 'events',
-            'base':flowBase.getBase(request, 'npo')
+            'base':flowBase.getBase(request, 'npo'),
+            'npoBase': flowBase.getNpoBase(npoProfile),
      }
     response = render_to_response('npo/npo_events.html', template_values)
     return response
