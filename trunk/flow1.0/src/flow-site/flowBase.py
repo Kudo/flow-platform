@@ -140,6 +140,7 @@ def getNpoBase(npo):
         return data
     data['npo_name']        = npo.npo_name
     data['npo_id']          = npo.npo_id
+    data['isNpoAdmin']      = isNpoAdmin(npo = npo)
 
     return data
 

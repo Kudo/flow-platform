@@ -14,22 +14,15 @@
 {% block npoContent %}
 
 			    	<h3 id="page-title" class="subbar">公益團體基本資料</h3>
-			    	
-			    	<!--
-					<div class="right-links">
-						<a href="manage_edit_info.html?npo_id={{npoProfile.npo_id}}">編輯基本資料</a>
-					</div>
-					-->
-					
 			    	<div class="content-block">
 			    	    <div class="title">
 							<img src="/static/images/titlebar-left.jpg" class="left">
 							<img src="/static/images/titlebar-right.jpg" class="right">
-
+							{% if npoBase.isNpoAdmin %}
 							<div class="right-links">
 								<a href="manage_edit_info.html?npo_id={{npoProfile.npo_id}}">編輯基本資訊</a>
 						    </div>
-
+							{% endif %}
 							<h3>基本資料</h3>
 						</div>
 						
@@ -80,11 +73,11 @@
 						<div class="content">
 							<dl>
 								<dt>設立日期</dt>
-								<dd> {{ npoProfile.founding_date.date }} </dd>
+								<dd>{{ npoProfile.founding_date.date }} </dd>
 								<dt>許可機關</dt>
-								<dd> {{ npoProfile.authority }} </dd>
+								<dd>{{ npoProfile.authority }} </dd>
 								<dt>服務區域</dt>
-								<dd> {{ service_region }} </dd>
+								<dd>{{ service_region }} </dd>
 								<dt>服務對象</dt>
 								<dd> {{ service_target }} </dd>
 								<dt>服務項目</dt>
