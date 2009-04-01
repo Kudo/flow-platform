@@ -1,17 +1,8 @@
-s* {
+* {
 	
 }
 
 /* elements */
-
-body {
-	/* font-family: Arial, Helvetica, sans-serif; */
-	font-size: 14px;
-	text-align: left;
-	background-color: #cdcdcd;
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-}
-
 td {
 	font-family: Arial, Helvetica, sans-serif;
 }
@@ -517,16 +508,22 @@ div.volunteer-block .volunteer-stats {
 
 /* ----- Content Block ----- */
 div.no-padding-bottom {
-	padding-bottom: 0px !important;
+/*	padding-bottom: 0px !important;*/
 }
 
 /* div.left-column */ div.content-block {
 	padding-bottom: 25px;
+	clear: left;
 }
 /* div.left-column */ div.content-block div.title {
 	background-image: url("../images/titlebar.gif"/*tpa=http://flowstaging.appspot.com/static/images/titlebar.gif*/);
 	height: 22px;
 	margin-bottom: 8px;
+}
+
+div.content-block div.upcoming-activity div.title {
+	background-image: none !important;
+	margin-bottom: 0px !important;
 }
 
 /* div.left-column */ div.content-block div.title h3 {
@@ -549,11 +546,17 @@ div.no-padding-bottom {
 	padding-right: 15px;
 }
 
+div.content-block div.title div.right-links {
+	padding-top: 2px;
+	padding-right: 2px;
+}
+
 /* div.left-column */ div.content-block div.right-links {
 	clear: none;
 	font-size: 13px;
+	/*
 	padding-top: 2px;
-	padding-right: 2px;
+	padding-right: 2px;*/
 }
 
 /* div.left-column */ div.content-block div.npo-news {
@@ -1033,6 +1036,7 @@ div.new-top-bar-container {
 }
 div.new-top-bar {
 	/*position: relative;*/ /* Cause IE6 bug*/
+	padding-left: 10px;
 }
 
 div.new-top-bar-container div.npo {
