@@ -72,7 +72,7 @@ def memberList(request, npoid, message=None):
         for npoMember in npoProfile.members:
             npoMembershipList.append({
                 'volunteer_profile': VolunteerProfile.get(npoMember), 
-                'isAdmin':           (npoProfile.admins2npo.filter('volunteer_profile_ref = ', VolunteerProfile.get(npoMember)).count())
+                'isAdmin':           flowBase.isNpoAdmin(VolunteerProfile.get(npoMember), npoProfile),
                 })
         
         template_values = {
