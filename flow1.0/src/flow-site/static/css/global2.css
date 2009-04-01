@@ -59,6 +59,7 @@ body {
 {
 	background: url(../images/search_bg.png);
 	padding:5px 10px;
+	overflow: auto;
 }
 #Search_Body IMG
 {
@@ -124,11 +125,17 @@ body {
 #Search_Body UL LI
 {
 	margin-bottom:0px;
+	width: 70px;
+	float: left;
 }
 #Search_Body .button
 {
 	text-align:right;
 
+}
+.Search_Section
+{
+	overflow: auto;
 }
 #Main_Nav
 {
