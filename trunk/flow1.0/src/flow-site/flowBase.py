@@ -36,9 +36,6 @@ def getBase(request, category = 'homepage'):
     data['myNpoList']       = getNpoListByVolunteer(getVolunteer(data['user']))
     data['isFlowAdmin']     = True if isFlowAdmin() else False
     
-    if 'npo_id' in request.GET:
-        data['isNpoAdmin']  = isNpoAdmin(npo = getNpo(npo_id = request.GET['npo_id']))
-
     data['noLogo']          = '/static/images/head_blue50.jpg'
     data['proflist']        = getProfessionList()
     data['resident']        = getResident()
@@ -53,7 +50,7 @@ def getBase(request, category = 'homepage'):
 
     return data
 
-def getVolunteer(volunteer_id=users.get_current_user()):
+def getVolunteer(volunteer_id):
     if not volunteer_id:
         return None
     if isinstance(volunteer_id, (str, unicode)):
@@ -65,7 +62,7 @@ def getVolunteerByKey(key):
         return None
     return VolunteerProfile.get(key)
 
-def getVolunteerID(volunteer_id=users.get_current_user()):
+def getVolunteerID(volunteer_id):
     if not volunteer_id:
         return None
     if isinstance(volunteer_id, (str, unicode)):
@@ -225,7 +222,7 @@ def isFlowAdmin():
         return True
     return False
 
-def isNpoAdmin(volunteer=getVolunteer(users.get_current_user()), npo=None):
+def isNpoAdmin(volunteer=None, npo=None):
     """
     Given a volunteer, to check if he or she is a NPO admin.
     if given npo as parameter, this function will check for specific NPO.
@@ -233,7 +230,10 @@ def isNpoAdmin(volunteer=getVolunteer(users.get_current_user()), npo=None):
     """
     
     if not volunteer:
-        return False
+        volunteer = getVolunteer(users.get_current_user())
+        if not volunteer:
+            return False
+
     if npo.key() and npo.admins2npo.filter('volunteer_profile_ref = ', volunteer).count():
         return True
     elif not npo and volunteer.admins2volunteer.get():
