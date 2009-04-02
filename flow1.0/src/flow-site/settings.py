@@ -87,7 +87,7 @@ INSTALLED_APPS = (
 APPEND_SLASH = False
 
 JQUERY_URI = 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'
-JQUERY_UI_URI = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/jquery-ui.min.js'
+JQUERY_UI_URI = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.min.js'
 
 EXTRA_PATHS = [
         os.path.join(ROOT_PATH, 'lib'),
