@@ -14,8 +14,10 @@ import flowBase
 
 _ERROR_MSG = '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><body><h1>403 Forbidden</h1><p>Cross Site Request Forgery detected. Request aborted.</p></body></html>'
 
-_POST_FORM_RE = \
-    re.compile(r'(<form\W[^>]*\bmethod=(\'|"|)POST(\'|"|)\b[^>]*>)', re.IGNORECASE)
+_POST_FORM_RE = memcache.get('Misc/FormRE') 
+if not _POST_FORM_RE:
+    _POST_FORM_RE = re.compile(r'(<form\W[^>]*\bmethod=(\'|"|)POST(\'|"|)\b[^>]*>)', re.IGNORECASE)
+    memcache.add('Misc/FormRE', _POST_FORM_RE)
     
 _HTML_TYPES = ('text/html', 'application/xhtml+xml')    
 
@@ -39,7 +41,7 @@ class CsrfMemcacheMiddleware(object):
     
     def process_request(self, request):
         if request.POST:
-            volunteer = flowBase.getVolunteer()
+            volunteer = flowBase.getVolunteer(users.get_current_user())
             if not volunteer:
                 return None
 
@@ -56,7 +58,7 @@ class CsrfMemcacheMiddleware(object):
         return None
 
     def process_response(self, request, response):
-        volunteer = flowBase.getVolunteer()
+        volunteer = flowBase.getVolunteer(users.get_current_user())
         if not volunteer:
             return response
         csrf_token = flowBase.makeToken(request, volunteer.volunteer_id)
