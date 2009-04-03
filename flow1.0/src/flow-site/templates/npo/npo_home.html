@@ -103,10 +103,10 @@
 								{% for member in recentMembers %}
 								<div class="item-block head-name">
 									<div class="left-block head">
-										<img src="">
+									    <img class="img55" src="{{ member.logo }}">
 									</div>
 									<div class="right-block name">
-										<h3><a href="#">{{ member.volunteer_first_name }} {{ member.volunteer_last_name }}</a></h3>
+									    <h3><a href="/volunteer/home/{{ member.key }}">{{ member.nickname|escape }}</a></h3>
 										<label>{{ member.resident_city }}</label>
 									</div>
 								</div>
