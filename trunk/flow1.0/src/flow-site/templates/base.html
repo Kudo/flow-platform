@@ -129,8 +129,10 @@
         		|
         	{% endif %}
         {% else %}
+				{% if not base.user %}
         	<a href="/login?redirect={{ base.full_path }}">登入</a>
         	|
+				{% endif %}
         	<a href="/volunteer/register/">註冊</a>
         	|
         {% endif %}
