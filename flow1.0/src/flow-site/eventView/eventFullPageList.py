@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 import datetime
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
@@ -15,12 +17,15 @@ def mainPage(request):
     if 'cat' not in request.GET:
         return HttpResponseRedirect('/event/')
     if request.GET['cat'] == '1':
+        eventTypeStr = u'新進'
         pageSet = paging.get(request.GET, ddl.EventProfile.gql('where status in (:1,:2,:3,:4) ORDER BY create_time DESC','approved','registrating','registration closed','on-going').count(1000), displayCount=intEventDisplayCount)
         eventAll = ddl.EventProfile.gql('where status in (:1,:2,:3,:4) ORDER BY create_time DESC','approved','registrating','registration closed','on-going').fetch(intEventDisplayCount, pageSet['entryOffset'])
     elif request.GET['cat'] == '2':
+        eventTypeStr = u'即將額滿'
         pageSet = paging.get(request.GET, ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage ASC','approved','registrating').count(1000), displayCount=intEventDisplayCount)
         eventAll = ddl.EventProfile.gql('where status in (:1,:2) ORDER BY volunteer_shortage ASC','approved','registrating').fetch(intEventDisplayCount, pageSet['entryOffset'])
     elif request.GET['cat'] == '3':
+        eventTypeStr = u'已完成'
         pageSet = paging.get(request.GET, ddl.EventProfile.gql('where status in (:1) ORDER BY update_time DESC','activity closed').count(1000), displayCount=intEventDisplayCount)
         eventAll = ddl.EventProfile.gql('where status in (:1) ORDER BY update_time DESC','activity closed').fetch(intEventDisplayCount, pageSet['entryOffset'])
     else:
@@ -45,6 +50,7 @@ def mainPage(request):
     dic={'eventAll':listActivityResult,
          'base': flowBase.getBase(request, 'event'),
          'queryString':'cat=%s'%request.GET['cat'],
+         'eventType':eventTypeStr,
          'pageSet': pageSet}
     return render_to_response('event/event-fullpage-list.html',dic)    
 
