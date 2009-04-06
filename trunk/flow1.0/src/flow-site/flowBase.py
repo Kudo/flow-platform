@@ -36,7 +36,12 @@ def getBase(request, category = 'homepage'):
     data['myNpoList']       = getNpoListByVolunteer(getVolunteer(data['user']))
     data['isFlowAdmin']     = True if isFlowAdmin() else False
     
-    data['noLogo']          = '/static/images/head_blue50.jpg'
+    data['noLogo']          = '/static/images/volunteer50.gif'
+    data['noLogo75']        = '/static/images/volunteer75.gif'
+    data['noLogo100']       = '/static/images/volunteer100.gif'
+    data['noNpoLogo']       = '/static/images/NPO50.gif'
+    data['noNpoLogo75']     = '/static/images/NPO75.gif'
+    data['noNpoLogo100']    = '/static/images/NPO100.gif'
     data['proflist']        = getProfessionList()
     data['resident']        = getResident()
     data['region']          = getRegion()

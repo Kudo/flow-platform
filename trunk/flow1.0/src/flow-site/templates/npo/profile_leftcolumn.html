@@ -1,6 +1,6 @@
 				
 				<div id="picture">
-	    	        <img src="{% if npoProfile.logo %}{{ npoProfile.logo }}{%else%}{{ base.noLogo }}{% endif %}" width="100" /><br>
+	    	        <img src="{% if npoProfile.logo %}{{ npoProfile.logo }}{%else%}{{ base.noNpoLogo100 }}{% endif %}" width="100" /><br>
                 </div>
 				<div id="boxes-left" class="box-column">
 					<div id="action" class="left-box">
@@ -11,12 +11,14 @@
 									<a href="/npo/{{npoBase.npo_id}}/admin/">管理頁面</a>
 								</li>
 								{% endif %}
+								<!--
 								<li>
 									<a href="">加入此公益團體</a>
 								</li>
 								<li>
 									<a href="">檢舉這個公益團體</a>
 								</li>
+								-->
 							</ul>
 						</div><!-- left-box-body -->
 					</div><!-- left-box -->
