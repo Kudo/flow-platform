@@ -239,3 +239,12 @@ def isNpoAdmin(volunteer=None, npo=None):
     elif not npo and volunteer.admins2volunteer.get():
         return True
     return False
+
+def addVolunteer2Npo(volunteer, npo):
+    if volunteer and npo:
+        def txn():
+            volunteer.npo_profile_ref.append(npo.key())
+            npo.members.append(volunteer.key())
+        db.run_in_transaction(txn)
+        return True
+    return False

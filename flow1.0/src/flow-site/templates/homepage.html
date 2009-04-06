@@ -38,22 +38,26 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 	                <a href="/volunteer/" class="more_link">More</a>
 	            </div>
 	            <div class="top_body">
+			{% if volunteer %}
 	                <div class="top_icon">
 	                	<img class="img75" src="{% if volunteer.logo %}{{ volunteer.logo }}{% else %}{{ base.noLogo }}{% endif %}" width="75"/>
 	                </div>
 	                <div class="top_desc">
 	                	<dl>
 	                		<dt>暱稱</dt>
-	                		<dd>{{ volunteer.nickname }} </dd>
+	                		<dd>{{ volunteer.nickname|escape }} </dd>
 	                		<dt>地區</dt>
-	                		<dd>{{ volunteer.region }}</dd>
+	                		<dd>{{ volunteer.region|escape }}</dd>
 	                		<dt>專長</dt>
-	                		<dd>{{ volunteer.showExpertise }}</dd>
+	                		<dd>{{ volunteer.showExpertise|escape }}</dd>
 	                	</dl>
 	                	<div class="more_info">
 	                    	<a href="/volunteer/home/{{ volunteer.key }}">詳細資料</a>
 	                   	</div>
 	                </div> 
+			{% else %}
+			沒有任何志工
+			{% endif %}
 	            </div>
 	        </div>
 	        <div class="top_block">
@@ -62,20 +66,24 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 	                <a href="/npo/" class="more_link">More</a>
 	            </div>
 	            <div class="top_body">
+			{% if npo %}
 	                <div class="top_icon">
 	                    <img class="img75" src="{% if npo.logo %}{{ npo.logo }}{% else %}{{ base.noLogo }}{% endif %}" width="75"/>
 	                </div>
 	                <div class="top_desc">
 	                	<dl>
 	                		<dt>名稱</dt>
-	                		<dd>{{ npo.name }}</dd>
+	                		<dd>{{ npo.name|escape }}</dd>
 	                		<dt>簡介</dt>
-	                		<dd>{{ npo.description }}</dd>
+	                		<dd>{{ npo.description|escape }}</dd>
 	                	</dl>
 	                	<div class="more_info">
 	                    	<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">詳細資料</a>
 	                    </div>
 	                </div> 
+			{% else %}
+			沒有任何公益團體
+			{% endif %}
 	            </div>
 	        </div>
         </div>
@@ -87,18 +95,23 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
             <a href="/event/" class="more_link">More</a>
         </div>
         <ul class="top_activities">
+	    {% if eventList %}
         	{% for event in eventList %}
             <li class="with_sep_line">
-                <h2><a href="/event/viewEvent?id={{ event.eventKey }}">{{ event.name }}</a></h2>
-                <p><a href="/npo/npo_home.html?npo_id={{ event.npo_id }}">{{ event.npoName }}</a></p>
-                <p>{{ event.startTime }}</p>
-                <p>{{ event.region }}</p>
-                <p class="act_desc">{{ event.description }}</p>
+                <h2><a href="/event/viewEvent?id={{ event.eventKey }}">{{ event.name|escape }}</a></h2>
+                <p><a href="/npo/npo_home.html?npo_id={{ event.npo_id }}">{{ event.npoName|escape }}</a></p>
+                <p>{{ event.startTime|escape }}</p>
+                <p>{{ event.region|escape }}</p>
+                <p class="act_desc">{{ event.description|escape }}</p>
                 <span class="more_info">
                 	<a href="/event/viewEvent?id={{ event.eventKey }}">詳細資料</a>
                 </span>
             </li>
             {% endfor %}
+	    {% else %}
+	    沒有任何公益活動
+	    {% endif %}
+
         </ul>
     </div> 
 {% endblock mainContent %}

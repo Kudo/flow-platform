@@ -12,32 +12,40 @@ def home(request):
 
     tmpList = VolunteerProfile.all().order('-id').fetch(10)
     count = len(tmpList)
-    randomIndex = random.randint(0, count - 1)
-    volunteerObj = tmpList[randomIndex]
-    volunteerObj.showExpertise = u', '.join(volunteerObj.expertise[:displayExpertiseCount])
-    if (len(volunteerObj.expertise) > displayExpertiseCount):
-        volunteerObj.showExpertise += u', ...'
-    volunteer = {
-        'nickname':         volunteerObj.nickname,
-        'region':           volunteerObj.resident_city,
-        'showExpertise':    volunteerObj.showExpertise,
-        'logo':             volunteerObj.logo,
-        'key':              volunteerObj.key(),
-    }
+    if count <= 0:
+        volunteer = None
+    else:
+        randomIndex = random.randint(0, count - 1)
+        volunteerObj = tmpList[randomIndex]
+        volunteerObj.showExpertise = u', '.join(volunteerObj.expertise[:displayExpertiseCount])
+        if (len(volunteerObj.expertise) > displayExpertiseCount):
+            volunteerObj.showExpertise += u', ...'
+        volunteer = {
+            'nickname':         volunteerObj.nickname,
+            'region':           volunteerObj.resident_city,
+            'showExpertise':    volunteerObj.showExpertise,
+            'logo':             volunteerObj.logo,
+            'key':              volunteerObj.key(),
+        }
+        del randomIndex, volunteerObj
 
     tmpList = NpoProfile.all().order('-id').fetch(10)
     count = len(tmpList)
-    randomIndex = random.randint(0, count - 1)
-    npoObj = tmpList[randomIndex]
-    npo = {
-        'name':             npoObj.npo_name,
-        'region':           npoObj.service_region,
-        'description':      npoObj.brief_intro,
-        'npo_id':           npoObj.npo_id,
-        'logo':             npoObj.logo,
-    }
-
-    del tmpList, count, randomIndex, volunteerObj, npoObj
+    if count <= 0:
+        npo = None
+    else:
+        randomIndex = random.randint(0, count - 1)
+        npoObj = tmpList[randomIndex]
+        npo = {
+            'name':             npoObj.npo_name,
+            'region':           npoObj.service_region,
+            'description':      npoObj.brief_intro,
+            'npo_id':           npoObj.npo_id,
+            'logo':             npoObj.logo,
+        }
+        del randomIndex, npoObj
+        
+    del tmpList, count
 
     eventList = []
     for event in EventProfile.all().filter('status in ', ['approved', 'registrating']).order('-create_time').fetch(displayEventCount):
