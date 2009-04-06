@@ -83,10 +83,7 @@ def changeNpoStatus(request):
     if 'status' in request.REQUEST and 'npo_id' in request.REQUEST:
         status = request.REQUEST['status']
         npoID  = request.REQUEST['npo_id']
-        npos   = ddl.NpoProfile.all()
-        npo    = db.get(db.key(npoID))
-        npo.aaa()
-        npo.put()
+        npo    = db.get(npoID)
         if npo:
             npo.status = status
             npo.put()
