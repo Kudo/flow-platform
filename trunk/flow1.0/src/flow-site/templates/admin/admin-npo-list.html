@@ -23,7 +23,7 @@
 				<tr>
 	        <form method="POST" action="/admin/npo/changeStatus">
 	
-					<td><a href="/npo/npo_home.html?npo_id={{ profile.npo_id }}" target="_profile">{{ profile.npo_name }} {{ profile.status }}</a></td>
+					<td><a href="/npo/npo_home.html?npo_id={{ profile.npo_id }}" target="_profile">{{ profile.npo_name }}</a></td>
 					<td>
 	        {% ifequal profile.status "new application"      %}新申請{% endifequal %}
 	        {% ifequal profile.status "approving"            %}審核中{% endifequal %}
