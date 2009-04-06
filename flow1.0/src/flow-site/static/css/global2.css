@@ -191,6 +191,7 @@ body {
 }
 #Body_Content {
 	padding: 5px 25px;
+	min-height: 300px;
 }
 #Body_Top, #Body_Btm
 {
@@ -323,15 +324,19 @@ UL.top_activities SPAN.sep_line
 }
 #Footer{
 	height: 25px;
-	background-color: #004070;
+	/* background-color: #004070; */
 	text-align: center;
 	color: #FFFFFF;
+	width: 950px;
+	margin: 0px auto;
+	background: url(../images/footer-bg.jpg) repeat-y scroll 0 0;
+	margin-top: 10px;
 }
 #Footer P
 {
 	display: inline;
-	margin: 0px 12px;
-	font-size: 11px;
+	margin: 0px 8px;
+	font-size: 13px;
 	line-height:25px;
 }
 #Footer P A
