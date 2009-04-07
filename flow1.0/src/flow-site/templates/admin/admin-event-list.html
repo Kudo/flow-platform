@@ -24,8 +24,8 @@
 				<tr>
 					<form method="POST" action="/admin/event/changeStatus">
 	
-					<td><a href="/event/viewEvent?id={{ profile.key }}" target="_profile">{{ profile.event_name }}</a></td>
-					<td>{{ profile.npo_profile_ref.npo_name }}</td>
+					<td><a href="/event/viewEvent?id={{ profile.key }}" target="_profile">{{ profile.event_name|escape }}</a></td>
+					<td>{{ profile.npo_profile_ref.npo_name|escape }}</td>
 					<td>
 	        {% ifequal profile.status "new application"       %}新申請{% endifequal %}
 	        {% ifequal profile.status "approved"              %}已審核{% endifequal %}
