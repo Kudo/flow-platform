@@ -26,18 +26,18 @@
 								    <a href="/volunteer/home/{{ entry.key }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
 								<div class="name">
-								    <a href="/volunteer/home/{{ entry.key }}">{{ entry.nickname }}</a>
+								    <a href="/volunteer/home/{{ entry.key }}">{{ entry.nickname|escape }}</a>
 								</div>
 								<div class="stats">
 									<dl>
 										<dt>位於:</dt>
-										<dd>{{ entry.resident_city }}</dd>
+										<dd>{{ entry.resident_city|escape }}</dd>
 										<dt>專長:</dt>
-										<dd>{{ entry.showExpertise }}</dd>
+										<dd>{{ entry.showExpertise|escape }}</dd>
 										<dt>所屬群組:</dt>
 										<dd>
 										{% for npo in entry.npoList %}
-										<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">{{ npo.npo_name }}</a> 
+										<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">{{ npo.npo_name|escape }}</a> 
 										{% endfor %}
 										
 										{% if entry.npoShowMore %}
