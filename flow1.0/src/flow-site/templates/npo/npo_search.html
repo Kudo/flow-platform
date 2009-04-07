@@ -31,8 +31,8 @@
 								    <a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
 								<div class="name">
-								    <div class="npo-title"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">{{ entry.npo_name }}</a></div>
-								    <div class="npo-desc">{{ npo.brief_intro }}</div>
+								    <div class="npo-title"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">{{ entry.npo_name|escape }}</a></div>
+								    <div class="npo-desc">{{ npo.brief_intro|escape }}</div>
 								</div>
 								
 								<div class="stats">
@@ -40,7 +40,7 @@
 										<dt>會員人數: </dt>
 										<dd>{{ entry.memberCount }} 名</dd>
 										<dt>服務區域: </dt>
-										<dd>{{ entry.region }}</dd>
+										<dd>{{ entry.region|escape }}</dd>
 									</dl>
 								</div>
 								<div class="activities">
@@ -50,7 +50,7 @@
 
 										{% for event in entry.eventList %}
 										<div class="upcoming-activity">
-										    <div class="title"><a href="/event/viewEvent?id={{ event.key }}">{{ event.event_name }}</a></div>
+										    <div class="title"><a href="/event/viewEvent?id={{ event.key }}">{{ event.event_name|escape }}</a></div>
 										    <div class="date">
 											{% if event.upcoming %}即將進行, 還有 {{ event.diffDays }} 天 {% endif %}
 											({{ event.start_time.month }} 月 {{ event.start_time.day }} 日)</div>
