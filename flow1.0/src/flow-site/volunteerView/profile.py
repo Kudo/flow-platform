@@ -21,6 +21,7 @@ except ImportError:
     from django import forms
 from google.appengine.ext.db import djangoforms
 from common.fields import FlowChoiceField
+from common.widgets import FlowExpertiseChoiceWidget
 
 """
 # -------------------------------------------------------------
@@ -49,32 +50,6 @@ class MyRadioSelect(forms.widgets.Select):
         str_value = forms.util.smart_unicode(value) # Normalize to string.
         attrs = self.attrs or {}
         return MyRadioFieldRenderer(name, str_value, attrs, list(chain(self.choices, choices)))
-
-class MyCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
-    displayRowCount = 3
-    def render(self, name, value, attrs=None, choices=()):
-        from django.utils.html import escape
-        if value is None: value = []
-        has_id = attrs and attrs.has_key('id')
-        final_attrs = self.build_attrs(attrs, name=name)
-        output = [u'<table>\n<tr>']
-        if isinstance(value, list):
-            str_values = set([forms.util.smart_unicode(v) for v in value]) # Normalize to strings.
-        else:
-            str_values = set([forms.util.smart_unicode(v) for v in value.split('\n')]) # Normalize to strings.
-        for i, (option_value, option_label) in enumerate(chain(self.choices, choices)):
-            # If an ID attribute was given, add a numeric index as a suffix,
-            # so that the checkboxes don't all have the same ID attribute.
-            if has_id:
-                final_attrs = dict(final_attrs, id='%s_%s' % (attrs['id'], i))
-            cb = forms.CheckboxInput(final_attrs, check_test=lambda value: value in str_values)
-            option_value = forms.util.smart_unicode(option_value)
-            rendered_cb = cb.render(name, option_value)
-            output.append(u'<td>%s %s</td>' % (rendered_cb, escape(forms.util.smart_unicode(option_label))))
-            if ((i + 1) % self.displayRowCount == 0):
-                output.append(u'</tr>\n<tr>')
-        output.append(u'</tr>\n</table>')
-        return u'\n'.join(output)
 
 """
 # -------------------------------------------------------------
@@ -110,7 +85,7 @@ class VolunteerProfileForm(djangoforms.ModelForm):
     blog                        = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'size': '50'}))
 
     choices = [(entry.encode('UTF-8'), entry) for entry in proflist.getProfessionList()]
-    expertise                   = forms.MultipleChoiceField(choices=choices, widget=MyCheckboxSelectMultiple())
+    expertise                   = forms.MultipleChoiceField(choices=choices, widget=FlowExpertiseChoiceWidget())
     brief_intro                 = forms.CharField(required=False, widget=forms.Textarea(attrs={'class': 'field textarea medium', 'cols': '50', 'rows': '5'}))
 
     class Meta:

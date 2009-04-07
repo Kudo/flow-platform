@@ -7,7 +7,7 @@ from google.appengine.api import users
 from django import newforms as forms
 from db import ddl
 from google.appengine.ext.db import djangoforms
-from common.widgets import FlowSplitDateTimeWidget,FlowCheckboxSelectMultiple
+from common.widgets import FlowSplitDateTimeWidget,FlowExpertiseChoiceWidget
 from common.fields import FlowChoiceField
 import flowBase
 
@@ -31,7 +31,7 @@ class NewEventForm(djangoforms.ModelForm):
     max_age = forms.IntegerField(min_value=1,initial=99,widget=forms.TextInput(attrs={'size':'3'}))
     volunteer_req = forms.IntegerField(min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
     
-    expertise_req = forms.MultipleChoiceField(required=False,choices=g_lstExpertise, widget=FlowCheckboxSelectMultiple())
+    expertise_req = forms.MultipleChoiceField(required=False,choices=g_lstExpertise, widget=FlowExpertiseChoiceWidget())
 
     sex = FlowChoiceField(choices=[('Both',u'¬Ò¥i'),('Male',u'¨k'),('Female',u'¤k')],widget=forms.Select())
     class Meta:

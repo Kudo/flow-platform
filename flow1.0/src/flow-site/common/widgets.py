@@ -44,3 +44,30 @@ class FlowCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
                 output.append(u'</tr>\n<tr>')
         output.append(u'</tr>\n</table>')
         return u'\n'.join(output)        
+
+class FlowExpertiseChoiceWidget(forms.widgets.CheckboxSelectMultiple):
+    displayRowCount = 4
+    def render(self, name, value, attrs=None, choices=()):
+        from db import proflist
+        output = [u'<table>']
+
+        i = 0
+        output.append(u'<tr><td><h3>%s</h3></td></tr>' % (u'專業領域'))
+        output.append(u'<tr>')
+        for value in proflist.profList:
+            output.append(u'<td><input id="id_expertise_%d" type="checkbox" value="%s" name="expertise"/>%s</td>' % (i, value, value))
+            if ((i + 1) % self.displayRowCount == 0):
+                output.append(u'</tr>\n<tr>')
+            i += 1
+        output.append(u'</tr>')
+
+        output.append(u'<tr><td><h3>%s</h3></td></tr>\n' % (u'語言專長'))
+        output.append(u'<tr>')
+        for value in proflist.langList:
+            output.append(u'<td><input id="id_expertise_%d" type="checkbox" value="%s" name="expertise"/>%s</td>' % (i, value, value))
+            if ((i + 1) % self.displayRowCount == 0):
+                output.append(u'</tr>\n<tr>')
+            i += 1
+
+        output.append(u'</tr>\n</table>')
+        return u'\n'.join(output)        
