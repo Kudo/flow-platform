@@ -9,13 +9,23 @@ body {
 	font-size: 14px;
 }
 #Banner{
-	background: url(../images/banner.jpg) no-repeat;
+	background: url(../images/newframe/header.jpg) no-repeat;
 	height: 90px;
 	width: 950px;
 	margin: 0px auto;
 }
+#Top_Logo
+{
+	padding-left: 30px;
+	padding-top: 8px;
+}
+#Top_Logo img
+{
+	float: left;
+}
 #Top_Nav
 {
+	float: right;
 	text-align: right;
 	padding: 5px 27px 10px 0px;
 	font-size:14px;
@@ -137,10 +147,19 @@ body {
 {
 	overflow: auto;
 }
+#Main_Block
+{
+	margin-top:37px;
+	padding-left:91px;
+}
+#Main_Title
+{
+	float: left;
+	padding-right: 10px;
+}
 #Main_Nav
 {
-	margin-top:17px;
-	padding-left: 315px;
+	padding-top:7px;
 }
 #Main_Nav A
 {
@@ -182,12 +201,12 @@ body {
 #Body_Wrap{
 	width: 950px;
 	margin: 0px auto;
-	background:url(../images/body_bg.jpg) repeat-y;
+	background:url(../images/newframe/body_bg.jpg) repeat-y;
 }
 #Body_Header
 {
-	background:url(../images/body_top.jpg) no-repeat;
-	height: 12px;
+	background:url(../images/newframe/body_top.jpg) no-repeat;
+	height: 20px;
 }
 #Body_Content {
 	padding: 5px 25px;
@@ -207,9 +226,21 @@ body {
 	float:right;
 	width:355px;
 }
-.top_title
+.title_bg1
+{
+	background: url(../images/newframe/title-bg-1.jpg) right no-repeat;
+}
+.title_bg2
+{
+	background: url(../images/newframe/title-bg-2.jpg) right no-repeat;
+}
+.title_bg3
 {
 	background: url(../images/title_bg.jpg) right no-repeat;
+}
+.top_title
+{
+	/* background: url(../images/title_bg.jpg) right no-repeat; */
 	height: 27px;
 	/* position: relative; */
 }
@@ -223,13 +254,14 @@ body {
 	width: 120px;
 	display:inline-block;
 	float: left;
+	font-size: 16px;
 }
 A.more_link
 {
 	font-size:12px;
-	color: #FFFFFF;
+	color: #FFFFFF !important;
 	line-height:30px;
-	text-decoration:none;
+	text-decoration:none !important;
 	padding-right: 10px;
 	float: right;
 }
