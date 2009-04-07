@@ -360,10 +360,8 @@ UL.top_activities SPAN.sep_line
 	text-align: center;
 	color: #FFFFFF;
 	width: 950px;
-	margin: 0px auto;
+	margin: 0px auto 4px;
 	background: url(../images/footer-bg.jpg) repeat-y scroll 0 0;
-	margin-top: 8px;
-	margin-bottom: 4px;
 }
 #Footer P
 {
