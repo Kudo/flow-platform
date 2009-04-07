@@ -245,19 +245,24 @@ def showHome(request):
     picasaUser = 'ckchien'
     service = gdata.photos.service.PhotosService()
     gdata.alt.appengine.run_on_appengine(service)
-    photoFeeds = service.GetUserFeed(user=picasaUser, kind='photo', limit=displayPhotoCount).entry
+    try:
+        photoFeeds = service.GetUserFeed(user=picasaUser, kind='photo', limit=displayPhotoCount).entry
+    except:
+        photoFeeds = None
     #photoFeeds.reverse()
     #photos = service.SearchUserPhotos(query='若水', user='ckchien').entry
 
     # Youtube
     video = None
     videoDate = None
-    if len(npoProfile.video_link) > 0:
-        vid = npoProfile.video_link[0]
-        service = gdata.youtube.service.YouTubeService()
-        gdata.alt.appengine.run_on_appengine(service)
-        video = service.GetYouTubeVideoEntry(video_id=vid)
-
+    service = gdata.youtube.service.YouTubeService()
+    gdata.alt.appengine.run_on_appengine(service)
+    for vid in npoProfile.video_link:
+        try:
+            video = service.GetYouTubeVideoEntry(video_id=vid)
+        except:
+            continue
+        break
     
     template_values = {
             'npoProfile': npoProfile,
