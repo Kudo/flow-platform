@@ -31,8 +31,12 @@ def show(request, npoid, displayAlbumCount=2, displayPhotoCount=5, displayArticl
     picasaUser = 'ckchien'
     service = gdata.photos.service.PhotosService()
     gdata.alt.appengine.run_on_appengine(service)
-    albumFeeds = service.GetUserFeed(user=picasaUser, limit=displayAlbumCount).entry
-    albums = [{'albumFeed': album, 'photoFeeds': service.GetEntry(album.GetPhotosUri(), limit=displayPhotoCount)} for album in albumFeeds] 
+    try:
+        albumFeeds = service.GetUserFeed(user=picasaUser, limit=displayAlbumCount).entry
+        albums = [{'albumFeed': album, 'photoFeeds': service.GetEntry(album.GetPhotosUri(), limit=displayPhotoCount)} for album in albumFeeds] 
+    except:
+        albumFeeds = None
+        albums = None
     #return HttpResponse(albums[0]['photoFeeds'][0], mimetype="text/xml")
     #photos = service.SearchUserPhotos(query='若水', user='ckchien').entry
     del albumFeeds
@@ -40,12 +44,15 @@ def show(request, npoid, displayAlbumCount=2, displayPhotoCount=5, displayArticl
     # Youtube
     video = None
     videoDate = None
-    if len(target.video_link) > 0:
-        vid = target.video_link[0]
+    for vid in target.video_link:
         service = gdata.youtube.service.YouTubeService()
         gdata.alt.appengine.run_on_appengine(service)
-        video = service.GetYouTubeVideoEntry(video_id=vid)
-        videoDate = datetime.strptime(video.published.text, '%Y-%m-%dT%H:%M:%S.000Z')
+        try:
+            video = service.GetYouTubeVideoEntry(video_id=vid)
+            videoDate = datetime.strptime(video.published.text, '%Y-%m-%dT%H:%M:%S.000Z')
+        except:
+            continue
+        break
 
     template_values = {
             'isAdmin':                  True if flowBase.isNpoAdmin(npo=target) else False,
@@ -80,9 +87,12 @@ def videoShow(request, npoid, displayCount=5):
     vidList = target.video_link[pageSet['entryOffset']:pageSet['entryOffset'] + displayCount]
     entryList = []
     for vid in vidList:
-        video = service.GetYouTubeVideoEntry(video_id=vid)
-        videoDate = datetime.strptime(video.published.text, '%Y-%m-%dT%H:%M:%S.000Z')
-        video.videoDate = videoDate
+        try:
+            video = service.GetYouTubeVideoEntry(video_id=vid)
+            videoDate = datetime.strptime(video.published.text, '%Y-%m-%dT%H:%M:%S.000Z')
+            video.videoDate = videoDate
+        except:
+            video = None
         entryList.append(video)
 
     template_values = {
