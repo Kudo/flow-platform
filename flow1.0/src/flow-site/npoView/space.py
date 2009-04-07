@@ -44,9 +44,9 @@ def show(request, npoid, displayAlbumCount=2, displayPhotoCount=5, displayArticl
     # Youtube
     video = None
     videoDate = None
+    service = gdata.youtube.service.YouTubeService()
+    gdata.alt.appengine.run_on_appengine(service)
     for vid in target.video_link:
-        service = gdata.youtube.service.YouTubeService()
-        gdata.alt.appengine.run_on_appengine(service)
         try:
             video = service.GetYouTubeVideoEntry(video_id=vid)
             videoDate = datetime.strptime(video.published.text, '%Y-%m-%dT%H:%M:%S.000Z')
