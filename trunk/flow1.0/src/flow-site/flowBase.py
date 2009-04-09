@@ -210,15 +210,15 @@ def verifyVolunteer(request, key=None):
 def verifyNpo(request):
     objUser=users.get_current_user()
     if not objUser:
-        logging.critical('invalid request from %s for %s',request.META.get('REMOTE_ADDR'),request.path)
+        logging.info('invalid request from %s for %s',request.META.get('REMOTE_ADDR'),request.path)
         return (None,None,None)
     objVolunteer=getVolunteer(objUser)
     if not objVolunteer:
-        logging.critical('invalid request from %s[%s] for %s',objUser,request.META.get('REMOTE_ADDR'),request.path)
+        logging.info('invalid request from %s[%s] for %s',objUser,request.META.get('REMOTE_ADDR'),request.path)
         return (objUser,None,None)
     objNpo=getNpoByUser(objUser)
     if not objNpo:
-        logging.critical('invalid request from %s[%s] for %s',objUser,request.META.get('REMOTE_ADDR'),request.path)
+        logging.info('invalid request from %s[%s] for %s',objUser,request.META.get('REMOTE_ADDR'),request.path)
         return (objUser,objVolunteer,None)
     return (objUser,objVolunteer,objNpo)
 

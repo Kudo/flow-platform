@@ -69,7 +69,7 @@ def splitData(strData,strToken=',|;| '):
 def processAddEvent(request):
     objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("objNpo is None")
 
     # Fetch event input from request
     if request.method == 'POST' and request.POST.get('submitType'):
@@ -121,22 +121,22 @@ def processAddEvent(request):
 def processEditEvent(request):
     objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("objNpo is None")
     
     if request.method != 'POST' or 'event_key' not in request.POST:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("request.method != 'POST' or 'event_key' not in request.POST")
 
     eventKey = request.POST['event_key']
     eventProfile=db.get(db.Key(eventKey))
     if None == eventProfile:
-        return HttpResponseForbidden(u'資料不存在! key:%s'%eventKey)
+        raise AssertionError('eventProfile is None')
     if eventProfile.npo_profile_ref.id!=objNpo.id:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError('eventProfile.npo_profile_ref.id!=objNpo.id')
     
     if 'submitType' in request.POST:
         submitType = request.POST['submitType']
         if not submitType:
-            return HttpResponseForbidden(u'錯誤的操作流程')
+            raise AssertionError('submitType is None')
         form = NewEventForm(data = request.POST , instance = eventProfile)
         if form.is_valid():
             modEventEntity = form.save(commit=False)
