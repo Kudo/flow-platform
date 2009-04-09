@@ -96,16 +96,14 @@ def manageMember(request, npoid):
                 #volunteerid is email address to the VolunteerProfile class
                 volunteerProfile = VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
                 if volunteerProfile:
-                    npoProfile.members.append(volunteerProfile.key()) #VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
-                    npoProfile.put()
+                    flowBase.addVolunteer2Npo(volunteerProfile, npoProfile)
                 else:
                     message = volunteerid + ur' 不是一個有效的若水公益平台帳號，請檢查後重新輸入。'
             elif operation == 'set_manager':
                 #volunteerid is email to the VolunteerProfile class
                 volunteerProfile = VolunteerProfile.all().filter("volunteer_id =", users.User(volunteerid)).get()
                 if volunteerProfile and volunteerProfile.key() in npoProfile.members:
-                    npoManager = NpoAdmin(npo_profile_ref=npoProfile, admin_role="Main", volunteer_profile_ref=volunteerProfile)
-                    npoManager.put()
+                    flowBase.addVolunteer2NpoAdmin(volunteerProfile, npoProfile)
                 else:
                     #unexpected operation, do nothing.
                     pass

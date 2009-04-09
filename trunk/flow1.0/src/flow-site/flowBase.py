@@ -246,10 +246,17 @@ def isNpoAdmin(volunteer=None, npo=None):
     return False
 
 def addVolunteer2Npo(volunteer, npo):
-    if volunteer and npo:
-        def txn():
-            volunteer.npo_profile_ref.append(npo.key())
-            npo.members.append(volunteer.key())
-        db.run_in_transaction(txn)
+    if volunteer and npo and volunteer.key() not in npo.members:
+        volunteer.npo_profile_ref.append(npo.key())
+        volunteer.put()
+        npo.members.append(volunteer.key())
+        npo.put()
+        return True
+    return False
+
+def addVolunteer2NpoAdmin(volunteer, npo):
+    if volunteer and npo and not NpoAdmin.all().filter('npo_profile_ref = ', npo).filter('volunteer_profile_ref = ', volunteer).get():
+        npoAdminObj = NpoAdmin(npo_profile_ref=npo, admin_role='Main', volunteer_profile_ref=volunteer)
+        npoAdminObj.put()
         return True
     return False

@@ -21,7 +21,7 @@ def show(request):
     pageSet = paging.get(request.GET, NpoProfile.all().totalCount(), displayCount=displayCount)
 
     now = datetime.datetime.now()
-    entryList = db.GqlQuery('SELECT * FROM NpoProfile ORDER BY id').fetch(displayCount, pageSet['entryOffset'])
+    entryList = NpoProfile.all().order('-id').fetch(displayCount, pageSet['entryOffset'])
     for npo in entryList:
         npo.eventList = npo.event2npo.fetch(displayNpoEventCount)
         for event in npo.eventList:

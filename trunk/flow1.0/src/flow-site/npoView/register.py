@@ -160,6 +160,9 @@ def step3(request):
                 )
                 npoPhoneObj.put()
 
+            flowBase.addVolunteer2Npo(user, npoObj)
+            flowBase.addVolunteer2NpoAdmin(user, npoObj)
+
             people = set()
             count = cleaned_data['adminAcctCount'] if cleaned_data['adminAcctCount'] <= maxAdminCount else maxAdminCount
             for i in range(1, count + 1):
@@ -168,13 +171,8 @@ def step3(request):
                     people.add(cleaned_data['adminaccount_'+i])
             for person in people:
                 person = flowBase.getVolunteer(person)
-                if person:
-                    personObj = NpoAdmin(
-                            npo_profile_ref             = npoObjKey,
-                            admin_role                  = 'Main',
-                            volunteer_profile_ref       = person,
-                    )
-                    personObj.put()
+                flowBase.addVolunteer2Npo(person, npoObj)
+                flowBase.addVolunteer2NpoAdmin(person, npoObj)
 
             if cleaned_data['contact']:
                 personObj = NpoContact(
