@@ -12,17 +12,17 @@ import flowBase
 def volunteerShow(request):
     objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("objNpo is None")
 
     if request.method != 'POST' or 'event_key' not in request.POST:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("request.method != 'POST' or 'event_key' not in request.POST")
 
     eventKey = request.POST['event_key']
     event=db.get(db.Key(eventKey))
     if None == event:
-        return HttpResponseForbidden(u'資料不存在! key:%s'%eventKey)
+        raise AssertionError("event is None")
     if event.npo_profile_ref.id!=objNpo.id:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("event.npo_profile_ref.id!=objNpo.id")
 
     # Retrieve data with given eventID and status
     query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'new registration')
@@ -57,17 +57,17 @@ def addName(lstVolEvent):
 def approveVolunteer(request):
     objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("objNpo is None")
 
     if request.method != 'POST' or 'event_key' not in request.POST:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("request.method != 'POST' or 'event_key' not in request.POST")
 
     eventKey = request.POST['event_key']
     event=db.get(db.Key(eventKey))
     if None == event:
-        return HttpResponseForbidden(u'資料不存在! key:%s'%eventKey)
+        raise AssertionError("event is None")
     if event.npo_profile_ref.id!=objNpo.id:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("event.npo_profile_ref.id!=objNpo.id")
     
     # Process the data in form.cleaned_data
     query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'approved')

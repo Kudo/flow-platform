@@ -63,7 +63,7 @@ def submitAuthToken(request):
 def handleEventAuth(request):
     objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        return HttpResponseForbidden(u'錯誤的操作流程')
+        raise AssertionError("objNpo is None")
 
     if request.method=='GET':
         strEventKey=request.GET['event_key']
