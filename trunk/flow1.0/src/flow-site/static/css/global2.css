@@ -10,14 +10,14 @@ body {
 }
 #Banner{
 	background: url(../images/newframe/header.jpg) no-repeat;
-	height: 90px;
+	height: 87px;
 	width: 950px;
 	margin: 0px auto;
 }
 #Top_Logo
 {
 	padding-left: 30px;
-	padding-top: 8px;
+	padding-top: 9px;
 }
 #Top_Logo img
 {
