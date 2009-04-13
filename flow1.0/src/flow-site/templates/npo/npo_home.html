@@ -6,6 +6,7 @@
 
 	{### this block can put additional css / script definition to head tag ###}
 	<!-- block npoExtraHeader here -->
+	<script type="text/javascript" src="/static/js/npo_news.js" ></script> 
 	
 {% endblock npoExtraHeader %}
 
@@ -21,7 +22,7 @@
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							{% if npoBase.isNpoAdmin %}
 							<div class="right-links">
-					    		<a href="#">編輯</a>
+					    		<a href="#" id = 'npo_edit_button' >編輯</a><input type="button" value="ok" id="npo_edit_button_ok" style="display: none;" />
 					    	</div>
 					    	{% endif %}
 							<h3>最新消息</h3>
@@ -29,12 +30,9 @@
 						</div>
 						<div class="content">
 							<!-- Mark the fake news when testing real data -->
-							<div class="npo-news"><a href="#">最新消息第一條</a></div>
-							<div class="npo-news"><a href="#">最新消息第二條</a></div>
-							<div class="npo-news"><a href="#">最新消息第三條</a></div>
-							{% for news in npoProfile.news_list %}
-							<div class="npo-news"><a href="#"> {{ news }} </a></div>
-							{% endfor %}
+							<div class="npo-news"><span id="npo_news_1">最新消息第一條1</span></div>
+							<div class="npo-news"><span id="npo_news_2">最新消息第二條2</span></div>
+							<div class="npo-news"><span id="npo_news_3">最新消息第三條3</span></div>
 						</div>
 					</div>
 					
