@@ -17,7 +17,7 @@ lstAcceptNumber=['0982197997']
 def submitAuthToken(request):
     objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
     if not objNpo:
-        raise exceptions.PermissionDenied()
+        raise RuntimeError('objNpo is None')
 
     if request.method=='GET':
         if 'event_key' not in request.GET:
@@ -44,19 +44,21 @@ def submitAuthToken(request):
 
     strPhoneNumber = request.POST['phone_number']
     if not strPhoneNumber.isdigit() or len(strPhoneNumber)!=10:
-        dic={'m':u'手機格式錯誤','event_key':strEventKey,'p':strPhoneNumber}
+        dic={'m':u'手機號碼格式錯誤','event_key':strEventKey,'p':strPhoneNumber}
         return HttpResponseRedirect('authEvent1?%s'%(urllib.urlencode(dic)))
 
     eventProfile.status = 'authenticating'
+    strAuthToken=str(hash(str(time.time())))[-6:]
+    strMemcacheKey='/submitAuthToken/%s'%strEventKey
+    if not memcache.set(strMemcacheKey,strAuthToken,600):
+        return HttpResponseServerError('call memcache.set() failed!')
+    eventProfile.authenticate_retry_count+=1
+    if eventProfile.authenticate_retry_count>=3:
+        eventProfile.status = 'authenticating failed'
+    if strPhoneNumber in lstAcceptNumber:
+        smsUtil.sendSmsOnGAE(strPhoneNumber,u'[若水志工媒合平台] 活動驗證碼為:'+strAuthToken,objNpo.id,objVolunteer.id,eventProfile.id)
+
     eventProfile.put()
-    if not memcache.get(strEventKey):
-        strAuthToken=str(hash(str(time.time())))[-6:]
-        if not memcache.set(strEventKey,strAuthToken,1800):
-            return HttpResponseServerError('call memcache.set() failed!')
-        if strPhoneNumber in lstAcceptNumber:
-            smsUtil.sendSmsOnGAE(strPhoneNumber,u'您的驗證碼為:'+strAuthToken)
-    else:
-        strAuthToken=memcache.get(strEventKey)
     dic={'event_key':strEventKey,'p':strPhoneNumber}
     return HttpResponseRedirect('authEvent3?%s'%(urllib.urlencode(dic)))
 
@@ -69,8 +71,9 @@ def handleEventAuth(request):
         strEventKey=request.GET['event_key']
         strPhoneNumber=request.GET['p']
         strComment=''
+        strMemcacheKey='/submitAuthToken/%s'%strEventKey
         if strPhoneNumber not in lstAcceptNumber:
-            strToken=memcache.get(strEventKey)
+            strToken=memcache.get(strMemcacheKey)
             strComment=u'簡訊驗證目前僅開放給 %s 使用，請直接輸入 %s 即可通過驗證'%(','.join(lstAcceptNumber),strToken)
         dic = {'debug_comment':strComment,
                'event_key':strEventKey,
@@ -88,8 +91,8 @@ def handleEventAuth(request):
     
     if eventProfile.npo_profile_ref.id!=objNpo.id:
         raise RuntimeError('NPO not match!')
-
-    strToken=memcache.get(strEventKey)
+    strMemcacheKey='/submitAuthToken/%s'%strEventKey
+    strToken=memcache.get(strMemcacheKey)
     if strToken and strToken==request.POST['validation']:
         #eventProfile.status = 'authenticated'
         eventProfile.status = 'approved'

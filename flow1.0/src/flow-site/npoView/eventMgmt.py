@@ -23,7 +23,8 @@ dicRule = {'new application'        :{'modify':'',        'recruit':'disabled','
            'activity closed'        :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
            'case-closed reporting'  :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':''        ,'cancel':'disabled'},
            'cancelled'              :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
-           'abusive usage'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'}
+           'abusive usage'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
+           'authenticating failed'  :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'}
            }
 
 dicStatusName={
@@ -41,6 +42,7 @@ dicStatusName={
     "case-closed reporting":u'結案報告',
     "cancelled":u'已取消',
     "abusive usage":u'不當使用',
+    "authenticating failed":u'認證失敗',
     }
 
 def mainPage(request):
