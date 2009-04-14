@@ -34,18 +34,20 @@
 										<dd>{{ entry.resident_city|escape }}</dd>
 										<dt>專長:</dt>
 										<dd>{{ entry.showExpertise|escape }}</dd>
-										<dt>所屬群組:</dt>
-										<dd>
-										{% for npo in entry.npoList %}
-										<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">{{ npo.npo_name|escape }}</a> 
-										{% endfor %}
-										
-										{% if entry.npoShowMore %}
-								    	<span class="npo-more">
-										... (<a href="#">共 {{ entry.npoCount }} 個群組</a>)
-								   		</span>
-								    {% endif %}
-										</dd>
+										{% if entry.npoList %}
+											<dt>所屬群組:</dt>
+											<dd>
+											{% for npo in entry.npoList %}
+											<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">{{ npo.npo_name|escape }}</a> 
+											{% endfor %}
+											
+											{% if entry.npoShowMore %}
+									    	<span class="npo-more">
+											... (<a href="#">共 {{ entry.npoCount }} 個群組</a>)
+									   		</span>
+									    	{% endif %}
+											</dd>
+										{% endif %}
 									</dl>
 								</div>
 							</div>

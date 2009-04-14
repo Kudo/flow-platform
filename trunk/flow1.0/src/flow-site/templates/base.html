@@ -50,51 +50,17 @@
 		            	<li><input type="radio" name="region" value="{{ region }}" id="region_{{ region }}"><label for="region_{{ region }}">{{ region }}</label></li>
 		            {% endfor %}
 		            </ul>
+		        </div>
+		        <div class="Search_Section">
+		            <p class="clear_float">專長：</p>
+		            <ul>
+		            {% for prof in base.proflist %}
+		            	<li><input type="checkbox" name="expertise" value="{{ prof }}" id="{{ prof }}"><label for="{{ prof }}">{{ prof }}</label></li>
+		            {% endfor %}
+		            </ul>
 	            </div>
 	            <div class="button clear_float"><input type="image" src="/static/images/search_btn.png" value="搜尋" /></div>
 	        </form>
-    		<div class="Search_Section">
-	            <p class="clear_float">專業領域：</p>
-	            <ul>
-	                <li><input type="checkbox" />企業管理</li>
-	                <li><input type="checkbox" />業務開發</li>
-	                <li><input type="checkbox" />市場行銷</li>
-	                <li><input type="checkbox" />財務會計</li>
-	                <li><input type="checkbox" />傳播公關</li>
-	                <li><input type="checkbox" />政經法律</li>
-	                <li><input type="checkbox" />社會福利</li>
-	                <li><input type="checkbox" />建築工程</li>
-	                <li><input type="checkbox" />生化工程</li>
-	                <li><input type="checkbox" />植物園藝</li>
-	                <li><input type="checkbox" />醫療護理</li>
-	                <li><input type="checkbox" />資訊網路</li>
-	                <li><input type="checkbox" />電子機械</li>
-	                <li><input type="checkbox" />攝影製片</li>
-	                <li><input type="checkbox" />品牌設計</li>
-	                <li><input type="checkbox" />餐旅觀光</li>
-	                <li><input type="checkbox" />教育心理</li>
-	                <li><input type="checkbox" />音樂戲劇</li>
-	                <li><input type="checkbox" />表演藝術</li>
-	                <li><input type="checkbox" />其他專長</li>
-	            </ul>
-	        </div>
-    		<div class="Search_Section">
-	            <p class="clear_float">語言專長：</p>
-	            <ul>
-	                <li><input type="checkbox" />國語</li>
-	                <li><input type="checkbox" />台語</li>
-	                <li><input type="checkbox" />粵語</li>
-	                <li><input type="checkbox" />客家語</li>
-	                <li><input type="checkbox" />越南語</li>
-	                <li><input type="checkbox" />印尼語</li>
-	                <li><input type="checkbox" />泰國語</li>
-	                <li><input type="checkbox" />馬來語</li>
-	                <li><input type="checkbox" />英語</li>
-	                <li><input type="checkbox" />日語</li>
-	                <li><input type="checkbox" />韓語</li>
-	                <li><input type="checkbox" />其他</li>
-	            </ul>
-	        </div>
         </div>
         <div id="Search_Group" class="searches">
             <form action="/npo/search/" method="GET">

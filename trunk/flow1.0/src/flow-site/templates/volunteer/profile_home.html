@@ -15,6 +15,53 @@
 {### content ###}
 
 {% block profileContent %}
+			    	<div class="content-block">
+			    		<div class="title">
+							<img src="/static/images/titlebar-left.jpg" class="left">
+							<img src="/static/images/titlebar-right.jpg" class="right">
+							{% if isSelf %}
+							<div class="right-links">
+								<a href="/volunteer/profile/edit">編輯基本資訊</a>
+						    </div>
+							{% endif %}
+							<h3>基本資料</h3>
+						</div>
+						
+						<div class="content">
+							<dl>
+								<dt>暱稱</dt>
+								<dd>{{ volunteerBase.nickname|escape }}</dd>
+								<dt>居住地</dt>
+								<dd>{{ volunteerBase.resident|escape }}</dd>
+							</dl>
+						</div>
+					</div>
+			    	<div class="content-block">
+			    		<div class="title">
+							<img src="/static/images/titlebar-left.jpg" class="left">
+							<img src="/static/images/titlebar-right.jpg" class="right">
+							<h3>個人專長</h3>
+						</div>
+						<div class="content">
+							<dl>
+								<dt>我的專長</dt>
+								<dd>{{ expertise|escape }}</dd>
+							</dl>
+						</div>
+					</div>
+			    	<div class="content-block no-padding-bottom">
+			    		<div class="title">
+							<img src="/static/images/titlebar-left.jpg" class="left">
+							<img src="/static/images/titlebar-right.jpg" class="right">
+							<h3>自我簡介</h3>
+						</div>
+						<div class="content">
+							<dl>
+								<dt>自我簡介</dt>
+								<dd>{{ brief_intro|escape }}</dd>
+							</dl>
+						</div>
+					</div>
 					
 					<div class="content-block">
 						<div class="title">
@@ -54,6 +101,8 @@
 						</div>
 					</div>
 					
+					
+					<!--
 					<div class="content-block">
 						<div class="title">
 							<img src="/static/images/titlebar-left.jpg" class="left">
@@ -189,5 +238,5 @@
 					
 				    
 				</div>
-
+-->
 {% endblock %}

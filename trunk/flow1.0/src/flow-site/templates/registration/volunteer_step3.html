@@ -203,7 +203,7 @@
 				<label class="desc">
 				部落格 (個人網站)
 				</label>
-				<span class="column">
+				<span>
 				    {{ form.blog }}
 				    {% for error in form.blog.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -221,7 +221,7 @@
 				暱稱
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.nickname }}
 				    {% for error in form.nickname.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -233,7 +233,7 @@
 				<label class="desc">
 				大頭貼圖片網址
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.logo }}
 				    <input id="preview" class="field button" type="button" value="預覽" />
 				    {% for error in form.logo.errors %}
@@ -248,7 +248,7 @@
 				居住地
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.resident_city }}
 				    {% for error in form.resident_city.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -261,9 +261,11 @@
 					我的專長
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
+				
 				    {{ form.expertise }}
-				    {% for error in form.expertise.errors %}
+				    
+			   <div>
+				    {% for error in form.expertise.errors %}				    
 				    <span class="req">{{ error|escape }}</span>
 				    {% endfor %}
 				</div>
@@ -273,7 +275,7 @@
 				<label class="desc">
 					自我簡介
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.brief_intro }}
 				    {% for error in form.brief_intro.errors %}
 				    <span class="req">{{ error|escape }}</span>

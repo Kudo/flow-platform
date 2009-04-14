@@ -1250,3 +1250,8 @@ html[xmlns] .clearfix {
 * html .clearfix {
 	height:1%;
 }
+
+span.highlight {
+	font-weight: bold;
+	color: #F00;
+}

@@ -14,18 +14,18 @@
 
 			    	<div class="content-block">
 				    	<h3 id="page-title">公益團體搜尋</h3>
-					<div class="list-title">共找到 {{ pageSet.count }} 個公益團體, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 個</div>
+					{% if entryList %}
+					<div class="list-title">搜尋服務地區為 <span class="highlight">{{ searchVal.searchRegion }}</span> 的公益團體, 共找到 {{ pageSet.count }} 個公益團體, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 個</div>
 					{% include "paging_top.html" %}
 						<div class="fullpage-list">
 						    {% for entry in entryList %}
 						    {% ifequal entry firstEntry %}
-							<div class="item npo top-line">
+							<div class="item npo top-line clearfix">
 						    {% else %}
 							<div class="item npo top-line clearfix">
 						    {% endifequal %}
 						    	<div class="actions">
 						    		<div class="link"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">前往群組首頁</a></div>
-									<div class="link"><a href="#">加入群組</a></div>
 						    	</div>
 								<div class="image">
 								    <a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
@@ -64,5 +64,8 @@
 						    {% endfor %}
 						</div>
 					{% include "paging_bottom.html" %}
+					{% else %}
+					<div class="fullpage-list">沒有找到服務地區為 <span class="highlight">{{ searchVal.searchRegion }}</span> 的公益團體</div>
+					{% endif %}
 					</div>
 {% endblock %}
