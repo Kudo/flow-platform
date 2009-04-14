@@ -104,7 +104,7 @@ def handleCancelEvent(request):
                 objRec.cancel_reason=form['reason'].data
                 objRec.put()
                 # Todo: send email to regitered use
-            return HttpResponseRedirect('listEvent')
+            return HttpResponseRedirect('/npo/admin/listEvent')
     else:
         form = CancelEventForm()
     dic ={'event_key':strEventKey,

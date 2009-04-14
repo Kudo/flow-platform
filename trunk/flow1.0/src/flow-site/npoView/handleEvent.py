@@ -105,9 +105,9 @@ def processAddEvent(request):
                        
         # Save into datastore based on submit type
             if('send' == submitType):
-                return HttpResponseRedirect('authEvent1?event_key=%s'%newEventEntity.key())
+                return HttpResponseRedirect('/npo/admin/authEvent1?event_key=%s'%newEventEntity.key())
             else:
-                return HttpResponseRedirect('listEvent')
+                return HttpResponseRedirect('/npo/admin/listEvent')
 
     else:
         form = NewEventForm()
@@ -157,8 +157,8 @@ def processEditEvent(request):
             modEventEntity.status = 'new application'
             modEventEntity.put()
             if('send' == submitType):
-                return HttpResponseRedirect('authEvent1?event_key=%s'%modEventEntity.key())
-            return HttpResponseRedirect('listEvent')
+                return HttpResponseRedirect('/npo/admin/authEvent1?event_key=%s'%modEventEntity.key())
+            return HttpResponseRedirect('/npo/admin/listEvent')
     else:
         form = NewEventForm(instance = eventProfile)
     dic={'form':form, 'event_key':eventKey,
