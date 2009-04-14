@@ -46,7 +46,10 @@
 # 2009/03/17, Kudo Chien:            Adjust article_link, video_link, and blog_link
 # 2009/03/18, Kudo Chien:            Improve ModelCount performance by sharding counter and memcache.
 #                                    Ref: http://code.google.com/intl/zh-TW/appengine/articles/sharding_counters.html
-#
+# 2009/04/14, Chien-Chih Lo:         Add new attribute: EventProfile.authenticate_retry_count
+#                                    Add new Event status: "authenticating failed"
+#                                    Add SmsLog class for SMS sending log
+#                                    Add SmsSettings class to store SMS account and password
 #
 # *** REMARKS ***
 # The constraints of each attribute in an entity group are normally shown as keyword arguments of the property function.
@@ -854,7 +857,7 @@ class EventProfile(FlowDdlModel):
     status                     = db.StringProperty(required=True, choices=set(["new application", "approved", "announced", "authenticating", "authenticated",
                                                                                "registrating", "recruiting", "registration closed", "on-going",
                                                                                "filling polls", "activity closed", "case-closed reporting", "cancelled",
-                                                                               "abusive usage"]))
+                                                                               "abusive usage", "authenticating failed"]))
     approved                   = db.BooleanProperty()         # default to False
     approved_time              = db.DateTimeProperty()        # required if approvode is True
     attachment_links           = db.ListProperty(db.Link)
@@ -881,6 +884,7 @@ class EventProfile(FlowDdlModel):
     article_link               = db.StringListProperty()
     create_time                = db.DateTimeProperty(required=True)
     update_time                = db.DateTimeProperty(required=True)
+    authenticate_retry_count    = db.IntegerProperty()
 
     def __init__(self, parent=None, key_name=None, app=None, _from_entity=False, **kargs):
         if not _from_entity:
@@ -913,6 +917,8 @@ class EventProfile(FlowDdlModel):
                 kargs["male_req"] = 0
             if "join_flow_plan" not in kargs:
                 kargs["join_flow_plan"] = True
+            if "authenticate_retry_count" not in kargs:
+                kargs["authenticate_retry_count"]=0
             kargs["volunteer_shortage"] = kargs["volunteer_req"]
 
         FlowDdlModel.__init__(self, parent, key_name, app, _from_entity, **kargs)
@@ -924,7 +930,8 @@ class EventProfile(FlowDdlModel):
             self.originator                = self.volunteer_profile_ref.volunteer_id
             #self.questionnaire_template_id = self.questionnaire_template_ref.id
             self.event_id='%010d'%int(self.id)
-
+        if self.authenticate_retry_count==None:
+            self.authenticate_retry_count=0
     @classmethod
     def unitTest(cls, npo, volunteer, template):
         startUnitTest("EventProfile.unitTest")
@@ -1472,6 +1479,18 @@ class SiteAdmin(FlowDdlModel):
 
 # end class SiteAdmin
 
+class SmsLog(FlowDdlModel):
+    send_time                 = db.DateTimeProperty(required=True)
+    cellphone_no              = db.StringProperty(required=True)
+    result                    = db.StringProperty()
+    npo_id                    = db.StringProperty()
+    volunteer_id              = db.StringProperty()
+    event_id                  = db.StringProperty()
+
+class SmsSettings(FlowDdlModel):
+    account        = db.StringProperty()
+    password       = db.StringProperty()
+    
 """
 #----------------------------------------------------------
 # Unit-test Section.
