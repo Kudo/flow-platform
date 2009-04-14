@@ -112,7 +112,7 @@
 				簡介
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.brief_intro }}
 				    {% for error in form.brief_intro.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -124,7 +124,7 @@
 				<label class="desc">
 				大頭貼圖片
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.logo }}
 				    <input id="preview" class="field button" type="button" value="預覽" />
 				    {% for error in form.logo.errors %}
@@ -139,7 +139,7 @@
 				服務區域
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.service_region }}
 				    {% for error in form.service_region.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -152,7 +152,7 @@
 				服務對象
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.service_target }}
 				    {% for error in form.service_target.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -165,7 +165,7 @@
 				服務項目
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.service_field }}
 				    {% for error in form.service_field.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -183,7 +183,7 @@
 				聯絡人
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.contact }}
 				    {% for error in form.contact.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -195,7 +195,7 @@
 				<label class="desc">
 					網站
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.website }}
 				    {% for error in form.website.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -207,7 +207,7 @@
 				<label class="desc">
 					部落格
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.blog }}
 				    {% for error in form.blog.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -220,7 +220,7 @@
 					電話
 					<span class="req"> * </span>
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.telephone }}
 				    {% for error in form.telephone.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -232,7 +232,7 @@
 				<label class="desc">
 					傳真
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.fax }}
 				    {% for error in form.fax.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -279,7 +279,7 @@
 				<label class="desc">
 					許可機關
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.authority }}
 				    {% for error in form.authority.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -291,7 +291,7 @@
 				<label class="desc">
 					劃撥帳號
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.bank_acct_no }}
 				    {% for error in form.bank_acct_no.errors %}
 				    <span class="req">{{ error|escape }}</span>
@@ -303,7 +303,7 @@
 				<label class="desc">
 					劃撥戶名
 				</label>
-				<div class="column">
+				<div>
 				    {{ form.bank_acct_name }}
 				    {% for error in form.bank_acct_name.errors %}
 				    <span class="req">{{ error|escape }}</span>

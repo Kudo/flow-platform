@@ -18,14 +18,19 @@ def show(request):
 
     queryStringList = []
     queryObj = EventProfile.all()
+    displayStr = u''
 
     if searchVal['searchTags']:
         queryObj.filter('tag in ', [s.strip() for s in searchVal['searchTags'].split(',')])
         queryStringList.append(u'tags=%s' % searchVal['searchTags'])
+        displayStr += u'與 <span class="highlight">' + searchVal['searchTags'] + '</span> 相關'
+        if searchVal['searchRegion']:
+            displayStr += u', 且'
 
     if searchVal['searchRegion']:
         queryObj.filter('event_region in ', [searchVal['searchRegion']])
         queryStringList.append(u'region=%s' % searchVal['searchRegion'])
+        displayStr += u'地區為 <span class="highlight">' + searchVal['searchRegion'] + '</span> '
 
     pageSet = paging.get(request.GET, queryObj.count(), displayCount=displayCount)
 
@@ -41,6 +46,7 @@ def show(request):
             'entryList':                entryList,
             'searchVal':                searchVal,
             'queryString':              u'&'.join(queryStringList),
+            'displayStr':               displayStr,
     }
     response = render_to_response('event/event-search.html', template_values)
 

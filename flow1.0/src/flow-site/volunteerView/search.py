@@ -24,14 +24,21 @@ def show(request):
 
     queryStringList = []
     queryObj = VolunteerProfile.all()
+    displayStr = u''
 
     if searchVal['searchRegion']:
         queryObj.filter('resident_city = ', searchVal['searchRegion'])
         queryStringList.append(u'region=%s' % searchVal['searchRegion'])
+        displayStr += u'居住地為 <span class="highlight">' + searchVal['searchRegion'] + '</span>'
+        if searchVal['searchExpertise']:
+            displayStr += u', 且'
+        else:
+            displayStr += u' '
 
     if searchVal['searchExpertise']:
         queryObj.filter('expertise = ', searchVal['searchExpertise'])
         queryStringList.append(u'expertise=%s' % searchVal['searchExpertise'])
+        displayStr += u'專長為 <span class="highlight">' + searchVal['searchExpertise'] + '</span> '
 
     pageSet = paging.get(request.GET, queryObj.count(), displayCount=displayCount)
 
@@ -49,6 +56,7 @@ def show(request):
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
             'searchVal':                searchVal,
             'queryString':              u'&'.join(queryStringList),
+            'displayStr':               displayStr,
     }
     response = render_to_response('volunteer/volunteer_search.html', template_values)
 

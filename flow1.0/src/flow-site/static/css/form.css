@@ -16,6 +16,7 @@
 
 .flow-form {
 	font-family: "Lucida Grande",Tahoma,Arial,sans-serif;
+	font-size: 15px;
 }
 
 .flow-form label.desc {
@@ -105,7 +106,7 @@ form li div, form li span {
 form li div label, form li span label {
 	clear: both;
 	display: block;
-	font-size: 9px;
+	font-size: 12px;
 	line-height: 9px;
 	margin: 0;
 	padding-top: 6px;
@@ -117,6 +118,14 @@ form li div.column {
 
 form li span.left-column {
 	margin-right: 15px;
+}
+
+form li span.checkbox {
+	padding: 0 25px 0 0 !important;
+}
+
+form li div.block {
+	padding: 0 !important;
 }
 
 form .default {
@@ -141,10 +150,14 @@ label.choice {
 	color: #222222;
 	display: block;
 	font-size: 100%;
-	line-height: 1.5em;
+	line-height: 1.4em;
 	margin: -1.65em 0 0 25px;
 	padding: 0.44em 0 0.5em;
 	width: 88%;
+}
+
+span.checkbox label.choice {
+	width: 4em !important;
 }
 
 input.small, select.small {
@@ -200,7 +213,7 @@ input.checkbox, input.radio {
 	display: block;
 	height: 13px;
 	line-height: 1.5em;
-	margin: 0.6em 0 0 3px;
+	margin: 0.1em 0 0 3px;
 	width: 13px;
 }
 

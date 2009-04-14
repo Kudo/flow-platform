@@ -14,15 +14,12 @@
 
 			    	<div class="content-block">
 				    	<h3 id="page-title">志工搜尋</h3>
-					<div class="list-title">共找到 {{ pageSet.count }} 位志工, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 位</div>
+				    {% if entryList %}
+					<div class="list-title">搜尋{{displayStr}}的志工, 共找到 {{ pageSet.count }} 位志工, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 位</div>
 					{% include "paging_top.html" %}
 						<div class="fullpage-list">
 						    {% for entry in entryList %}
-						    {% ifequal entry firstEntry %}
 							<div class="item volunteer top-line">
-						    {% else %}
-							<div class="item volunteer top-line">
-						    {% endifequal %}
 						    	<div class="actions">
 								    <!--   <a href="#">加入好友</a> -->
 								    <a href="/volunteer/home/{{ entry.key }}">檢視檔案</a>
@@ -87,5 +84,8 @@
 						    {% endfor %}
 						</div>
 					{% include "paging_bottom.html" %}
+					{% else %}
+					<div class="fullpage-list">沒有{{displayStr}}的志工</div>
+					{% endif %}
 					</div>
 {% endblock %}
