@@ -73,7 +73,7 @@ def approveVolunteer(request):
     query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'approved')
     lstPreApproved = query.fetch(1000)
     if 'approved' not in request.POST:
-        return HttpResponseRedirect('listEvent')
+        return HttpResponseRedirect('/npo/admin/listEvent')
     lstApprovedVol = request.POST['approved']
     if not isinstance(lstApprovedVol,list) or not isinstance(lstApprovedVol,tuple):
         lstApprovedVol=[lstApprovedVol]

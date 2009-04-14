@@ -6,7 +6,6 @@ from google.appengine.ext import db
 from db import ddl
 
 def updateEventStatus():
-    logging.debug('updateEventStatus')
     now=datetime.datetime.utcnow()
     results = db.GqlQuery("SELECT * FROM EventProfile WHERE status = :1 ",'approved').fetch(1000)
     for event in results:
@@ -38,11 +37,11 @@ def every5minutes(request):
     return HttpResponse('ok')
 
 def hourly(request):
-    logging.info('hourly cron test')
+    #logging.info('hourly cron test')
     return HttpResponse('ok')
 
 def daily(request):
-    logging.info('daily cron test')
+    #logging.info('daily cron test')
     '''
     message = mail.EmailMessage()
     message.subject=u'若水志工媒合平台'

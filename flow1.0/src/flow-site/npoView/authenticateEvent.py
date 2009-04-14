@@ -45,7 +45,7 @@ def submitAuthToken(request):
     strPhoneNumber = request.POST['phone_number']
     if not strPhoneNumber.isdigit() or len(strPhoneNumber)!=10:
         dic={'m':u'手機號碼格式錯誤','event_key':strEventKey,'p':strPhoneNumber}
-        return HttpResponseRedirect('authEvent1?%s'%(urllib.urlencode(dic)))
+        return HttpResponseRedirect('/npo/admin/authEvent1?%s'%(urllib.urlencode(dic)))
 
     eventProfile.status = 'authenticating'
     strAuthToken=str(hash(str(time.time())))[-6:]
@@ -60,7 +60,7 @@ def submitAuthToken(request):
 
     eventProfile.put()
     dic={'event_key':strEventKey,'p':strPhoneNumber}
-    return HttpResponseRedirect('authEvent3?%s'%(urllib.urlencode(dic)))
+    return HttpResponseRedirect('/npo/admin/authEvent3?%s'%(urllib.urlencode(dic)))
 
 def handleEventAuth(request):
     objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
