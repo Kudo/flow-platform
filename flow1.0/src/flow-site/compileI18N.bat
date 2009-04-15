@@ -1,0 +1,1 @@
+python "c:\Program Files\Google\google_appengine\lib\django\django\bin\compile-messages.py"
