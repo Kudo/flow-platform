@@ -208,7 +208,8 @@
 										<param name="movie" value="{{ video.media.content.0.url }}"></param>
 										<param name="allowFullScreen" value="true"></param>
 										<param name="allowscriptaccess" value="always"></param>
-										<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234"></embed>
+										<param name="wmode" value="transparent"></param>
+										<embed src="{{ video.media.content.0.url }}" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="290" height="234" wmode="transparent"></embed>
 									    </object>
 									</div>
 									{% else %}
