@@ -5,6 +5,73 @@ $(document).ready(function() {
   if (category == 'npo')
     category += '/' + RegExp.$2;
 
+  // Create new album item
+  $("#createAlbumItem").click(function(e) {
+    e.preventDefault();
+    $("#createAlbumBox").show().dialog({
+      modal: true,
+      width: 500,
+      height: 500,
+      close: function(e, ui) { $("#albumPreview").empty(); $(this).hide().dialog('destroy'); },
+      buttons: { "送出": function() {
+        $.post("/"+category+"/space/album/create", $("#createAlbumBox form").serialize(),
+          function(data) {
+            if (data.statusCode >= 200 && data.statusCode < 300)
+              window.location.reload();
+            else
+              alert('儲存失敗 : ' + data.reason);
+          }, "json"
+        );
+        $(this).dialog("close");
+      }},
+    });
+  });
+
+  // remember album uri
+	$("#albumUriSave").click(function(e) {
+    e.preventDefault();
+    var albumUri = $("input[name='albumUri']");
+    $.post("/"+category+"/space/album/saveUri", { albumUri: albumUri.val(), xToken: $("input[name='xToken']").val() },
+      function(data) {
+        if (data.statusCode >= 200 && data.statusCode < 300)
+          alert('儲存成功');
+        else
+          alert('儲存失敗 : ' + data.reason);
+      }, "json"
+    );
+  });
+
+  // preview album content
+	$("#albumUriParse").click(function(e) {
+    e.preventDefault();
+    var previewObj = $("#albumPreview");
+    previewObj.empty();
+    previewObj.append('<img src="/static/images/loading-1.gif" />');
+    $.post("/utils/picasaWebParser", { uri: $("input[name='albumUri']").val(), xToken: $("input[name='xToken']").val() },
+      function(data) {
+        previewObj.empty();
+        if (data.statusCode >= 200 && data.statusCode < 300)
+        {
+          content = '<table class="space">\n';
+          $.each(data.entryList, function(i, entry) {
+            content += '<tr><td class="checkbox">' + '<input type="checkbox" name="itemList" value="'+ entry.savedUri + '" /></td>\n';
+            content += '<td>\n';
+            content += '<div class="album-cover"><a href="' + entry.albumUri + '"><img class="img75" src="' + entry.thumbnail + '"/></a></div>\n';
+            content += '<div class="album-title"><a href="' + entry.albumUri + '"><span class="album-date">' + entry.albumDate + '</span>' + entry.title + '</a></div>\n';
+            content += '<div class="album-info"> ' + entry.numphotos + ' 張相片</div>\n';
+            content += '</tr>\n';
+          });
+          content += '</table>\n';
+          previewObj.append(content);
+        }
+        else
+        {
+          previewObj.append('網址存取失敗');
+        }
+      }, "json"
+    );
+  });
+
   // Create new video item
   $("#createVideoItem").click(function(e) {
     e.preventDefault();

@@ -35,15 +35,14 @@ class NpoProfileForm(djangoforms.ModelForm):
 #                  'brief_intro',
 #                 ]
 
-def edit(request):
+def edit(request, npoid):
+    npoProfile = flowBase.getNpo(npo_id=npoid)
+    if not npoProfile:
+        return HttpResponseRedirect('/')
+
     if request.method == 'POST':
-        npo_id = cgi.escape(request.GET['npo_id'])
-        if 'cancel' in request.POST:
-            return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id)
-        
         form = NpoProfileForm(data=request.POST)
         if form.is_valid():
-            npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
             npoProfile.npo_name = request.POST['txtGroupName']
             npoProfile.founder = form.clean_data['txtFounder']
             npoProfile.brief_intro = form.clean_data['textareaIntro']
@@ -78,13 +77,6 @@ def edit(request):
             return HttpResponseRedirect("npo_info.html?npo_id=" + npo_id)
       
 #    else:
-    if 'npo_id' not in request.GET:
-        return HttpResponseRedirect('/')
-    else:
-        npo_id = cgi.escape(request.GET['npo_id'])
-       
-    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
-    
     fixedPhone = ""
     faxPhone = ""
     for phone in npoProfile.phones2npo:
@@ -115,36 +107,14 @@ def edit(request):
     return response    
 
 displayCount = 10
-def memberList(request):
-    if 'npo_id' not in request.GET:
+def memberList(request, npoid):
+    npoProfile = flowBase.getNpo(npo_id=npoid)
+    if not npoProfile:
         return HttpResponseRedirect('/')
-    else:
-        npo_id = cgi.escape(request.GET['npo_id'])
-    
-    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
     
     members = db.get(npoProfile.members)
     numOfMembers = len(members)
     pageSet = paging.get(request.GET, numOfMembers, displayCount=displayCount)
-    
-    # members showed in left column
-    '''
-    leftMembers = members[:]
-    row1 = []
-    for i in range(0, 3):
-        if len(leftMembers) == 0:
-            break
-        row1.append(random.choice(leftMembers))
-        leftMembers.remove(row1[i])
-    
-    row2 = []
-    for i in range(0, 3):
-        if len(leftMembers) == 0:
-            break
-        row2.append(random.choice(leftMembers))
-        leftMembers.remove(row2[i])
-        
-    '''
     memberList = members[pageSet['entryOffset']:displayCount]
     
     template_values = {
@@ -158,59 +128,18 @@ def memberList(request):
     response = render_to_response('npo/npo_volunteers.html', template_values)
     return response
 
-displayPhotoCount = 8
+displayAlbumCount = 2
+displayPhotoCount = 5
 displayArticleCount = 10
 displayNpoEventCount = 2
 
-def showHome(request):
-    if 'npo_id' not in request.GET:
+def showHome(request, npoid):
+    npoProfile = flowBase.getNpo(npo_id=npoid)
+    if not npoProfile:
         return HttpResponseRedirect('/')
-    else:
-        npo_id = cgi.escape(request.GET['npo_id'])
-        
-#    user = users.User("john_doe@gmail.com")
-#    now = datetime.datetime.utcnow()
-#    npo = NpoProfile(npo_name="Holy Shoot",founder="Rick Wang", google_acct=user, country="ROC", postal="104", state="Taiwan", city="Taipei",
-#                     district="Nangang", founding_date=datetime.date(1980, 1, 1), authority="GOV", tag=["wild lives", "marines"],
-#                     status="new application", docs_link=["Timbuck2"], npo_rating=1, create_time=now, update_time=now, news_list=[db.Text(u"最新消息第一條"), db.Text(u"最新消息第二條"), db.Text(u"最新消息第三條")])
-# 
-#    npo.put()
-#  
-#    user      = users.User("jane_doe@gmail.com")
-#    now       = datetime.datetime.utcnow()
-#    volunteer = VolunteerProfile(volunteer_id=user, id_no="A123456789", volunteer_last_name="Doe", volunteer_first_name="Jacy", gmail=user.email(),
-#                                 date_birth=datetime.date(1970, 2, 1), expertise=["PR"], sex="Female", phone_no="02-1234-5678", resident_country="ROC",
-#                                 resident_postal="104", resident_state="Taiwan", resident_city="Taipei", resident_district="Shilin",
-#                                 prefer_region=[], prefer_zip=[], prefer_target=[], prefer_field=[], prefer_group=[],
-#                                 create_time=now, update_time=now, volunteer_rating=80, status="normal" , search_text=u"測試中文字 test. ngram 屋啦啦 中英文English")
-#
-#    volunteer.put()
-#    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
-#    npoProfile.members.append(volunteer.key())
-#    
-#    npoProfile.put()
-#
 
-    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
     members = db.get(npoProfile.members)
     eventList = npoProfile.event2npo.fetch(displayNpoEventCount)
-    
-#    npoContact = NpoContact(npo_profile_ref = npoProfile,
-#                            contact_type = "Major",
-#                            contact_name = "Contact Name",
-#                            contact_email= "npo@email.com",
-#                            volunteer_id = users.User("john_doe@gmail.com"))
-#    npoContact.put()
-
-#    npoPhone = NpoPhone(npo_profile_ref = npoProfile,
-#                        phone_type = "Fixed",
-#                        phone_no = "0912345678")
-#    npoPhone.put()
-#    
-#    npoPhone = NpoPhone(npo_profile_ref = npoProfile,
-#                        phone_type = "Fax",
-#                        phone_no = "0234567890")
-#    npoPhone.put()
     
     # recently attended members
     recentMembers = members[:]
@@ -220,37 +149,21 @@ def showHome(request):
         recentMembers = recentMembers[-5:-1]
         recentMembers.reverse()
     
-    # members showed in left column
-    leftMembers = members[:]
-    row1 = []
-    for i in range(0, 3):
-        if len(leftMembers) == 0:
-            break
-        row1.append(random.choice(leftMembers))
-        leftMembers.remove(row1[i])
-    
-    row2 = []
-    for i in range(0, 3):
-        if len(leftMembers) == 0:
-            break
-        row2.append(random.choice(leftMembers))
-        leftMembers.remove(row2[i])
-
     import atom.url
     import gdata.alt.appengine
-    import gdata.photos, gdata.photos.service
-    import gdata.youtube, gdata.youtube.service
+    import gdata.photos.service
+    import gdata.youtube.service
 
     # Picasa Web
-    picasaUser = 'ckchien'
+    albums = []
     service = gdata.photos.service.PhotosService()
     gdata.alt.appengine.run_on_appengine(service)
-    try:
-        photoFeeds = service.GetUserFeed(user=picasaUser, kind='photo', limit=displayPhotoCount).entry
-    except:
-        photoFeeds = None
-    #photoFeeds.reverse()
-    #photos = service.SearchUserPhotos(query='若水', user='ckchien').entry
+    for albumLink in npoProfile.photo_link[:displayAlbumCount]:
+        try:
+            album = service.GetEntry('http://picasaweb.google.com/data/entry/api/user/%s' % albumLink)
+            albums.append({'albumFeed': album, 'photoFeeds': service.GetFeed(album.GetPhotosUri(), limit=displayPhotoCount).entry}) 
+        except:
+            pass
 
     # Youtube
     video = None
@@ -265,17 +178,17 @@ def showHome(request):
         break
     
     template_values = {
-            'npoProfile': npoProfile,
-            'recentMembers': recentMembers,
-            'latestMember': latestMember,
-            'leftMembersRow1': row1,
-            'leftMembersRow2': row2,
-            'numOfMembers': len(members),
-            'eventList': eventList,
-            'page': 'home',
-            'base':flowBase.getBase(request, 'npo'),
+            'isAdmin':                  True if flowBase.isNpoAdmin(npo=npoProfile) else False,
+            'npoProfile':               npoProfile,
+            'recentMembers':            recentMembers,
+            'latestMember':             latestMember,
+            'numOfMembers':             len(members),
+            'eventList':                eventList,
+            'page':                     'home',
+            'base':                     flowBase.getBase(request, 'npo'),
+            'albumUri':                 npoProfile.saved_picasa_link or '',
             'feedUri':                  npoProfile.saved_feed_link or '',
-            'photoFeeds':               photoFeeds,
+            'albums':                   albums,
             'video':                    video,
             'npoBase':                  flowBase.getNpoBase(npoProfile),
             'articleList':              [obj.rsplit(u',http://', 1) for obj in npoProfile.article_link][:displayArticleCount],
@@ -283,13 +196,10 @@ def showHome(request):
     response = render_to_response('npo/npo_home.html', template_values)
     return response
 
-def showInfo(request):
-    if 'npo_id' not in request.GET:
+def showInfo(request, npoid):
+    npoProfile = flowBase.getNpo(npo_id=npoid)
+    if not npoProfile:
         return HttpResponseRedirect('/')
-    else:
-        npo_id = cgi.escape(request.GET['npo_id'])
-
-    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
 
     fixedPhone = ""
     faxPhone = ""
@@ -316,13 +226,11 @@ def showInfo(request):
     return response
 
 displayCount = 10
-def showEvents(request):
-    if 'npo_id' not in request.GET:
+def showEvents(request, npoid):
+    npoProfile = flowBase.getNpo(npo_id=npoid)
+    if not npoProfile:
         return HttpResponseRedirect('/')
-    else:
-        npo_id = cgi.escape(request.GET['npo_id'])
-        
-    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
+
     pageSet = paging.get(request.GET, npoProfile.event2npo.count(), displayCount=displayCount)
     eventAll = npoProfile.event2npo.fetch(displayCount, pageSet['entryOffset'])
     eventList = []
@@ -352,40 +260,3 @@ def showEvents(request):
      }
     response = render_to_response('npo/npo_events.html', template_values)
     return response
-
-def leftColumn(npoProfile, numOfMembers, row1, row2):
-#    if 'npo_id' not in request.GET:
-#        return HttpResponseRedirect('/')
-#    else:
-#        npo_id = cgi.escape(request.GET['npo_id'])
-#        
-#    npoProfile = db.GqlQuery('SELECT * FROM NpoProfile WHERE npo_id = :1', npo_id).get()
-    members = db.get(npoProfile.members)
-    numOfMembers = len(members)     
-    
-    # members showed in left column
-    leftMembers = members[:]
-#    row1 = []
-    for i in range(0, 3):
-        if len(leftMembers) == 0:
-            break
-        row1.append(random.choice(leftMembers))
-        leftMembers.remove(row1[i])
-    
-#    row2 = []
-    for i in range(0, 3):
-        if len(leftMembers) == 0:
-            break
-        row2.append(random.choice(leftMembers))
-        leftMembers.remove(row2[i])
-        
-#    template_values = {
-#            'npoProfile': npoProfile,
-#            'leftMembersRow1': row1,
-#            'leftMembersRow2': row2,
-#            'numOfMembers': len(members),
-#     }
-#    response = render_to_response('npo/profile_leftcolumn.html', template_values)
-#    return response
-    return
-    

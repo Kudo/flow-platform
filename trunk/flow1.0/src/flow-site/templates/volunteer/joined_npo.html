@@ -20,13 +20,13 @@
 						    {% for entry in npoList %}
 							<div class="item npo top-line clearfix">
 						    	<div class="actions">
-								    <div class="link"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">前往群組首頁</a></div>
+								    <div class="link"><a href="/npo/{{ entry.npo_id }}/">前往群組首頁</a></div>
 								</div>
 								<div class="image">
-								    <a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noNpoLogo }}{% endif %}"/></a>
+								    <a href="/npo/{{ entry.npo_id }}/"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noNpoLogo }}{% endif %}"/></a>
 								</div>
 								<div class="name">
-								    <div class="npo-title"><a href="/npo/npo_home.html?npo_id={{ entry.npo_id }}">{{ entry.npo_name }}</a></div>
+								    <div class="npo-title"><a href="/npo/{{ entry.npo_id }}/">{{ entry.npo_name }}</a></div>
 								    <div class="npo-desc">{{ npo.brief_intro }}</div>
 								</div>
 								
