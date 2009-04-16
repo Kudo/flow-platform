@@ -106,8 +106,7 @@ def edit(request, npoid):
     response = render_to_response('npo/manage_edit_info.html', template_values)
     return response    
 
-displayCount = 10
-def memberList(request, npoid):
+def memberList(request, npoid, displayCount = 10):
     npoProfile = flowBase.getNpo(npo_id=npoid)
     if not npoProfile:
         return HttpResponseRedirect('/')
@@ -128,6 +127,7 @@ def memberList(request, npoid):
     response = render_to_response('npo/npo_volunteers.html', template_values)
     return response
 
+displayMemberCount = 5
 displayAlbumCount = 2
 displayPhotoCount = 5
 displayArticleCount = 10
@@ -141,18 +141,17 @@ def showHome(request, npoid):
     members = db.get(npoProfile.members)
     eventList = npoProfile.event2npo.fetch(displayNpoEventCount)
     
-    # recently attended members
-    recentMembers = members[:]
-    latestMember = None
-    if (len(recentMembers) > 0):
-        latestMember = recentMembers[-1]
-        recentMembers = recentMembers[-5:-1]
-        recentMembers.reverse()
-    
     import atom.url
     import gdata.alt.appengine
     import gdata.photos.service
     import gdata.youtube.service
+    from db.ddl import VolunteerProfile
+
+    # recently attended members
+    recentMembers = []
+    for member in npoProfile.members[0 - displayMemberCount:]:
+        recentMembers.append(VolunteerProfile.get(member))
+    recentMembers.reverse()
 
     # Picasa Web
     albums = []
@@ -181,8 +180,6 @@ def showHome(request, npoid):
             'isAdmin':                  True if flowBase.isNpoAdmin(npo=npoProfile) else False,
             'npoProfile':               npoProfile,
             'recentMembers':            recentMembers,
-            'latestMember':             latestMember,
-            'numOfMembers':             len(members),
             'eventList':                eventList,
             'page':                     'home',
             'base':                     flowBase.getBase(request, 'npo'),
@@ -225,8 +222,7 @@ def showInfo(request, npoid):
     response = render_to_response('npo/npo_info.html', template_values)
     return response
 
-displayCount = 10
-def showEvents(request, npoid):
+def showEvents(request, npoid, displayCount = 10):
     npoProfile = flowBase.getNpo(npo_id=npoid)
     if not npoProfile:
         return HttpResponseRedirect('/')

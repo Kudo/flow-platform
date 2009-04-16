@@ -68,7 +68,7 @@ class VolunteerProfileForm(djangoforms.ModelForm):
     birthmonth                  = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'size': '2'}))
     birthday                    = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'size': '2'}))
 
-    choices = [(region, region) for region in flowBase.getResident()]
+    choices = [(region, region) for region in flowBase.getRegion()]
     resident_city               = FlowChoiceField(choices=choices)
 
     choices = (

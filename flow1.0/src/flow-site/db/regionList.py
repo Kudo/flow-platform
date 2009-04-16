@@ -30,15 +30,5 @@ _cityList = [
    u'其他地區',
 ]
 
-_regionList = [
-    u'全省',
-    u'北區',
-    u'中區',
-    u'南區',
-]
-
-def getResidentList():
-	return _cityList
-
 def getRegionList():
-    return _regionList
+    return _cityList
