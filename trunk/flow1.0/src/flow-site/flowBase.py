@@ -43,7 +43,6 @@ def getBase(request, category = 'homepage'):
     data['noNpoLogo75']     = '/static/images/NPO75.gif'
     data['noNpoLogo100']    = '/static/images/NPO100.gif'
     data['proflist']        = getProfessionList()
-    data['resident']        = getResident()
     data['region']          = getRegion()
     data['token']           = makeToken(request, data['volunteer_id'])
 
@@ -187,19 +186,12 @@ def logout(request):
 def getProfessionList():
 	return proflist.getProfessionList()
 
-def getResident():
-    regions = memcache.get('Region/Residient')
-    if not regions:
-        regions = regionList.getResidentList()
-        memcache.add('Region/Resident', regions, 604800)
-    return regions
-
 def getRegion():
     regions = memcache.get('Region/Region')
     if not regions:
         regions = regionList.getRegionList()
         memcache.add('Region/Region', regions, 604800)
-    return regions + getResident()
+    return regions
 
 def verifyVolunteer(request, key=None):
     if not key:
