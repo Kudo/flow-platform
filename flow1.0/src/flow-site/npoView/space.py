@@ -15,8 +15,9 @@ from db.ddl import NpoProfile
 
 displayCount = 10
 displayPageCount = 5
+displayPhotoCount = 5
 
-def show(request, npoid, displayAlbumCount=2, displayPhotoCount=5, displayArticleCount=5):
+def show(request, npoid, displayAlbumCount=2, displayArticleCount=5):
     target = flowBase.getNpo(npo_id=npoid)
     if not target:
         return HttpResponseRedirect('/')
@@ -24,22 +25,19 @@ def show(request, npoid, displayAlbumCount=2, displayPhotoCount=5, displayArticl
     from datetime import datetime
     import atom.url
     import gdata.alt.appengine
-    import gdata.photos, gdata.photos.service
-    import gdata.photos, gdata.youtube.service
+    import gdata.photos.service
+    import gdata.youtube.service
 
     # Picasa Web
-    picasaUser = 'ckchien'
+    albums = []
     service = gdata.photos.service.PhotosService()
     gdata.alt.appengine.run_on_appengine(service)
-    try:
-        albumFeeds = service.GetUserFeed(user=picasaUser, limit=displayAlbumCount).entry
-        albums = [{'albumFeed': album, 'photoFeeds': service.GetEntry(album.GetPhotosUri(), limit=displayPhotoCount)} for album in albumFeeds] 
-    except:
-        albumFeeds = None
-        albums = None
-    #return HttpResponse(albums[0]['photoFeeds'][0], mimetype="text/xml")
-    #photos = service.SearchUserPhotos(query='若水', user='ckchien').entry
-    del albumFeeds
+    for albumLink in target.photo_link[:displayAlbumCount]:
+        try:
+            album = service.GetEntry('http://picasaweb.google.com/data/entry/api/user/%s' % albumLink)
+            albums.append({'albumFeed': album, 'photoFeeds': service.GetFeed(album.GetPhotosUri(), limit=displayPhotoCount).entry}) 
+        except:
+            pass
 
     # Youtube
     video = None
@@ -63,12 +61,86 @@ def show(request, npoid, displayAlbumCount=2, displayPhotoCount=5, displayArticl
             'video':                    video,
             'videoDate':                videoDate,
             'videoCount':               len(target.video_link),
+            'albumUri':                 target.saved_picasa_link or '',
+            'feedUri':                  target.saved_feed_link or '',
             'articleList':              [obj.rsplit(u',http://', 1) for obj in target.article_link][:displayArticleCount],
             'articleCount':             len(target.article_link),
     }
     response = render_to_response('npo/npo_space.html', template_values)
 
     return response
+
+def albumShow(request, npoid, displayCount=5):
+    target = flowBase.getNpo(npo_id=npoid)
+    if not target:
+        return HttpResponseRedirect('/')
+
+    pageSet = paging.get(request.GET, len(target.photo_link), displayCount=displayCount)
+
+    from datetime import datetime
+    import atom.url
+    import gdata.alt.appengine
+    import gdata.photos.service
+    service = gdata.photos.service.PhotosService()
+    gdata.alt.appengine.run_on_appengine(service)
+
+    albumLinkList = target.photo_link[pageSet['entryOffset']:pageSet['entryOffset'] + displayCount]
+    entryList = []
+    for albumLink in albumLinkList:
+        try:
+            album = service.GetEntry('http://picasaweb.google.com/data/entry/api/user/%s' % albumLink)
+            albumEntry = {'albumFeed': album, 'photoFeeds': service.GetFeed(album.GetPhotosUri(), limit=displayPhotoCount).entry}
+        except:
+            albumEntry = None
+        entryList.append(albumEntry)
+
+    template_values = {
+            'isAdmin':                  True if flowBase.isNpoAdmin(npo=target) else False,
+            'npoProfile':               target,
+            'base':                     flowBase.getBase(request, 'npo'),
+            'entryList':                entryList,
+            'albumUri':                 target.saved_picasa_link or '',
+            'page':                     'space',
+            'pageSet':                  pageSet,
+    }
+
+    return render_to_response('npo/album_list.html', template_values)
+
+def albumCreate(request, npoid):
+    import re
+
+    target = flowBase.getNpo(npo_id=npoid)
+    isNpoAdmin = flowBase.isNpoAdmin(npo=target)
+    if not target or not isNpoAdmin:
+        return HttpResponse(simplejson.dumps({'statusCode': 403, 'reason': 'No login'}), mimetype='application/json')
+
+    itemList = request.POST.getlist('itemList')
+    try:
+        for albumUri in itemList:
+            if re.match(r'(\w+)/albumid/(.+)$', albumUri):
+                target.photo_link.insert(0, albumUri)
+        target.put()
+    except:
+        return HttpResponse(simplejson.dumps({'statusCode': 500, 'reason': str(sys.exc_info())}), mimetype='application/json')
+    return HttpResponse(simplejson.dumps({'statusCode': 200, 'reason': 'success'}), mimetype='application/json')
+
+def albumDelete(request, npoid):
+    target = flowBase.getNpo(npo_id=npoid)
+    isNpoAdmin = flowBase.isNpoAdmin(npo=target)
+    if not target or not isNpoAdmin:
+        return HttpResponse(simplejson.dumps({'statusCode': 403, 'reason': 'No login'}), mimetype='application/json')
+
+    itemId = int(request.GET.get('itemId', 0))
+    if itemId >= 0:
+        try:
+            target.photo_link.pop(itemId - 1)
+            target.put()
+        except:
+            return HttpResponse(simplejson.dumps({'statusCode': 500, 'reason': str(sys.exc_info())}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 200, 'reason': 'success'}), mimetype='application/json')
+    else:
+        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'Unknown action'}), mimetype='application/json')
+
 
 def videoShow(request, npoid, displayCount=5):
     target = flowBase.getNpo(npo_id=npoid)
@@ -80,7 +152,7 @@ def videoShow(request, npoid, displayCount=5):
     from datetime import datetime
     import atom.url
     import gdata.alt.appengine
-    import gdata.photos, gdata.youtube.service
+    import gdata.youtube.service
     service = gdata.youtube.service.YouTubeService()
     gdata.alt.appengine.run_on_appengine(service)
 
@@ -112,7 +184,7 @@ def videoCreate(request, npoid):
     target = flowBase.getNpo(npo_id=npoid)
     isNpoAdmin = flowBase.isNpoAdmin(npo=target)
     if not target or not isNpoAdmin:
-        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'No login'}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 403, 'reason': 'No login'}), mimetype='application/json')
 
     youtubeUri = request.POST.get('videoUri', None)
     try:
@@ -129,7 +201,7 @@ def videoDelete(request, npoid):
     target = flowBase.getNpo(npo_id=npoid)
     isNpoAdmin = flowBase.isNpoAdmin(npo=target)
     if not target or not isNpoAdmin:
-        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'No login'}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 403, 'reason': 'No login'}), mimetype='application/json')
 
     itemId = int(request.GET.get('itemId', 0))
     if itemId >= 0:
@@ -140,7 +212,7 @@ def videoDelete(request, npoid):
             return HttpResponse(simplejson.dumps({'statusCode': 500, 'reason': str(sys.exc_info())}), mimetype='application/json')
         return HttpResponse(simplejson.dumps({'statusCode': 200, 'reason': 'success'}), mimetype='application/json')
     else:
-        return HttpResponse(simplejson.dumps({'statusCode': 404, 'reason': 'Unknown action'}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'Unknown action'}), mimetype='application/json')
 
 def articleShow(request, npoid):
     target = flowBase.getNpo(npo_id=npoid)
@@ -167,7 +239,7 @@ def articleCreate(request, npoid):
     target = flowBase.getNpo(npo_id=npoid)
     isNpoAdmin = flowBase.isNpoAdmin(npo=target)
     if not target or not isNpoAdmin:
-        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'No login'}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 403, 'reason': 'No login'}), mimetype='application/json')
 
     itemList = request.POST.getlist('itemList')
     try:
@@ -184,7 +256,7 @@ def articleDelete(request, npoid):
     target = flowBase.getNpo(npo_id=npoid)
     isNpoAdmin = flowBase.isNpoAdmin(npo=target)
     if not target or not isNpoAdmin:
-        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'No login'}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 403, 'reason': 'No login'}), mimetype='application/json')
 
     itemId = int(request.GET.get('itemId', 0))
     if itemId >= 0:
@@ -195,13 +267,33 @@ def articleDelete(request, npoid):
             return HttpResponse(simplejson.dumps({'statusCode': 500, 'reason': str(sys.exc_info())}), mimetype='application/json')
         return HttpResponse(simplejson.dumps({'statusCode': 200, 'reason': 'success'}), mimetype='application/json')
     else:
-        return HttpResponse(simplejson.dumps({'statusCode': 404, 'reason': 'Unknown action'}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'Unknown action'}), mimetype='application/json')
+
+def albumUriSave(request, npoid):
+    import re
+    target = flowBase.getNpo(npo_id=npoid)
+    isNpoAdmin = flowBase.isNpoAdmin(npo=target)
+    if not target or not isNpoAdmin:
+        return HttpResponse(simplejson.dumps({'statusCode': 403, 'reason': 'No login'}), mimetype='application/json')
+
+    albumUri = request.POST.get('albumUri', None)
+    if albumUri:
+        try:
+            matchObj = re.match(r'(http://picasaweb\.google\.com(\.tw)?/\w+?(/|$))', albumUri)
+            if matchObj:
+                target.saved_picasa_link = matchObj.group(1)
+                target.put()
+        except:
+            return HttpResponse(simplejson.dumps({'statusCode': 500, 'reason': str(sys.exc_info())}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 200, 'reason': 'success'}), mimetype='application/json')
+    else:
+        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'Unknown action'}), mimetype='application/json')
 
 def feedUriSave(request, npoid):
     target = flowBase.getNpo(npo_id=npoid)
     isNpoAdmin = flowBase.isNpoAdmin(npo=target)
     if not target or not isNpoAdmin:
-        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'No login'}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 403, 'reason': 'No login'}), mimetype='application/json')
 
     feedUri = request.POST.get('feedUri', None)
     if feedUri:
@@ -212,4 +304,4 @@ def feedUriSave(request, npoid):
             return HttpResponse(simplejson.dumps({'statusCode': 500, 'reason': str(sys.exc_info())}), mimetype='application/json')
         return HttpResponse(simplejson.dumps({'statusCode': 200, 'reason': 'success'}), mimetype='application/json')
     else:
-        return HttpResponse(simplejson.dumps({'statusCode': 404, 'reason': 'Unknown action'}), mimetype='application/json')
+        return HttpResponse(simplejson.dumps({'statusCode': 501, 'reason': 'Unknown action'}), mimetype='application/json')

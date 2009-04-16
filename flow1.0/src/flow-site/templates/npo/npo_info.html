@@ -20,7 +20,7 @@
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							{% if npoBase.isNpoAdmin %}
 							<div class="right-links">
-								<a href="manage_edit_info.html?npo_id={{npoProfile.npo_id}}">編輯基本資訊</a>
+							    <a href="/npo/{{ npoProfile.npo_id }}/profile/edit">編輯基本資訊</a>
 						    </div>
 							{% endif %}
 							<h3>基本資料</h3>

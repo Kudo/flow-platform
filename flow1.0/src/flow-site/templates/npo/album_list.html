@@ -1,0 +1,78 @@
+{% extends "npo/base.html" %}
+
+{### header ###}
+
+{% block npoExtraHeader %}
+
+	{### this block can put additional css / script definition to head tag ###}
+	<!-- block npoExtraHeader here -->
+<link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
+<script type="text/javascript" src="/static/js/space.js"></script>
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
+
+				<h3 id="page-title" class="subbar">相簿列表</h3>
+                {% if isAdmin %}
+                <div class="action">
+                    <a id="createAlbumItem" href="#">新增相簿</a>
+                </div>
+                {% endif %}
+                
+                {% if entryList %}
+				<div class="list-title">共有 {{ pageSet.count }} 本相簿, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 筆</div>
+				{% include "paging_top.html" %}
+						<div class="fullpage-list">
+						    {% for entry in entryList %}
+						    <div class="item top-line">
+						    	<div class="actions">
+							    {% if isAdmin %}
+							    <a class="delItem" href="/npo/{{ npoProfile.npo_id }}/space/album/delete?itemId={{ forloop.counter }}&xToken={{ base.token }}">刪除</a>
+							    {% endif %}
+							</div>
+							<div class="album-item">
+								<div class="album-cover">
+								    <a href="{{ entry.albumFeed.link.1.href }}"><img class="img75" src="{{ entry.albumFeed.media.thumbnail.0.url }}"/></a>
+								</div>
+								<div class="album-title">
+								    <a href="{{ entry.albumFeed.link.1.href }}">
+									<span class="album-date">{{ entry.albumFeed.timestamp.datetime|date:"Y.m.d" }}</span>
+									{{ entry.albumFeed.title.text }}</a>
+								</div>
+								<div class="album-info">
+								    {{ entry.albumFeed.numphotos.text }} 張相片
+								</div>
+								<div class="album-thumbs">
+								    {% for photo in entry.photoFeeds %}
+									<div class="album-thumb-img">
+									    <a href="{{ photo.link.1.href }}"><img class="img35" src="{{ photo.media.thumbnail.0.url }}"/></a>
+									</div>
+									{% endfor %}
+								</div>
+							</div>
+						    </div>
+						    {% endfor %}
+						</div>
+				{% include "paging_bottom.html" %}
+				{% else %}
+				<div class="fullpage-list">公益團體尚未加入任何相簿。</div>
+				{% endif %}
+				<div id="createAlbumBox" style="display: none;" title="新增相簿">
+				    <form action="#" method="get">
+					<dl>
+					    <dt>PicasaWeb 相簿網址:</dt>
+					    <dd>
+					    <input type="text" name="albumUri" maxlength="100" size="50" value="{{ albumUri }}" />
+					    <input type="button" id="albumUriSave" name="albumUriSave" value="記住我的網址" />
+					    <input type="button" id="albumUriParse" name="albumUriParse" value="預覽相簿" />
+					    <input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
+					    </dd>
+					</dl>
+					<div id="albumPreview">
+					</div>
+				    </form>
+				</div>
+{% endblock %}

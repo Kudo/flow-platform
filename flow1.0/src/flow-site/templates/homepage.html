@@ -78,7 +78,7 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 	                		<dd>{{ npo.description|escape }}</dd>
 	                	</dl>
 	                	<div class="more_info">
-	                    	<a href="/npo/npo_home.html?npo_id={{ npo.npo_id }}">詳細資料</a>
+	                    	<a href="/npo/{{ npo.npo_id }}/">詳細資料</a>
 	                    </div>
 	                </div> 
 			{% else %}
@@ -99,7 +99,7 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
         	{% for event in eventList %}
             <li class="with_sep_line">
                 <h2><a href="/event/viewEvent?id={{ event.eventKey }}">{{ event.name|escape }}</a></h2>
-                <p><a href="/npo/npo_home.html?npo_id={{ event.npo_id }}">{{ event.npoName|escape }}</a></p>
+                <p><a href="/npo/{{ event.npo_id }}/">{{ event.npoName|escape }}</a></p>
                 <p>{{ event.startTime|escape }}</p>
                 <p>{{ event.region|escape }}</p>
                 <p class="act_desc">{{ event.description|escape }}</p>

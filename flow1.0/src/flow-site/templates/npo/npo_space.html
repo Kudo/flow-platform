@@ -22,13 +22,17 @@
 							<img src="/static/images/titlebar-left.jpg" class="left">
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							<div class="right-links">
-					    		<a href="#">新增相簿</a> | <a href="#">觀看所有相簿</a>
+							    {% if isAdmin %}
+                                                            <a id="createAlbumItem" href="#">新增相簿</a> |
+                                                            {% endif %}
+                                                            <a href="/npo/{{ npoProfile.npo_id }}/space/album/">觀看所有相簿</a>
 					    	</div>
 							<h3>我的照片 ({{ albums|length }})</h3>
 						</div>
 						
 						<div class="content">
 							<div class="album-block clearfix">
+							    {% if albums %}
 							    {% for album in albums %}
 								<div class="album-item">
 									<div class="album-cover">
@@ -51,6 +55,9 @@
 									</div>
 								</div>
 								{% endfor %}
+								{% else %}
+								公益團體尚未加入任何相簿。
+								{% endif %}
 							</div>
 						</div>
 			    	</div>
@@ -114,6 +121,21 @@
 							</div>
 						</div>
 			    	</div>
+				<div id="createAlbumBox" style="display: none;" title="新增相簿">
+				    <form action="#" method="get">
+					<dl>
+					    <dt>PicasaWeb 相簿網址:</dt>
+					    <dd>
+					    <input type="text" name="albumUri" maxlength="100" size="50" value="{{ albumUri }}" />
+					    <input type="button" id="albumUriSave" name="albumUriSave" value="記住我的網址" />
+					    <input type="button" id="albumUriParse" name="albumUriParse" value="預覽相簿" />
+					    <input type="hidden" id="xToken" name="xToken" value="{{ base.token }}" />
+					    </dd>
+					</dl>
+					<div id="albumPreview">
+					</div>
+				    </form>
+				</div>
 				<div id="createVideoBox" style="display: none;" title="新增影音">
 				    <form class="flow-form" action="#" method="get">
 				    	<ul>
@@ -168,7 +190,5 @@
 				    	<div id="feedPreview">
 					</div>
 					</form>
-					
-				    
 				</div>
 {% endblock %}
