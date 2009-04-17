@@ -105,7 +105,7 @@
 								{% for member in recentMembers %}
 								<div class="item-block head-name">
 									<div class="left-block head">
-									    <img class="img55" src="{{ member.logo }}">
+									    <img class="img55" src="{% if member.logo %}{{ member.logo }}{% else %}{{ base.noLogo }}{% endif %}">
 									</div>
 									<div class="right-block name">
 									    <h3><a href="/volunteer/home/{{ member.key }}">{{ member.nickname|escape }}</a></h3>

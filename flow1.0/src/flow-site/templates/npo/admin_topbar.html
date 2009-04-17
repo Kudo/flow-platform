@@ -7,13 +7,12 @@
         	<li>
         	</li>
             <li>
-                <a {% ifequal page 'home' %} class="selected" {% endifequal %}href="/npo/{{npoProfile.npo_id}}/admin/">公益團體管理首頁</a>
+                <a {% ifequal page 'members' %} class="selected" {% endifequal %}href="/npo/{{ npoProfile.npo_id }}/admin/members">設定管理員及志工管理</a>
             </li>
             <li>
                 <a {% ifequal page 'event' %} class="selected" {% endifequal %}href="/npo/admin/listEvent?npo_id={{npoProfile.npo_id}}">活動管理</a>
             </li>
             <li>
-                <a {% ifequal page 'members' %} class="selected" {% endifequal %}href="/npo/{{ npoProfile.npo_id }}/admin/members">設定管理員及志工管理</a>
             </li>
             <li>
                 <a {% ifequal page 'news' %} class="selected" {% endifequal %}href="../">新聞管理</a>
