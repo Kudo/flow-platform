@@ -18,6 +18,13 @@
 
 </head>
 <body>
+<script language="text/javascript">
+    function adminNPO(item)
+    {
+        if (item.selectedIndex != 0)
+            self.location="/npo/" + item.options[item.selectedIndex].value + "admin/members";
+    }
+</script>
 <div id="Search_Wrap" style="display: none;">
     <p class="tab"><span id="search-bar-link">搜尋</span></p>
     <div id="Search_Body">
@@ -90,6 +97,18 @@
 	        |
 	        <a href="/volunteer/home/">我的履歷表</a>
 	        |
+            {% if base.myAdminNpos %}
+                <form class="inline">
+                    <select id="select" name="nponame" onChange="if(this.selectedIndex!=0)self.location=this.options[this.selectedIndex].value">
+                        <option value="" selected>我管理的公益團體</option>
+                        {% for npo in base.myAdminNpos %}
+                        <option value="/npo/{{ npo.npo_id }}/admin/members">{{ npo.npo_name }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            |
+            {% endif %}
+
         	{% if base.isFlowAdmin %}
         		<a href="/admin/">管理介面</a>
         		|

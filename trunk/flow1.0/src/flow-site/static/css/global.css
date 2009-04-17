@@ -1255,3 +1255,8 @@ span.highlight {
 	font-weight: bold;
 	color: #F00;
 }
+
+.inline {
+    display: inline;
+    vertical-align:text-top;
+}

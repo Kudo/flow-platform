@@ -34,6 +34,12 @@ def getBase(request, category = 'homepage'):
     data['user']            = users.get_current_user()
     data['volunteer_id']    = getVolunteerID(data['user'])
     data['myNpoList']       = getNpoListByVolunteer(getVolunteer(data['user']))
+
+    data['myAdminNpos']     = []
+    for npoObj in data['myNpoList']:
+        if npoObj['isAdmin'] == True:
+            data['myAdminNpos'].append(npoObj)
+
     data['isFlowAdmin']     = True if isFlowAdmin() else False
     
     data['noLogo']          = '/static/images/volunteer50.gif'
