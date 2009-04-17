@@ -66,8 +66,8 @@ def splitData(strData,strToken=',|;| '):
     return [s.strip() for s in re.split(strToken,strData) if s.strip()]
 
  # save event into database
-def processAddEvent(request):
-    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+def processAddEvent(request,npoid):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request,npoid)
     if not objNpo:
         raise AssertionError("objNpo is None")
 
@@ -105,9 +105,9 @@ def processAddEvent(request):
                        
         # Save into datastore based on submit type
             if('send' == submitType):
-                return HttpResponseRedirect('/npo/admin/authEvent1?event_key=%s'%newEventEntity.key())
+                return HttpResponseRedirect('/npo/%s/admin/authEvent1?event_key=%s'%(npoid,newEventEntity.key()))
             else:
-                return HttpResponseRedirect('/npo/admin/listEvent')
+                return HttpResponseRedirect('/npo/%s/admin/listEvent'%npoid)
 
     else:
         form = NewEventForm()
@@ -118,8 +118,8 @@ def processAddEvent(request):
              'page': 'event'}
     return render_to_response('event/event-admin-add.html', dicData)
 
-def processEditEvent(request):
-    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+def processEditEvent(request,npoid):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request,npoid)
     if not objNpo:
         raise AssertionError("objNpo is None")
     
@@ -157,8 +157,8 @@ def processEditEvent(request):
             modEventEntity.status = 'new application'
             modEventEntity.put()
             if('send' == submitType):
-                return HttpResponseRedirect('/npo/admin/authEvent1?event_key=%s'%modEventEntity.key())
-            return HttpResponseRedirect('/npo/admin/listEvent')
+                return HttpResponseRedirect('/npo/%s/admin/authEvent1?event_key=%s'%(npoid,modEventEntity.key()))
+            return HttpResponseRedirect('/npo/%s/admin/listEvent'%npoid)
     else:
         form = NewEventForm(instance = eventProfile)
     dic={'form':form, 'event_key':eventKey,

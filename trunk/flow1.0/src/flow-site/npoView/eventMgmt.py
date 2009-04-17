@@ -10,21 +10,21 @@ from db import ddl
 import flowBase
 from common import paging
 
-dicRule = {'new application'        :{'modify':'',        'recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
-           'approved'               :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':''},
-           'announced'              :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
-           'authenticating'         :{'modify':'',        'recruit':'disabled','validate':'disabled','close':'disabled','cancel':''},
-           'authenticated'          :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':''},
-           'registrating'           :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':''},
-           'recruiting'             :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':''},
-           'registration closed'    :{'modify':'disabled','recruit':'disabled','validate':''        ,'close':'disabled','cancel':''},
-           'on-going'               :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':'disabled'},
-           'filling polls'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
-           'activity closed'        :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
-           'case-closed reporting'  :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':''        ,'cancel':'disabled'},
-           'cancelled'              :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
-           'abusive usage'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'},
-           'authenticating failed'  :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled'}
+dicRule = {'new application'        :{'modify':'',        'recruit':'disabled','validate':'disabled','close':'disabled','cancel':'','volunteer':'disabled'},
+           'approved'               :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':'','volunteer':'disabled'},
+           'announced'              :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'','volunteer':'disabled'},
+           'authenticating'         :{'modify':'',        'recruit':'disabled','validate':'disabled','close':'disabled','cancel':'','volunteer':'disabled'},
+           'authenticated'          :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':'','volunteer':'disabled'},
+           'registrating'           :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':'','volunteer':''},
+           'recruiting'             :{'modify':'disabled','recruit':''        ,'validate':''        ,'close':'disabled','cancel':'','volunteer':''},
+           'registration closed'    :{'modify':'disabled','recruit':'disabled','validate':''        ,'close':'disabled','cancel':'','volunteer':''},
+           'on-going'               :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':'disabled','volunteer':''},
+           'filling polls'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled','volunteer':'disabled'},
+           'activity closed'        :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled','volunteer':'disabled'},
+           'case-closed reporting'  :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':''        ,'cancel':'disabled','volunteer':'disabled'},
+           'cancelled'              :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled','volunteer':'disabled'},
+           'abusive usage'          :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled','volunteer':'disabled'},
+           'authenticating failed'  :{'modify':'disabled','recruit':'disabled','validate':'disabled','close':'disabled','cancel':'disabled','volunteer':'disabled'}
            }
 
 dicStatusName={
@@ -45,8 +45,8 @@ dicStatusName={
     "authenticating failed":u'認證失敗',
     }
 
-def mainPage(request):
-    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+def mainPage(request,npoid):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request,npoid)
     if not objNpo:
         return HttpResponseForbidden(u'錯誤的操作流程')
     
@@ -78,8 +78,8 @@ def actionCheck(lstEvent):
 class CancelEventForm(forms.Form):
     reason = forms.CharField(widget=forms.Textarea(attrs={'rows':'10', 'cols':'50','class':'field textarea medium'}))
     
-def handleCancelEvent(request):
-    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+def handleCancelEvent(request,npoid):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request,npoid)
     if not objNpo:
         return HttpResponseForbidden(u'錯誤的操作流程')
 
@@ -104,7 +104,17 @@ def handleCancelEvent(request):
                 objRec.cancel_reason=form['reason'].data
                 objRec.put()
                 # Todo: send email to regitered use
-            return HttpResponseRedirect('/npo/admin/listEvent')
+                '''
+很抱歉，本次活動因故取消，
+
+衷心感謝您的報名，
+
+期待下一次機會，
+
+與您共享為公益付出的喜樂。
+
+                '''
+            return HttpResponseRedirect('/npo/%s/admin/listEvent'%npoid)
     else:
         form = CancelEventForm()
     dic ={'event_key':strEventKey,
@@ -116,8 +126,8 @@ def handleCancelEvent(request):
     return render_to_response(r'event/event-admin-cancel.html', dic)
     
 displayCount = 10
-def volunteerList(request):
-    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+def volunteerList(request,npoid):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request,npoid)
     if not objNpo:
         return HttpResponseForbidden(u'錯誤的操作流程')
 
@@ -147,8 +157,8 @@ def volunteerList(request):
              }
     return render_to_response(r'event/event-admin-volunteer-list.html', dicData)
 
-def volunteerListLong(request):
-    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+def volunteerListLong(request,npoid):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request,npoid)
     if not objNpo:
         return HttpResponseForbidden(u'錯誤的操作流程')
 
