@@ -22,7 +22,7 @@
                         <a href="/npo/{{npoProfile.npo_id}}/events/history">顯示歷史活動</a>
                         {% endifequal %}
                         {% if npoBase.isNpoAdmin %}
-				   		| <a href="/npo/admin/addEvent/?npo_id={{npoProfile.npo_id}}">新增活動</a> | <a href="/npo/admin/listEvent/?npo_id={{npoProfile.npo_id}}">管理活動</a>
+				   		| <a href="/npo/{{npoProfile.npo_id}}/admin/addEvent">新增活動</a> | <a href="/npo/{{ npoProfile.npo_id }}/admin/listEvent">管理活動</a>
                         {% endif %}
 				   	</div>
 				   	

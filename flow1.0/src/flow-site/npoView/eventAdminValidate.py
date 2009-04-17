@@ -9,8 +9,8 @@ from django import newforms as forms
 import flowBase
 
 # Check to see if eventID is given. Direct to error page if not.
-def volunteerShow(request):
-    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+def volunteerShow(request,npoid):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request,npoid)
     if not objNpo:
         raise AssertionError("objNpo is None")
 
@@ -54,8 +54,8 @@ def addName(lstVolEvent):
         lstVolunteer.append(objVolunteer)
     return lstVolunteer
 
-def approveVolunteer(request):
-    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request)
+def approveVolunteer(request,npoid):
+    objUser,objVolunteer,objNpo=flowBase.verifyNpo(request,npoid)
     if not objNpo:
         raise AssertionError("objNpo is None")
 
@@ -73,7 +73,7 @@ def approveVolunteer(request):
     query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'approved')
     lstPreApproved = query.fetch(1000)
     if 'approved' not in request.POST:
-        return HttpResponseRedirect('/npo/admin/listEvent')
+        return HttpResponseRedirect('/npo/%s/admin/listEvent'%npoid)
     lstApprovedVol = request.POST['approved']
     if not isinstance(lstApprovedVol,list) or not isinstance(lstApprovedVol,tuple):
         lstApprovedVol=[lstApprovedVol]
@@ -90,6 +90,6 @@ def approveVolunteer(request):
     event.put()
     for vol in lstPreApproved:
         raise RuntimeError(vol)
-    return volunteerShow(request)
+    return volunteerShow(request,npoid)
     
 

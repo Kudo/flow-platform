@@ -64,7 +64,7 @@
 							<div class="right-links">
 								<a href="/npo/{{ npoProfile.npo_id }}/events">觀看所有活動</a>
 								{% if npoBase.isNpoAdmin %}
-					    		| <a href="/npo/admin/addEvent/?npo_id={{npoProfile.npo_id}}">新增活動</a> | <a href="/npo/admin/listEvent/?npo_id={{npoProfile.npo_id}}">管理活動</a>
+					    		| <a href="/npo/{{npoProfile.npo_id}}/admin/addEvent">新增活動</a> | <a href="/npo/{{ npoProfile.npo_id }}/admin/listEvent">管理活動</a>
 					    		{% endif %}
 					    	</div>
 							<h3>舉辦的活動</h3>
