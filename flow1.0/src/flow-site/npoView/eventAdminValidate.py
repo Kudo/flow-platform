@@ -68,12 +68,13 @@ def approveVolunteer(request,npoid):
         raise AssertionError("event is None")
     if event.npo_profile_ref.id!=objNpo.id:
         raise AssertionError("event.npo_profile_ref.id!=objNpo.id")
+    if 'approved' not in request.POST:
+        return HttpResponseRedirect('/npo/%s/admin/listEvent'%npoid)
     
     # Process the data in form.cleaned_data
     query = db.GqlQuery("SELECT * FROM VolunteerEvent WHERE event_profile_ref = :1 AND status = :2",event,'approved')
-    lstPreApproved = query.fetch(1000)
-    if 'approved' not in request.POST:
-        return HttpResponseRedirect('/npo/%s/admin/listEvent'%npoid)
+    lstPreApproved = [obj.volunteer_profile_ref for obj in query.fetch(1000)]
+    
     lstApprovedVol = request.POST['approved']
     if not isinstance(lstApprovedVol,list) or not isinstance(lstApprovedVol,tuple):
         lstApprovedVol=[lstApprovedVol]
@@ -88,8 +89,6 @@ def approveVolunteer(request,npoid):
     event.approved_count=len(lstApprovedVol)
     event.volunteer_shortage=event.volunteer_req-event.approved_count
     event.put()
-    for vol in lstPreApproved:
-        raise RuntimeError(vol)
     return volunteerShow(request,npoid)
     
 
