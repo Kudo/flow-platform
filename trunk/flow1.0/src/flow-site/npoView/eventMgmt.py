@@ -153,6 +153,7 @@ def volunteerList(request,npoid):
              'event':event,
              'event_key':event.key(),
              'page':'event',
+             'npoProfile':objNpo,
              'pageSet':                  pageSet,
              }
     return render_to_response(r'event/event-admin-volunteer-list.html', dicData)
@@ -182,6 +183,7 @@ def volunteerListLong(request,npoid):
              'event':event,
              'event_key':event.key(),
              'page':'event',
+             'npoProfile':objNpo,
              'maillist': maillist,
              }
     return render_to_response(r'event/event-admin-volunteer-list-long.html', dicData)
