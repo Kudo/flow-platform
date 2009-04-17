@@ -9,6 +9,11 @@
 			<li>
 				<a {% ifequal page 'npo' %} class="selected" {% endifequal %}href="/volunteer/joinedNpo/{{ volunteerBase.key }}">加入的公益團體</a>
 			</li>
+            {% if isSelf %}
+            <li>
+                <a {% ifequal page 'event' %} class="selected" {% endifequal %}href="/volunteer/joinedEvent">參與的公益活動</a>
+            </li>
+            {% endif %}
 			<!--<li><a {% ifequal page 'space' %} class="selected" {% endifequal %}href="/volunteer/space/{{ volunteerBase.key }}">公益分享</a></li>-->
 		</ul>
 	</div>

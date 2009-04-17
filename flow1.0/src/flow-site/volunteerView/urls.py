@@ -5,6 +5,8 @@ urlpatterns = patterns('volunteerView',
     # Note that for each item that had 'key' matching should be placed in the last
     (r'^home/(?P<key>[^/]+)?/?$',                   'home.show'),
     (r'^joinedNpo/(?P<key>[^/]+)?/?$',              'joinedNpo.show'),
+    (r'^joinedEvent/?$',                            'joinedEvent.redirect'),
+    (r'^joinedEvent/(?P<status>[^/]+)?/?$',         'joinedEvent.show'),
     (r'^profile/edit/?$',                           'profile.edit'),
     (r'^profile/(?P<key>[^/]+)?/?$',                'profile.show'),
     #(r'^friend/create/?$',                          'friend.create'),

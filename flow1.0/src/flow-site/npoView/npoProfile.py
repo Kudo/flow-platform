@@ -222,13 +222,22 @@ def showInfo(request, npoid):
     response = render_to_response('npo/npo_info.html', template_values)
     return response
 
-def showEvents(request, npoid, displayCount = 10):
+def showEventsRedir(request, npoid):
+    return showEvents(request, npoid, "")
+
+def showEvents(request, npoid, status, displayCount = 10):
     npoProfile = flowBase.getNpo(npo_id=npoid)
     if not npoProfile:
         return HttpResponseRedirect('/')
 
-    pageSet = paging.get(request.GET, npoProfile.event2npo.count(), displayCount=displayCount)
-    eventAll = npoProfile.event2npo.fetch(displayCount, pageSet['entryOffset'])
+    now = datetime.datetime.now()
+    if status != "history":
+        queryObj = npoProfile.event2npo.filter('start_time >=', now)
+    else:
+        queryObj = npoProfile.event2npo.filter('start_time <', now)
+
+    pageSet = paging.get(request.GET, queryObj.count(), displayCount=displayCount)
+    eventAll = queryObj.fetch(displayCount, pageSet['entryOffset'])
     eventList = []
     
     for event in eventAll:   
@@ -245,7 +254,8 @@ def showEvents(request, npoid, displayCount = 10):
          'volunteer_shortage':event.volunteer_shortage,
          'event_key':str(event.key())}
          )
-        
+
+            
     template_values = {
             'npoProfile': npoProfile,
             'eventList': eventList,
@@ -253,6 +263,7 @@ def showEvents(request, npoid, displayCount = 10):
             'page': 'events',
             'base':flowBase.getBase(request, 'npo'),
             'npoBase': flowBase.getNpoBase(npoProfile),
+            'status': status
      }
     response = render_to_response('npo/npo_events.html', template_values)
     return response

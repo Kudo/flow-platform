@@ -39,8 +39,10 @@ def show(request, key, displayPhotoCount=8, displayBlogCount=6):
             npo.brief_intro = npo.brief_intro if len(npo.brief_intro) < 15 else npo.brief_intro[0:15] + u'...'
     
     # page: home, added by tom_chen... nasty workaround
+    base = flowBase.getBase(request, 'volunteer')
     template_values = {
-            'base':                     flowBase.getBase(request, 'volunteer'),
+            'isSelf':                   True if base['user'] == user.volunteer_id else False,
+            'base':                     base,
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'page':                     'npo',
             'npoList':                  npoList,
