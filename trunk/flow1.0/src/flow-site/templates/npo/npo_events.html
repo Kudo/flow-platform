@@ -14,9 +14,16 @@
 {% block npoContent %}
 
 			    <div class="content-block">
-				   	<h3 id="page-title" class="subbar">活動列表</h3>
+				   	<h3 id="page-title" class="subbar">{% ifequal status "history" %}歷史{% endifequal %}活動列表</h3>
 				   	<div class="action">
-				   		<a href="/npo/admin/addEvent/?npo_id={{npoProfile.npo_id}}">新增活動</a> | <a href="/npo/admin/listEvent/?npo_id={{npoProfile.npo_id}}">管理活動</a>
+                        {% ifequal status "history" %}
+                        <a href="/npo/{{npoProfile.npo_id}}/events">退出歷史活動</a>
+                        {% else %}
+                        <a href="/npo/{{npoProfile.npo_id}}/events/history">顯示歷史活動</a>
+                        {% endifequal %}
+                        {% if npoBase.isNpoAdmin %}
+				   		| <a href="/npo/admin/addEvent/?npo_id={{npoProfile.npo_id}}">新增活動</a> | <a href="/npo/admin/listEvent/?npo_id={{npoProfile.npo_id}}">管理活動</a>
+                        {% endif %}
 				   	</div>
 				   	
 				   	{% if eventList %}
