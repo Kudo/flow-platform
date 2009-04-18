@@ -102,6 +102,7 @@ def edit(request, npoid):
            'service_field': npoProfile.service_field[0],
            'base':flowBase.getBase(request, 'npo'),
            'npoBase': flowBase.getNpoBase(npoProfile),
+           'page': 'info',
     }
     response = render_to_response('npo/manage_edit_info.html', template_values)
     return response    
@@ -127,7 +128,7 @@ def memberList(request, npoid, displayCount = 10):
     response = render_to_response('npo/npo_volunteers.html', template_values)
     return response
 
-displayMemberCount = 5
+displayMemberCount = 3
 displayAlbumCount = 2
 displayPhotoCount = 5
 displayArticleCount = 10
@@ -140,6 +141,12 @@ def showHome(request, npoid):
 
     members = db.get(npoProfile.members)
     eventList = npoProfile.event2npo.fetch(displayNpoEventCount)
+
+    for event in eventList:
+        if len(event.event_name) > 8:
+            event.event_name = event.event_name[:8] + u'...'
+        if len(event.description) > 20:
+            event.description = event.description[:20] + u'...'
     
     import atom.url
     import gdata.alt.appengine
@@ -150,7 +157,10 @@ def showHome(request, npoid):
     # recently attended members
     recentMembers = []
     for member in npoProfile.members[0 - displayMemberCount:]:
-        recentMembers.append(VolunteerProfile.get(member))
+        vol = VolunteerProfile.get(member)
+        if len(vol.nickname) > 10:
+            vol.nickname = vol.nickname[:10] + u'...'
+        recentMembers.append(vol)
     recentMembers.reverse()
 
     # Picasa Web

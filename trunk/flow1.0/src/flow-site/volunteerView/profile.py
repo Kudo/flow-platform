@@ -31,7 +31,7 @@ from common.widgets import FlowExpertiseChoiceWidget
 """
 class MyRadioInput(forms.widgets.RadioInput):
     def __unicode__(self):
-        return u'%s\n<label for="%s">%s</label>' % (self.tag(), self.choice_value, self.choice_label)
+        return u'%s\n<label class="choice" for="%s">%s</label>' % (self.tag(), self.choice_value, self.choice_label)
 
 class MyRadioFieldRenderer(forms.widgets.RadioFieldRenderer):
     def __unicode__(self):
@@ -58,31 +58,37 @@ class MyRadioSelect(forms.widgets.Select):
 """
 
 class VolunteerProfileForm(djangoforms.ModelForm):
-    volunteer_first_name        = forms.CharField(max_length=20)
-    volunteer_last_name         = forms.CharField(max_length=20)
-    nickname                    = forms.CharField(max_length=50)
+    volunteer_first_name        = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'field text'}))
+    volunteer_last_name         = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'field text'}))
+    nickname                    = forms.CharField(max_length=25, widget=forms.TextInput(attrs={'class': 'field text'}))
 
-    sex                         = forms.ChoiceField(choices=(('Male', u'男性'), ('Female', u'女性')), widget=MyRadioSelect())
+    sex                         = forms.ChoiceField(choices=(('Male', u'男性'), ('Female', u'女性')), widget=MyRadioSelect(attrs={'class': 'field radio'}))
 
-    birthyear                   = forms.CharField(min_length=4, max_length=4, widget=forms.TextInput(attrs={'size': '4'}))
-    birthmonth                  = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'size': '2'}))
-    birthday                    = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'size': '2'}))
+    birthyear                   = forms.CharField(min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
+    birthmonth                  = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
+    birthday                    = forms.CharField(min_length=1, max_length=2, widget=forms.TextInput(attrs={'class': 'field text', 'size': '2'}))
 
     choices = [(region, region) for region in flowBase.getRegion()]
-    resident_city               = FlowChoiceField(choices=choices)
+    resident_city               = FlowChoiceField(choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
+
+    logo                        = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text large'}))
+    school                      = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    organization                = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    title                       = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+
 
     choices = (
             ('MSN',                     u'MSN 即時通訊'),
             ('Yahoo Messenger',         u'Yahoo! 即時通訊'),
     )
-    im_type                     = forms.ChoiceField(required=False, choices=choices)
-    im_account                  = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'size': '30'}))
+    im_type                     = forms.ChoiceField(required=False, choices=choices, widget=forms.Select(attrs={'class': 'field select'}))
+    im_account                  = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'field text large', 'size': '30'}))
 
     phone1                      = forms.CharField(required=False, min_length=4, max_length=4, widget=forms.TextInput(attrs={'class': 'field text', 'size': '4'}))
     phone2                      = forms.CharField(required=False, min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
     phone3                      = forms.CharField(required=False, min_length=3, max_length=3, widget=forms.TextInput(attrs={'class': 'field text', 'size': '3'}))
 
-    blog                        = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'size': '50'}))
+    blog                        = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'class': 'field text', 'size': '50'}))
 
     choices = [(entry.encode('UTF-8'), entry) for entry in proflist.getProfessionList()]
     expertise                   = forms.MultipleChoiceField(choices=choices, widget=FlowExpertiseChoiceWidget())
@@ -163,7 +169,7 @@ def edit(request):
         form = VolunteerProfileForm(instance=user, initial=customData)
     else:
         if not request.POST['submit']:
-            return HttpResponseRedirect('/volunteer/profile/')
+            return HttpResponseRedirect('/volunteer/home/')
         form = VolunteerProfileForm(data=request.POST)
         if not form.is_valid():
             isWarning = u'請檢查是否有資料輸入錯誤。'
@@ -210,11 +216,12 @@ def edit(request):
                     )
                 volunteerIMObj.put()
 
-            return HttpResponseRedirect("/volunteer/profile/")
+            return HttpResponseRedirect("/volunteer/home/")
 
     template_values = {
+            'isSelf':                   True if base['user'] == user.volunteer_id else False,
             'base':                     base,
-            'page':                     'profile',
+            'page':                     'home',
             'volunteerBase':            flowBase.getVolunteerBase(user),
             'isWarning':                isWarning,
             'form':                     form,

@@ -35,15 +35,15 @@
 										<dt>專長:</dt>
 										<dd>{{ entry.showExpertise|escape }}</dd>
 										{% if entry.npoList %}
-											<dt>所屬群組:</dt>
+											<dt>參與團體:</dt>
 											<dd>
 											{% for npo in entry.npoList %}
-											<a href="/npo/{{ npo.npo_id }}/">{{ npo.npo_name|escape }}</a> 
+											<a href="/npo/{{ npo.npo_id }}/">{{ npo.npo_name|escape }}</a>{% if not forloop.last %}, {% endif %}
 											{% endfor %}
 											
 											{% if entry.npoShowMore %}
 									    	<span class="npo-more">
-											... (<a href="#">共 {{ entry.npoCount }} 個群組</a>)
+											等 (<a href="/volunteer/joinedNpo/{{ entry.key }}">共 {{ entry.npoCount }} 個團體</a>)
 									   		</span>
 									    	{% endif %}
 											</dd>

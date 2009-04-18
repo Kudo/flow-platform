@@ -55,10 +55,13 @@ class FlowExpertiseChoiceWidget(forms.widgets.CheckboxSelectMultiple):
         
         output.append(u'<div class="section">專業領域</div>')
         output.append(u'<div class="block clearfix">')
-        for value in proflist.profList:
+        for prof in proflist.profList:
             output.append(u'<span class="checkbox">')
-            output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise"/>' % (i, value))
-            output.append(u'<label class="choice" for="id_expertise_%d">%s</label>' % (i, value))
+            if prof in value:
+                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise" checked/>' % (i, prof))
+            else:
+                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise"/>' % (i, prof))
+            output.append(u'<label class="choice" for="id_expertise_%d">%s</label>' % (i, prof))
             output.append(u'</span>')
             if ((i + 1) % self.displayRowCount == 0):
                 output.append(u'</div><div class="block clearfix">')
@@ -67,10 +70,13 @@ class FlowExpertiseChoiceWidget(forms.widgets.CheckboxSelectMultiple):
         
         output.append(u'<div class="section">語言專長</div>')
         output.append(u'<div class="block clearfix">')
-        for value in proflist.langList:
+        for prof in proflist.langList:
             output.append(u'<span class="checkbox">')
-            output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise"/>' % (i, value))
-            output.append(u'<label class="choice" for="id_expertise_%d">%s</label>' % (i, value))
+            if prof in value:
+                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise" checked/>' % (i, prof))
+            else:
+                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise"/>' % (i, prof))
+            output.append(u'<label class="choice" for="id_expertise_%d">%s</label>' % (i, prof))
             output.append(u'</span>')
             if ((i + 1) % self.displayRowCount == 0):
                 output.append(u'</div><div class="block clearfix">')

@@ -31,11 +31,14 @@
 					{% include "paging_top.html" %}
 						<div class="fullpage-list">
 						    {% for event in eventList %}
-						    <div class="item npo top-line clearfix">
+						    <div class="item event top-line clearfix">
 						    	<div class="actions">
 						    		<div class="link"><a href="/event/viewEvent?id={{event.event_key|escape }}">前往活動首頁</a></div>
 									<div class="link">加入活動</div>
 						    	</div>
+                                <div class="image">
+                                    <img class="img55" src="{% if npoProfile.logo %}{{ npoProfile.logo }}{%else%}{{ base.noNpoLogo }}{% endif %}" />
+                                </div>
 								<div class="name">
 								    <div class=""><a href="/event/viewEvent?id={{event.event_key|escape }}">{{ event.event_name|escape  }}</a></div>
 								</div>

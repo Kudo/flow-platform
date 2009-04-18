@@ -703,14 +703,26 @@ div.fullpage-list .item dl {
 	width: 320px;
 }
 
+div.fullpage-list .event dl {
+	width: 83% !important;
+}
+
 div.fullpage-list .volunteer dl {
-	width: 500px !important;
+    width: 85% !important;
 }
 
 div.fullpage-list .item dt {
 	font-size: 12px;
 	color: #666;
 	width: 8em;
+}
+
+div.fullpage-list .item dd {
+    padding-left: 7.2em;
+}
+
+div.fullpage-list .event .stats {
+    padding-left: 60px;
 }
 
 div.fullpage-list .actions {

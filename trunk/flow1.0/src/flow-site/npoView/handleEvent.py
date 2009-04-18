@@ -16,8 +16,8 @@ g_lstRegion.insert(0,('',u'½Ð¿ï¾Ü...'))
 g_lstExpertise = [(s.encode('UTF-8'), s) for s in flowBase.getProfessionList()]
 
 class NewEventForm(djangoforms.ModelForm):
-    event_name = forms.CharField(widget=forms.TextInput(attrs={'size':'37'}))
-    description = forms.CharField(widget=forms.Textarea(attrs={'rows':'4', 'cols':'40'}))
+    event_name = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'size':'37'}))
+    description = forms.CharField(max_length=50, widget=forms.Textarea(attrs={'rows':'4', 'cols':'40'}))
     start_time = forms.SplitDateTimeField(widget=FlowSplitDateTimeWidget())
     end_time = forms.SplitDateTimeField(widget=FlowSplitDateTimeWidget())
     reg_start_time = forms.SplitDateTimeField(widget=FlowSplitDateTimeWidget())

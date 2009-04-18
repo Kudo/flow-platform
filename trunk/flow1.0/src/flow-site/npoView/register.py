@@ -27,8 +27,8 @@ def _makeFields(fieldDataFormat, endNum, startNum=1):
         yield fieldDataFormat % (i)
 
 class NpoProfileForm(djangoforms.ModelForm):
-    npo_name                    = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'field text medium'}))
-    founder                     = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    npo_name                    = forms.CharField(max_length=15, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    founder                     = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'class': 'field text medium'}))
     brief_intro                 = forms.CharField(widget=forms.Textarea(attrs={'class': 'field textarea medium', 'cols': '50', 'rows': '10'}))
     logo                        = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'field text large'}))
 
@@ -37,7 +37,7 @@ class NpoProfileForm(djangoforms.ModelForm):
 
     service_target              = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text medium'}))
     service_field               = forms.CharField(widget=forms.TextInput(attrs={'class': 'field text medium'}))
-    contact                     = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'field text medium'}))
+    contact                     = forms.CharField(max_length=10, widget=forms.TextInput(attrs={'class': 'field text medium'}))
     website                     = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'class': 'field text', 'size': '50'}))
     blog                        = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'class': 'field text', 'size': '50'}))
     telephone                   = forms.CharField(max_length=20,  widget=forms.TextInput(attrs={'class': 'field text medium'}))

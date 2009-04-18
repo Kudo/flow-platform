@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import datetime
 import random
 from django.shortcuts import render_to_response
@@ -43,6 +45,13 @@ def home(request):
             'npo_id':           npoObj.npo_id,
             'logo':             npoObj.logo,
         }
+        if len(npoObj.npo_name) > 15:
+            npo['name'] = npoObj.npo_name[:12] + u'...'
+        if npoObj.brief_intro is None:
+            npo['description'] = u'(目前無簡介)'
+        elif len(npoObj.brief_intro) > 20:
+            npo['description'] = npoObj.brief_intro[:20] + u'...'
+
         del randomIndex, npoObj
         
     del tmpList, count

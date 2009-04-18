@@ -7,6 +7,7 @@
 	{### this block can put additional css / script definition to head tag ###}
 	<!-- block profileExtraHeader here -->
 <link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -56,157 +57,246 @@
 				</div>
 				{% endif %}
 
-				<form action="{{ base.path|escape }}" method="POST" name="edit-profile" id="edit-profile">
-				    	<div class="content-block form-block">
-							<div class="title">
-								<img src="/static/images/titlebar-left.jpg" class="left">
-								<img src="/static/images/titlebar-right.jpg" class="right">
-								<h3>非公開資料</h3>
-							</div>
-							<div class="content">
-								<dl>
-									<dt>姓, 名</dt>
-									<dd>
-									{{ form.volunteer_last_name }}
-									{% for error in form.volunteer_last_name.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									,
-									{{ form.volunteer_first_name }}
-									{% for error in form.volunteer_first_name.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<dt>生日</dt>
-									<dd>
-									{{ form.birthyear }}
-									{% for error in form.birthyear.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									/
-									{{ form.birthmonth }}
-									{% for error in form.birthmonth.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									/
-									{{ form.birthday }}</dd>
-									{% for error in form.birthday.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									<dt>性別</dt>
-									<dd>
-									{{ form.sex }}
-									{% for error in form.sex.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<dt>即時通訊</dt>
-									<dd>
-									{{ form.im_type }}
-									{% for error in form.im_type.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									{{ form.im_account }}
-									{% for error in form.im_account.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-	
-									<dt>手機號碼</dt>
-									<dd>
-									{{ form.phone1 }}
-									{% for error in form.phone1.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									-
-									{{ form.phone2 }}
-									{% for error in form.phone2.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									-
-									{{ form.phone3 }}
-									{% for error in form.phone3.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<dt>網頁/部落格</dt>
-									<dd>
-									{{ form.blog }}
-									{% for error in form.blog.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<dt>就讀/畢業學校</dt>
-									<dd>
-									{{ form.school }}
-									{% for error in form.school.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<dt>服務單位/公司</dt>
-									<dd>
-									{{ form.organization }}
-									{% for error in form.organization.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<dt>職稱</dt>
-									<dd>
-									{{ form.title }}
-									{% for error in form.title.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-								</dl>
-							</div>
-						</div>
-				    	<div class="content-block form-block">
-							<div class="title">
-								<img src="/static/images/titlebar-left.jpg" class="left">
-								<img src="/static/images/titlebar-right.jpg" class="right">
-								<h3>公開資料</h3>
-							</div>
-							<div class="content">
-								<dl>
-									<dt>暱稱</dt>
-									<dd>
-									{{ form.nickname }}
-									{% for error in form.nickname.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<dt>大頭貼圖片</dt>
-									<dd>
-									{{ form.logo }}
-									<input id="preview" class="field button" type="button" value="預覽" />
-									{% for error in form.logo.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<div id="previewBox" style="display: none;" title="預覽"></div>
-									<dt>居住地</dt>
-									<dd>
-									{{ form.resident_city }}
-									{% for error in form.resident_city.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									</dd>
-									<dt>我的專長</dt>
-									<dd>{{ form.expertise }}</dd>
-									{% for error in form.expertise.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-									<dt>自我簡介</dt>
-									<dd>{{ form.brief_intro }}</dd>
-									{% for error in form.brief_intro.errors %}
-									<span class="error">{{ error|escape }}</span>
-									{% endfor %}
-								</dl>
-							</div>
-						</div>
-				    	<div class="content-block form-block">
-				    	<input type="submit" value="儲存變更" name="submit" id="submit-button"/>
-				    	<input type="button" value="取消變更" name="cancel" id="cancel-button"/>
-				    	</div>
-				    </form>
+				<form class="flow-form" action="{{ base.path|escape }}" method="POST" name="edit-profile" id="edit-profile">
+                    <ul>
+                        <li class="section">
+                            <h3>非公開資料</h3>
+                            <div>本區資料除您參與活動的公益團體看得到以外，對外皆不公開</div>
+                        </li>
+                        <li>
+                            <label class="desc">
+                            姓 , 名
+                                <span class="req"> * </span>
+                            </label>
+                            <div>
+                                {{ form.volunteer_last_name }}
+                                {% for error in form.volunteer_last_name.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                                ,
+                                {{ form.volunteer_first_name }}
+                                {% for error in form.volunteer_first_name.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="desc">
+                            生日
+                                <span class="req"> * </span>
+                            </label>
+                            <span>
+                                {{ form.birthyear }}
+                                /
+                                <label>西元年</label>
+                                {% for error in form.birthyear.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                            <span>
+                                {{ form.birthmonth }}
+                                /
+                                <label>月</label>
+                                {% for error in form.birthmonth.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                            <span>
+                                {{ form.birthday }}
+                                <label>日</label>
+                                {% for error in form.birthday.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                        </li>
+                        <li>
+                            <label class="desc">
+                            性別
+                                <span class="req"> * </span>
+                            </label>
+                            <div class="column">
+                                {{ form.sex }}
+                                {% for error in form.sex.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+
+                        <li>
+                            <label class="desc">
+                            就讀/畢業學校
+                            </label>
+                            <div>
+                                {{ form.school }}
+                                {% for error in form.school.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="desc">
+                            服務單位/公司
+                            </label>
+                            <div>
+                                {{ form.organization }}
+                                {% for error in form.organization.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+
+                        <li>
+                            <label class="desc">
+                            職稱
+                            </label>
+                            <div>
+                                {{ form.title }}
+                                {% for error in form.title.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+                        <li>
+                            <label class="desc">
+                            即時通訊
+                            </label>
+                            <span class="column">
+                                {{ form.im_type }}
+                                <label>通訊協定</label>
+                                {% for error in form.im_type.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                            <span class="column">
+                                {{ form.im_account }}
+                                <label>帳號</label>
+                                {% for error in form.im_account.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                        </li>
+                        <li>
+                            <label class="desc">
+                            手機號碼
+                            </label>
+                            <span class="column">
+                                {{ form.phone1 }}
+                                -
+                                <label>
+                                    09##
+                                </label>
+                                {% for error in form.phone1.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                            <span class="column">
+                                {{ form.phone2 }}
+                                -
+                                <label>
+                                    ###
+                                </label>
+                                {% for error in form.phone2.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                            <span class="column">
+                                {{ form.phone3 }}
+                                <label>
+                                    ###
+                                </label>
+                                {% for error in form.phone3.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                        </li>
+                        <li>
+                            <label class="desc">
+                            部落格 (個人網站)
+                            </label>
+                            <span>
+                                {{ form.blog }}
+                                {% for error in form.blog.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </span>
+                        </li>
+
+                        <li class="section">
+                            <h3>公開資料</h3>
+                            <div>一些關於您對外公開的基本資訊</div>
+                        </li>
+
+                        <li>
+                            <label class="desc">
+                            暱稱
+                                <span class="req"> * </span>
+                            </label>
+                            <div>
+                                {{ form.nickname }}
+                                {% for error in form.nickname.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+
+                        <li>
+                            <label class="desc">
+                            大頭貼圖片網址
+                            </label>
+                            <div>
+                                {{ form.logo }}
+                                <input id="preview" class="field button" type="button" value="預覽" />
+                                {% for error in form.logo.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                            <div id="previewBox" style="display: none;" title="預覽"></div>
+                        </li>
+
+                        <li>
+                            <label class="desc">
+                            居住地
+                                <span class="req"> * </span>
+                            </label>
+                            <div>
+                                {{ form.resident_city }}
+                                {% for error in form.resident_city.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+
+                        <li>
+                            <label class="desc">
+                                我的專長
+                                <span class="req"> * </span>
+                            </label>
+
+                                {{ form.expertise }}
+
+                           <div>
+                                {% for error in form.expertise.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+
+                        <li>
+                            <label class="desc">
+                                自我簡介
+                            </label>
+                            <div>
+                                {{ form.brief_intro }}
+                                {% for error in form.brief_intro.errors %}
+                                <span class="req">{{ error|escape }}</span>
+                                {% endfor %}
+                            </div>
+                        </li>
+
+                        <li class="buttons section">
+                            <input id="submit-button" name="submit" class="btTxt" type="submit" value="儲存變更" />
+                            <input id="cancel-button" name="cancel" class="btTxt" type="button" value="取消變更" />
+                        </li>
+                    </ul>
+                    </form>
 {% endblock %}
