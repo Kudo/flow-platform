@@ -195,6 +195,7 @@ html[xmlns] .clearfix {
 #new-volunteers .item-block {
 	float: left;
 	width: 215px;
+    vertical-align: bottom;
 }
 
 #new-volunteers .head-name {
@@ -211,7 +212,11 @@ html[xmlns] .clearfix {
 	padding-right: 2px;
 }
 
-#new-volunteers .head {
+#new-volunteers .head{
+    height: 50px;
+}
+
+#new-volunteers .head img {
 }
 
 #new-volunteers .index {

@@ -26,6 +26,7 @@
 				<div class="list-title">共有 {{ pageSet.count }} 本相簿, 顯示第 {{ pageSet.startIndex|add:"1" }} 至 {{ pageSet.endIndex|add:"1" }} 筆</div>
 				{% include "paging_top.html" %}
 						<div class="fullpage-list">
+                            <div class="album-block">
 						    {% for entry in entryList %}
 						    <div class="item top-line">
 						    	<div class="actions">
@@ -55,6 +56,7 @@
 							</div>
 						    </div>
 						    {% endfor %}
+                        </div>
 						</div>
 				{% include "paging_bottom.html" %}
 				{% else %}
