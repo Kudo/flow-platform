@@ -26,7 +26,6 @@
     }
 </script>
 <div id="Search_Wrap" style="display: none;">
-    <p class="tab"><span id="search-bar-link">搜尋</span></p>
     <div id="Search_Body">
         <div id="Search_Type">
             <a href="javascript:;" class="types selected" onclick="jsSwitchType('Activity');" id="Type_Activity"><span>活動</span></a>
@@ -146,22 +145,19 @@
 	// fix search bar position, code put here to immediate apply instead of waiting all loading operation complete
 	function position_search_bar()
 	{
-		$("#Search_Wrap").css('left', null);
-		var right_px = 0;
-		if ($("#Search_Wrap").offset().left > 0) {
-			right_px = $("#Search_Wrap").offset().left;
-		} else {
-			right_px = - $("#Search_Wrap").position().left;
-		}
-		//alert("right_px="+right_px);
-		right_px -= $("#top-search-link").offset().left;
-		//alert("right_px="+right_px+" (-"+$("#top-search-link").offset().left+")");
-		right_px += 46;
-		if (jQuery.browser.msie) {
-			right_px += -2;
-		} 	
-		//alert("right_px="+right_px);
-		$("#Search_Wrap").css('left', '-'+(right_px)+'px');
+		var searchPanel = $("#Search_Wrap");
+		var searchLink = $('#top-search-link');
+		searchPanel.css('left', null).css('top', null);
+		var panelPosition = searchPanel.position();
+		var linkPosition = searchLink.position();
+		var linkWidth = searchLink.outerWidth();
+		var linkHeight = searchLink.outerHeight();
+		
+		var panelWidth = searchPanel.outerWidth();
+		//alert('panel: '+$('#Search_Wrap').position().top+","+$('#Search_Wrap').position().left);
+		//alert('link: '+$('#top-search-link').position().top+","+$('#top-search-link').position().left);
+		searchPanel.css('left', panelPosition.left+linkPosition.left-((panelWidth-linkWidth)/2))
+			.css('top', linkPosition.top+linkHeight);
 	}
 	
 	position_search_bar();

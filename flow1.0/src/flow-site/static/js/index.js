@@ -1,10 +1,10 @@
 ﻿// JScript File
 function jsShowSearchPanel(){
-	$("#Search_Wrap").show();
     jsSwitchType("Activity");
+	$("#Search_Wrap").slideDown(1000);
 }
 function jsCloseSearchPanel(){
-	$("#Search_Wrap").hide();
+	$("#Search_Wrap").slideUp(1000);
 }
 function jsSwitchType(strType){
 	$("#Type_Activity").show();
