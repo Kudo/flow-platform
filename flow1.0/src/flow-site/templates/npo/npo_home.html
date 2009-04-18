@@ -105,7 +105,7 @@
 								{% for member in recentMembers %}
 								<div class="item-block head-name">
 									<div class="left-block head">
-									    <img class="img55" src="{% if member.logo %}{{ member.logo }}{% else %}{{ base.noLogo }}{% endif %}">
+									    <img class="thumb50" src="{% if member.logo %}{{ member.logo }}{% else %}{{ base.noLogo }}{% endif %}">
 									</div>
 									<div class="right-block name">
 									    <h3><a href="/volunteer/home/{{ member.key }}">{{ member.nickname|escape }}</a></h3>
@@ -236,7 +236,7 @@
 							<div class="article-block">
 								{% if articleList %}
 							    {% for entry in articleList %}
-								<div class="article-item"><a href="{{ entry.1 }}">{{ entry.0 }}</a></div>
+								<div class="article-title-item"><a href="{{ entry.1 }}">{{ entry.0 }}</a></div>
 							    {% endfor %}
 							    {% else %}
 							    	公益團體尚未加入任何文章。

@@ -92,6 +92,11 @@ h6 {
     max-height: 35px;
 	_width:35px; /* for IE6 only*/
 }
+.thumb50 {
+    max-height:50px;
+    position:absolute;
+    clip:rect(0px,50px,50px,0px);
+}
 .img55 {
     max-width: 55px;
     max-height: 55px;
@@ -1004,9 +1009,13 @@ div.article-block .article-title {
 div.article-block .article-date {
 	color: #999;
 }
-div.album-block {
+div.content-block div.album-block {
 	clear: both;
 	width: 700px;
+}
+
+div.fullpage-list div.album-block {
+    clear: both;
 }
 
 div.album-block .album-item {
