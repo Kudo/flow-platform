@@ -50,17 +50,16 @@ class FlowExpertiseChoiceWidget(forms.widgets.CheckboxSelectMultiple):
     def render(self, name, value, attrs=None, choices=()):
         from db import proflist
         output = [u' ']
-
+        if value is None: value = []
         i = 0
-        
         output.append(u'<div class="section">±M·~»â°ì</div>')
         output.append(u'<div class="block clearfix">')
         for prof in proflist.profList:
             output.append(u'<span class="checkbox">')
             if prof in value:
-                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise" checked/>' % (i, prof))
+                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="%s" checked/>' % (i, prof,name))
             else:
-                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise"/>' % (i, prof))
+                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="%s"/>' % (i, prof,name))
             output.append(u'<label class="choice" for="id_expertise_%d">%s</label>' % (i, prof))
             output.append(u'</span>')
             if ((i + 1) % self.displayRowCount == 0):
@@ -73,9 +72,9 @@ class FlowExpertiseChoiceWidget(forms.widgets.CheckboxSelectMultiple):
         for prof in proflist.langList:
             output.append(u'<span class="checkbox">')
             if prof in value:
-                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise" checked/>' % (i, prof))
+                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="%s" checked/>' % (i, prof,name))
             else:
-                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="expertise"/>' % (i, prof))
+                output.append(u'<input class="field checkbox" id="id_expertise_%d" type="checkbox" value="%s" name="%s"/>' % (i, prof,name))
             output.append(u'<label class="choice" for="id_expertise_%d">%s</label>' % (i, prof))
             output.append(u'</span>')
             if ((i + 1) % self.displayRowCount == 0):
