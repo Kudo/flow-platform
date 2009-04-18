@@ -81,3 +81,8 @@ indexes:
   properties:
   - name: id
     direction: desc
+
+- kind: VolunteerEvent
+  properties:
+  - name: volunteer_profile_ref
+  - name: status
