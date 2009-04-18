@@ -68,6 +68,8 @@ def show(request, key, displayPhotoCount=8, displayBlogCount=6):
             'npoList':                  npoList,
             'npoFirst':                 npoList[0] if len(npoList) > 0 else None,
             'articleList':              [obj.rsplit(u',http://', 1) for obj in user.article_link][:displayArticleCount],
+            'expertise':                u', '.join(user.expertise),
+            'brief_intro':              user.brief_intro or u'無',
     }
     response = render_to_response('volunteer/profile_home.html', template_values)
 

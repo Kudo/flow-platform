@@ -1,4 +1,4 @@
-{% extends "npo/base.html" %}
+{% extends "npo/admin_base.html" %}
 
 {### header ###}
 
@@ -12,11 +12,11 @@
 
 {% block npoContent %}
 
-	<h3 id="page-title" class="subbar">編輯基本資料</h3>
+	<!-- <h3 id="page-title" class="subbar">編輯基本資料</h3>-->
 	<div class="step-main">
 		<form class="flow-form" action="{{path}}?npo_id={{npoProfile.npo_id}}" method="POST" >
 		<ul>
-			<li class="section">
+			<li class="section first">
 				<h3>基本資料</h3>
 			</li>
 			<li>
@@ -29,7 +29,7 @@
 			</li>
 			<li>
 				<label class="desc">
-				創辦人:
+				創辦人
 				</label>
 				<div>
 					<input id="txtFounder" class="field text medium" type="text" name="txtFounder" value="{{npoProfile.founder}}"/>
@@ -40,9 +40,7 @@
 				簡介
 				</label>
 				<div>
-					<textarea class="field textarea medium" cols="50" rows="10" name="textareaIntro">
-					{{npoProfile.brief_intro}}
-					</textarea>
+					<textarea class="field textarea medium" cols="50" rows="10" name="textareaIntro">{{npoProfile.brief_intro}}</textarea>
 				</div>
 			</li>
 			
@@ -67,7 +65,7 @@
 			
 			<li>
 				<label class="desc">
-				網址:
+				網址
 				</label>
 				<div>
 					<input id="txtHomePage" class="field text medium" type="text" name="txtHomePage" value="{{npoProfile.website}}" />
@@ -76,7 +74,7 @@
 			
 			<li>
 				<label class="desc">
-				電話:
+				電話
 				</label>
 				<div>
 					<input id="txtPhone" class="field text medium" type="text" name="txtPhone" value="{{fixedPhone}}"/>
@@ -85,7 +83,7 @@
 			
 			<li>
 				<label class="desc">
-				傳真:
+				傳真
 				</label>
 				<div>
 					<input id="txtFax" class="field text medium" type="text" name="txtFax" value="{{faxPhone}}"/>
@@ -98,7 +96,7 @@
 			
 			<li>
 				<label class="desc">
-				設立日期:
+				設立日期
 				</label>
 				<div>
 					<input id="txtFoundDate" class="field text medium" type="text" name="txtFoundDate" value="{{npoProfile.founding_date.date}}" />
@@ -107,7 +105,7 @@
 			
 			<li>
 				<label class="desc">
-				許可機關:
+				許可機關
 				</label>
 				<div>
 					<input id="txtApproveGov" class="field text medium" type="text" name="txtApproveGov" value="{{npoProfile.authority}}" />
@@ -116,7 +114,7 @@
 			
 			<li>
 				<label class="desc">
-				服務區域:
+				服務區域
 				</label>
 				<div>
 					<input id="txtServiceArea" class="field text medium" type="text" name="txtServiceArea" value="{{service_region}}" />
@@ -125,7 +123,7 @@
 			
 			<li>
 				<label class="desc">
-				服務對象:
+				服務對象
 				</label>
 				<div>
 					<input id="txtServiceTarget" class="field text medium" type="text" name="txtServiceTarget" value="{{service_target}}" />
@@ -134,7 +132,7 @@
 			
 			<li>
 				<label class="desc">
-				服務項目:
+				服務項目
 				</label>
 				<div>
 					<input id="txtServiceItem" class="field text medium" type="text" name="txtServiceItem" value="{{service_field}}" />
@@ -143,7 +141,7 @@
 			
 			<li>
 				<label class="desc">
-				劃播帳號:
+				劃播帳號
 				</label>
 				<div>
 					<input id="txtTransferAccountNo" class="field text medium" type="text" name="txtTransferAccountNo" value="{{npoProfile.bank_acct_no}}" />
@@ -152,7 +150,7 @@
 			
 			<li>
 				<label class="desc">
-				劃播戶名:
+				劃播戶名
 				</label>
 				<div>
 					<input id="txtTransferAccountTitle" class="field text medium" type="text" name="txtTransferAccountTitle" value="{{npoProfile.bank_acct_name}}" />

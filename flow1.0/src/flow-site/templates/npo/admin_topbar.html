@@ -10,6 +10,9 @@
                 <a {% ifequal page 'members' %} class="selected" {% endifequal %}href="/npo/{{ npoProfile.npo_id }}/admin/members">設定管理員及志工管理</a>
             </li>
             <li>
+                <a {% ifequal page 'info' %} class="selected" {% endifequal %}href="/npo/{{ npoProfile.npo_id }}/profile/edit">編輯基本資料</a>
+            </li>
+            <li>
                 <a {% ifequal page 'event' %} class="selected" {% endifequal %}href="/npo/{{ npoProfile.npo_id }}/admin/listEvent">活動管理</a>
             </li>
             <li>

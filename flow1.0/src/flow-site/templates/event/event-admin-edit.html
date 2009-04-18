@@ -92,10 +92,15 @@ function disableButton(form) {
 				<div>
 					{{ form.description }} 
 					{% if form.description.errors %}    
+                    <label>
 			        {% for error in form.description.errors %}
 			        <font color="#FF0000">{{ error|escape }}</font>
 			        {% endfor %}
+                    </label>
 			        {% endif %}
+                    <label class="req">
+                        請保持在 50 個中文字以內
+                    </label>
 				</div>
 			</li>
 			

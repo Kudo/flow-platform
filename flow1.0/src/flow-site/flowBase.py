@@ -112,6 +112,10 @@ def getNpoListByVolunteer(volunteer):
         npoObj = adminObj.npo_profile_ref
         npoKey = str(npoObj.key())
         npoList[npoKey] = {'npo_id': npoObj.npo_id, 'npo_name': npoObj.npo_name, 'isAdmin': True, 'key': npoKey}
+        # Dirty UI Fix by tom_chen
+        if len(npoObj.npo_name) > 10:
+            npoList[npoKey]['npo_name'] = npoObj.npo_name[:10] + u'...'
+
     return list(npoList.values())
 
 def getVolunteerBase(volunteer, displayFriendCount=6, displayNpoCount=6):

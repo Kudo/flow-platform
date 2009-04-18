@@ -23,6 +23,10 @@ def show(request):
     entryList = VolunteerProfile.all().order('-id').fetch(displayCount, pageSet['entryOffset'])
     for volunteer in entryList:
         volunteer.npoList = [NpoProfile.get(volunteer.npo_profile_ref[i]) for i in range(displayNpoCount) if i < len(volunteer.npo_profile_ref)]
+        for npo in volunteer.npoList:
+            if len(npo.npo_name) > 12:
+                npo.npo_name = npo.npo_name[:12] + u'...'
+
         volunteer.npoCount = len(volunteer.npo_profile_ref)
         volunteer.npoShowMore = True if volunteer.npoCount > displayNpoCount else False
         volunteer.showExpertise = u', '.join(volunteer.expertise[:displayExpertiseCount])
