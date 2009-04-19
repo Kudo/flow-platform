@@ -180,6 +180,7 @@ def loginProxy(request):
         'base':                 base,
         'redirectURI':          redirectURI,
         'loginSuccess':         loginSuccess,
+        'nojQuery':             True if loginSuccess == True else False,
     }
     return render_to_response('loginProxy.html', template_values)
 
