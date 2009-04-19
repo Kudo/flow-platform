@@ -527,7 +527,7 @@ div.no-padding-bottom {
 	clear: left;
 }
 /* div.left-column */ div.content-block div.title {
-	background-image: url("../images/titlebar.gif"/*tpa=http://flowstaging.appspot.com/static/images/titlebar.gif*/);
+	background-image: url("../images/titlebar.gif"); /*tpa=http://flowstaging.appspot.com/static/images/titlebar.gif*/
 	height: 22px;
 	margin-bottom: 8px;
 }
