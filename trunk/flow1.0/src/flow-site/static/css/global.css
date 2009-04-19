@@ -95,7 +95,8 @@ h6 {
 .thumb50 {
     max-height:50px;
     position:absolute;
-    clip:rect(0px,50px,50px,0px);
+    clip:rect(0px 50px 50px 0px);
+	_height:50px;
 }
 .img55 {
     max-width: 55px;
