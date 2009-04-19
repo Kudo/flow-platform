@@ -53,10 +53,10 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 	                		<dt>專長</dt>
 	                		<dd>{{ volunteer.showExpertise|escape }}</dd>
 	                	</dl>
-	                	<div class="more_info">
-	                    	<a href="/volunteer/home/{{ volunteer.key }}">詳細資料</a>
-	                   	</div>
 	                </div> 
+	                <div class="more_info">
+	                    	<a href="/volunteer/home/{{ volunteer.key }}">詳細資料</a>
+                   	</div>
 			{% else %}
 			沒有任何志工
 			{% endif %}
@@ -79,10 +79,10 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 	                		<dt>簡介</dt>
 	                		<dd>{{ npo.description|escape }}</dd>
 	                	</dl>
-	                	<div class="more_info">
-	                    	<a href="/npo/{{ npo.npo_id }}/">詳細資料</a>
-	                    </div>
 	                </div> 
+                	<div class="more_info">
+                    	<a href="/npo/{{ npo.npo_id }}/">詳細資料</a>
+                    </div>
 			{% else %}
 			沒有任何公益團體
 			{% endif %}
@@ -99,11 +99,10 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
         <ul class="top_activities">
 	    {% if eventList %}
         	{% for event in eventList %}
-            <li class="with_sep_line">
+            <li {% if not forloop.first %}class="with_sep_line"{% endif %}>
                 <h2><a href="/event/viewEvent?id={{ event.eventKey }}">{{ event.name|escape }}</a></h2>
                 <p><a href="/npo/{{ event.npo_id }}/">{{ event.npoName|escape }}</a></p>
-                <p>{{ event.startTime|escape }}</p>
-                <p>{{ event.region|escape }}</p>
+                <p>{{ event.startTime|escape }} 於 {{ event.region|escape }}</p>
                 <p class="act_desc">{{ event.description|escape }}</p>
                 <span class="more_info">
                 	<a href="/event/viewEvent?id={{ event.eventKey }}">詳細資料</a>

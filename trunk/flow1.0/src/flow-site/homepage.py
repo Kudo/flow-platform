@@ -65,7 +65,7 @@ def home(request):
                 'npoName':      event.npo_profile_ref.npo_name,
                 'npo_id':       event.npo_profile_ref.npo_id,
                 'region':       u','.join(event.event_region),
-                'startTime':    event.start_time.strftime('%Y-%m-%d %H:%M'),
+                'startTime':    event.start_time.strftime('%Y-%m-%d'),
                 'description':  event.description,
             })
 
