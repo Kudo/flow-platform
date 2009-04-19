@@ -6,10 +6,11 @@
 <link href="/static/css/global2.css" rel="stylesheet" type="text/css" />
 <link href="/static/css/reset.css" rel="stylesheet" type="text/css" />
 <link href="/static/css/global.css" rel="stylesheet" type="text/css" />
+{% if not nojQuery %}
 <script type="text/javascript" src="{{ base.jQueryURI }}"></script>
 <script type="text/javascript" src="/static/js/global.js"></script>
 <script type="text/javascript" src="/static/js/index.js" ></script> 
-
+{% endif %}
 
 {% block extraHeader %}
 	{### this block can be replaced by children template with css / script definition ###}
@@ -18,13 +19,6 @@
 
 </head>
 <body>
-<script language="text/javascript">
-    function adminNPO(item)
-    {
-        if (item.selectedIndex != 0)
-            self.location="/npo/" + item.options[item.selectedIndex].value + "admin/members";
-    }
-</script>
 <div id="Search_Wrap" style="display: none;">
     <div id="Search_Body">
         <div id="Search_Type">
