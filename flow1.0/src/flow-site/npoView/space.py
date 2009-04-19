@@ -230,6 +230,7 @@ def articleShow(request, npoid):
             'feedUri':                  target.saved_feed_link or '',
             'page':                     'space',
             'pageSet':                  pageSet,
+            'npoProfile':               target,
     }
 
     return render_to_response('npo/article_list.html', template_values)
