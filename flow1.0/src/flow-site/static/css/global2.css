@@ -275,6 +275,7 @@ A:hover.more_link
 {
 	width: 100%;
 	height:130px;
+	padding-bottom: 10px;
 }
 .top_body
 {
@@ -286,6 +287,10 @@ A:hover.more_link
 	float: left;
 	margin: 0 9px;
 }
+.top_desc
+{
+	height: 80px;
+}
 .top_desc DT
 {
 	font-size: 12px;
@@ -294,16 +299,21 @@ A:hover.more_link
 {
 	font-size: 14px;
 }
-.top_desc .more_info, .top_activities .more_info
+.top_body .more_info, .top_activities .more_info
 {
 	text-align:right;
-	color: #996633;
+/*	color: #996633;*/
 	display:block;
     font-size: 13px;
 }
+
+.top_body .more_info
+{
+	margin-right: 8px;
+}
 .top_desc .more_info A, .top_activities .more_info A
 {
-	color: #996633;
+/*	color: #996633;*/
 }
 UL.top_activities
 {
@@ -313,28 +323,43 @@ UL.top_activities
 }
 UL.top_activities LI
 {
-	padding: 2px 5px;
+	padding: 2px 6px;
 	margin: 10px 0px;
-	width: 170px;
+	width: 167px;
 	float: left;
 }
 UL.top_activities LI.with_sep_line
 {
-	background:url(../images/top_activities_line.jpg) right repeat-y;
+	/* background:url(../images/top_activities_line.jpg) right repeat-y; */
+	border-left: dotted 1px #666;
 }
+/*
 UL.top_activities A
 {
 	color:#996633;
-}
+}*/
 UL.top_activities H2
 {
-	font-size: 15px;
+	font-size: 16px;
 	color: #ff3300;
 	padding: 0px;
-	margin: 0px 0px 5px 0px;
+	/* margin: 0px 0px 5px 0px; */
 	font-weight:normal;
 }
 UL.top_activities H2 A
+{
+	color: #ff3300;
+}
+/* below are for IE6 fix */
+UL.top_activities H2 A:active
+{
+	color: #ff3300;
+}
+UL.top_activities H2 A:hover
+{
+	color: #ff3300;
+}
+UL.top_activities H2 A:visited
 {
 	color: #ff3300;
 }

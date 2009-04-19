@@ -159,6 +159,7 @@
 
 .activity-info-content dt {
 	width: 200px;
+	clear: both; /* Fix for IE6 display issue */
 }
 .activity-info-content dd {
 	/*width: 700px;*/ /* Remove for IE display issue*/
