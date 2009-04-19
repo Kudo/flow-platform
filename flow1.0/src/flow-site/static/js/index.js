@@ -3,8 +3,7 @@ var isSearchPanelShowing = false;
 var searchPanelActivePage = "Activity";
 
 function jsToggleSearchPanel() {
-  isSearchPanelShowing = !isSearchPanelShowing;
-  if (isSearchPanelShowing) {
+  if (isSearchPanelShowing == false) {
     jsShowSearchPanel();
   } else {
     jsCloseSearchPanel();
@@ -14,9 +13,11 @@ function jsToggleSearchPanel() {
 function jsShowSearchPanel(){
     jsSwitchType(searchPanelActivePage);
 	$("#Search_Wrap").fadeIn(200);
+	isSearchPanelShowing = true;
 }
 function jsCloseSearchPanel(){
 	$("#Search_Wrap").fadeOut(200);
+	isSearchPanelShowing = false;
 }
 function jsSwitchType(strType){
 	$("#Type_Activity").show();
