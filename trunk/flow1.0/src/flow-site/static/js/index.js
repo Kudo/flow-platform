@@ -1,10 +1,22 @@
 ﻿// JScript File
+var isSearchPanelShowing = false;
+var searchPanelActivePage = "Activity";
+
+function jsToggleSearchPanel() {
+  isSearchPanelShowing = !isSearchPanelShowing;
+  if (isSearchPanelShowing) {
+    jsShowSearchPanel();
+  } else {
+    jsCloseSearchPanel();
+  }
+}
+
 function jsShowSearchPanel(){
-    jsSwitchType("Activity");
-	$("#Search_Wrap").slideDown(1000);
+    jsSwitchType(searchPanelActivePage);
+	$("#Search_Wrap").fadeIn(200);
 }
 function jsCloseSearchPanel(){
-	$("#Search_Wrap").slideUp(1000);
+	$("#Search_Wrap").fadeOut(200);
 }
 function jsSwitchType(strType){
 	$("#Type_Activity").show();
@@ -25,5 +37,8 @@ function jsSwitchType(strType){
         	$("#Type_Group").removeClass("type").addClass("selected");
         	$("#Search_Group").show();
             break;
+        default:
+            return;
     } 
+	searchPanelActivePage = strType;
 }

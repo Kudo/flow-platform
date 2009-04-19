@@ -125,7 +125,7 @@
         <!-- 
         <a href="/">首頁</a>
         -->
-        <a id="top-search-link" href="javascript:;" onClick="jsShowSearchPanel();" class="highlight">搜尋</a>
+        <a id="top-search-link" href="javascript:;" onClick="jsToggleSearchPanel();" class="highlight">搜尋</a>
     </div>
     <div id="Top_Logo">
 		<a href="/"><img src="/static/images/newframe/logo.gif" alt="若水logo"></a>
@@ -159,7 +159,7 @@
 		var panelWidth = searchPanel.outerWidth();
 		//alert('panel: '+$('#Search_Wrap').position().top+","+$('#Search_Wrap').position().left);
 		//alert('link: '+$('#top-search-link').position().top+","+$('#top-search-link').position().left);
-		searchPanel.css('left', panelPosition.left+linkPosition.left-((panelWidth-linkWidth)/2))
+		searchPanel.css('left', panelPosition.left+linkPosition.left-(panelWidth-linkWidth))
 			.css('top', linkPosition.top+linkHeight);
 	}
 	
