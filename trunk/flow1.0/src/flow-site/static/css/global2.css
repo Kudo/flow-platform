@@ -137,6 +137,8 @@ body {
 	margin-bottom:0px;
 	width: 70px;
 	float: left;
+	clear: none;
+	padding: 0;
 }
 #Search_Body .button
 {
