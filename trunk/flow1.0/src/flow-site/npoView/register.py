@@ -75,8 +75,8 @@ def step1(request):
     user = users.get_current_user()
     if (not flowBase.getVolunteer(user)) or ('notMember' in request.GET):
         isWarning = u'您尚未註冊至若水平台，請先點選右上角註冊後才能申請註冊公益團體喔。'
-    if db.GqlQuery('SELECT * From NpoProfile WHERE google_acct = :1', user).count() > 0:
-        pass            # 暫時不限制一個人可以申請幾個 公益團體
+    if NpoProfile.all().filter('google_acct = ', user).count() > 10:
+        isWarning = u'本系統限制一個人最多只能申請十個公益團體，如有問題，請洽管理者。'
     if 'yes' in request.GET:
         return HttpResponseRedirect('/npo/register/step2/')
     if 'no' in request.GET:
@@ -88,8 +88,11 @@ def step1(request):
     return render_to_response('registration/npo_step1.html', template_values)
 
 def step2(request):
-    if not flowBase.getVolunteer(users.get_current_user()):
+    user = users.get_current_user()
+    if not flowBase.getVolunteer(user):
         return HttpResponseRedirect('/npo/register/?notMember=True')
+    if NpoProfile.all().filter('google_acct = ', user).count() > 10:
+        return HttpResponseRedirect('/npo/register/')
     if 'register' in request.GET:
         return HttpResponseRedirect('/npo/register/step3/')
     template_values = {
@@ -102,6 +105,8 @@ def step3(request):
     user = flowBase.getVolunteer(users.get_current_user())
     if not user:
         return HttpResponseRedirect('/npo/register/?notMember=True')
+    if NpoProfile.all().filter('google_acct = ', users.get_current_user()).count() > 10:
+        return HttpResponseRedirect('/npo/register/')
 
     if request.method != 'POST':
         form = NpoProfileForm()

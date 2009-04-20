@@ -26,7 +26,7 @@
 		請問您是否要申請註冊公益團體?
 		</p>
 		<form action="">
-			<input type="submit" value="是，我要申請" name="yes">
+		    <input type="submit" value="是，我要申請" name="yes"{% if isWarning %} disabled="disabled"{% endif %}>
 			<input type="submit" value="否" name="no">
 		</form>
 	</div>
