@@ -88,8 +88,8 @@
 								    <a href="/npo/{{ npo.npo_id }}/"><img class="img55" src="{% if npo.logo %}{{ npo.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
 								<div class="name">
-								    <div class="npo-title"><a href="/npo/{{ npo.npo_id }}/">{{ npo.npo_name }}</a></div>
-								    <div class="npo-desc">{{ npo.brief_intro }}</div>
+								    <div class="npo-title"><a href="/npo/{{ npo.npo_id }}/">{{ npo.npo_name|escape }}</a></div>
+								    <div class="npo-desc">{{ npo.brief_intro|escape }}</div>
 								</div>
 							</div>	
 						    {% endfor %}
