@@ -27,7 +27,7 @@
 								<a href="/volunteer/home/{{ member.key }}"><img class="img55" src="{% if member.logo %}{{ member.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 							</div>
 							<div class="name">
-								<a href="/volunteer/home/{{ member.key }}">{{ member.nickname }}</a>
+								<a href="/volunteer/home/{{ member.key }}">{{ member.nickname|escape }}</a>
 							</div>
 							<div class="stats">
 								<dl>
