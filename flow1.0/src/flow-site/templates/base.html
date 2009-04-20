@@ -46,7 +46,7 @@
         		<div class="Search_Section">
 		            <p class="clear_float">居住地區：</p>
 		            <ul>
-		            {% for region in base.region %}
+		            {% for region in base.resident %}
 		            	<li><input type="radio" name="region" value="{{ region }}" id="region_{{ region }}"><label for="region_{{ region }}">{{ region }}</label></li>
 		            {% endfor %}
 		            </ul>
