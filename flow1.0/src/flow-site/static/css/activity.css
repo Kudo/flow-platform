@@ -68,10 +68,12 @@
 }
 
 .activity-lists .activity-info-item dt {
+    line-height: 1.2em;
 	width: 70px;
 }
 
 .activity-lists .activity-info-item dd {
+    line-height: 1.3em;
 	width: 250px;
 	margin-left: 80px;
 }
@@ -158,10 +160,13 @@
 }
 
 .activity-info-content dt {
+    line-height: 1.3em;
 	width: 200px;
 	clear: both; /* Fix for IE6 display issue */
 }
 .activity-info-content dd {
+    line-height: 1.3em;
+    min-height: 1.3em;
 	/*width: 700px;*/ /* Remove for IE display issue*/
 }
 
