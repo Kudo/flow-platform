@@ -38,7 +38,7 @@
 
 {% block twocolumnContent %}
 
-	<h3 id="npo-name">{{ npoProfile.npo_name }}</h3>
+	<h3 id="npo-name">{{ npoProfile.npo_name|escape }}</h3>
 	{% include "npo/admin_topbar.html" %}
 	
     {% block npoContent %}
