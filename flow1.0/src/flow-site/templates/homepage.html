@@ -42,12 +42,12 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 	            <div class="top_body">
 			{% if volunteer %}
 	                <div class="top_icon">
-	                	<img class="img75" src="{% if volunteer.logo %}{{ volunteer.logo }}{% else %}{{ base.noLogo75 }}{% endif %}" width="75"/>
+	                	<a href="/volunteer/home/{{ volunteer.key }}"><img class="img75" src="{% if volunteer.logo %}{{ volunteer.logo }}{% else %}{{ base.noLogo75 }}{% endif %}" width="75"/></a>
 	                </div>
 	                <div class="top_desc">
 	                	<dl>
 	                		<dt>暱稱</dt>
-	                		<dd>{{ volunteer.nickname|escape }} </dd>
+	                		<dd><a href="/volunteer/home/{{ volunteer.key }}">{{ volunteer.nickname|escape }}</a></dd>
 	                		<dt>地區</dt>
 	                		<dd>{{ volunteer.region|escape }}</dd>
 	                		<dt>專長</dt>
@@ -70,12 +70,12 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 	            <div class="top_body">
 			{% if npo %}
 	                <div class="top_icon">
-	                    <img class="img75" src="{% if npo.logo %}{{ npo.logo }}{% else %}{{ base.noNpoLogo75 }}{% endif %}" width="75"/>
+	                    <a href="/npo/{{ npo.npo_id }}/"><img class="img75" src="{% if npo.logo %}{{ npo.logo }}{% else %}{{ base.noNpoLogo75 }}{% endif %}" width="75"/></a>
 	                </div>
 	                <div class="top_desc">
 	                	<dl>
 	                		<dt>名稱</dt>
-	                		<dd>{{ npo.name|escape }}</dd>
+	                		<dd><a href="/npo/{{ npo.npo_id }}">{{ npo.name|escape }}</a></dd>
 	                		<dt>簡介</dt>
 	                		<dd>{{ npo.description|escape }}</dd>
 	                	</dl>

@@ -670,6 +670,18 @@ div.fullpage-list .npo .activities .date {
 	color: #333;
 }
 
+div.fullpage-list .npo .intro {
+    padding-left: 60px;
+}
+
+div.fullpage-list .npo .npo-title, div.fullpage-list .npo .npo-desc {
+    padding: 0;
+    margin: 0;
+}
+
+div.fullpage-list .npo .npo-desc {
+    color: #333;
+}
 /* End of NPO related */
 
 
@@ -702,7 +714,7 @@ div.fullpage-list .item .value {
 
 div.fullpage-list .item dl {
 	float: left;
-	padding-top: 5px;
+	padding-top: 4px;
 /*	padding-left: 60px; */
 	line-height: 16px;
 	vertical-align: text-bottom;
@@ -726,8 +738,12 @@ div.fullpage-list .item dt {
 
 div.fullpage-list .item dd {
     height: 1.1em;
-    line-height: 1em;
-    padding-left: 7.2em;
+    line-height: 1.1em;
+    /* padding-left: 7.2em;*/
+}
+
+div.fullpage-list .item .name, div.fullpage-list .item .image {
+    padding: 3px 0;
 }
 
 div.fullpage-list .event .stats {

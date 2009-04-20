@@ -25,6 +25,7 @@ def show(request):
     for npo in entryList:
         npo.eventList = npo.event2npo.fetch(displayNpoEventCount)
         for event in npo.eventList:
+            event.event_name = event.event_name if len(event.event_name) < 15 else event.event_name[:15] + u'...'
             event.diffDays = (event.start_time - now).days
             event.upcoming = True if event.diffDays >= 0 and event.diffDays <= diffDaysLimit else False
 
@@ -32,7 +33,7 @@ def show(request):
         npo.region = u', '.join(npo.service_region)
         npo.region = npo.region if len(npo.region) < 15 else npo.region[0:15] + u'...'
         if npo.brief_intro:
-            npo.brief_intro = npo.brief_intro if len(npo.brief_intro) < 15 else npo.brief_intro[0:15] + u'...'
+            npo.brief_intro = npo.brief_intro if len(npo.brief_intro) < 50 else npo.brief_intro[:50] + u'...'
 
     template_values = {
             'base':                     flowBase.getBase(request, 'npo'),
