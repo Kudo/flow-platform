@@ -29,6 +29,8 @@ def show(request, key, displayPhotoCount=8, displayBlogCount=6):
     for npo in npoList:
         npo.eventList = npo.event2npo.fetch(displayNpoEventCount)
         for event in npo.eventList:
+            if len(event.event_name) > 15:
+                event.event_name = event.event_name[:15] + u'...'
             event.diffDays = (event.start_time - now).days
             event.upcoming = True if event.diffDays >= 0 and event.diffDays <= diffDaysLimit else False
             
@@ -36,7 +38,7 @@ def show(request, key, displayPhotoCount=8, displayBlogCount=6):
         npo.region = u', '.join(npo.service_region)
         npo.region = npo.region if len(npo.region) < 15 else npo.region[0:15] + u'...'
         if npo.brief_intro:
-            npo.brief_intro = npo.brief_intro if len(npo.brief_intro) < 15 else npo.brief_intro[0:15] + u'...'
+            npo.brief_intro = npo.brief_intro if len(npo.brief_intro) < 40 else npo.brief_intro[:40] + u'...'
     
     # page: home, added by tom_chen... nasty workaround
     base = flowBase.getBase(request, 'volunteer')
