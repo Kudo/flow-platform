@@ -30,5 +30,12 @@ _cityList = [
    u'其他地區',
 ]
 
+_regionList = [
+    u'全省',
+]
+
+def getResidentList():
+	return _cityList
+
 def getRegionList():
-    return _cityList
+    return _regionList
