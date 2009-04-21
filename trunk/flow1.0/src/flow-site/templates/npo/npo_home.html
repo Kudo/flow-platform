@@ -6,7 +6,6 @@
 
 	{### this block can put additional css / script definition to head tag ###}
 	<!-- block npoExtraHeader here -->
-	<script type="text/javascript" src="/static/js/npo_news.js" ></script> 
 	
 <link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
 <link href="/static/css/form.css" rel="stylesheet" type="text/css" />
@@ -26,7 +25,7 @@
 							<img src="/static/images/titlebar-right.jpg" class="right">
 							{% if npoBase.isNpoAdmin %}
 							<div class="right-links">
-					    		<a href="#" id = 'npo_edit_button' >編輯</a><input type="button" value="ok" id="npo_edit_button_ok" style="display: none;" />
+					    		<a href="/npo/{{ npoProfile.npo_id }}/admin/news">編輯</a>
 					    	</div>
 					    	{% endif %}
 							<h3>最新消息</h3>

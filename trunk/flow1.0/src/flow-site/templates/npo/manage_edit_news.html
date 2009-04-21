@@ -1,0 +1,38 @@
+{% extends "npo/admin_base.html" %}
+
+{### header ###}
+
+{% block npoExtraHeader %}
+	<script type="text/javascript" src="/static/js/npo_news.js" ></script> 
+	<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
+
+{% endblock npoExtraHeader %}
+
+{### content ###}
+
+{% block npoContent %}
+
+	<!-- <h3 id="page-title" class="subbar">編輯最新消息</h3>-->
+	<div class="step-main">
+		<form class="flow-form" action="{{path}}?npo_id={{npoProfile.npo_id}}" method="POST" >
+		<ul>
+			<li class="section first">
+				<h3>最新消息</h3>
+			</li>
+						<div class="content">
+							<!-- Mark the fake news when testing real data -->
+							<input id='npo_news_1_input' name='npo_news_1' type='text' size='48' value='最新消息第一條1'><br>
+							<input id='npo_news_2_input' name='npo_news_2' type='text' size='48' value='最新消息第二條2'><br>
+							<input id='npo_news_3_input' name='npo_news_3' type='text' size='48' value='最新消息第三條3'><br>
+						</div>
+
+			
+			<li class="buttons section">
+				<input id="btnSubmit" class="btTxt" type="submit" name="submit" value="儲存變更" />
+				<input id="btnCancel" class="btTxt" type="submit" name="cancel" value="取消變更" />
+			</li>
+		</ul>
+		</form>
+	</div>
+
+{% endblock %}
