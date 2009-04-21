@@ -281,6 +281,7 @@ A:hover.more_link
 {
 	text-align: left;
 	margin-top: 9px;
+    margin-right: 8px;
 }
 .top_icon
 {
@@ -307,13 +308,19 @@ A:hover.more_link
     font-size: 13px;
 }
 
+/*
 .top_body .more_info
 {
 	margin-right: 8px;
 }
+    */
 .top_desc .more_info A, .top_activities .more_info A
 {
 /*	color: #996633;*/
+}
+.top_activities div.info
+{
+    height: 105px;
 }
 UL.top_activities
 {
@@ -326,6 +333,7 @@ UL.top_activities LI
 	padding: 2px 6px;
 	margin: 10px 0px;
 	width: 167px;
+    height: 120px;
 	float: left;
 }
 UL.top_activities LI.with_sep_line
@@ -371,7 +379,9 @@ UL.top_activities P
 }
 UL.top_activities P.act_desc
 {
-	margin-top:12px;
+	margin-top:8px;
+    color: #222;
+    font-size: 15px;
 }
 UL.top_activities SPAN.sep_line
 {

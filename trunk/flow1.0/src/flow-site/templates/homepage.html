@@ -100,10 +100,12 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 	    {% if eventList %}
         	{% for event in eventList %}
             <li {% if not forloop.first %}class="with_sep_line"{% endif %}>
-                <h2><a href="/event/viewEvent?id={{ event.eventKey }}">{{ event.name|escape }}</a></h2>
-                <p><a href="/npo/{{ event.npo_id }}/">{{ event.npoName|escape }}</a></p>
-                <p>{{ event.startTime|escape }} 於 {{ event.region|escape }}</p>
-                <p class="act_desc">{{ event.description|escape }}</p>
+                <div class="info">
+                    <h2><a href="/event/viewEvent?id={{ event.eventKey }}">{{ event.name|escape }}</a></h2>
+                    <p><a href="/npo/{{ event.npo_id }}/">{{ event.npoName|escape }}</a></p>
+                    <p>{{ event.startTime|escape }} 於 {{ event.region|escape }}</p>
+                    <p class="act_desc">{{ event.description|escape }}</p>
+                </div>
                 <span class="more_info">
                 	<a href="/event/viewEvent?id={{ event.eventKey }}">詳細資料</a>
                 </span>
