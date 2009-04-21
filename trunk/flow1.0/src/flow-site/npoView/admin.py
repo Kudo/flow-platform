@@ -134,4 +134,16 @@ def manageMember(request, npoid):
     else:
         return HttpResponseRedirect(users.create_login_url(cgi.escape(request.path)))        
 
-  
+def editNews(request, npoid):
+    npoProfile = flowBase.getNpo(npo_id=npoid)
+    if not npoProfile and not flowBase.isNpoAdmin(npo=npoProfile):
+        return HttpResponseRedirect('/')
+
+    template_values = {
+            'page':                     'home',
+            'base':                     flowBase.getBase(request, 'npo'),
+            'npoBase':                  flowBase.getNpoBase(npoProfile),
+     }
+    response = render_to_response('npo/manage_edit_news.html', template_values)
+    return response
+
