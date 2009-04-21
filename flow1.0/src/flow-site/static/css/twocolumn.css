@@ -265,7 +265,8 @@ html[xmlns] .clearfix {
 	/* width: 8em; */
 	float: none !important;
 	margin-bottom: 0 !important;
-	color: #AAA;
+	color: #666;
+    font-size: 0.9em;
 }
 
 .left-column form .content dt {
@@ -274,7 +275,8 @@ html[xmlns] .clearfix {
 
 .left-column .content dd {
 	margin-left: 0;
-	margin-bottom: 6px;
+	margin-bottom: 7px;
+    font-size: 1.1em;
 }
 
 /* form */

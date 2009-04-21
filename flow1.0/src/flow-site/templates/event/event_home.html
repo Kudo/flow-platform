@@ -1,0 +1,152 @@
+{% extends "event/newbase.html" %}
+
+{### header ###}
+
+{% block eventExtraHeader %}
+    <link href="/static/css/jquery-ui/ui.all.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{ base.jQueryUI_URI }}"></script>
+    <script type="text/javascript" src="/static/js/space.js"></script>
+
+{% endblock %}
+
+{### content ###}
+{% block eventContent %}
+    <script type="text/javascript">
+{% ifequal event.status "registrating" %}
+    $(document).ready(function() {
+        var registerObj = $("#register");
+        registerObj.click(function(e) {
+        e.preventDefault();
+        var registerBoxObj = $("#registerBox");
+        registerBoxObj.show().dialog({
+              bgiframe: true,
+              modal: true,
+            resizable:  false,
+            close: function(e, ui) { registerBoxObj.hide().dialog('destroy'); },
+            buttons: { "確定": function() { submitForm('applyEvent');}}
+        });
+        });
+    });
+{% endifequal %}
+
+  function submitForm(url)
+  {
+      document.myForm.action = url;
+    document.myForm.submit();
+  }
+    </script>
+
+
+{% if alertMsg %}
+        <script type="text/javascript">
+            $(function() {
+                $("#dialog").dialog({
+                    bgiframe: true,
+                    modal: true,
+                    buttons: { "確定": function() {
+                        window.location = "/event/viewEvent?id={{event_key|escape}}";
+                        }}
+                });
+            });
+        </script>
+        <div id="dialog" title="訊息" style="display: none;">
+            <p>
+                {{alertMsg}}
+            </p>
+        </div>
+{% endif %}
+
+
+    <div class="content-block">
+        <div class="title">
+            <img src="/static/images/titlebar-left.jpg" class="left">
+            <img src="/static/images/titlebar-right.jpg" class="right">
+            <h3>基本資訊</h3>
+        </div>
+
+        <div class="content">
+            <dl>
+                <dt>活動描述</dt>
+                <dd>{{ event.description|escape }}</dd>
+                <dt>詳細時間</dt>
+                <dd>{{ event.start_time|date:"Y 年 m 月 d 日 H:i"|escape }} ＞ {{ event.end_time|date:"Y 年 m 月 d 日 H:i"|escape }}</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="content-block">
+        <div class="title">
+            <img src="/static/images/titlebar-left.jpg" class="left">
+            <img src="/static/images/titlebar-right.jpg" class="right">
+            <h3>活動簡述</h3>
+        </div>
+
+        <div class="content">
+            <div id="summary">{{ event.summary|escape|linebreaks }}</div>
+        </div>
+    </div>
+
+    <div class="content-block">
+        <div class="title">
+            <img src="/static/images/titlebar-left.jpg" class="left">
+            <img src="/static/images/titlebar-right.jpg" class="right">
+            {% ifequal event.status "registrating" %}
+            <div class="right-links">
+                <a href="#" id='register' >我要報名</a>
+                <form method="POST" name="myForm" action="">
+                    <input type="hidden" name="event_key" value="{{ event_key|escape }}">
+                    <div id="registerBox" title="報名" style="display: none;">
+                        <p>請問是否報名參加此活動?</p>
+                    </div>
+                </form>
+            </div>
+            {% endifequal %}
+            <h3>報名資訊</h3>
+        </div>
+
+        <div class="content">
+            <div id="apply-status">
+            {% ifequal event.status "registrating" %}
+                {% if needed %}
+                <p>
+                    仍缺 <span class="needed">{{ needed }}</span> 位志工
+                </p>
+                {% endif %}
+                <p>
+                    目前{% ifequal event.registered_count 0 %}尚未有{% else %}有 {{ event.registered_count|escape }} {% endifequal %}人報名,
+                    {% ifequal event.approved_count 0 %}尚未有{% else %}{{ event.approved_count|escape }}{% endifequal %}人通過審核
+                </p>
+            {% else %}
+                <p>
+                    目前非報名時間
+                </p>
+            {% endifequal %}
+            </div>
+            <dl>
+                <dt>報名時間</dt>
+                <dd>{{event.reg_start_time|date:"Y 年 m 月 d 日 H:i"|escape}} ＞ {{event.reg_end_time|date:"Y 年 m 月 d 日 H:i"|escape}}</dd>
+                {% ifnotequal event.registration_fee 0 %}
+                <dt>費用</dt>
+                <dd>新台幣 {{ event.registration_fee|escape }} 元整</dd>
+                {% endifnotequal %}
+                {% if event.req_age %}
+                <dt>年齡限制</dt>
+                <dd>{{ event.req_age }}</dd>
+                {% endif %}
+                {% ifnotequal event.sex "Both" %}
+                <dt>性別限制</dt>
+                    {% ifequal event.sex "Male" %}
+                        <dd>男性</dd>
+                    {% else %}
+                        <dd>女性</dd>
+                    {% endifequal %}
+                {% endifnotequal %}
+                {% if event.expertise_req %}
+                <dt>所需專長</dt>
+                <dd>{% for item in event.expertise_req %} {{ item|escape }} {% endfor %}</dd>
+                {% endif %}
+            </dl>
+        </div>
+    </div>
+
+{% endblock %}

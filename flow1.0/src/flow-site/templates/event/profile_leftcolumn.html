@@ -1,0 +1,41 @@
+				
+				<div id="picture">
+	    	        <img src="{% if event.npo_profile_ref.logo %}{{ event.npo_profile_ref.logo }}{%else%}{{ base.noNpoLogo100 }}{% endif %}" width="100" /><br>
+                </div>
+				<div id="boxes-left" class="box-column">
+					<div id="action" class="left-box">
+                        <!--
+						<div class="left-box-body">
+							<ul>
+								<li>
+									<a href="/npo/{{npoBase.npo_id}}/admin/members">我要報名</a>
+								</li>
+							</ul>
+                        </div>--><!-- left-box-body -->
+					</div><!-- left-box -->
+					<div id="activity" class="left-box">
+						<h3 class="left-box-header">
+							活動資訊
+						</h3>
+						<div class="left-box-body">
+							<h4>發起團體</h4>
+                            <div><a href="/npo/{{ event.npo_profile_ref.npo_id }}">{{event.npo_profile_ref.npo_name|escape}}</a></div>
+						</div>
+                        <div class="left-box-body">
+                            <h4>地點</h4>
+                            <div>{% for item in event.event_region%}{{item|escape}}{% endfor %}</div>
+                        </div>
+                        <div class="left-box-body">
+                            <h4>開始日期</h4>
+                            <div>{{event.start_time|date:"Y/m/d"|escape}}</div>
+                        </div>
+                        <div class="left-box-body">
+                            <h4>公益時數</h4>
+                            <div>{{event.event_hours|escape}} 小時</div>
+                        </div>
+                        <div class="left-box-body">
+                            <h4>需求志工</h4>
+                            <div>{{event.volunteer_req|escape}} 人</div>
+                        </div>
+					</div>
+				</div><!-- boxes-left -->

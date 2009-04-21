@@ -1,0 +1,40 @@
+{% extends "twocolumn_base.html" %}
+
+{### header ###}
+
+{% block twocolumnExtraHeader %}
+	
+	<link href="/static/css/activity.css" rel="stylesheet" type="text/css" />
+	<link href="/static/css/form.css" rel="stylesheet" type="text/css" />
+	{% block eventExtraHeader %}
+		{### this block can be replaced by children template with css / script definition ###}
+		<!-- block registerExtraHeader here -->
+	{% endblock eventExtraHeader %}
+
+{% endblock twocolumnExtraHeader %}
+
+{### splashPage ###}
+
+{% block splashPage %}
+	{% include "splashbox_search.html" %}
+{% endblock splashPage %}
+
+{### sideBar ###}
+{% block twocolumnSidebar %}
+
+{% include "event/profile_leftcolumn.html" %}
+
+{% endblock %}
+
+{### content ###}
+
+{% block twocolumnContent %}
+
+    <h3 id="event-name">{{event.event_name|escape}}</h3>
+    {% include "event/topbar.html" %}
+	{% block eventContent %}
+		{### this block can be replaced by children template with activity main content ###}
+		block activityContent here
+	{% endblock eventContent %}
+	
+{% endblock twocolumnContent %}
