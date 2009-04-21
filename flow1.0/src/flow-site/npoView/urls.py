@@ -19,6 +19,7 @@ urlpatterns = patterns('npoView',
     (r'^(?P<npoid>[^/]+)/admin/approveVolunteer/?$', 'eventAdminValidate.approveVolunteer'),
     (r'^(?P<npoid>[^/]+)/admin/members/manage/?$', 'admin.manageMember'),
     (r'^(?P<npoid>[^/]+)/admin/members/?$',        'admin.memberList'),
+    (r'^(?P<npoid>[^/]+)/admin/news/?$',            'admin.editNews'),
     # register
     (r'^register/?$',               'register.step1'),
     (r'^register/step2/?$',         'register.step2'),
