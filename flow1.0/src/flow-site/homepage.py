@@ -61,12 +61,12 @@ def home(request):
         if event.start_time > now:
             eventList.append({
                 'eventKey':     str(event.key()),
-                'name':         event.event_name,
-                'npoName':      event.npo_profile_ref.npo_name,
+                'name':         event.event_name if len(event.event_name) <= 10 else event.event_name[:9] + u'...',
+                'npoName':      event.npo_profile_ref.npo_name if len(event.npo_profile_ref.npo_name) <= 12 else event.npo_profile_ref.npo_name[:11] + u'...',
                 'npo_id':       event.npo_profile_ref.npo_id,
                 'region':       u','.join(event.event_region),
-                'startTime':    event.start_time.strftime('%Y-%m-%d'),
-                'description':  event.description,
+                'startTime':    event.start_time.strftime('%Y/%m/%d'),
+                'description':  event.description if len(event.description) <= 22 else event.description[:21] + u'...',
             })
 
     template_values = {
