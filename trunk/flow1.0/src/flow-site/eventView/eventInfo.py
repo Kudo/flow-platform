@@ -16,11 +16,20 @@ def showEvent(request):
     if not event:
         return HttpResponseRedirect('/')
     intVolunteerNeeded = event.volunteer_req - event.approved_count
+
+    if event.min_age == 1 and event.max_age != 99:
+        event.req_age = u'%d 럼쩑짾' % event.max_age
+    elif event.min_age != 1 and event.max_age == 99:
+        event.req_age = u'%d 럼쩑쨁' % event.min_age
+    elif event.min_age != 1 and event.max_age != 99:
+        event.req_age = u'%d 럼╁ %d 럼' % (event.min_age, event.max_age)
+
     dicData={'event': event,
              'event_key':event.key(),
              'base': flowBase.getBase(request, 'event'),
+             'page': 'home',
              'needed': str(intVolunteerNeeded)}
-    return render_to_response(r'event/event-info.html',dicData)
+    return render_to_response(r'event/event_home.html',dicData)
 
 def applyEvent(request):
     eventKey=request.POST.get('event_key')
@@ -54,7 +63,7 @@ def applyEvent(request):
              'base': flowBase.getBase(request, 'event'),
              'needed': str(event.volunteer_req - event.approved_count),
              'alertMsg':strAlert}
-    return render_to_response(r'event/event-info.html',dicData)
+    return render_to_response(r'event/event_home.html',dicData)
                     
 
 def EmptyApply(request):

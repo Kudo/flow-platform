@@ -187,3 +187,26 @@
 	width: 100px;
 	margin: 0 10px;
 }
+
+/* NEW */
+#event-name {
+    font-size: 24px;
+    padding-bottom: 10px;
+}
+
+.needed {
+    font-size: 1.3em;
+    color: #CC1414;
+    font-weight: bold;
+}
+
+#apply-status {
+    border-bottom: dotted 1px #808080;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 1.1em;
+}
+
+#summary {
+    color: #333;
+}
