@@ -20,7 +20,7 @@ displayExpertiseCount = 5
 def show(request):
     searchVal = {}
     searchVal['searchRegion'] = request.GET.get('region') and request.GET.get('region').decode('UTF-8')
-    searchVal['searchExpertise'] = request.GET.get('expertise') and request.GET.get('expertise').decode('UTF-8')
+    searchVal['searchExpertise'] = [s.decode('UTF-8') for s in request.GET.getlist('expertise')]
 
     queryStringList = []
     queryObj = VolunteerProfile.all()
@@ -36,9 +36,10 @@ def show(request):
             displayStr += u' '
 
     if searchVal['searchExpertise']:
-        queryObj.filter('expertise = ', searchVal['searchExpertise'])
-        queryStringList.append(u'expertise=%s' % searchVal['searchExpertise'])
-        displayStr += u'專長為 <span class="highlight">' + searchVal['searchExpertise'] + '</span> '
+        queryObj.filter('expertise in ', searchVal['searchExpertise'])
+        for expertise in searchVal['searchExpertise']:
+            queryStringList.append(u'expertise=%s' % expertise)
+        displayStr += u'專長為 <span class="highlight">' + u','.join(searchVal['searchExpertise']) + u'</span> '
 
     pageSet = paging.get(request.GET, queryObj.count(), displayCount=displayCount)
 
