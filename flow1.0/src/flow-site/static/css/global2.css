@@ -27,7 +27,7 @@ body {
 {
 	float: right;
 	text-align: right;
-	padding: 5px 27px 10px 0px;
+	padding: 5px 27px 0px 0px;
 	font-size:14px;
 	color: #666666;
 }
@@ -43,6 +43,21 @@ body {
 #Top_Nav A.highlight
 {
 	color:#003366;
+}
+#Top_Nav_Row2 {
+    padding-top: 2px;
+}
+select option.cat {
+    font-weight: bolder;
+}
+select option.level_1 {
+    padding-left: 0px;
+}
+select option.level_2 {
+    padding-left: 15px;
+}
+select option.level_3 {
+    margin-left: 30px;
 }
 #Search_Wrap
 {
@@ -152,7 +167,7 @@ body {
 #Main_Block
 {
 	margin-top:37px;
-	padding-left:91px;
+/*	padding-left:91px;*/
 }
 #Main_Title
 {
@@ -162,6 +177,10 @@ body {
 #Main_Nav
 {
 	padding-top:7px;
+}
+#Main_Nav IMG
+{
+    vertical-align: top;
 }
 #Main_Nav A
 {

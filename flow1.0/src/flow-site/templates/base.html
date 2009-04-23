@@ -79,46 +79,43 @@
 </div>
 <div id="Banner">
     <div id="Top_Nav">
-    	{% if base.volunteer_id %}
-    		{{ base.volunteer_id|escape }} |
-        {% endif %}
-        <!-- <a href="#" onClick="javascript:$('#Search').toggle('drop');" class="highlight">搜尋</a>
-        <a id="top-search-link" href="javascript:;" onClick="jsShowSearchPanel();" class="highlight">搜尋</a>
-        | -->
-        {% if base.volunteer_id %}
-	        <a href="/logout?redirect={{ base.full_path }}">登出</a>
-	        |
-	        <a href="/volunteer/home/">我的履歷表</a>
-	        |
-            {% if base.myAdminNpos %}
-                <form class="inline">
-                    <select id="select" name="nponame" onChange="if(this.selectedIndex!=0)self.location=this.options[this.selectedIndex].value">
-                        <option value="" selected style="font-weight: bold;">我管理的公益團體</option>
-                        {% for npo in base.myAdminNpos %}
-                        <option value="/npo/{{ npo.npo_id }}/admin/members" style="padding-left: 15px;">{{ npo.npo_name }}</option>
-                        {% endfor %}
-                    </select>
-                </form>
-            |
+        <div id="Top_Nav_Row1">
+            {% if base.volunteer_id %}
+                <a href="/logout?redirect={{ base.full_path }}">登出</a>
+                |
+           {% else %}
+                    {% if not base.user %}
+                <a href="/login?redirect={{ base.full_path }}">登入</a>
+                |
+                    {% endif %}
+                <a href="/volunteer/register/">註冊</a>
+                |
             {% endif %}
-
-        	{% if base.isFlowAdmin %}
-        		<a href="/admin/">管理介面</a>
-        		|
-        	{% endif %}
-        {% else %}
-				{% if not base.user %}
-        	<a href="/login?redirect={{ base.full_path }}">登入</a>
-        	|
-				{% endif %}
-        	<a href="/volunteer/register/">註冊</a>
-        	|
+            <a href="#">說明</a>
+            |
+            <a id="top-search-link" href="javascript:;" onClick="jsToggleSearchPanel();" class="highlight"><img src="/static/images/Search_16x16.png" align="top"> 搜尋</a>
+        </div>
+        {% if base.volunteer_id %}
+        <div id="Top_Nav_Row2">
+            歡迎, {{ base.volunteer_id|escape }} 
+            <form class="inline">
+                <select id="select" name="nponame" onChange="if(this.selectedIndex!=0)self.location=this.options[this.selectedIndex].value">
+                    <option value="" selected>快速捷徑 &gt;&gt;</option>
+                    <option value="/volunteer/home/">我的履歷表</option>
+                    {% if base.isFlowAdmin %}
+                    <option value="/admin/">若水平台管理介面</option>
+                    {% endif %}
+                    {% if base.myAdminNpos %}
+                    <optgroup label="我管理的公益團體">
+                    {% for npo in base.myAdminNpos %}
+                    <option value="/npo/{{ npo.npo_id }}/admin/members">{{ npo.npo_name }}</option>
+                    {% endfor %}
+                    </optgroup>
+                    {% endif %}
+                </select>
+            </form>
+        </div>
         {% endif %}
-        <a href="#">說明</a>
-        |
-        <a id="top-search-link" href="javascript:;" onClick="jsToggleSearchPanel();" class="highlight"><img src="/static/images/Search_16x16.png" align="top"> 搜尋</a>
-        |
-        <a href="/">首頁</a>
     </div>
     <div id="Top_Logo">
 		<a href="/"><img src="/static/images/newframe/logo.gif" alt="若水logo"></a>
