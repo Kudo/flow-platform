@@ -69,7 +69,7 @@ def bulkCreate(request):
         for i in range(0, 100):
             user = users.User("ckchien" + str(i) + "@gmail.com")
             volunteer = VolunteerProfile(key_name=str(user), volunteer_id=user, nickname=user.nickname(), id_no="M123456789", volunteer_last_name="Chien", volunteer_first_name="Kudo", gmail=user.email(),
-                                         date_birth=datetime.date(1984, 6, 2), expertise=[u"資訊"], sex="Male", phone_no="02-1234-5678", resident_country=u"中華民國",
+                                         date_birth=datetime.date(1984, 6, 2), expertise=[u"國語"], sex="Male", phone_no="02-1234-5678", resident_country=u"中華民國",
                                          resident_postal="104", resident_state=u"台灣省", resident_city=u"臺北縣市", resident_district=u"大安區",
                                          prefer_region=[u'臺北', u'台中'], prefer_zip=[u'104'], prefer_target=[u'老弱婦孺'], prefer_field=[u'聊天'], prefer_group=[u'不拘'],
                                          create_time=now, update_time=now, volunteer_rating=80, status="normal", search_text="Kudo in the house",
