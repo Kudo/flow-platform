@@ -19,38 +19,37 @@
 					{% include "paging_top.html" %}
 						<div class="fullpage-list">
 						    {% for entry in entryList %}
-							<div class="item volunteer top-line">
+							<div class="item volunteer top-line clearfix">
 						    	<div class="actions">
 								    <!--   <a href="#">加入好友</a> -->
 								    <a href="/volunteer/home/{{ entry.key }}">檢視檔案</a>
 								</div>
-								
 								<div class="image">
 								    <a href="/volunteer/home/{{ entry.key }}"><img class="img55" src="{% if entry.logo %}{{ entry.logo }}{% else %}{{ base.noLogo }}{% endif %}"/></a>
 								</div>
-								
 								<div class="name">
 								    <a href="/volunteer/home/{{ entry.key }}">{{ entry.nickname|escape }}</a>
 								</div>
-								
 								<div class="stats">
 									<dl>
 										<dt>位於:</dt>
 										<dd>{{ entry.resident_city|escape }}</dd>
 										<dt>專長:</dt>
 										<dd>{{ entry.showExpertise|escape }}</dd>
-										<dt>所屬群組:</dt>
-										<dd>
-										{% for npo in entry.npoList %}
-										<a href="/npo/{{ npo.npo_id }}/">{{ npo.npo_name }}</a> 
-										{% endfor %}
-										
-										{% if entry.npoShowMore %}
-								    	<span class="npo-more">
-										... (<a href="#">共 {{ entry.npoCount }} 個群組</a>)
-								   		</span>
-								    {% endif %}
-										</dd>
+                                        {% if entry.npoList %}
+                                            <dt>參與團體:</dt>
+                                            <dd>
+                                            {% for npo in entry.npoList %}
+                                            <a href="/npo/{{ npo.npo_id }}/">{{ npo.npo_name|escape }}</a>{% if not forloop.last %}, {% endif %}
+                                            {% endfor %}
+                                            
+                                            {% if entry.npoShowMore %}
+                                            <span class="npo-more">
+                                            等 (<a href="/volunteer/joinedNpo/{{ entry.key }}">共 {{ entry.npoCount }} 個團體</a>)
+                                            </span>
+                                            {% endif %}
+                                            </dd>
+                                        {% endif %}
 									</dl>
 								</div>
 								
