@@ -1301,3 +1301,35 @@ span.highlight {
     display: inline;
     vertical-align:text-top;
 }
+
+#admin-title {
+	font-size: 24px;
+	padding-bottom: 10px;
+	padding-left: 15px;
+}
+
+.admin-table {
+	border-collapse: separate;
+	border-spacing: 2px;
+}
+
+.admin-table th, 
+.admin-table td {
+	padding: 2px;
+}
+
+.admin-table thead th {
+	background-color: #beeef8;
+	color: #000;
+	font-weight: bold;
+}
+
+.admin-table thead th.name,
+.admin-table thead th.starter,
+.admin-table thead th.status {
+	width: 90px;
+}
+
+.admin-table thead th.actions {
+	width: 400px;
+}
