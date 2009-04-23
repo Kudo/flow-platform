@@ -52,13 +52,22 @@
 		            </ul>
 		        </div>
 		        <div class="Search_Section">
-		            <p class="clear_float">專長：</p>
+		            <p class="clear_float">專長 - 專業領域：</p>
 		            <ul>
-		            {% for prof in base.proflist %}
+		            {% for prof in base.proflist.0 %}
 		            	<li><input type="checkbox" name="expertise" value="{{ prof }}" id="{{ prof }}"><label for="{{ prof }}">{{ prof }}</label></li>
 		            {% endfor %}
 		            </ul>
 	            </div>
+		        <div class="Search_Section">
+		            <p class="clear_float">專長 - 語言專長：</p>
+		            <ul>
+		            {% for prof in base.proflist.1 %}
+		            	<li><input type="checkbox" name="expertise" value="{{ prof }}" id="{{ prof }}"><label for="{{ prof }}">{{ prof }}</label></li>
+		            {% endfor %}
+		            </ul>
+	            </div>
+
 	            <div class="button clear_float"><input type="image" src="/static/images/search_btn.png" value="搜尋" /></div>
 	        </form>
         </div>
