@@ -43,12 +43,17 @@ def show(request):
         if npo.brief_intro:
             npo.brief_intro = npo.brief_intro if len(npo.brief_intro) < 15 else npo.brief_intro[0:15] + u'...'
 
+    if searchVal['searchRegion'] == None:
+        displayStr = u'全部'
+    else:
+        displayStr = u'服務地區為 <span class="highlight">' + searchVal['searchRegion'] + u'</span> '
     template_values = {
             'base':                     flowBase.getBase(request),
             'pageSet':                  pageSet,
             'entryList':                entryList,
             'firstEntry':               entryList[0] if len(entryList) > 0 else None,
             'searchVal':                searchVal,
+            'displayStr':               displayStr,
             'queryString':              u'&'.join(queryStringList),
     }
     response = render_to_response('npo/npo_search.html', template_values)
