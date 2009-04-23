@@ -48,6 +48,8 @@ def show(request):
         volunteer.npoCount = len(volunteer.npo_profile_ref)
         volunteer.npoShowMore = True if volunteer.npoCount > displayNpoCount else False
         volunteer.showExpertise = u', '.join(volunteer.expertise[:displayExpertiseCount])
+        if (len(volunteer.expertise) > displayExpertiseCount):
+            volunteer.showExpertise += u', ...'
 
     template_values = {
             'base':                     flowBase.getBase(request, 'volunteer'),
