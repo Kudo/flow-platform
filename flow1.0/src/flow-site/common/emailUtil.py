@@ -2,7 +2,7 @@
 from django.conf import settings
 from google.appengine.api import mail
 
-STR_CANCEL_CONTENT='''
+STR_CANCEL_CONTENT=u'''
 
 很抱歉，"%(event)s"活動因下列原因取消
 
