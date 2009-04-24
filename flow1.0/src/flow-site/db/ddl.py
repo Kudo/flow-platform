@@ -852,8 +852,8 @@ class EventProfile(FlowDdlModel):
     summary                    = db.StringProperty(multiline=True)
     expense                    = db.IntegerProperty()         # default to 0
     registration_fee           = db.IntegerProperty()         # default to 0
-    registered_count           = db.IntegerProperty()         # auto-generated from len(registered_volunteer)
-    approved_count             = db.IntegerProperty()         # auto-generated from len(approved_volunteer)
+    registered_count           = db.IntegerProperty()         
+    approved_count             = db.IntegerProperty()         
     status                     = db.StringProperty(required=True, choices=set(["new application", "approved", "announced", "authenticating", "authenticated",
                                                                                "registrating", "recruiting", "registration closed", "on-going",
                                                                                "filling polls", "activity closed", "case-closed reporting", "cancelled",
@@ -901,14 +901,8 @@ class EventProfile(FlowDdlModel):
                 kargs["expense"] = 0
             if "registration_fee" not in kargs:
                 kargs["registration_fee"] = 0
-            if "registered_volunteer" in kargs:
-                kargs["registered_count"] = len(kargs["registered_volunteer"])
-            else:
-                kargs["registered_count"] = 0
-            if "approved_volunteer" in kargs:
-                kargs["approved_count"] = len(kargs["approved_volunteer"])
-            else:
-                kargs["approved_count"] = 0
+            kargs["registered_count"] = 0
+            kargs["approved_count"] = 0
             if "sex" not in kargs:
                 kargs["sex"] = "Both"
             if "female_req" not in kargs:
