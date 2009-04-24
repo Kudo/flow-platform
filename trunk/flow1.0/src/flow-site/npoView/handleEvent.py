@@ -7,8 +7,8 @@ from google.appengine.api import users
 from django import newforms as forms
 from db import ddl
 from google.appengine.ext.db import djangoforms
-from common.widgets import FlowSplitDateTimeWidget,FlowExpertiseChoiceWidget
-from common.fields import FlowChoiceField
+from common.widgets import FlowSplitDateTimeWidget,FlowExpertiseChoiceWidget,ListTextInput
+from common.fields import FlowChoiceField,ListURLField
 import flowBase
 
 g_lstRegion=[(s,s) for s in flowBase.getRegion()]
@@ -23,13 +23,13 @@ class NewEventForm(djangoforms.ModelForm):
     reg_start_time = forms.SplitDateTimeField(widget=FlowSplitDateTimeWidget())
     reg_end_time = forms.SplitDateTimeField(widget=FlowSplitDateTimeWidget())
     event_region = FlowChoiceField(choices=g_lstRegion,widget=forms.Select())
-    event_hours = forms.IntegerField(min_value=0,initial=1,widget=forms.TextInput(attrs={'size':'5'}))
+    event_hours = forms.IntegerField(min_value=1,max_value=3600,initial=1,widget=forms.TextInput(attrs={'size':'5'}))
     summary = forms.CharField(required=False,widget=forms.Textarea(attrs={'rows':'4', 'cols':'40'}))
-    registration_fee = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'size':'20'}))
-    attachment_links_show = forms.URLField(required=False,initial='',widget=forms.TextInput(attrs={'size':'58'}))
-    min_age = forms.IntegerField(min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
-    max_age = forms.IntegerField(min_value=1,initial=99,widget=forms.TextInput(attrs={'size':'3'}))
-    volunteer_req = forms.IntegerField(min_value=1,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
+    registration_fee = forms.IntegerField(required=False,max_value=0x7fffffff, min_value=0,widget=forms.TextInput(attrs={'size':'20'}))
+    attachment_links = ListURLField(required=False,initial='',widget=ListTextInput(attrs={'size':'60'}))
+    min_age = forms.IntegerField(min_value=1,max_value=100,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
+    max_age = forms.IntegerField(min_value=1,max_value=100,initial=99,widget=forms.TextInput(attrs={'size':'3'}))
+    volunteer_req = forms.IntegerField(min_value=1,max_value=10000,initial=1,widget=forms.TextInput(attrs={'size':'3'}))
     
     expertise_req = forms.MultipleChoiceField(required=False,choices=g_lstExpertise, widget=FlowExpertiseChoiceWidget())
 
@@ -37,11 +37,11 @@ class NewEventForm(djangoforms.ModelForm):
     class Meta:
         event_fields = ['event_name', 'description', 'start_time','end_time','reg_start_time','reg_end_time',
                         'event_region', 'event_hours', 'tag', 'summary',
-                        'registration_fee','attachment_links_show']
+                        'registration_fee','attachment_links']
         volunteer_fileds = ['sex','max_age', 'min_age','volunteer_req','expertise_req']
         model = ddl.EventProfile
         fields = event_fields + volunteer_fileds
-
+    
     def clean_start_time(self):
         if self.clean_data['start_time']<datetime.datetime.utcnow():
             raise forms.ValidationError(u'請輸入正確的開始時間')
@@ -95,10 +95,6 @@ def processAddEvent(request,npoid):
             form.clean_data['create_time']=datetime.datetime.now()
             form.clean_data['update_time']=datetime.datetime.now()
             #form.clean_data['questionnaire_template_id']=
-            if form.clean_data['attachment_links_show']:
-                form.clean_data['attachment_links']=[db.Link(form.clean_data['attachment_links_show'])]
-            else:
-                form.clean_data['attachment_links']=[]
             form.clean_data['npo_event_rating']=0
             form.clean_data['event_rating']=0
 
@@ -151,10 +147,6 @@ def processEditEvent(request,npoid):
         form = NewEventForm(data = request.POST , instance = eventProfile)
         if form.is_valid():
             modEventEntity = form.save(commit=False)
-            if form.clean_data['attachment_links_show']:
-                form.clean_data['attachment_links']=[db.Link(form.clean_data['attachment_links_show'])]
-            else:
-                form.clean_data['attachment_links']=[]
             # Check if some filed may become None due to no input
             if(None == modEventEntity.registration_fee):
                 modEventEntity.registration_fee=0
