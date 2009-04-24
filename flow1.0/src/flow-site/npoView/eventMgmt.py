@@ -2,13 +2,12 @@
 import datetime
 from django.http import HttpResponseRedirect,HttpResponseForbidden
 from django.shortcuts import render_to_response
-from django.template import TemplateDoesNotExist
-from google.appengine.api import users
 from django import newforms as forms
+from google.appengine.api import users
 from google.appengine.ext import db
 from db import ddl
 import flowBase
-from common import paging
+from common import paging,emailUtil
 
 dicRule = {'new application'        :{'modify':'',        'recruit':'disabled','validate':'disabled','close':'disabled','cancel':'','volunteer':'disabled'},
            'approved'               :{'modify':'disabled','recruit':''        ,'validate':'disabled','close':'disabled','cancel':'','volunteer':'disabled'},
@@ -97,23 +96,14 @@ def handleCancelEvent(request,npoid):
             event.put()
             cancelDate=datetime.date.today()
             objRecSet = db.GqlQuery('select * from VolunteerEvent where event_profile_ref = :1', event)
-            for objRec in objRecSet.fetch(100):
+            for objRec in objRecSet.fetch(1000):
                 objRec.status="cancelled"
                 objRec.cancelled=True
                 objRec.cancel_date=cancelDate
                 objRec.cancel_reason=form['reason'].data
                 objRec.put()
-                # Todo: send email to regitered use
-                '''
-很抱歉，本次活動因故取消，
-
-衷心感謝您的報名，
-
-期待下一次機會，
-
-與您共享為公益付出的喜樂。
-
-                '''
+                # send email to regitered user
+                emailUtil.sendEventCancelMail(objRec.volunteer_profile_ref,objRec.event_profile_ref,form['reason'].data)
             return HttpResponseRedirect('/npo/%s/admin/listEvent'%npoid)
     else:
         form = CancelEventForm()

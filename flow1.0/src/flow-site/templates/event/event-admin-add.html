@@ -346,7 +346,13 @@ $(function() {
 			        {% endif %}
 				</div>
 			</li>
-			
+			{% if formErrors %}
+				<div>
+	        {% for error in formErrors %}
+	        <font color="#FF0000">{{ error|escape }}</font>
+	        {% endfor %}
+	      </div>
+	    {% endif %}
 			<li class="buttons section">
 				<input type="hidden" name="submitType" value="">
 				<input type="button" class="field button" value="送審" name="btnSubmit" onClick="submitForm('/npo/{{npoProfile.npo_id}}/admin/addEvent','send');">

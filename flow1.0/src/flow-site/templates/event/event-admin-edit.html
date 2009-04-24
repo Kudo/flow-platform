@@ -23,7 +23,7 @@ $(document).ready(function() {
 	$('#mainForm :select').addClass('select');
 
 	$('.datePicker').datepicker({
-			showOn: 'both', 
+			showOn: 'button', 
 			buttonImage: '/static/images/jquery-ui/calendar.gif', 
 			buttonImageOnly: true,
 			dateFormat: 'yy-mm-dd',
@@ -346,6 +346,15 @@ function disableButton(form) {
 				</div>
 			</li>
 			
+			{% if formErrors %}
+				<div>
+	        {% for error in formErrors %}
+	        <font color="#FF0000">{{ error|escape }}</font>
+	        {% endfor %}
+	      </div>
+	    {% endif %}
+			
+
 			<li class="buttons section">
 				<input type="hidden" name="submitType" value="">
 				<input type="hidden" name="event_key" value="{{ event_key }}">

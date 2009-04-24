@@ -92,3 +92,6 @@ JQUERY_UI_URI = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.1/jquery-ui.m
 EXTRA_PATHS = [
         os.path.join(ROOT_PATH, 'lib'),
 ]
+
+# Use this email address as sender when send email to users
+ADMIN_EMAIL = 'young@flow.org.tw'
