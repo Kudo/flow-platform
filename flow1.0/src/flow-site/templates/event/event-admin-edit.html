@@ -251,12 +251,12 @@ function disableButton(form) {
 			<li>
 				<label class="desc">
 					活動企劃書位址
-					{% if form.attachment_links_show.field.required %}<span class="req">*</span>{% endif %}
+					{% if form.attachment_links.field.required %}<span class="req">*</span>{% endif %}
 				</label>
 				<div>
-					{{ form.attachment_links_show }} 
-					{% if form.attachment_links_show.errors %}    
-			        {% for error in form.attachment_links_show.errors %}
+					{{ form.attachment_links }} 
+					{% if form.attachment_links.errors %}    
+			        {% for error in form.attachment_links.errors %}
 			        <font color="#FF0000">{{ error|escape }}</font>
 			        {% endfor %}
 			        {% endif %}

@@ -3,6 +3,14 @@ import datetime
 from itertools import chain
 from django import newforms as forms
 
+
+class ListTextInput(forms.TextInput):
+    def render(self, name, value, attrs=None):
+        if isinstance(value,list):
+            value=u''.join(value)
+        return super(ListTextInput,self).render(name, value, attrs)
+
+
 class TimeInput(forms.TextInput):
     def render(self, name, value, attrs=None):
         if isinstance(value,datetime.time):

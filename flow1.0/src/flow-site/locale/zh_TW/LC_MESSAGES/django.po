@@ -15,3 +15,12 @@ msgstr "請輸入正確的日期"
 
 msgid "Enter a valid time."
 msgstr "請輸入正確的時間"
+
+msgid "Ensure this value is less than or equal to %s."
+msgstr "請輸入小於 %s 的數字"
+
+msgid "Ensure this value is greater than or equal to %s."
+msgstr "請輸入大於 %s 的數字"
+
+msgid "Enter a valid URL."
+msgstr "請輸入正確的網址"
