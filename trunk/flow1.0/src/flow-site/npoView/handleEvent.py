@@ -42,11 +42,22 @@ class NewEventForm(djangoforms.ModelForm):
         model = ddl.EventProfile
         fields = event_fields + volunteer_fileds
 
+    def clean_start_time(self):
+        if self.clean_data['start_time']<datetime.datetime.utcnow():
+            raise forms.ValidationError(u'請輸入正確的開始時間')
+        return self.clean_data['start_time']
+        
     def clean_end_time(self):
+        if self.clean_data['end_time']<datetime.datetime.utcnow():
+            raise forms.ValidationError(u'請輸入正確的結束時間')
         if self.clean_data['end_time']<=self.clean_data['start_time']:
             raise forms.ValidationError(u'開始時間大於結束時間')
         return self.clean_data['end_time']
     def clean_reg_end_time(self):
+        if self.clean_data['reg_end_time']>self.clean_data['start_time']:
+            raise forms.ValidationError(u'報名截止時間超過活動開始時間')
+        if self.clean_data['reg_end_time']<datetime.datetime.utcnow():
+            raise forms.ValidationError(u'請輸入正確的結束時間')
         if self.clean_data['reg_end_time']<=self.clean_data['reg_start_time']:
             raise forms.ValidationError(u'開始時間大於結束時間')
         return self.clean_data['reg_end_time']
@@ -60,7 +71,6 @@ class NewEventForm(djangoforms.ModelForm):
             if self.clean_data['max_age']<self.clean_data['min_age']:
                 raise forms.ValidationError(u'最小年齡超過最大年齡')
         return self.clean_data['min_age']
-        
 
 def splitData(strData,strToken=',|;| '):
     return [s.strip() for s in re.split(strToken,strData) if s.strip()]
@@ -113,6 +123,7 @@ def processAddEvent(request,npoid):
         form = NewEventForm()
         
     dicData={'form': form,
+             'formErrors':form.non_field_errors(),
              'base': flowBase.getBase(request,'npo'),
              'npoProfile': objNpo,
              'page': 'event'}
@@ -162,6 +173,7 @@ def processEditEvent(request,npoid):
     else:
         form = NewEventForm(instance = eventProfile)
     dic={'form':form, 'event_key':eventKey,
+         'formErrors':form.non_field_errors(),
          'base':flowBase.getBase(request,'npo'),
          'npoProfile': objNpo,
          'page': 'event'}

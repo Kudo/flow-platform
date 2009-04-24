@@ -47,10 +47,23 @@ class FlowCheckboxSelectMultiple(forms.widgets.CheckboxSelectMultiple):
 
 class FlowExpertiseChoiceWidget(forms.widgets.CheckboxSelectMultiple):
     displayRowCount = 4
+    '''
+    def value_from_datadict(self, data, name):
+        from django.utils.datastructures import MultiValueDict
+        if isinstance(data, MultiValueDict):
+            raise RuntimeError(data.getlist(name))
+        return data.get(name, None)
+    '''
     def render(self, name, value, attrs=None, choices=()):
+        #raise RuntimeError(value)
         from db import proflist
         output = [u' ']
         if value is None: value = []
+        if isinstance(value, list):
+            value = set([forms.util.smart_unicode(v) for v in value]) # Normalize to strings.
+        else:
+            value = set([forms.util.smart_unicode(v) for v in value.split('\n')]) # Normalize to strings.
+
         i = 0
         output.append(u'<div class="section">±M·~»â°ì</div>')
         output.append(u'<div class="block clearfix">')
