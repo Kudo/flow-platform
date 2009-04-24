@@ -92,18 +92,17 @@ def handleCancelEvent(request,npoid):
     if 'submitType' in request.POST:
         form = CancelEventForm(data = request.POST)
         if form.is_valid():
-            event.status='cancelled'
-            event.put()
             cancelDate=datetime.date.today()
             objRecSet = db.GqlQuery('select * from VolunteerEvent where event_profile_ref = :1', event)
             for objRec in objRecSet.fetch(1000):
                 objRec.status="cancelled"
                 objRec.cancelled=True
                 objRec.cancel_date=cancelDate
-                objRec.cancel_reason=form['reason'].data
+                objRec.cancel_reason=form.clean_data['reason']
+                emailUtil.sendEventCancelMail(objRec.volunteer_profile_ref,objRec.event_profile_ref,objRec.cancel_reason)
                 objRec.put()
-                # send email to regitered user
-                emailUtil.sendEventCancelMail(objRec.volunteer_profile_ref,objRec.event_profile_ref,form['reason'].data)
+            event.status='cancelled'
+            event.put()
             return HttpResponseRedirect('/npo/%s/admin/listEvent'%npoid)
     else:
         form = CancelEventForm()
