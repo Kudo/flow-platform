@@ -35,7 +35,7 @@ function checkIfSelectIsEmpty()
 function moveToApproved(moveAll)
 {
 	if (moveAll) {
-		$('#pool option').attr('selected', 'true');
+		$('#pool option[disabled!=true]').attr('selected', 'true');
 	}
 	$('#approved').append($('#pool option:selected').remove());
 	checkIfSelectIsEmpty();
@@ -78,14 +78,23 @@ function disableButton(form) {
 		<form class="flow-form" method="POST" name="myForm" action="">
 			<ul>
 				<li class="section first">
-					<h3>請選擇參與[{{event.event_name}}]活動的志工</h3>
+					<h3>活動名稱：{{event.event_name}}<h3>
+					{% ifequal event.volunteer_shortage 0%}
+						<h3>審核通過人數已滿</h3>
+					{% else %}
+						<h3>請選擇參與此活動的志工</h3>
+					{% endifequal %}
 				</li>
 				
 				<li>
 					<span class="column">
 						<select multiple id="pool" name="pool" class="select" size="8" onchange="javascript:setButtonsEnabled();">
 							{% for vol in lstVolunteer %}
-							<option value="{{vol.dbKey}}">
+							{% ifequal event.volunteer_shortage 0%}
+								<option value="{{vol.dbKey}}" disabled="true">
+							{% else %}
+								<option value="{{vol.dbKey}}">
+							{% endifequal %}
 								{{vol.volunteer_last_name|escape}}{{vol.volunteer_first_name|escape}}|{% ifequal vol.sex "Male"%}男{% else %}女{% endifequal %}|{{vol.age}}|{{vol.resident_city|escape}}|{{vol.expertiseSum|escape}}
 							</option>
 							{% endfor %}
