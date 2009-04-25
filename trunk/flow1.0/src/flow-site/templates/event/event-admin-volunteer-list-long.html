@@ -11,7 +11,7 @@
 {% block npoContent %}
 
 	<div class="content-block">
-		<h3 id="page-title" class="subbar">參與 {{event.event_name}} 活動的志工名單</h3>
+		<h3 id="page-title" class="subbar">參與 {{event.event_name|escape}} 活動的志工名單</h3>
 		
 					{% if volunteers %}
 					<div class="action">
@@ -28,10 +28,10 @@
 						<tr>
 							<td>
 								<a href="/volunteer/home/{{ entry.volunteer_profile_ref.key }}">{{ entry.volunteer_profile_ref.volunteer_last_name|escape }}, {{ entry.volunteer_profile_ref.volunteer_first_name|escape }}</a>
-								    ({{entry.volunteer_profile_ref.nickname}})
+								    ({{entry.volunteer_profile_ref.nickname|escape}})
 							</td>
 							<td>
-								{{ entry.volunteer_profile_ref.sex }}
+								{% ifequal entry.volunteer_profile_ref.sex "Male"%}男{% else %}女{% endifequal %}
 							</td>
 							<td>
 								<a href="mailto:{{entry.volunteer_profile_ref.gmail}}">{{ entry.volunteer_profile_ref.gmail }}</a>

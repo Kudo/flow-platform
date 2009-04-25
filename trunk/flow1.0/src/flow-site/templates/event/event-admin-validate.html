@@ -78,7 +78,7 @@ function disableButton(form) {
 		<form class="flow-form" method="POST" name="myForm" action="">
 			<ul>
 				<li class="section first">
-					<h3>活動名稱：{{event.event_name}}<h3>
+					<h3>活動名稱：{{event.event_name|escape}}<h3>
 					{% ifequal event.volunteer_shortage 0%}
 						<h3>審核通過人數已滿</h3>
 					{% else %}
