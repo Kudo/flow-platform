@@ -19,5 +19,10 @@ handlers:
   script: main.py
   login: required
 
+- url: /cron/.*
+  script: main.py
+  login: admin
+  
+  
 - url: /.*
   script: main.py
