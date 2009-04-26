@@ -6,7 +6,8 @@ from google.appengine.ext import db
 from db import ddl
 
 def updateEventStatus():
-    now=datetime.datetime.utcnow()
+    # I hardcode +0800 time zone currectly but we should make refactoring before internationalization
+    now=datetime.datetime.utcnow() + datetime.timedelta(hours=8)
     results = db.GqlQuery("SELECT * FROM EventProfile WHERE status = :1 ",'approved').fetch(1000)
     for event in results:
         if now >= event.reg_start_time:
