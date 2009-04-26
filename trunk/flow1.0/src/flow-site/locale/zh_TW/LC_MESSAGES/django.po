@@ -24,3 +24,9 @@ msgstr "請輸入大於 %s 的數字"
 
 msgid "Enter a valid URL."
 msgstr "請輸入正確的網址"
+
+msgid "Ensure this value has at most %d characters."
+msgstr "字數不能超出%d個字"
+
+msgid "Ensure this value has at least %d characters."
+msgstr "字數不能少於%d個字"
