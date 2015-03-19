@@ -1,0 +1,1 @@
+This project is intended to create a social network platform to facilitate the connection between NPOs volunteers.
